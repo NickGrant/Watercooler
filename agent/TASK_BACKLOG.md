@@ -10,7 +10,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement game start orchestration
 - Priority: High
-- Blocked By: TASK-018, TASK-020
+- Blocked By: TASK-018
 - Blocks: TASK-022, TASK-023, TASK-024, TASK-025, TASK-026
 - Description: Initialize turn order, visible market, executives, bank state, and synchronized start-game payloads once the host starts the match.
 
@@ -66,7 +66,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement reconnect and resync flow
 - Priority: Medium
-- Blocked By: TASK-020
+- Blocked By: None
 - Blocks: TASK-033
 - Description: Allow a player with a valid temporary session to re-enter an in-progress or lobby game without a full account system.
 

@@ -164,7 +164,14 @@ I switched validation to Docker-friendly paths, implemented `TASK-019` by adding
 Assistant:
 I completed `TASK-017` by turning the game route into a real pre-join check-in flow with display-name entry, avatar selection, browser-side temporary session token persistence, accepted-join lobby state, and Angular unit tests covering the new frontend behavior.
 
+#### Entry 020
+User:
+please continue
+
+Assistant:
+I completed `TASK-020` by adding DB-backed realtime session-token authentication, room join and disconnect handling, lobby presence snapshots, and PHPUnit coverage for authenticated join, invalid-token rejection, registry cleanup, and the new realtime database config.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 019.
+- Last updated through Session 001, Entry 020.
 - The next transcription update should append new user and assistant messages after this point.

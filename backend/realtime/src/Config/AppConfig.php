@@ -11,6 +11,7 @@ final class AppConfig
         public readonly bool $debug,
         public readonly string $host,
         public readonly int $port,
+        public readonly DatabaseConfig $database,
     ) {
     }
 
@@ -21,6 +22,7 @@ final class AppConfig
             debug: $env->getBool('APP_DEBUG', true),
             host: $env->get('REALTIME_HOST', '0.0.0.0'),
             port: $env->getInt('REALTIME_PORT', 8090),
+            database: DatabaseConfig::fromEnv($env),
         );
     }
 }

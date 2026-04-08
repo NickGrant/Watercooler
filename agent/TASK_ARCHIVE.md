@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-020
+
+- Name: Implement realtime room join and lobby presence sync
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-018, TASK-021, TASK-028
+- Description: Connect accepted players to a room by slug, synchronize lobby presence, and support disconnect and reconnect behavior before gameplay starts.
+
 ### TASK-017
 
 - Name: Implement the pre-join identity and avatar flow

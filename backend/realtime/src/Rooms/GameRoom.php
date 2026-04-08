@@ -21,6 +21,22 @@ final class GameRoom
         $this->sessions[$session->connectionId] = $session;
     }
 
+    public function removeSession(string $connectionId): ?ClientSession
+    {
+        $session = $this->sessions[$connectionId] ?? null;
+
+        if ($session !== null) {
+            unset($this->sessions[$connectionId]);
+        }
+
+        return $session;
+    }
+
+    public function isEmpty(): bool
+    {
+        return $this->sessions === [];
+    }
+
     public function snapshot(): array
     {
         return [

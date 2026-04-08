@@ -6,6 +6,8 @@ namespace Watercooler\Realtime;
 
 use Watercooler\Realtime\Config\AppConfig;
 use Watercooler\Realtime\Config\Env;
+use Watercooler\Realtime\Database\PdoJoinRoomRepository;
+use Watercooler\Realtime\Lobby\RoomJoinService;
 use Watercooler\Realtime\Rooms\ActiveRoomRegistry;
 use Watercooler\Realtime\Server\RealtimeServer;
 use Watercooler\Realtime\Support\ConsoleLogger;
@@ -23,7 +25,9 @@ final class Application
         $config = AppConfig::fromEnv(new Env());
         $logger = new ConsoleLogger($config->debug);
         $roomRegistry = new ActiveRoomRegistry();
-        $server = new RealtimeServer($config, $logger, $roomRegistry);
+        $joinRoomRepository = new PdoJoinRoomRepository($config->database);
+        $joinRoomService = new RoomJoinService($joinRoomRepository, $roomRegistry);
+        $server = new RealtimeServer($config, $logger, $roomRegistry, $joinRoomService);
 
         return new self($config, $server);
     }

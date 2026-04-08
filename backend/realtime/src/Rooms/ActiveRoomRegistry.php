@@ -26,6 +26,23 @@ final class ActiveRoomRegistry
         $room->addSession($session);
     }
 
+    public function removeConnection(string $connectionId): ?ClientSession
+    {
+        foreach ($this->rooms as $slug => $room) {
+            $session = $room->removeSession($connectionId);
+
+            if ($session !== null) {
+                if ($room->isEmpty()) {
+                    unset($this->rooms[$slug]);
+                }
+
+                return $session;
+            }
+        }
+
+        return null;
+    }
+
     public function snapshot(): array
     {
         return array_map(

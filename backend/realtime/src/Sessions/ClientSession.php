@@ -10,6 +10,7 @@ final class ClientSession
         public readonly string $connectionId,
         public readonly string $gameSlug,
         public readonly ?string $playerId = null,
+        public readonly ?string $gamePlayerId = null,
     ) {
     }
 
@@ -19,6 +20,7 @@ final class ClientSession
             'connectionId' => $this->connectionId,
             'gameSlug' => $this->gameSlug,
             'playerId' => $this->playerId,
+            'gamePlayerId' => $this->gamePlayerId,
         ];
     }
 }

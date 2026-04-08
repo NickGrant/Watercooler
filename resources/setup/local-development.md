@@ -78,6 +78,8 @@ php bin/server.php
 
 Use `--once` for a bootstrap check that prints the configured room and session preview without entering the long-running loop.
 
+The realtime service now expects database environment variables as well so it can validate temporary player sessions and build lobby presence state.
+
 ### Database
 
 The initial schema lives in:
@@ -133,6 +135,7 @@ These checks were completed during bootstrapping:
 - realtime Composer autoload and lint succeeded
 - realtime PHPUnit suite succeeded
 - realtime `php bin/server.php --once` succeeded
+- realtime room-join and presence-sync service primitives are covered by PHPUnit
 - initial schema executed successfully against a disposable local MariaDB database
 - `docker compose config` succeeded
 - Docker image builds for `frontend`, `api`, and `realtime` succeeded

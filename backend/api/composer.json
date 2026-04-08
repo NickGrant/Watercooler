@@ -1,0 +1,23 @@
+{
+  "name": "watercooler/api",
+  "description": "Watercooler HTTP API scaffold",
+  "type": "project",
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Watercooler\\Api\\": "src/"
+    }
+  },
+  "scripts": {
+    "serve": "php -S 127.0.0.1:8080 -t public public/index.php",
+    "lint": [
+      "@php -r \"foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator('src')) as $file) { if ($file->getExtension() === 'php') { passthru('php -l ' . escapeshellarg($file->getPathname()), $code); if ($code !== 0) { exit($code); } } }\"",
+      "@php -l public/index.php"
+    ]
+  },
+  "config": {
+    "sort-packages": true
+  }
+}

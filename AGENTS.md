@@ -15,11 +15,11 @@ The repository currently contains:
 - feature and architecture planning docs in `resources/planning/`
 - repo operating files for agent context, tasks, and transcription in `agent/`
 - an initial Angular frontend scaffold in `frontend/`
+- an initial PHP HTTP API scaffold in `backend/api/`
 - shared agent workflow guidance plus system-specific adapters for transcript maintenance
 
 The repository does not yet contain:
 
-- PHP API implementation
 - PHP WebSocket service
 - MySQL schema or migrations
 - production-ready assets or gameplay implementation

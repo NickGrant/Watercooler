@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-012
+
+- Name: Scaffold PHP HTTP API service
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-014, TASK-015, TASK-019
+- Description: Establish the API entrypoint, routing approach, configuration pattern, and testable service boundaries for request-response features.
+
 ### TASK-011
 
 - Name: Scaffold Angular frontend workspace

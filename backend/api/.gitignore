@@ -1,0 +1,4 @@
+/vendor/
+/.phpunit.cache/
+/.server-out.log
+/.server-err.log

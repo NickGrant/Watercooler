@@ -108,7 +108,11 @@ I updated the task and feature planning to include Docker-based bootstrap work, 
 Assistant:
 I scaffolded the Angular frontend in `frontend/`, added Angular Material, created the initial route and page shell for the home and game experiences, introduced a small frontend session service for future join and lobby work, and verified the scaffold with a successful production build to complete `TASK-011`.
 
+#### Entry 009
+Assistant:
+I scaffolded the PHP HTTP API in `backend/api/` with Composer autoloading, a public entrypoint, a tiny router and request-response layer, stubbed planned game endpoints, configuration loading, and a verified `/health` endpoint to complete `TASK-012`.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 008.
+- Last updated through Session 001, Entry 009.
 - The next transcription update should append new user and assistant messages after this point.

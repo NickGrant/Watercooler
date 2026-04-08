@@ -10,7 +10,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement join-bootstrap API and temporary player sessions
 - Priority: High
-- Blocked By: TASK-012, TASK-014, TASK-015
+- Blocked By: TASK-014, TASK-015
 - Blocks: TASK-017, TASK-020, TASK-028
 - Description: Validate join requests, enforce game-scoped name uniqueness, issue a temporary player session token, and return the data required for safe websocket connection.
 
@@ -138,6 +138,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Add developer setup, environment examples, and test commands
 - Priority: Medium
-- Blocked By: TASK-012, TASK-013, TASK-014, TASK-036
+- Blocked By: TASK-013, TASK-014, TASK-036
 - Blocks: None
 - Description: Document local setup, configuration, and repeatable developer commands once the first runnable scaffolding and Docker bootstrap exist.

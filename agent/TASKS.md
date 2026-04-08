@@ -6,14 +6,6 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-012
-
-- Name: Scaffold PHP HTTP API service
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-014, TASK-015, TASK-019
-- Description: Establish the API entrypoint, routing approach, configuration pattern, and testable service boundaries for request-response features.
-
 ### TASK-013
 
 - Name: Scaffold PHP WebSocket service
@@ -26,7 +18,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 - Name: Design initial MySQL schema and migration strategy
 - Priority: High
-- Blocked By: TASK-012
+- Blocked By: None
 - Blocks: TASK-015, TASK-019, TASK-020, TASK-021, TASK-036
 - Description: Define the first-pass relational model, migration workflow, and seed strategy needed to support games, players, cards, executives, resources, and recovery.
 

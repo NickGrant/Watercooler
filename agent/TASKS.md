@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-022
+### TASK-023
 
-- Name: Implement resource-taking action validation
+- Name: Implement project-claiming and Executive Favor flow
 - Priority: High
 - Blocked By: None
 - Blocks: TASK-026, TASK-030
-- Description: Add server-authoritative validation and state mutation for standard Splendor-equivalent resource-taking actions.
+- Description: Add reserve-equivalent behavior, wildcard distribution rules, and reserved-card state management.
 
 ## Task Management Rules
 

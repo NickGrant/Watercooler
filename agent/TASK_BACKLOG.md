@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-023
-
-- Name: Implement project-claiming and Executive Favor flow
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-026, TASK-030
-- Description: Add reserve-equivalent behavior, wildcard distribution rules, and reserved-card state management.
-
 ### TASK-024
 
 - Name: Implement Workplace Advantage purchase flow
@@ -34,7 +26,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement endgame trigger and winner resolution
 - Priority: High
-- Blocked By: TASK-022, TASK-023, TASK-024, TASK-025
+- Blocked By: TASK-023, TASK-024, TASK-025
 - Blocks: TASK-029, TASK-030
 - Description: Detect the prestige threshold, complete the round correctly, and resolve the winner according to Splendor-equivalent rules.
 

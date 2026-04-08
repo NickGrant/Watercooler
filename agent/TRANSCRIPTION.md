@@ -244,6 +244,20 @@ I performed a live container-backed API validation by running the API in Docker 
 Assistant:
 I updated the task tracker to archive `TASK-021`, promoted `TASK-022` into the active working set, and removed the outdated planning implication that content seeding still blocked start-game orchestration.
 
+#### Entry 034
+User:
+Where are we at in the build process? What issues and features are remaining?
+
+Assistant:
+I summarized that bootstrap work was complete, game creation and lobby/start flows were working, `FEATURE-001` through `FEATURE-003` were complete, `FEATURE-004` and `FEATURE-008` were in progress, and the next major implementation gap was the core server-authoritative turn actions beginning with `TASK-022`.
+
+#### Entry 035
+User:
+alright, lets move forward with our work
+
+Assistant:
+I resumed implementation with `TASK-022`, added a new take-resources API endpoint and service, enforced turn order and Splendor-style resource-taking rules, persisted bank and player resource mutations, advanced the turn pointer, added PHPUnit coverage, and verified the flow with a live Docker-backed API check.
+
 ## Sync Notes
 
 - Last updated through Session 001, Entry 033.

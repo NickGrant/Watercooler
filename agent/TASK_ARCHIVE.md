@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-022
+
+- Name: Implement resource-taking action validation
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-026, TASK-030
+- Description: Add server-authoritative validation and state mutation for standard Splendor-equivalent resource-taking actions.
+
 ### TASK-021
 
 - Name: Implement game start orchestration

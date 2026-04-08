@@ -6,14 +6,6 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-013
-
-- Name: Scaffold PHP WebSocket service
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-020, TASK-021
-- Description: Establish the long-running realtime service skeleton, connection flow, room lifecycle approach, and shared domain integration points.
-
 ### TASK-014
 
 - Name: Design initial MySQL schema and migration strategy
@@ -26,7 +18,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 - Name: Generate Docker-based local development bootstrap
 - Priority: High
-- Blocked By: TASK-011, TASK-012, TASK-013, TASK-014
+- Blocked By: TASK-014
 - Blocks: None
 - Description: Add Dockerfiles and a compose-based local development setup for the frontend, API, realtime service, and MySQL so the scaffolded platform can be started consistently.
 

@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-013
+
+- Name: Scaffold PHP WebSocket service
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-020, TASK-021
+- Description: Establish the long-running realtime service skeleton, connection flow, room lifecycle approach, and shared domain integration points.
+
 ### TASK-012
 
 - Name: Scaffold PHP HTTP API service

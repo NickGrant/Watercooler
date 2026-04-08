@@ -18,7 +18,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement realtime room join and lobby presence sync
 - Priority: High
-- Blocked By: TASK-013, TASK-014, TASK-017, TASK-019
+- Blocked By: TASK-014, TASK-017, TASK-019
 - Blocks: TASK-018, TASK-021, TASK-028
 - Description: Connect accepted players to a room by slug, synchronize lobby presence, and support disconnect and reconnect behavior before gameplay starts.
 
@@ -26,7 +26,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement game start orchestration
 - Priority: High
-- Blocked By: TASK-013, TASK-014, TASK-018, TASK-020
+- Blocked By: TASK-014, TASK-018, TASK-020
 - Blocks: TASK-022, TASK-023, TASK-024, TASK-025, TASK-026
 - Description: Initialize turn order, visible market, executives, bank state, and synchronized start-game payloads once the host starts the match.
 
@@ -138,6 +138,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Add developer setup, environment examples, and test commands
 - Priority: Medium
-- Blocked By: TASK-013, TASK-014, TASK-036
+- Blocked By: TASK-014, TASK-036
 - Blocks: None
 - Description: Document local setup, configuration, and repeatable developer commands once the first runnable scaffolding and Docker bootstrap exist.

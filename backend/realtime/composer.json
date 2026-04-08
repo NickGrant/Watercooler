@@ -1,0 +1,20 @@
+{
+  "name": "watercooler/realtime",
+  "description": "Watercooler realtime service scaffold",
+  "type": "project",
+  "require": {
+    "php": "^8.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "Watercooler\\Realtime\\": "src/"
+    }
+  },
+  "scripts": {
+    "serve": "php bin/server.php",
+    "lint": [
+      "@php -r \"foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator('src')) as $file) { if ($file->getExtension() === 'php') { passthru('php -l ' . escapeshellarg($file->getPathname()), $code); if ($code !== 0) { exit($code); } } }\"",
+      "@php -l bin/server.php"
+    ]
+  }
+}

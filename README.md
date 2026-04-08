@@ -2,7 +2,7 @@
 
 Watercooler is a planned browser-based multiplayer board game inspired by Splendor and reskinned as an absurd corporate satire. Players join a game by URL, build a tiny office-worker avatar, collect office resources, acquire Workplace Advantages, attract Executives, and race for Office Prestige.
 
-This repository has moved from documentation-first planning into bootstrap implementation. The Angular frontend shell and the PHP HTTP API scaffold now exist, while the realtime service and database work are still in scaffold and planning stages.
+This repository has moved from documentation-first planning into bootstrap implementation. The Angular frontend shell, the PHP HTTP API scaffold, and the PHP realtime scaffold now exist, while database work is still in scaffold and planning stages.
 
 ## Project Intent
 
@@ -50,7 +50,7 @@ Current planning areas include:
 
 ## Current Status
 
-This repo now contains planning documentation plus the first implementation scaffolds for the Angular frontend and PHP HTTP API.
+This repo now contains planning documentation plus the first implementation scaffolds for the Angular frontend, PHP HTTP API, and PHP realtime service.
 
 Immediate non-code goals completed here:
 

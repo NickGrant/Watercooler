@@ -112,7 +112,11 @@ I scaffolded the Angular frontend in `frontend/`, added Angular Material, create
 Assistant:
 I scaffolded the PHP HTTP API in `backend/api/` with Composer autoloading, a public entrypoint, a tiny router and request-response layer, stubbed planned game endpoints, configuration loading, and a verified `/health` endpoint to complete `TASK-012`.
 
+#### Entry 010
+Assistant:
+I scaffolded the PHP realtime service in `backend/realtime/` with Composer autoloading, a CLI server entrypoint, configuration loading, in-memory room and session primitives, and a one-shot bootstrap mode that verifies the planned connection and room lifecycle flow to complete `TASK-013`.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 009.
+- Last updated through Session 001, Entry 010.
 - The next transcription update should append new user and assistant messages after this point.

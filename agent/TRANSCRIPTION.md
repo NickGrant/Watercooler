@@ -188,7 +188,14 @@ We want our documents to be clean, consistent, and optimized for token consumpti
 Assistant:
 I reviewed the repo-operating docs, identified stale phase statements, duplicated file maps and workflow guidance, and then cleaned up the doc set so `AGENTS.md` stays guardrail-focused, `README.md` stays human-facing, `agent/LLM_CONTEXT.md` owns navigation and document routing, and `agent/AGENT_WORKFLOW.md` stays behavior-focused.
 
+#### Entry 023
+User:
+can you update the features file to mark which features are complete. Please continue to mark features as complete as they are finished and update AGENT_WORKFLOW to make sure you continue to do so
+
+Assistant:
+I updated `resources/planning/FEATURES.md` to add explicit feature status values and marked the currently completed features, then updated `agent/AGENT_WORKFLOW.md` so feature status maintenance remains part of the normal task-tracking workflow.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 022.
+- Last updated through Session 001, Entry 023.
 - The next transcription update should append new user and assistant messages after this point.

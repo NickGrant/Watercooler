@@ -13,7 +13,9 @@ When task status changes:
 - update `agent/TASKS.md` for the active working set
 - move future work to `agent/TASK_BACKLOG.md` when they no longer need to stay in normal context
 - move completed work to `agent/TASK_ARCHIVE.md`
-- update `resources/planning/FEATURES.md` only when feature-to-task mapping changes
+- update `resources/planning/FEATURES.md` when feature-to-task mapping changes
+- mark a feature as `Complete` in `resources/planning/FEATURES.md` when all of its tasks are complete
+- keep feature statuses accurate as work moves from not started to in progress to complete
 
 ### Transcript Maintenance
 

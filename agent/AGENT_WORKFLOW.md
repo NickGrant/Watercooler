@@ -2,32 +2,37 @@
 
 ## Purpose
 
-This file defines repository workflows that should apply across agent systems whenever possible. System-specific files should stay thin and point back here.
+This file defines repository workflow behavior that should stay shared across agent systems. Keep system-specific files thin and point back here whenever possible.
 
-## Shared Workflow Rules
-
-### Context Loading
-
-- Keep `AGENTS.md`, `agent/LLM_CONTEXT.md`, `agent/TASKS.md`, and `resources/planning/FEATURES.md` in normal working context when possible.
-- Load `README.md`, `agent/TRANSCRIPTION.md`, `agent/TASK_BACKLOG.md`, `agent/TASK_ARCHIVE.md`, and focused planning docs only when they are relevant to the current task.
-- Avoid loading generated or derived directories unless the user explicitly asks.
+## Workflow Rules
 
 ### Task Tracking
 
 When task status changes:
 
 - update `agent/TASKS.md` for the active working set
-- move future work to `agent/TASK_BACKLOG.md` when they no longer need to stay in default context
+- move future work to `agent/TASK_BACKLOG.md` when they no longer need to stay in normal context
 - move completed work to `agent/TASK_ARCHIVE.md`
-- keep `resources/planning/FEATURES.md` aligned when feature-to-task mapping changes
+- update `resources/planning/FEATURES.md` only when feature-to-task mapping changes
 
 ### Transcript Maintenance
 
-Before creating a commit, update `agent/TRANSCRIPTION.md` so it includes the latest visible user and assistant messages.
+Before creating a commit:
 
-Before ending a session or clearing context, make a best-effort pass to update `agent/TRANSCRIPTION.md` with any visible conversation that is not yet recorded.
+- update `agent/TRANSCRIPTION.md`
+- record the latest visible user and assistant messages
+- follow the formatting rules already documented in `agent/TRANSCRIPTION.md`
 
-Use the transcript rules already documented in `agent/TRANSCRIPTION.md` and, when available, use a system-specific `transcription-sync` skill instead of improvising the format.
+Before ending a session or clearing context:
+
+- make a best-effort pass to append any still-missing visible conversation to `agent/TRANSCRIPTION.md`
+
+### Documentation Hygiene
+
+- keep always-loaded docs concise
+- move navigation-heavy detail to `agent/LLM_CONTEXT.md`
+- move human onboarding detail to `README.md`
+- move application-specific detail to the narrowest file under `resources/`
 
 ## System Adapters
 
@@ -37,4 +42,4 @@ Use the transcript rules already documented in `agent/TRANSCRIPTION.md` and, whe
 
 ## Priority
 
-If a system-specific adapter conflicts with this file, prefer the shared workflow unless the difference is required by the tool itself.
+If a tool-specific adapter conflicts with this file, prefer this file unless the difference is required by the tool itself.

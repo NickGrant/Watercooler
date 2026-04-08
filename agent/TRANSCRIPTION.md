@@ -175,7 +175,20 @@ I completed `TASK-020` by adding DB-backed realtime session-token authentication
 Assistant:
 I completed `TASK-018` by upgrading the game route into a real waiting-room UI with host badges, readiness metrics, roster sizing, and start controls that accurately defer orchestration to `TASK-021` while still reflecting the current lobby state.
 
+#### Entry 022
+User:
+Before we go further, I want to do a review of the [AGENTS.md](AGENTS.md) , [README.md](README.md) and the files inside the agent directory. I want to check for the following:
+- out of date information
+- factually incorrect information
+- duplicative information
+- information in a file that is better suited to another file (e.x. document maps outside of LLM_CONTEXT.md)
+
+We want our documents to be clean, consistent, and optimized for token consumption. For files that need to always be in context, try and differ away information to other files if that information doesn't need to be constantly available
+
+Assistant:
+I reviewed the repo-operating docs, identified stale phase statements, duplicated file maps and workflow guidance, and then cleaned up the doc set so `AGENTS.md` stays guardrail-focused, `README.md` stays human-facing, `agent/LLM_CONTEXT.md` owns navigation and document routing, and `agent/AGENT_WORKFLOW.md` stays behavior-focused.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 021.
+- Last updated through Session 001, Entry 022.
 - The next transcription update should append new user and assistant messages after this point.

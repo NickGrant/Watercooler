@@ -139,7 +139,14 @@ I updated `AGENTS.md` to require unit tests on new code, added Angular and PHPUn
 Assistant:
 I implemented the API game-creation and slug-generation flow in `backend/api/`, added tested create and lookup handlers backed by a lazy PDO repository, verified the PHPUnit suite, and validated the live `POST /api/games` and `GET /api/games/{slug}` flow against a disposable MariaDB database.
 
+#### Entry 016
+User:
+please pickup from where you left off
+
+Assistant:
+I resumed with `TASK-016`, implemented an API-backed frontend game-creation flow on the home page, added a typed Angular service for game creation and game lookup, updated the game route shell to load server metadata for the slug, and verified the frontend with a successful production build plus passing Angular unit tests.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 015.
+- Last updated through Session 001, Entry 016.
 - The next transcription update should append new user and assistant messages after this point.

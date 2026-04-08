@@ -6,19 +6,11 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-016
-
-- Name: Build the home page and create-game route flow
-- Priority: Medium
-- Blocked By: None
-- Blocks: TASK-017
-- Description: Implement the first frontend user path from landing page to a newly created game URL, preserving the Watercooler tone without starting gameplay work yet.
-
 ### TASK-017
 
 - Name: Implement the pre-join identity and avatar flow
 - Priority: High
-- Blocked By: TASK-016, TASK-019
+- Blocked By: TASK-019
 - Blocks: TASK-018, TASK-020
 - Description: Build the UI and state flow for display name entry, avatar configuration, validation feedback, and accepted join state before websocket connection.
 
@@ -29,6 +21,14 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocked By: TASK-017, TASK-020
 - Blocks: TASK-021
 - Description: Build the waiting-room experience showing joined players, avatars, host status, and start-game controls once minimum player rules are met.
+
+### TASK-019
+
+- Name: Implement join-bootstrap API and temporary player sessions
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-017, TASK-020, TASK-028
+- Description: Validate join requests, enforce game-scoped name uniqueness, issue a temporary player session token, and return the data required for safe websocket connection.
 
 ## Task Management Rules
 

@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-016
+
+- Name: Build the home page and create-game route flow
+- Priority: Medium
+- Blocked By: None
+- Blocks: TASK-017
+- Description: Implement the first frontend user path from landing page to a newly created game URL, preserving the Watercooler tone without starting gameplay work yet.
+
 ### TASK-015
 
 - Name: Implement game creation and slug generation API flow

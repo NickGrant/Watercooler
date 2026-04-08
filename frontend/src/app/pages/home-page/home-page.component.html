@@ -9,14 +9,25 @@
       <p class="eyebrow">Multiplayer office prestige simulator</p>
       <h1>Climb the ladder one suspiciously strategic advantage at a time.</h1>
       <p class="lede">
-        This frontend scaffold establishes the shell for Watercooler's home, join, lobby, and
-        gameplay experiences. The actual create-game flow lands in a later task.
+        Open a fresh room, share the link with your coworkers, and start the climb toward office
+        prestige. The landing flow now creates a real game and hands off to the join shell.
       </p>
 
       <div class="actions">
         <a mat-flat-button [routerLink]="['/game', sampleSlug]">Preview Game Route Shell</a>
-        <button mat-stroked-button type="button" disabled>Create New Game API Pending</button>
+        <button
+          mat-stroked-button
+          type="button"
+          [disabled]="createGamePending()"
+          (click)="createGame()"
+        >
+          {{ createGamePending() ? 'Opening New Room...' : 'Create New Game' }}
+        </button>
       </div>
+
+      @if (createGameError(); as createGameError) {
+        <p class="error-banner" role="alert">{{ createGameError }}</p>
+      }
     </div>
   </section>
 
@@ -28,7 +39,7 @@
 
     <mat-card appearance="outlined">
       <h2>Next UI Steps</h2>
-      <p>Wire create-game, pre-join identity, avatar builder, lobby presence, and live board data.</p>
+      <p>Pre-join identity, avatar builder, lobby presence, and live board data still follow next.</p>
     </mat-card>
   </section>
 </main>

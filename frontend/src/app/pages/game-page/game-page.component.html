@@ -2,7 +2,14 @@
   <header class="board-header">
     <div>
       <p class="eyebrow">Game Route Shell</p>
-      <h1>{{ session.slug() }}</h1>
+      <h1>{{ game()?.slug ?? session.slug() }}</h1>
+      <p class="subhead">
+        @if (game(); as game) {
+          {{ game.playerCount }} employees checked in · {{ game.status }} status · {{ game.phase }}
+        } @else {
+          Fetching room dossier from the Recreation Division...
+        }
+      </p>
     </div>
 
     <mat-card appearance="outlined" class="status-card">
@@ -10,6 +17,12 @@
       <strong>{{ session.stageLabel() }}</strong>
     </mat-card>
   </header>
+
+  @if (loadError(); as loadError) {
+    <section class="load-banner" role="alert">
+      {{ loadError }}
+    </section>
+  }
 
   <section class="stage-toggle">
     <button mat-stroked-button type="button" (click)="setStage('pre-join')">Pre-Join</button>

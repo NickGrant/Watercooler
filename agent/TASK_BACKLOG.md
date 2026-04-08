@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-019
-
-- Name: Implement join-bootstrap API and temporary player sessions
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-017, TASK-020, TASK-028
-- Description: Validate join requests, enforce game-scoped name uniqueness, issue a temporary player session token, and return the data required for safe websocket connection.
-
 ### TASK-020
 
 - Name: Implement realtime room join and lobby presence sync

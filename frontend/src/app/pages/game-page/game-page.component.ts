@@ -37,6 +37,7 @@ export class GamePageComponent {
   readonly loadError = signal<string | null>(null);
   readonly joinError = signal<string | null>(null);
   readonly joinPending = signal(false);
+  readonly startMessage = signal<string | null>(null);
   readonly bodyOptions = ['blazer', 'hoodie', 'cardigan', 'polo', 'power-suit'];
   readonly faceOptions = [
     'corporate-neutral',
@@ -78,6 +79,17 @@ export class GamePageComponent {
     });
   }
 
+  requestStartGame(): void {
+    if (!this.session.canRequestStart()) {
+      this.startMessage.set('The host can start once at least two employees have checked in.');
+      return;
+    }
+
+    this.startMessage.set(
+      'Start-game orchestration lands in TASK-021. The lobby is now correctly showing readiness.'
+    );
+  }
+
   private loadGame(slug: string): void {
     this.gamesApi.getGame(slug).subscribe({
       next: (game) => {
@@ -103,6 +115,7 @@ export class GamePageComponent {
       next: (result) => {
         this.session.applyJoinBootstrap(result);
         this.game.set(result.game);
+        this.startMessage.set(null);
         this.joinPending.set(false);
       },
       error: (error: unknown) => {

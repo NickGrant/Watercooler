@@ -113,6 +113,29 @@ p {
   gap: 0.75rem;
 }
 
+.lobby-status {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.lobby-status__metric {
+  padding: 0.8rem 0.95rem;
+  border: 1px solid rgba(47, 61, 87, 0.16);
+  background: rgba(248, 250, 253, 0.9);
+}
+
+.lobby-status__metric span {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--wc-accent-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
 .roster-row {
   display: flex;
   align-items: start;
@@ -131,6 +154,29 @@ p {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.start-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.start-hint {
+  margin: 0;
+  color: var(--wc-ink);
+  line-height: 1.5;
+}
+
+.start-message {
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(52, 76, 115, 0.18);
+  background: rgba(238, 243, 252, 0.9);
+  color: var(--wc-ink-strong);
+  font-weight: 600;
 }
 
 .future-columns {

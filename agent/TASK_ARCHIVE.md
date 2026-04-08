@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-018
+
+- Name: Implement lobby UI and start-game controls
+- Priority: Medium
+- Blocked By: TASK-017, TASK-020
+- Blocks: TASK-021
+- Description: Build the waiting-room experience showing joined players, avatars, host status, and start-game controls once minimum player rules are met.
+
 ### TASK-020
 
 - Name: Implement realtime room join and lobby presence sync

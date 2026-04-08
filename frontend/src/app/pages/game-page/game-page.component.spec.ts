@@ -154,4 +154,67 @@ describe('GamePageComponent', () => {
       'Display names must be unique within the game.'
     );
   });
+
+  it('shows the host start message once the roster is large enough', () => {
+    gamesApi.joinBootstrap.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'lobby',
+          phase: 'lobby',
+          playerCount: 2,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        player: {
+          gamePlayerId: 1,
+          playerId: 1,
+          displayName: 'Pam',
+          isHost: true,
+          joinStatus: 'connected',
+          avatar: DEFAULT_AVATAR_DRAFT
+        },
+        session: {
+          token: 'temporary-session-token',
+          reconnectEnabled: true
+        },
+        lobby: {
+          minimumPlayers: 2,
+          maximumPlayers: 4,
+          canStart: true,
+          joinedPlayers: [
+            {
+              gamePlayerId: 1,
+              playerId: 1,
+              displayName: 'Pam',
+              isHost: true,
+              joinStatus: 'connected',
+              avatar: DEFAULT_AVATAR_DRAFT
+            },
+            {
+              gamePlayerId: 2,
+              playerId: 2,
+              displayName: 'Jim',
+              isHost: false,
+              joinStatus: 'joined',
+              avatar: DEFAULT_AVATAR_DRAFT
+            }
+          ]
+        },
+        realtime: {
+          transport: 'websocket',
+          roomSlug: 'synergy-report-telemetry',
+          sessionToken: 'temporary-session-token'
+        }
+      })
+    );
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.componentInstance.updatePlayerName('Pam');
+    fixture.componentInstance.submitJoin();
+    fixture.componentInstance.requestStartGame();
+
+    expect(fixture.componentInstance.startMessage()).toContain('TASK-021');
+  });
 });

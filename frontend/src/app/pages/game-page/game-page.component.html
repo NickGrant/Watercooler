@@ -93,11 +93,13 @@
         <h2>Check-In Approved</h2>
         <p class="panel-copy">
           You are checked in as <strong>{{ session.currentPlayer()?.displayName }}</strong>.
-          Websocket connection stays intentionally deferred until the realtime task lands.
+          Realtime room auth is implemented on the backend. The UI waiting room is live here while
+          websocket client transport lands in the next slice.
         </p>
 
         <div class="badge-summary">
           <p><strong>Host:</strong> {{ session.currentPlayer()?.isHost ? 'Yes' : 'No' }}</p>
+          <p><strong>Lobby Size:</strong> {{ session.joinedPlayerCount() }} / {{ session.maximumLobbyPlayers() }}</p>
           <p><strong>Body:</strong> {{ session.avatarDraft().body }}</p>
           <p><strong>Face:</strong> {{ session.avatarDraft().face }}</p>
           <p><strong>Hair:</strong> {{ session.avatarDraft().hair }}</p>
@@ -106,11 +108,23 @@
     </mat-card>
 
     <mat-card appearance="outlined">
-      <h2>Lobby Intake</h2>
+      <h2>Waiting Room</h2>
       <p class="panel-copy">
-        The bootstrap payload already tells us who has joined. Realtime syncing and start controls
-        land in the next feature.
+        {{ session.joinedPlayerCount() }} of {{ session.maximumLobbyPlayers() }} desks are occupied.
+        The host can start when at least {{ session.minimumLobbyPlayers() }} employees are present.
       </p>
+
+      <div class="lobby-status">
+        <div class="lobby-status__metric">
+          <span>Ready To Start</span>
+          <strong>{{ session.canRequestStart() ? 'Yes' : 'Not Yet' }}</strong>
+        </div>
+
+        <div class="lobby-status__metric">
+          <span>Your Role</span>
+          <strong>{{ session.currentPlayer()?.isHost ? 'Host' : 'Participant' }}</strong>
+        </div>
+      </div>
 
       <div class="roster">
         @for (player of session.joinedPlayers(); track player.gamePlayerId) {
@@ -127,6 +141,28 @@
           </p>
         }
       </div>
+
+      <div class="start-controls">
+        <button
+          mat-flat-button
+          type="button"
+          [disabled]="!session.hasJoined()"
+          (click)="requestStartGame()"
+        >
+          Start Game
+        </button>
+        <p class="start-hint">
+          @if (session.canRequestStart()) {
+            The roster is large enough. Host start wiring is the next backend task.
+          } @else {
+            Waiting for the minimum player count before the host can launch the game.
+          }
+        </p>
+      </div>
+
+      @if (startMessage(); as startMessage) {
+        <p class="start-message">{{ startMessage }}</p>
+      }
     </mat-card>
 
     <mat-card appearance="outlined" class="wide">

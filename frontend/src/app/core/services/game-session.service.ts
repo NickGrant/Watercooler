@@ -26,6 +26,14 @@ export class GameSessionService {
   readonly sessionToken = this.sessionTokenState.asReadonly();
   readonly currentPlayer = this.currentPlayerState.asReadonly();
   readonly joinedPlayers = this.joinedPlayersState.asReadonly();
+  readonly joinedPlayerCount = computed(() => this.joinedPlayersState().length);
+  readonly minimumLobbyPlayers = computed(() => 2);
+  readonly maximumLobbyPlayers = computed(() => 4);
+  readonly canRequestStart = computed(() => {
+    const currentPlayer = this.currentPlayerState();
+
+    return currentPlayer !== null && currentPlayer.isHost && this.joinedPlayersState().length >= 2;
+  });
   readonly stageLabel = computed(() => {
     switch (this.stageState()) {
       case 'pre-join':

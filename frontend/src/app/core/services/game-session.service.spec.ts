@@ -86,8 +86,66 @@ describe('GameSessionService', () => {
     expect(service.playerName()).toBe('Pam');
     expect(service.currentPlayer()?.isHost).toBeTrue();
     expect(service.joinedPlayers().length).toBe(1);
+    expect(service.canRequestStart()).toBeFalse();
     expect(localStorage.getItem('watercooler.session.synergy-report-telemetry')).toBe(
       'temporary-session-token'
     );
+  });
+
+  it('reports start readiness for a host once two players are present', () => {
+    service.applyJoinBootstrap({
+      game: {
+        id: 1,
+        slug: 'synergy-report-telemetry',
+        status: 'lobby',
+        phase: 'lobby',
+        playerCount: 2,
+        createdAt: '2026-04-08 00:00:00',
+        path: '/game/synergy-report-telemetry'
+      },
+      player: {
+        gamePlayerId: 1,
+        playerId: 1,
+        displayName: 'Pam',
+        isHost: true,
+        joinStatus: 'connected',
+        avatar: DEFAULT_AVATAR_DRAFT
+      },
+      session: {
+        token: 'temporary-session-token',
+        reconnectEnabled: true
+      },
+      lobby: {
+        minimumPlayers: 2,
+        maximumPlayers: 4,
+        canStart: true,
+        joinedPlayers: [
+          {
+            gamePlayerId: 1,
+            playerId: 1,
+            displayName: 'Pam',
+            isHost: true,
+            joinStatus: 'connected',
+            avatar: DEFAULT_AVATAR_DRAFT
+          },
+          {
+            gamePlayerId: 2,
+            playerId: 2,
+            displayName: 'Jim',
+            isHost: false,
+            joinStatus: 'joined',
+            avatar: DEFAULT_AVATAR_DRAFT
+          }
+        ]
+      },
+      realtime: {
+        transport: 'websocket',
+        roomSlug: 'synergy-report-telemetry',
+        sessionToken: 'temporary-session-token'
+      }
+    });
+
+    expect(service.joinedPlayerCount()).toBe(2);
+    expect(service.canRequestStart()).toBeTrue();
   });
 });

@@ -171,7 +171,11 @@ please continue
 Assistant:
 I completed `TASK-020` by adding DB-backed realtime session-token authentication, room join and disconnect handling, lobby presence snapshots, and PHPUnit coverage for authenticated join, invalid-token rejection, registry cleanup, and the new realtime database config.
 
+#### Entry 021
+Assistant:
+I completed `TASK-018` by upgrading the game route into a real waiting-room UI with host badges, readiness metrics, roster sizing, and start controls that accurately defer orchestration to `TASK-021` while still reflecting the current lobby state.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 020.
+- Last updated through Session 001, Entry 021.
 - The next transcription update should append new user and assistant messages after this point.

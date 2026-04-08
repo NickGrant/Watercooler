@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-018
+### TASK-021
 
-- Name: Implement lobby UI and start-game controls
-- Priority: Medium
+- Name: Implement game start orchestration
+- Priority: High
 - Blocked By: None
-- Blocks: TASK-021
-- Description: Build the waiting-room experience showing joined players, avatars, host status, and start-game controls once minimum player rules are met.
+- Blocks: TASK-022, TASK-023, TASK-024, TASK-025, TASK-026
+- Description: Initialize turn order, visible market, executives, bank state, and synchronized start-game payloads once the host starts the match.
 
 ## Task Management Rules
 

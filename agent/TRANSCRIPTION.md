@@ -116,7 +116,11 @@ I scaffolded the PHP HTTP API in `backend/api/` with Composer autoloading, a pub
 Assistant:
 I scaffolded the PHP realtime service in `backend/realtime/` with Composer autoloading, a CLI server entrypoint, configuration loading, in-memory room and session primitives, and a one-shot bootstrap mode that verifies the planned connection and room lifecycle flow to complete `TASK-013`.
 
+#### Entry 011
+Assistant:
+I designed the initial MySQL migration layer in `database/`, documented the chosen relational-plus-snapshot strategy in the planning docs, and validated the first schema against a disposable local MariaDB database to complete `TASK-014`.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 010.
+- Last updated through Session 001, Entry 011.
 - The next transcription update should append new user and assistant messages after this point.

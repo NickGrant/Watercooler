@@ -17,11 +17,11 @@ The repository currently contains:
 - an initial Angular frontend scaffold in `frontend/`
 - an initial PHP HTTP API scaffold in `backend/api/`
 - an initial PHP realtime service scaffold in `backend/realtime/`
+- an initial MySQL schema and migration design in `database/`
 - shared agent workflow guidance plus system-specific adapters for transcript maintenance
 
 The repository does not yet contain:
 
-- MySQL schema or migrations
 - production-ready assets or gameplay implementation
 
 ## Agent Goals

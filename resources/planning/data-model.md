@@ -68,10 +68,10 @@ Persist enough information to reconstruct any active or completed game and suppo
 
 ## Open Design Choice
 
-When implementation begins, decide whether the authoritative state is primarily:
+The initial bootstrap chooses a pragmatic relational-plus-snapshot hybrid:
 
-1. normalized relational tables with computed reconstruction
-2. relational metadata plus a state snapshot document
-3. event-log-driven with derived projections
+1. normalized relational tables for core game state
+2. event and turn logs for auditability
+3. optional snapshot rows for faster recovery and simpler reconnect support
 
-For MVP speed, a pragmatic relational-plus-snapshot hybrid may be the safest starting point if kept clean and testable.
+See `database-strategy.md` and `database/migrations/001_initial_schema.sql` for the concrete first-pass schema.

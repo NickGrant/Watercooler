@@ -6,19 +6,11 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-014
-
-- Name: Design initial MySQL schema and migration strategy
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-015, TASK-019, TASK-020, TASK-021, TASK-036
-- Description: Define the first-pass relational model, migration workflow, and seed strategy needed to support games, players, cards, executives, resources, and recovery.
-
 ### TASK-036
 
 - Name: Generate Docker-based local development bootstrap
 - Priority: High
-- Blocked By: TASK-014
+- Blocked By: None
 - Blocks: None
 - Description: Add Dockerfiles and a compose-based local development setup for the frontend, API, realtime service, and MySQL so the scaffolded platform can be started consistently.
 
@@ -26,7 +18,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 - Name: Implement game creation and slug generation API flow
 - Priority: High
-- Blocked By: TASK-012, TASK-014
+- Blocked By: None
 - Blocks: TASK-016, TASK-019
 - Description: Build the API behavior for creating a new game, generating a unique themed slug, and returning the initial redirect target.
 

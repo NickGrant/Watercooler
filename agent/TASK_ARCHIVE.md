@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-014
+
+- Name: Design initial MySQL schema and migration strategy
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-015, TASK-019, TASK-020, TASK-021, TASK-036
+- Description: Define the first-pass relational model, migration workflow, and seed strategy needed to support games, players, cards, executives, resources, and recovery.
+
 ### TASK-013
 
 - Name: Scaffold PHP WebSocket service

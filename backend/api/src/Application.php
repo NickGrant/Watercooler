@@ -8,13 +8,17 @@ use Watercooler\Api\Config\AppConfig;
 use Watercooler\Api\Config\Env;
 use Watercooler\Api\Database\PdoGameRepository;
 use Watercooler\Api\Database\PdoJoinBootstrapRepository;
+use Watercooler\Api\Database\PdoStartGameRepository;
 use Watercooler\Api\Games\CreateGameService;
 use Watercooler\Api\Games\OfficeSlugGenerator;
+use Watercooler\Api\Games\RandomDeckShuffler;
+use Watercooler\Api\Games\StartGameService;
 use Watercooler\Api\Http\Handlers\CreateGameAction;
 use Watercooler\Api\Http\Handlers\GameStateAction;
 use Watercooler\Api\Http\Handlers\GetGameAction;
 use Watercooler\Api\Http\Handlers\HealthCheckAction;
 use Watercooler\Api\Http\Handlers\JoinBootstrapAction;
+use Watercooler\Api\Http\Handlers\StartGameAction;
 use Watercooler\Api\Http\JsonResponse;
 use Watercooler\Api\Http\Request;
 use Watercooler\Api\Http\Response;
@@ -39,23 +43,30 @@ final class Application
         $router = new Router();
         $gameRepository = new PdoGameRepository($config->database);
         $joinBootstrapRepository = new PdoJoinBootstrapRepository($config->database);
+        $startGameRepository = new PdoStartGameRepository($config->database);
         $createGameService = new CreateGameService($gameRepository, new OfficeSlugGenerator());
         $joinBootstrapService = new JoinBootstrapService(
             $joinBootstrapRepository,
             new AvatarCatalog(),
             new SecureSessionTokenGenerator(),
         );
+        $startGameService = new StartGameService(
+            $startGameRepository,
+            new RandomDeckShuffler(),
+        );
 
         $healthCheckAction = new HealthCheckAction($config);
         $createGameAction = new CreateGameAction($createGameService);
         $getGameAction = new GetGameAction($gameRepository);
         $joinBootstrapAction = new JoinBootstrapAction($joinBootstrapService);
+        $startGameAction = new StartGameAction($startGameService);
         $gameStateAction = new GameStateAction();
 
         $router->get('/health', static fn(Request $request, RouteMatch $match): Response => $healthCheckAction($request, $match));
         $router->post('/api/games', static fn(Request $request, RouteMatch $match): Response => $createGameAction($request, $match));
         $router->get('/api/games/{slug}', static fn(Request $request, RouteMatch $match): Response => $getGameAction($request, $match));
         $router->post('/api/games/{slug}/join-bootstrap', static fn(Request $request, RouteMatch $match): Response => $joinBootstrapAction($request, $match));
+        $router->post('/api/games/{slug}/start', static fn(Request $request, RouteMatch $match): Response => $startGameAction($request, $match));
         $router->get('/api/games/{slug}/state', static fn(Request $request, RouteMatch $match): Response => $gameStateAction($request, $match));
 
         return new self($basePath, $config, $router);

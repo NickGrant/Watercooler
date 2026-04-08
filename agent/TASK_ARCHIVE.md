@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-021
+
+- Name: Implement game start orchestration
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-022, TASK-023, TASK-024, TASK-025, TASK-026
+- Description: Initialize turn order, visible market, executives, bank state, and synchronized start-game payloads once the host starts the match.
+
 ### TASK-018
 
 - Name: Implement lobby UI and start-game controls

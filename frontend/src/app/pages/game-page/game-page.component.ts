@@ -13,6 +13,7 @@ import { AvatarDraft } from '../../core/models/avatar-draft.model';
 import { GameSummary } from '../../core/models/game-summary.model';
 import { GamesApiService } from '../../core/services/games-api.service';
 import { GameSessionService } from '../../core/services/game-session.service';
+import { StartedGameResponse } from '../../core/models/started-game-response.model';
 
 @Component({
   selector: 'app-game-page',
@@ -37,7 +38,9 @@ export class GamePageComponent {
   readonly loadError = signal<string | null>(null);
   readonly joinError = signal<string | null>(null);
   readonly joinPending = signal(false);
+  readonly startPending = signal(false);
   readonly startMessage = signal<string | null>(null);
+  readonly startedGame = signal<StartedGameResponse['state'] | null>(null);
   readonly bodyOptions = ['blazer', 'hoodie', 'cardigan', 'polo', 'power-suit'];
   readonly faceOptions = [
     'corporate-neutral',
@@ -85,9 +88,29 @@ export class GamePageComponent {
       return;
     }
 
-    this.startMessage.set(
-      'Start-game orchestration lands in TASK-021. The lobby is now correctly showing readiness.'
-    );
+    const slug = this.session.slug();
+    const sessionToken = this.session.sessionToken();
+
+    if (slug === null || sessionToken === null || this.startPending()) {
+      return;
+    }
+
+    this.startPending.set(true);
+    this.startMessage.set(null);
+
+    this.gamesApi.startGame(slug, { sessionToken }).subscribe({
+      next: (result) => {
+        this.startedGame.set(result.state);
+        this.session.setStage('in-game');
+        this.game.set(result.game);
+        this.startPending.set(false);
+        this.startMessage.set('The room is now live. The synchronized opening state came from the API.');
+      },
+      error: (error: unknown) => {
+        this.startPending.set(false);
+        this.startMessage.set(this.getStartErrorMessage(error));
+      }
+    });
   }
 
   private loadGame(slug: string): void {
@@ -167,5 +190,20 @@ export class GamePageComponent {
     }
 
     return 'The Recreation Division could not process that join request.';
+  }
+
+  private getStartErrorMessage(error: unknown): string {
+    const apiMessage =
+      error instanceof HttpErrorResponse
+        ? error.error?.message
+        : typeof error === 'object' && error !== null && 'error' in error
+          ? (error.error as { message?: unknown }).message
+          : null;
+
+    if (typeof apiMessage === 'string') {
+      return apiMessage;
+    }
+
+    return 'The host start request could not be completed.';
   }
 }

@@ -112,4 +112,51 @@ describe('GamesApiService', () => {
 
     expect(response).toBeTruthy();
   });
+
+  it('submits start-game requests for a slug', () => {
+    let response: unknown;
+
+    service
+      .startGame('synergy-report-telemetry', {
+        sessionToken: 'temporary-session-token'
+      })
+      .subscribe((result) => {
+        response = result;
+      });
+
+    const request = httpController.expectOne('/api/games/synergy-report-telemetry/start');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({
+      sessionToken: 'temporary-session-token'
+    });
+
+    request.flush({
+      game: {
+        ...sampleGame,
+        status: 'active',
+        phase: 'active',
+        playerCount: 2
+      },
+      state: {
+        currentTurnGamePlayerId: 1,
+        players: [],
+        bank: {
+          coffee: 4,
+          spreadsheets: 4,
+          budget: 4,
+          connections: 4,
+          time: 4,
+          executiveFavor: 5
+        },
+        market: {
+          tier1: [],
+          tier2: [],
+          tier3: []
+        },
+        executives: []
+      }
+    });
+
+    expect(response).toBeTruthy();
+  });
 });

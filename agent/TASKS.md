@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-021
+### TASK-022
 
-- Name: Implement game start orchestration
+- Name: Implement resource-taking action validation
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-022, TASK-023, TASK-024, TASK-025, TASK-026
-- Description: Initialize turn order, visible market, executives, bank state, and synchronized start-game payloads once the host starts the match.
+- Blocks: TASK-026, TASK-030
+- Description: Add server-authoritative validation and state mutation for standard Splendor-equivalent resource-taking actions.
 
 ## Task Management Rules
 

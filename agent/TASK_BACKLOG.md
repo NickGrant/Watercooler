@@ -6,19 +6,11 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-022
-
-- Name: Implement resource-taking action validation
-- Priority: High
-- Blocked By: TASK-021
-- Blocks: TASK-026, TASK-030
-- Description: Add server-authoritative validation and state mutation for standard Splendor-equivalent resource-taking actions.
-
 ### TASK-023
 
 - Name: Implement project-claiming and Executive Favor flow
 - Priority: High
-- Blocked By: TASK-021
+- Blocked By: None
 - Blocks: TASK-026, TASK-030
 - Description: Add reserve-equivalent behavior, wildcard distribution rules, and reserved-card state management.
 
@@ -26,7 +18,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement Workplace Advantage purchase flow
 - Priority: High
-- Blocked By: TASK-021
+- Blocked By: None
 - Blocks: TASK-025, TASK-026, TASK-030
 - Description: Add affordability validation, permanent discount application, cost payment, and purchased-card state updates.
 
@@ -34,7 +26,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement Executive award and Office Prestige logic
 - Priority: High
-- Blocked By: TASK-021, TASK-024
+- Blocked By: TASK-024
 - Blocks: TASK-026, TASK-030
 - Description: Award executives automatically when requirements are met and maintain correct prestige totals.
 
@@ -42,7 +34,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement endgame trigger and winner resolution
 - Priority: High
-- Blocked By: TASK-021, TASK-022, TASK-023, TASK-024, TASK-025
+- Blocked By: TASK-022, TASK-023, TASK-024, TASK-025
 - Blocks: TASK-029, TASK-030
 - Description: Detect the prestige threshold, complete the round correctly, and resolve the winner according to Splendor-equivalent rules.
 
@@ -50,7 +42,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Build main game board UI
 - Priority: High
-- Blocked By: TASK-021
+- Blocked By: None
 - Blocks: TASK-031, TASK-032
 - Description: Render the market, bank, executives, player panels, turn state, and action surfaces in a readable real-time layout.
 
@@ -107,5 +99,5 @@ This file tracks outstanding work that matters to the project but does not need 
 - Name: Seed starter Workplace Advantages and Executives content
 - Priority: Medium
 - Blocked By: None
-- Blocks: TASK-021, TASK-031
+- Blocks: TASK-031
 - Description: Create the initial themed content set for cards, executives, labels, and system copy.

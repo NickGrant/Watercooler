@@ -146,14 +146,14 @@
         <button
           mat-flat-button
           type="button"
-          [disabled]="!session.hasJoined()"
+          [disabled]="!session.hasJoined() || startPending()"
           (click)="requestStartGame()"
         >
-          Start Game
+          {{ startPending() ? 'Starting Game...' : 'Start Game' }}
         </button>
         <p class="start-hint">
           @if (session.canRequestStart()) {
-            The roster is large enough. Host start wiring is the next backend task.
+            The roster is large enough. The host can now promote this lobby into an active game.
           } @else {
             Waiting for the minimum player count before the host can launch the game.
           }
@@ -166,20 +166,50 @@
     </mat-card>
 
     <mat-card appearance="outlined" class="wide">
-      <h2>Board Placeholder</h2>
-      <p>Resource bank, market, executives, player panels, and turn actions will live here.</p>
-      <mat-divider />
-      <div class="future-columns">
-        <div>
-          <h3>Client state ready</h3>
-          <p>Name, avatar, joined roster, and temporary session token now live in shared state.</p>
-        </div>
+      <h2>Board Bootstrap</h2>
+      @if (startedGame(); as startedGame) {
+        <p>
+          Current turn: employee #{{ startedGame.currentTurnGamePlayerId }}. The backend seeded the
+          bank, market, and executive row for the first active round.
+        </p>
+        <mat-divider />
+        <div class="future-columns">
+          <div>
+            <h3>Bank</h3>
+            <p>
+              Coffee {{ startedGame.bank['coffee'] }}, Spreadsheets
+              {{ startedGame.bank['spreadsheets'] }}, Budget {{ startedGame.bank['budget'] }},
+              Connections {{ startedGame.bank['connections'] }}, Time
+              {{ startedGame.bank['time'] }}, Executive Favor
+              {{ startedGame.bank['executiveFavor'] }}
+            </p>
+          </div>
 
-        <div>
-          <h3>Server authority preserved</h3>
-          <p>The shell assumes the backend remains the source of truth for game state and legality.</p>
+          <div>
+            <h3>Visible Market</h3>
+            <p>
+              Tier 1: {{ startedGame.market.tier1.length }} cards | Tier 2:
+              {{ startedGame.market.tier2.length }} cards | Tier 3:
+              {{ startedGame.market.tier3.length }} cards
+            </p>
+            <p>Executive row: {{ startedGame.executives.length }} leaders.</p>
+          </div>
         </div>
-      </div>
+      } @else {
+        <p>Resource bank, market, executives, player panels, and turn actions will live here.</p>
+        <mat-divider />
+        <div class="future-columns">
+          <div>
+            <h3>Client state ready</h3>
+            <p>Name, avatar, joined roster, and temporary session token now live in shared state.</p>
+          </div>
+
+          <div>
+            <h3>Server authority preserved</h3>
+            <p>The shell assumes the backend remains the source of truth for game state and legality.</p>
+          </div>
+        </div>
+      }
     </mat-card>
   </section>
 </main>

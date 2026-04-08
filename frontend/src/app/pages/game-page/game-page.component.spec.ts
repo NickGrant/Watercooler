@@ -12,7 +12,11 @@ describe('GamePageComponent', () => {
 
   beforeEach(async () => {
     localStorage.clear();
-    gamesApi = jasmine.createSpyObj<GamesApiService>('GamesApiService', ['getGame', 'joinBootstrap']);
+    gamesApi = jasmine.createSpyObj<GamesApiService>('GamesApiService', [
+      'getGame',
+      'joinBootstrap',
+      'startGame'
+    ]);
     gamesApi.getGame.and.returnValue(
       of({
         id: 1,
@@ -66,6 +70,54 @@ describe('GamePageComponent', () => {
           transport: 'websocket',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
+        }
+      })
+    );
+    gamesApi.startGame.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'active',
+          phase: 'active',
+          playerCount: 2,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        state: {
+          currentTurnGamePlayerId: 1,
+          players: [
+            {
+              gamePlayerId: 1,
+              displayName: 'Pam',
+              isHost: true,
+              joinStatus: 'connected',
+              seatOrder: 1,
+              officePrestige: 0
+            },
+            {
+              gamePlayerId: 2,
+              displayName: 'Jim',
+              isHost: false,
+              joinStatus: 'joined',
+              seatOrder: 2,
+              officePrestige: 0
+            }
+          ],
+          bank: {
+            coffee: 4,
+            spreadsheets: 4,
+            budget: 4,
+            connections: 4,
+            time: 4,
+            executiveFavor: 5
+          },
+          market: {
+            tier1: [],
+            tier2: [],
+            tier3: []
+          },
+          executives: []
         }
       })
     );
@@ -155,7 +207,7 @@ describe('GamePageComponent', () => {
     );
   });
 
-  it('shows the host start message once the roster is large enough', () => {
+  it('starts the game and moves the shell into active play once the roster is large enough', () => {
     gamesApi.joinBootstrap.and.returnValue(
       of({
         game: {
@@ -215,6 +267,11 @@ describe('GamePageComponent', () => {
     fixture.componentInstance.submitJoin();
     fixture.componentInstance.requestStartGame();
 
-    expect(fixture.componentInstance.startMessage()).toContain('TASK-021');
+    expect(gamesApi.startGame).toHaveBeenCalledWith('synergy-report-telemetry', {
+      sessionToken: 'temporary-session-token'
+    });
+    expect(fixture.componentInstance.session.stage()).toBe('in-game');
+    expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(1);
+    expect(fixture.componentInstance.startMessage()).toContain('synchronized opening state');
   });
 });

@@ -6,6 +6,7 @@ import { AvatarDraft } from '../models/avatar-draft.model';
 import { GameResponse } from '../models/game-response.model';
 import { GameSummary } from '../models/game-summary.model';
 import { JoinBootstrapResponse } from '../models/join-bootstrap-response.model';
+import { StartedGameResponse } from '../models/started-game-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,9 @@ export class GamesApiService {
       `/api/games/${encodeURIComponent(slug)}/join-bootstrap`,
       payload
     );
+  }
+
+  startGame(slug: string, payload: { sessionToken: string }): Observable<StartedGameResponse> {
+    return this.http.post<StartedGameResponse>(`/api/games/${encodeURIComponent(slug)}/start`, payload);
   }
 }

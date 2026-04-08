@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-020
-
-- Name: Implement realtime room join and lobby presence sync
-- Priority: High
-- Blocked By: TASK-017
-- Blocks: TASK-018, TASK-021, TASK-028
-- Description: Connect accepted players to a room by slug, synchronize lobby presence, and support disconnect and reconnect behavior before gameplay starts.
-
 ### TASK-021
 
 - Name: Implement game start orchestration

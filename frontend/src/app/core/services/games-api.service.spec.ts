@@ -2,6 +2,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
+import { DEFAULT_AVATAR_DRAFT } from '../models/avatar-draft.model';
 import { GameSummary } from '../models/game-summary.model';
 import { GamesApiService } from './games-api.service';
 
@@ -61,5 +62,54 @@ describe('GamesApiService', () => {
     request.flush({ game: sampleGame });
 
     expect(response).toEqual(sampleGame);
+  });
+
+  it('submits join-bootstrap requests for a slug', () => {
+    let response: unknown;
+
+    service
+      .joinBootstrap('synergy-report-telemetry', {
+        displayName: 'Pam',
+        avatar: DEFAULT_AVATAR_DRAFT
+      })
+      .subscribe((result) => {
+        response = result;
+      });
+
+    const request = httpController.expectOne('/api/games/synergy-report-telemetry/join-bootstrap');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({
+      displayName: 'Pam',
+      avatar: DEFAULT_AVATAR_DRAFT
+    });
+
+    request.flush({
+      game: sampleGame,
+      player: {
+        gamePlayerId: 1,
+        playerId: 1,
+        displayName: 'Pam',
+        isHost: true,
+        joinStatus: 'joined',
+        avatar: DEFAULT_AVATAR_DRAFT
+      },
+      session: {
+        token: 'temporary-session-token',
+        reconnectEnabled: true
+      },
+      lobby: {
+        minimumPlayers: 2,
+        maximumPlayers: 4,
+        canStart: false,
+        joinedPlayers: []
+      },
+      realtime: {
+        transport: 'websocket',
+        roomSlug: 'synergy-report-telemetry',
+        sessionToken: 'temporary-session-token'
+      }
+    });
+
+    expect(response).toBeTruthy();
   });
 });

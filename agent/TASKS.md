@@ -6,21 +6,21 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-017
-
-- Name: Implement the pre-join identity and avatar flow
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-018, TASK-020
-- Description: Build the UI and state flow for display name entry, avatar configuration, validation feedback, and accepted join state before websocket connection.
-
 ### TASK-018
 
 - Name: Implement lobby UI and start-game controls
 - Priority: Medium
-- Blocked By: TASK-017, TASK-020
+- Blocked By: TASK-020
 - Blocks: TASK-021
 - Description: Build the waiting-room experience showing joined players, avatars, host status, and start-game controls once minimum player rules are met.
+
+### TASK-020
+
+- Name: Implement realtime room join and lobby presence sync
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-018, TASK-021, TASK-028
+- Description: Connect accepted players to a room by slug, synchronize lobby presence, and support disconnect and reconnect behavior before gameplay starts.
 
 ## Task Management Rules
 

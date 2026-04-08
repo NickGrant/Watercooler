@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-017
+
+- Name: Implement the pre-join identity and avatar flow
+- Priority: High
+- Blocked By: TASK-019
+- Blocks: TASK-018, TASK-020
+- Description: Build the UI and state flow for display name entry, avatar configuration, validation feedback, and accepted join state before websocket connection.
+
 ### TASK-019
 
 - Name: Implement join-bootstrap API and temporary player sessions

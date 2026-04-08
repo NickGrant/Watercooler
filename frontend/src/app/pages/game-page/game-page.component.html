@@ -5,7 +5,7 @@
       <h1>{{ game()?.slug ?? session.slug() }}</h1>
       <p class="subhead">
         @if (game(); as game) {
-          {{ game.playerCount }} employees checked in · {{ game.status }} status · {{ game.phase }}
+          {{ game.playerCount }} employees checked in | {{ game.status }} status | {{ game.phase }}
         } @else {
           Fetching room dossier from the Recreation Division...
         }
@@ -24,21 +24,109 @@
     </section>
   }
 
-  <section class="stage-toggle">
-    <button mat-stroked-button type="button" (click)="setStage('pre-join')">Pre-Join</button>
-    <button mat-stroked-button type="button" (click)="setStage('lobby')">Lobby</button>
-    <button mat-stroked-button type="button" (click)="setStage('in-game')">In-Game</button>
-  </section>
-
   <section class="shell-grid">
     <mat-card appearance="outlined">
-      <h2>Join Panel Placeholder</h2>
-      <p>Name entry, avatar builder, and join validation will live here.</p>
+      @if (!session.hasJoined()) {
+        <h2>Employee Check-In</h2>
+        <p class="panel-copy">
+          Enter your display name, assemble your avatar badge, and request clearance to join this
+          room.
+        </p>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Display Name</mat-label>
+          <input
+            matInput
+            [ngModel]="session.playerName()"
+            (ngModelChange)="updatePlayerName($event)"
+            maxlength="64"
+            placeholder="Pam, Jim, Angela..."
+          />
+        </mat-form-field>
+
+        <div class="avatar-grid">
+          <mat-form-field appearance="outline">
+            <mat-label>Body</mat-label>
+            <mat-select
+              [ngModel]="session.avatarDraft().body"
+              (ngModelChange)="updateAvatar('body', $event)"
+            >
+              @for (option of bodyOptions; track option) {
+                <mat-option [value]="option">{{ option }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Face</mat-label>
+            <mat-select
+              [ngModel]="session.avatarDraft().face"
+              (ngModelChange)="updateAvatar('face', $event)"
+            >
+              @for (option of faceOptions; track option) {
+                <mat-option [value]="option">{{ option }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>Hair</mat-label>
+            <mat-select
+              [ngModel]="session.avatarDraft().hair"
+              (ngModelChange)="updateAvatar('hair', $event)"
+            >
+              @for (option of hairOptions; track option) {
+                <mat-option [value]="option">{{ option }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <button mat-flat-button type="button" [disabled]="joinPending()" (click)="submitJoin()">
+          {{ joinPending() ? 'Submitting Badge...' : 'Join Game' }}
+        </button>
+
+        @if (joinError(); as joinError) {
+          <p class="inline-error" role="alert">{{ joinError }}</p>
+        }
+      } @else {
+        <h2>Check-In Approved</h2>
+        <p class="panel-copy">
+          You are checked in as <strong>{{ session.currentPlayer()?.displayName }}</strong>.
+          Websocket connection stays intentionally deferred until the realtime task lands.
+        </p>
+
+        <div class="badge-summary">
+          <p><strong>Host:</strong> {{ session.currentPlayer()?.isHost ? 'Yes' : 'No' }}</p>
+          <p><strong>Body:</strong> {{ session.avatarDraft().body }}</p>
+          <p><strong>Face:</strong> {{ session.avatarDraft().face }}</p>
+          <p><strong>Hair:</strong> {{ session.avatarDraft().hair }}</p>
+        </div>
+      }
     </mat-card>
 
     <mat-card appearance="outlined">
-      <h2>Lobby Placeholder</h2>
-      <p>Player list, host controls, and waiting state will live here.</p>
+      <h2>Lobby Intake</h2>
+      <p class="panel-copy">
+        The bootstrap payload already tells us who has joined. Realtime syncing and start controls
+        land in the next feature.
+      </p>
+
+      <div class="roster">
+        @for (player of session.joinedPlayers(); track player.gamePlayerId) {
+          <div class="roster-row">
+            <div>
+              <strong>{{ player.displayName }}</strong>
+              <p>{{ player.avatar.body }} / {{ player.avatar.face }} / {{ player.avatar.hair }}</p>
+            </div>
+            <span class="roster-badge">{{ player.isHost ? 'Host' : player.joinStatus }}</span>
+          </div>
+        } @empty {
+          <p class="panel-copy">
+            No one has checked in yet. This room is still waiting on its first employee.
+          </p>
+        }
+      </div>
     </mat-card>
 
     <mat-card appearance="outlined" class="wide">
@@ -48,7 +136,7 @@
       <div class="future-columns">
         <div>
           <h3>Client state ready</h3>
-          <p>Slug and stage live in a shared session service for the next frontend tasks.</p>
+          <p>Name, avatar, joined roster, and temporary session token now live in shared state.</p>
         </div>
 
         <div>

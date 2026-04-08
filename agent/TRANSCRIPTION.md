@@ -160,7 +160,11 @@ Docker is running, use that
 Assistant:
 I switched validation to Docker-friendly paths, implemented `TASK-019` by adding a join-bootstrap API with avatar validation, duplicate-name checks, temporary player sessions, reconnect token reuse, and lobby bootstrap payloads, then verified the API with PHPUnit and a Docker-run API container against the host MariaDB instance.
 
+#### Entry 019
+Assistant:
+I completed `TASK-017` by turning the game route into a real pre-join check-in flow with display-name entry, avatar selection, browser-side temporary session token persistence, accepted-join lobby state, and Angular unit tests covering the new frontend behavior.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 018.
+- Last updated through Session 001, Entry 019.
 - The next transcription update should append new user and assistant messages after this point.

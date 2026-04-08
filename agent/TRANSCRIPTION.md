@@ -120,7 +120,11 @@ I scaffolded the PHP realtime service in `backend/realtime/` with Composer autol
 Assistant:
 I designed the initial MySQL migration layer in `database/`, documented the chosen relational-plus-snapshot strategy in the planning docs, and validated the first schema against a disposable local MariaDB database to complete `TASK-014`.
 
+#### Entry 012
+Assistant:
+I added Dockerfiles for the frontend, API, and realtime services plus a root `docker-compose.yml`, then validated the container bootstrap with `docker compose config` and successful image builds to complete `TASK-036`.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 011.
+- Last updated through Session 001, Entry 012.
 - The next transcription update should append new user and assistant messages after this point.

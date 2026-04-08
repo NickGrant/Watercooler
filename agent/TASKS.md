@@ -6,14 +6,6 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-036
-
-- Name: Generate Docker-based local development bootstrap
-- Priority: High
-- Blocked By: None
-- Blocks: None
-- Description: Add Dockerfiles and a compose-based local development setup for the frontend, API, realtime service, and MySQL so the scaffolded platform can be started consistently.
-
 ### TASK-015
 
 - Name: Implement game creation and slug generation API flow
@@ -45,6 +37,14 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocked By: TASK-017, TASK-020
 - Blocks: TASK-021
 - Description: Build the waiting-room experience showing joined players, avatars, host status, and start-game controls once minimum player rules are met.
+
+### TASK-035
+
+- Name: Add developer setup, environment examples, and test commands
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Document local setup, configuration, and repeatable developer commands once the first runnable scaffolding and Docker bootstrap exist.
 
 ## Task Management Rules
 

@@ -18,6 +18,7 @@ The repository currently contains:
 - an initial PHP HTTP API scaffold in `backend/api/`
 - an initial PHP realtime service scaffold in `backend/realtime/`
 - an initial MySQL schema and migration design in `database/`
+- a local Docker bootstrap in `docker-compose.yml` and service Dockerfiles
 - shared agent workflow guidance plus system-specific adapters for transcript maintenance
 
 The repository does not yet contain:
@@ -92,6 +93,7 @@ If these sources conflict, prefer the more focused planning document over the br
 - `resources/planning/lobby-and-sessions.md`: join flow, lobby behavior, reconnect rules
 - `resources/planning/content-and-theme.md`: copy, visual tone, naming, and avatar direction
 - `resources/planning/roadmap.md`: phased delivery plan
+- `docker-compose.yml`: local multi-service bootstrap for frontend, API, realtime, and database
 - `.github/copilot-instructions.md`: Copilot-specific adapter for shared workflow
 - `.github/copilot/skills/transcription-sync/`: Copilot-side transcription skill
 - `.codex/skills/transcription-sync/`: Codex-side transcription skill

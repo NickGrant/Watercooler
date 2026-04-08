@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-036
+
+- Name: Generate Docker-based local development bootstrap
+- Priority: High
+- Blocked By: TASK-014
+- Blocks: None
+- Description: Add Dockerfiles and a compose-based local development setup for the frontend, API, realtime service, and MySQL so the scaffolded platform can be started consistently.
+
 ### TASK-014
 
 - Name: Design initial MySQL schema and migration strategy

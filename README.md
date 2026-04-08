@@ -28,6 +28,7 @@ Core product goals:
 - `resources/`: application-facing planning and documentation files
 - `resources/INITIAL_PROMPT.md`: original project brief
 - `resources/planning/`: split planning docs for targeted context
+- `docker-compose.yml`: local container orchestration for the scaffolded stack
 - `.github/copilot-instructions.md`: thin Copilot-specific adapter to the shared workflow
 - `.github/copilot/skills/transcription-sync/`: Copilot-side skill for transcript updates
 - `.codex/skills/transcription-sync/`: Codex-side skill for transcript updates
@@ -50,7 +51,7 @@ Current planning areas include:
 
 ## Current Status
 
-This repo now contains planning documentation plus the first implementation scaffolds for the Angular frontend, PHP HTTP API, PHP realtime service, and database migration layer.
+This repo now contains planning documentation plus the first implementation scaffolds for the Angular frontend, PHP HTTP API, PHP realtime service, database migration layer, and Docker-based local bootstrap.
 
 Immediate non-code goals completed here:
 
@@ -70,6 +71,7 @@ This repository uses a lightweight operating layer so humans and agents can coll
 - `resources/planning/FEATURES.md` maps larger product areas to the tasks that implement them.
 - `agent/TRANSCRIPTION.md` stores the user-assistant project conversation.
 - System-specific adapters live alongside the shared workflow where needed, including Copilot and Codex versions of the `transcription-sync` skill.
+- `docker-compose.yml` and the service Dockerfiles provide a consistent local environment for the current scaffolds.
 
 ## Next Phase
 

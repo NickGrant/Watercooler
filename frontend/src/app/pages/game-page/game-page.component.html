@@ -1,0 +1,48 @@
+<main class="game-page">
+  <header class="board-header">
+    <div>
+      <p class="eyebrow">Game Route Shell</p>
+      <h1>{{ session.slug() }}</h1>
+    </div>
+
+    <mat-card appearance="outlined" class="status-card">
+      <p class="status-card__label">Current shell state</p>
+      <strong>{{ session.stageLabel() }}</strong>
+    </mat-card>
+  </header>
+
+  <section class="stage-toggle">
+    <button mat-stroked-button type="button" (click)="setStage('pre-join')">Pre-Join</button>
+    <button mat-stroked-button type="button" (click)="setStage('lobby')">Lobby</button>
+    <button mat-stroked-button type="button" (click)="setStage('in-game')">In-Game</button>
+  </section>
+
+  <section class="shell-grid">
+    <mat-card appearance="outlined">
+      <h2>Join Panel Placeholder</h2>
+      <p>Name entry, avatar builder, and join validation will live here.</p>
+    </mat-card>
+
+    <mat-card appearance="outlined">
+      <h2>Lobby Placeholder</h2>
+      <p>Player list, host controls, and waiting state will live here.</p>
+    </mat-card>
+
+    <mat-card appearance="outlined" class="wide">
+      <h2>Board Placeholder</h2>
+      <p>Resource bank, market, executives, player panels, and turn actions will live here.</p>
+      <mat-divider />
+      <div class="future-columns">
+        <div>
+          <h3>Client state ready</h3>
+          <p>Slug and stage live in a shared session service for the next frontend tasks.</p>
+        </div>
+
+        <div>
+          <h3>Server authority preserved</h3>
+          <p>The shell assumes the backend remains the source of truth for game state and legality.</p>
+        </div>
+      </div>
+    </mat-card>
+  </section>
+</main>

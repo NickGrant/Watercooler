@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-011
+
+- Name: Scaffold Angular frontend workspace
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-016, TASK-017, TASK-018
+- Description: Create the frontend application shell with routing, Angular Material setup, and room for the pre-join, lobby, and game experiences.
+
 ### TASK-010
 
 - Name: Define implementation directory layout and service boundaries

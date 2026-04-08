@@ -6,14 +6,6 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-011
-
-- Name: Scaffold Angular frontend workspace
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-016, TASK-017, TASK-018
-- Description: Create the frontend application shell with routing, Angular Material setup, and room for the pre-join, lobby, and game experiences.
-
 ### TASK-012
 
 - Name: Scaffold PHP HTTP API service
@@ -58,7 +50,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 - Name: Build the home page and create-game route flow
 - Priority: Medium
-- Blocked By: TASK-011, TASK-015
+- Blocked By: TASK-015
 - Blocks: TASK-017
 - Description: Implement the first frontend user path from landing page to a newly created game URL, preserving the Watercooler tone without starting gameplay work yet.
 
@@ -66,7 +58,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 - Name: Implement the pre-join identity and avatar flow
 - Priority: High
-- Blocked By: TASK-011, TASK-016, TASK-019
+- Blocked By: TASK-016, TASK-019
 - Blocks: TASK-018, TASK-020
 - Description: Build the UI and state flow for display name entry, avatar configuration, validation feedback, and accepted join state before websocket connection.
 
@@ -74,7 +66,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 - Name: Implement lobby UI and start-game controls
 - Priority: Medium
-- Blocked By: TASK-011, TASK-017, TASK-020
+- Blocked By: TASK-017, TASK-020
 - Blocks: TASK-021
 - Description: Build the waiting-room experience showing joined players, avatars, host status, and start-game controls once minimum player rules are met.
 

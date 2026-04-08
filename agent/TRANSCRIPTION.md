@@ -104,7 +104,11 @@ alright, lets move forward completing tasks and features until we are done boots
 Assistant:
 I updated the task and feature planning to include Docker-based bootstrap work, then completed `TASK-010` by creating the intended implementation directories and adding a focused project-structure planning document to define service boundaries before scaffolding.
 
+#### Entry 008
+Assistant:
+I scaffolded the Angular frontend in `frontend/`, added Angular Material, created the initial route and page shell for the home and game experiences, introduced a small frontend session service for future join and lobby work, and verified the scaffold with a successful production build to complete `TASK-011`.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 007.
+- Last updated through Session 001, Entry 008.
 - The next transcription update should append new user and assistant messages after this point.

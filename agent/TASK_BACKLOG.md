@@ -74,7 +74,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Build main game board UI
 - Priority: High
-- Blocked By: TASK-011, TASK-021
+- Blocked By: TASK-021
 - Blocks: TASK-031, TASK-032
 - Description: Render the market, bank, executives, player panels, turn state, and action surfaces in a readable real-time layout.
 
@@ -138,6 +138,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Add developer setup, environment examples, and test commands
 - Priority: Medium
-- Blocked By: TASK-011, TASK-012, TASK-013, TASK-014, TASK-036
+- Blocked By: TASK-012, TASK-013, TASK-014, TASK-036
 - Blocks: None
 - Description: Document local setup, configuration, and repeatable developer commands once the first runnable scaffolding and Docker bootstrap exist.

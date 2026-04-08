@@ -14,15 +14,15 @@ The repository currently contains:
 - human-facing project documentation in `README.md`
 - feature and architecture planning docs in `resources/planning/`
 - repo operating files for agent context, tasks, and transcription in `agent/`
+- an initial Angular frontend scaffold in `frontend/`
 - shared agent workflow guidance plus system-specific adapters for transcript maintenance
 
 The repository does not yet contain:
 
-- Angular application code
 - PHP API implementation
 - PHP WebSocket service
 - MySQL schema or migrations
-- production assets
+- production-ready assets or gameplay implementation
 
 ## Agent Goals
 

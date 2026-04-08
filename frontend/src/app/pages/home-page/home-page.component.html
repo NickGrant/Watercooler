@@ -1,0 +1,34 @@
+<main class="home-page">
+  <section class="hero-window">
+    <div class="hero-window__chrome">
+      <span>WATERCOOLER.EXE</span>
+      <span>Corporate Recreation Division</span>
+    </div>
+
+    <div class="hero-window__body">
+      <p class="eyebrow">Multiplayer office prestige simulator</p>
+      <h1>Climb the ladder one suspiciously strategic advantage at a time.</h1>
+      <p class="lede">
+        This frontend scaffold establishes the shell for Watercooler's home, join, lobby, and
+        gameplay experiences. The actual create-game flow lands in a later task.
+      </p>
+
+      <div class="actions">
+        <a mat-flat-button [routerLink]="['/game', sampleSlug]">Preview Game Route Shell</a>
+        <button mat-stroked-button type="button" disabled>Create New Game API Pending</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="status-grid">
+    <mat-card appearance="outlined">
+      <h2>Frontend Scope</h2>
+      <p>Routing, Material setup, and page boundaries are ready for task-level implementation.</p>
+    </mat-card>
+
+    <mat-card appearance="outlined">
+      <h2>Next UI Steps</h2>
+      <p>Wire create-game, pre-join identity, avatar builder, lobby presence, and live board data.</p>
+    </mat-card>
+  </section>
+</main>

@@ -1,0 +1,55 @@
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      primary: mat.$blue-palette,
+      tertiary: mat.$cyan-palette,
+    ),
+    typography: Tahoma,
+    density: -1,
+  ));
+}
+
+:root {
+  --wc-panel: #f6f8fc;
+  --wc-accent: #5a6d95;
+  --wc-accent-strong: #2d456e;
+  --wc-frame-dark: #617492;
+  --wc-frame-light: #dbe4f0;
+  --wc-ink: #32435e;
+  --wc-ink-strong: #18263c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color-scheme: light;
+  background: #dfe6f1;
+  color: var(--wc-ink);
+  font-family: Tahoma, 'Trebuchet MS', Verdana, sans-serif;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}
+
+.mat-mdc-unelevated-button.mat-primary {
+  --mdc-filled-button-container-color: var(--wc-accent-strong);
+  --mdc-filled-button-label-text-color: #ffffff;
+}
+
+.mat-mdc-outlined-button {
+  --mdc-outlined-button-outline-color: var(--wc-frame-dark);
+}

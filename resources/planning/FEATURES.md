@@ -17,8 +17,8 @@ This file maps major product and repo-operating features to the tasks that deliv
 
 - Name: Platform Scaffolding
 - Priority: High
-- Description: Establish the frontend, API, realtime service, and database structure required to begin implementation safely.
-- Tasks: TASK-010, TASK-011, TASK-012, TASK-013, TASK-014, TASK-035
+- Description: Establish the frontend, API, realtime service, database structure, and containerized local development setup required to begin implementation safely.
+- Tasks: TASK-010, TASK-011, TASK-012, TASK-013, TASK-014, TASK-036, TASK-035
 
 ### FEATURE-003
 

@@ -138,6 +138,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Add developer setup, environment examples, and test commands
 - Priority: Medium
-- Blocked By: TASK-011, TASK-012, TASK-013, TASK-014
+- Blocked By: TASK-011, TASK-012, TASK-013, TASK-014, TASK-036
 - Blocks: None
-- Description: Document local setup, configuration, and repeatable developer commands once the first runnable scaffolding exists.
+- Description: Document local setup, configuration, and repeatable developer commands once the first runnable scaffolding and Docker bootstrap exist.

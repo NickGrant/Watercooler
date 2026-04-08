@@ -7,6 +7,7 @@ This folder breaks the Watercooler project into smaller planning documents so im
 - `architecture.md`: top-level system design and responsibility boundaries
 - `FEATURES.md`: feature map linking application features to task IDs
 - `gameplay-rules.md`: rules fidelity, terminology mapping, and game constraints
+- `project-structure.md`: intended implementation layout and service boundaries
 - `frontend.md`: Angular routes, screens, components, and client-state expectations
 - `backend-api.md`: HTTP API scope, endpoint plan, and server responsibilities
 - `realtime.md`: WebSocket service responsibilities and state synchronization

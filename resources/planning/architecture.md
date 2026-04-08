@@ -65,6 +65,8 @@ Watercooler is planned as a four-part system:
 - `database/`: migrations, seeds, and schema docs
 - `resources/planning/`: living design docs
 
+See `project-structure.md` for the concrete repository layout and boundary decisions used during scaffolding.
+
 ## Main Risks
 
 - mixing game rules into transport handlers

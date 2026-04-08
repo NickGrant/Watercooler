@@ -6,19 +6,11 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-010
-
-- Name: Define implementation directory layout and service boundaries
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-011, TASK-012, TASK-013, TASK-014
-- Description: Finalize the intended folder layout for the Angular frontend, PHP API, PHP realtime service, shared domain logic, and database assets so scaffolding work starts from a clear structure.
-
 ### TASK-011
 
 - Name: Scaffold Angular frontend workspace
 - Priority: High
-- Blocked By: TASK-010
+- Blocked By: None
 - Blocks: TASK-016, TASK-017, TASK-018
 - Description: Create the frontend application shell with routing, Angular Material setup, and room for the pre-join, lobby, and game experiences.
 
@@ -26,7 +18,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 - Name: Scaffold PHP HTTP API service
 - Priority: High
-- Blocked By: TASK-010
+- Blocked By: None
 - Blocks: TASK-014, TASK-015, TASK-019
 - Description: Establish the API entrypoint, routing approach, configuration pattern, and testable service boundaries for request-response features.
 
@@ -34,7 +26,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 - Name: Scaffold PHP WebSocket service
 - Priority: High
-- Blocked By: TASK-010
+- Blocked By: None
 - Blocks: TASK-020, TASK-021
 - Description: Establish the long-running realtime service skeleton, connection flow, room lifecycle approach, and shared domain integration points.
 
@@ -42,9 +34,17 @@ This file keeps the active working set small enough to remain in normal agent co
 
 - Name: Design initial MySQL schema and migration strategy
 - Priority: High
-- Blocked By: TASK-010, TASK-012
-- Blocks: TASK-015, TASK-019, TASK-020, TASK-021
+- Blocked By: TASK-012
+- Blocks: TASK-015, TASK-019, TASK-020, TASK-021, TASK-036
 - Description: Define the first-pass relational model, migration workflow, and seed strategy needed to support games, players, cards, executives, resources, and recovery.
+
+### TASK-036
+
+- Name: Generate Docker-based local development bootstrap
+- Priority: High
+- Blocked By: TASK-011, TASK-012, TASK-013, TASK-014
+- Blocks: None
+- Description: Add Dockerfiles and a compose-based local development setup for the frontend, API, realtime service, and MySQL so the scaffolded platform can be started consistently.
 
 ### TASK-015
 

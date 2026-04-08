@@ -146,7 +146,21 @@ please pickup from where you left off
 Assistant:
 I resumed with `TASK-016`, implemented an API-backed frontend game-creation flow on the home page, added a typed Angular service for game creation and game lookup, updated the game route shell to load server metadata for the slug, and verified the frontend with a successful production build plus passing Angular unit tests.
 
+#### Entry 017
+User:
+please include my addition of cards.csv in your next commit, it is a breakdown of the development cards we need to generate
+
+Assistant:
+I confirmed that `resources/cards.csv` would be included in the next commit alongside the in-progress API work.
+
+#### Entry 018
+User:
+Docker is running, use that
+
+Assistant:
+I switched validation to Docker-friendly paths, implemented `TASK-019` by adding a join-bootstrap API with avatar validation, duplicate-name checks, temporary player sessions, reconnect token reuse, and lobby bootstrap payloads, then verified the API with PHPUnit and a Docker-run API container against the host MariaDB instance.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 016.
+- Last updated through Session 001, Entry 018.
 - The next transcription update should append new user and assistant messages after this point.

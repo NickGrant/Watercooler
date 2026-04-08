@@ -61,7 +61,8 @@ The API scaffold currently exposes:
 - `GET /health`
 - `POST /api/games`
 - `GET /api/games/{slug}`
-- planned join and state endpoints returning scaffold responses
+- `POST /api/games/{slug}/join-bootstrap`
+- planned state endpoint returning a scaffold response
 
 ### Realtime
 
@@ -128,6 +129,7 @@ These checks were completed during bootstrapping:
 - API Composer autoload and lint succeeded
 - API PHPUnit suite succeeded
 - API `/health` responded successfully through PHP's built-in server
+- API `POST /api/games/{slug}/join-bootstrap` responded successfully through a Docker-run API container backed by MariaDB
 - realtime Composer autoload and lint succeeded
 - realtime PHPUnit suite succeeded
 - realtime `php bin/server.php --once` succeeded

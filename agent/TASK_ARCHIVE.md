@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-019
+
+- Name: Implement join-bootstrap API and temporary player sessions
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-017, TASK-020, TASK-028
+- Description: Validate join requests, enforce game-scoped name uniqueness, issue a temporary player session token, and return the data required for safe websocket connection.
+
 ### TASK-016
 
 - Name: Build the home page and create-game route flow

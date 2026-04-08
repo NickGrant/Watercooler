@@ -25,6 +25,14 @@ final class JsonResponse extends Response
     /**
      * @param array<string, mixed> $data
      */
+    public static function badRequest(array $data): self
+    {
+        return new self(400, $data);
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function accepted(array $data): self
     {
         return new self(202, $data);
@@ -33,9 +41,33 @@ final class JsonResponse extends Response
     /**
      * @param array<string, mixed> $data
      */
+    public static function unauthorized(array $data): self
+    {
+        return new self(401, $data);
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function conflict(array $data): self
+    {
+        return new self(409, $data);
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function notFound(array $data): self
     {
         return new self(404, $data);
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function unprocessable(array $data): self
+    {
+        return new self(422, $data);
     }
 
     /**

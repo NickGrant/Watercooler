@@ -10,7 +10,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement realtime room join and lobby presence sync
 - Priority: High
-- Blocked By: TASK-017, TASK-019
+- Blocked By: TASK-017
 - Blocks: TASK-018, TASK-021, TASK-028
 - Description: Connect accepted players to a room by slug, synchronize lobby presence, and support disconnect and reconnect behavior before gameplay starts.
 
@@ -74,7 +74,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement reconnect and resync flow
 - Priority: Medium
-- Blocked By: TASK-019, TASK-020
+- Blocked By: TASK-020
 - Blocks: TASK-033
 - Description: Allow a player with a valid temporary session to re-enter an in-progress or lobby game without a full account system.
 

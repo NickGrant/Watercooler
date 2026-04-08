@@ -7,6 +7,7 @@ namespace Watercooler\Api;
 use Watercooler\Api\Config\AppConfig;
 use Watercooler\Api\Config\Env;
 use Watercooler\Api\Database\PdoGameRepository;
+use Watercooler\Api\Database\PdoJoinBootstrapRepository;
 use Watercooler\Api\Games\CreateGameService;
 use Watercooler\Api\Games\OfficeSlugGenerator;
 use Watercooler\Api\Http\Handlers\CreateGameAction;
@@ -19,6 +20,9 @@ use Watercooler\Api\Http\Request;
 use Watercooler\Api\Http\Response;
 use Watercooler\Api\Http\Router;
 use Watercooler\Api\Http\Routing\RouteMatch;
+use Watercooler\Api\Players\AvatarCatalog;
+use Watercooler\Api\Players\JoinBootstrapService;
+use Watercooler\Api\Players\SecureSessionTokenGenerator;
 
 final class Application
 {
@@ -34,12 +38,18 @@ final class Application
         $config = AppConfig::fromEnv(new Env());
         $router = new Router();
         $gameRepository = new PdoGameRepository($config->database);
+        $joinBootstrapRepository = new PdoJoinBootstrapRepository($config->database);
         $createGameService = new CreateGameService($gameRepository, new OfficeSlugGenerator());
+        $joinBootstrapService = new JoinBootstrapService(
+            $joinBootstrapRepository,
+            new AvatarCatalog(),
+            new SecureSessionTokenGenerator(),
+        );
 
         $healthCheckAction = new HealthCheckAction($config);
         $createGameAction = new CreateGameAction($createGameService);
         $getGameAction = new GetGameAction($gameRepository);
-        $joinBootstrapAction = new JoinBootstrapAction();
+        $joinBootstrapAction = new JoinBootstrapAction($joinBootstrapService);
         $gameStateAction = new GameStateAction();
 
         $router->get('/health', static fn(Request $request, RouteMatch $match): Response => $healthCheckAction($request, $match));

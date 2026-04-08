@@ -13,6 +13,8 @@ The repository currently contains:
 - the original project brief in `resources/INITIAL_PROMPT.md`
 - human-facing project documentation in `README.md`
 - feature and architecture planning docs in `resources/planning/`
+- repo operating files for agent context, tasks, and transcription in `agent/`
+- shared agent workflow guidance plus system-specific adapters for transcript maintenance
 
 The repository does not yet contain:
 
@@ -35,15 +37,19 @@ When working in this repository, optimize for:
 
 Use the documentation in this order when making future decisions:
 
-1. `resources/planning/gameplay-rules.md`
-2. `resources/planning/architecture.md`
-3. `resources/planning/backend-api.md`
-4. `resources/planning/realtime.md`
-5. `resources/planning/frontend.md`
-6. `resources/planning/data-model.md`
-7. `resources/planning/content-and-theme.md`
-8. `README.md`
-9. `resources/INITIAL_PROMPT.md`
+1. `agent/LLM_CONTEXT.md`
+2. `agent/AGENT_WORKFLOW.md`
+3. `agent/TASKS.md`
+4. `resources/planning/FEATURES.md`
+5. `resources/planning/gameplay-rules.md`
+6. `resources/planning/architecture.md`
+7. `resources/planning/backend-api.md`
+8. `resources/planning/realtime.md`
+9. `resources/planning/frontend.md`
+10. `resources/planning/data-model.md`
+11. `resources/planning/content-and-theme.md`
+12. `README.md`
+13. `resources/INITIAL_PROMPT.md`
 
 If these sources conflict, prefer the more focused planning document over the broader brief and note the discrepancy in your changes.
 
@@ -54,10 +60,28 @@ If these sources conflict, prefer the more focused planning document over the br
 - Do not connect clients to WebSockets before the join flow succeeds.
 - Keep rules logic, theme content, persistence, and transport layers separated.
 - Keep docs updated when implementation decisions materially change the plan.
+- Update `agent/TRANSCRIPTION.md` before creating a commit.
+- Keep `agent/TASKS.md` small by moving future work to `agent/TASK_BACKLOG.md` and completed work to `agent/TASK_ARCHIVE.md`.
+
+## File Placement
+
+- Keep only `AGENTS.md` and `README.md` at the repository root unless there is a strong system-integration reason not to.
+- Put application-related documentation under `resources/`.
+- Put application planning breakdowns under `resources/planning/`.
+- Put agent-facing operating material under `agent/`.
+- Keep system-specific integration files only where the tool requires them, such as `.github/` or `.codex/`.
+- When adding a new document, choose the narrowest location that matches its audience and purpose.
 
 ## Documentation Map
 
 - `README.md`: human overview and repo orientation
+- `agent/LLM_CONTEXT.md`: default context-loading guidance
+- `agent/AGENT_WORKFLOW.md`: shared workflow expectations across agent systems
+- `agent/TASKS.md`: active task working set
+- `agent/TASK_BACKLOG.md`: longer outstanding task list
+- `agent/TASK_ARCHIVE.md`: completed task history
+- `resources/planning/FEATURES.md`: feature-to-task map
+- `agent/TRANSCRIPTION.md`: user and assistant conversation record
 - `resources/planning/index.md`: planning entry point
 - `resources/planning/architecture.md`: system boundaries and responsibilities
 - `resources/planning/gameplay-rules.md`: rules fidelity and terminology mapping
@@ -68,6 +92,9 @@ If these sources conflict, prefer the more focused planning document over the br
 - `resources/planning/lobby-and-sessions.md`: join flow, lobby behavior, reconnect rules
 - `resources/planning/content-and-theme.md`: copy, visual tone, naming, and avatar direction
 - `resources/planning/roadmap.md`: phased delivery plan
+- `.github/copilot-instructions.md`: Copilot-specific adapter for shared workflow
+- `.github/copilot/skills/transcription-sync/`: Copilot-side transcription skill
+- `.codex/skills/transcription-sync/`: Codex-side transcription skill
 
 ## Implementation Expectations
 

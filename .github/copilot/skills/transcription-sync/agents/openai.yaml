@@ -1,0 +1,4 @@
+interface:
+  display_name: "Transcription Sync"
+  short_description: "Update the repo transcript before commits or context resets"
+  default_prompt: "Update agent/TRANSCRIPTION.md with the latest user and assistant messages using the repo transcript format."

@@ -24,8 +24,13 @@ Core product goals:
 ## Repository Structure
 
 - `AGENTS.md`: guidance for coding agents working in this repo
+- `agent/`: agent-facing workflow, context, tasks, and transcript files
+- `resources/`: application-facing planning and documentation files
 - `resources/INITIAL_PROMPT.md`: original project brief
 - `resources/planning/`: split planning docs for targeted context
+- `.github/copilot-instructions.md`: thin Copilot-specific adapter to the shared workflow
+- `.github/copilot/skills/transcription-sync/`: Copilot-side skill for transcript updates
+- `.codex/skills/transcription-sync/`: Codex-side skill for transcript updates
 
 ## Planning Docs
 
@@ -52,7 +57,19 @@ Immediate non-code goals completed here:
 - create a human-readable project overview
 - create an agent-readable operating guide
 - split the initial prompt into focused planning docs
+- add repo operating files for context, tasks, features, and transcript maintenance
 - initialize version control for the project
+
+## Repo Workflow
+
+This repository uses a lightweight operating layer so humans and agents can collaborate without loading the entire project every time.
+
+- `agent/AGENT_WORKFLOW.md` defines the shared workflow that should stay system-agnostic where possible.
+- `agent/LLM_CONTEXT.md` defines what should always stay in context, what should be loaded only when needed, and what should be avoided.
+- `agent/TASKS.md`, `agent/TASK_BACKLOG.md`, and `agent/TASK_ARCHIVE.md` keep task tracking split into active, future, and completed work.
+- `resources/planning/FEATURES.md` maps larger product areas to the tasks that implement them.
+- `agent/TRANSCRIPTION.md` stores the user-assistant project conversation.
+- System-specific adapters live alongside the shared workflow where needed, including Copilot and Codex versions of the `transcription-sync` skill.
 
 ## Next Phase
 

@@ -6,6 +6,9 @@ namespace Watercooler\Api;
 
 use Watercooler\Api\Config\AppConfig;
 use Watercooler\Api\Config\Env;
+use Watercooler\Api\Database\PdoGameRepository;
+use Watercooler\Api\Games\CreateGameService;
+use Watercooler\Api\Games\OfficeSlugGenerator;
 use Watercooler\Api\Http\Handlers\CreateGameAction;
 use Watercooler\Api\Http\Handlers\GameStateAction;
 use Watercooler\Api\Http\Handlers\GetGameAction;
@@ -30,10 +33,12 @@ final class Application
     {
         $config = AppConfig::fromEnv(new Env());
         $router = new Router();
+        $gameRepository = new PdoGameRepository($config->database);
+        $createGameService = new CreateGameService($gameRepository, new OfficeSlugGenerator());
 
         $healthCheckAction = new HealthCheckAction($config);
-        $createGameAction = new CreateGameAction();
-        $getGameAction = new GetGameAction();
+        $createGameAction = new CreateGameAction($createGameService);
+        $getGameAction = new GetGameAction($gameRepository);
         $joinBootstrapAction = new JoinBootstrapAction();
         $gameStateAction = new GameStateAction();
 
@@ -48,16 +53,25 @@ final class Application
 
     public function handle(): Response
     {
-        $request = Request::fromGlobals();
-        $match = $this->router->match($request);
+        try {
+            $request = Request::fromGlobals();
+            $match = $this->router->match($request);
 
-        if ($match === null) {
-            return JsonResponse::notFound([
-                'error' => 'route_not_found',
-                'message' => 'No API route matched this request.',
+            if ($match === null) {
+                return JsonResponse::notFound([
+                    'error' => 'route_not_found',
+                    'message' => 'No API route matched this request.',
+                ]);
+            }
+
+            return ($match->handler)($request, $match);
+        } catch (\Throwable $exception) {
+            return JsonResponse::serverError([
+                'error' => 'internal_server_error',
+                'message' => $this->config->debug
+                    ? $exception->getMessage()
+                    : 'The API could not process this request.',
             ]);
         }
-
-        return ($match->handler)($request, $match);
     }
 }

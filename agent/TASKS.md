@@ -6,19 +6,11 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-015
-
-- Name: Implement game creation and slug generation API flow
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-016, TASK-019
-- Description: Build the API behavior for creating a new game, generating a unique themed slug, and returning the initial redirect target.
-
 ### TASK-016
 
 - Name: Build the home page and create-game route flow
 - Priority: Medium
-- Blocked By: TASK-015
+- Blocked By: None
 - Blocks: TASK-017
 - Description: Implement the first frontend user path from landing page to a newly created game URL, preserving the Watercooler tone without starting gameplay work yet.
 

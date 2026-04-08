@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-015
+
+- Name: Implement game creation and slug generation API flow
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-016, TASK-019
+- Description: Build the API behavior for creating a new game, generating a unique themed slug, and returning the initial redirect target.
+
 ### TASK-037
 
 - Name: Enforce unit-test expectations and add baseline coverage

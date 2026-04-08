@@ -17,6 +17,14 @@ final class JsonResponse extends Response
     /**
      * @param array<string, mixed> $data
      */
+    public static function created(array $data): self
+    {
+        return new self(201, $data);
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
     public static function accepted(array $data): self
     {
         return new self(202, $data);
@@ -36,6 +44,14 @@ final class JsonResponse extends Response
     public static function notImplemented(array $data): self
     {
         return new self(501, $data);
+    }
+
+    /**
+     * @param array<string, mixed> $data
+     */
+    public static function serverError(array $data): self
+    {
+        return new self(500, $data);
     }
 
     /**

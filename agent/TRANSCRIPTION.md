@@ -135,7 +135,11 @@ There is a quality issue we need to address now, we need to make sure that we ar
 Assistant:
 I updated `AGENTS.md` to require unit tests on new code, added Angular and PHPUnit coverage across the existing frontend, API, and realtime scaffolds, verified those suites locally, and documented the test commands in the setup guide.
 
+#### Entry 015
+Assistant:
+I implemented the API game-creation and slug-generation flow in `backend/api/`, added tested create and lookup handlers backed by a lazy PDO repository, verified the PHPUnit suite, and validated the live `POST /api/games` and `GET /api/games/{slug}` flow against a disposable MariaDB database.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 014.
+- Last updated through Session 001, Entry 015.
 - The next transcription update should append new user and assistant messages after this point.

@@ -59,7 +59,9 @@ composer serve
 The API scaffold currently exposes:
 
 - `GET /health`
-- planned game endpoints returning scaffold responses
+- `POST /api/games`
+- `GET /api/games/{slug}`
+- planned join and state endpoints returning scaffold responses
 
 ### Realtime
 

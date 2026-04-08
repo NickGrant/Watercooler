@@ -93,6 +93,7 @@ If these sources conflict, prefer the more focused planning document over the br
 - `resources/planning/lobby-and-sessions.md`: join flow, lobby behavior, reconnect rules
 - `resources/planning/content-and-theme.md`: copy, visual tone, naming, and avatar direction
 - `resources/planning/roadmap.md`: phased delivery plan
+- `resources/setup/local-development.md`: current local setup and validation commands
 - `docker-compose.yml`: local multi-service bootstrap for frontend, API, realtime, and database
 - `.github/copilot-instructions.md`: Copilot-specific adapter for shared workflow
 - `.github/copilot/skills/transcription-sync/`: Copilot-side transcription skill

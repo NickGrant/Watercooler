@@ -124,7 +124,11 @@ I designed the initial MySQL migration layer in `database/`, documented the chos
 Assistant:
 I added Dockerfiles for the frontend, API, and realtime services plus a root `docker-compose.yml`, then validated the container bootstrap with `docker compose config` and successful image builds to complete `TASK-036`.
 
+#### Entry 013
+Assistant:
+I documented the direct CLI setup, Docker workflow, environment examples, and validation commands in `resources/setup/local-development.md` to complete `TASK-035` and close the platform bootstrapping feature.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 012.
+- Last updated through Session 001, Entry 013.
 - The next transcription update should append new user and assistant messages after this point.

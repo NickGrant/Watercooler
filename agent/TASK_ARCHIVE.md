@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-035
+
+- Name: Add developer setup, environment examples, and test commands
+- Priority: Medium
+- Blocked By: TASK-036
+- Blocks: None
+- Description: Document local setup, configuration, and repeatable developer commands once the first runnable scaffolding and Docker bootstrap exist.
+
 ### TASK-036
 
 - Name: Generate Docker-based local development bootstrap

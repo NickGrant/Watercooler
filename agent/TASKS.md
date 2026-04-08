@@ -38,14 +38,6 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocks: TASK-021
 - Description: Build the waiting-room experience showing joined players, avatars, host status, and start-game controls once minimum player rules are met.
 
-### TASK-035
-
-- Name: Add developer setup, environment examples, and test commands
-- Priority: Medium
-- Blocked By: None
-- Blocks: None
-- Description: Document local setup, configuration, and repeatable developer commands once the first runnable scaffolding and Docker bootstrap exist.
-
 ## Task Management Rules
 
 - Keep this file limited to the current working set.

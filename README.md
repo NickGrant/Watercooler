@@ -28,6 +28,7 @@ Core product goals:
 - `resources/`: application-facing planning and documentation files
 - `resources/INITIAL_PROMPT.md`: original project brief
 - `resources/planning/`: split planning docs for targeted context
+- `resources/setup/local-development.md`: local setup, env, and validation commands
 - `docker-compose.yml`: local container orchestration for the scaffolded stack
 - `.github/copilot-instructions.md`: thin Copilot-specific adapter to the shared workflow
 - `.github/copilot/skills/transcription-sync/`: Copilot-side skill for transcript updates
@@ -72,6 +73,7 @@ This repository uses a lightweight operating layer so humans and agents can coll
 - `agent/TRANSCRIPTION.md` stores the user-assistant project conversation.
 - System-specific adapters live alongside the shared workflow where needed, including Copilot and Codex versions of the `transcription-sync` skill.
 - `docker-compose.yml` and the service Dockerfiles provide a consistent local environment for the current scaffolds.
+- `resources/setup/local-development.md` is the main setup reference for running the scaffold today.
 
 ## Next Phase
 

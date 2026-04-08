@@ -11,7 +11,7 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Name: Repo Operations And Collaboration Workflow
 - Priority: High
 - Description: Keep the repository easy for humans and agents to navigate through context rules, task tracking, and conversation transcription.
-- Tasks: TASK-001, TASK-002, TASK-003, TASK-004
+- Tasks: TASK-001, TASK-002, TASK-003, TASK-004, TASK-037
 
 ### FEATURE-002
 

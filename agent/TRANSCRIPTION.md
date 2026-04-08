@@ -128,7 +128,14 @@ I added Dockerfiles for the frontend, API, and realtime services plus a root `do
 Assistant:
 I documented the direct CLI setup, Docker workflow, environment examples, and validation commands in `resources/setup/local-development.md` to complete `TASK-035` and close the platform bootstrapping feature.
 
+#### Entry 014
+User:
+There is a quality issue we need to address now, we need to make sure that we are writing unit tests for all the code we write. Update [AGENTS.md](AGENTS.md) to reflect this and also write tests for the code we have already written. Once that is done, you can commit it and move forward with the next feature
+
+Assistant:
+I updated `AGENTS.md` to require unit tests on new code, added Angular and PHPUnit coverage across the existing frontend, API, and realtime scaffolds, verified those suites locally, and documented the test commands in the setup guide.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 013.
+- Last updated through Session 001, Entry 014.
 - The next transcription update should append new user and assistant messages after this point.

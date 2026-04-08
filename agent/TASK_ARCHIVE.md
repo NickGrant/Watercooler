@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-037
+
+- Name: Enforce unit-test expectations and add baseline coverage
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Update `AGENTS.md` to require unit tests for new code and add baseline automated tests for the existing frontend, API, and realtime scaffolds.
+
 ### TASK-035
 
 - Name: Add developer setup, environment examples, and test commands

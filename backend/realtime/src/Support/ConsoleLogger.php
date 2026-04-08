@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Watercooler\Realtime\Support;
 
-final class ConsoleLogger
+final class ConsoleLogger implements Logger
 {
     public function __construct(
         private readonly bool $debugEnabled,

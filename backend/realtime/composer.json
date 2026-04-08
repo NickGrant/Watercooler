@@ -5,9 +5,17 @@
   "require": {
     "php": "^8.2"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^11.5"
+  },
   "autoload": {
     "psr-4": {
       "Watercooler\\Realtime\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Watercooler\\Realtime\\Tests\\": "tests/"
     }
   },
   "scripts": {
@@ -15,6 +23,7 @@
     "lint": [
       "@php -r \"foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator('src')) as $file) { if ($file->getExtension() === 'php') { passthru('php -l ' . escapeshellarg($file->getPathname()), $code); if ($code !== 0) { exit($code); } } }\"",
       "@php -l bin/server.php"
-    ]
+    ],
+    "test": "phpunit"
   }
 }

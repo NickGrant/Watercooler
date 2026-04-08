@@ -63,6 +63,8 @@ If these sources conflict, prefer the more focused planning document over the br
 - Keep docs updated when implementation decisions materially change the plan.
 - Update `agent/TRANSCRIPTION.md` before creating a commit.
 - Keep `agent/TASKS.md` small by moving future work to `agent/TASK_BACKLOG.md` and completed work to `agent/TASK_ARCHIVE.md`.
+- Treat unit tests as required for all new code and behavior changes unless there is a documented technical reason they cannot be added yet.
+- When adding or changing code, update or add tests in the same task rather than deferring them.
 
 ## File Placement
 
@@ -113,6 +115,6 @@ When code work begins:
 A future implementation task should generally include:
 
 - code changes
-- any needed test coverage
+- unit test coverage for the changed behavior, or a documented reason it could not be added yet
 - documentation updates if behavior or architecture changed
 - a short note describing assumptions and follow-up work

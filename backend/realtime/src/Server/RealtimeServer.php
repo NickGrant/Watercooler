@@ -7,13 +7,13 @@ namespace Watercooler\Realtime\Server;
 use Watercooler\Realtime\Config\AppConfig;
 use Watercooler\Realtime\Rooms\ActiveRoomRegistry;
 use Watercooler\Realtime\Sessions\ClientSession;
-use Watercooler\Realtime\Support\ConsoleLogger;
+use Watercooler\Realtime\Support\Logger;
 
 final class RealtimeServer
 {
     public function __construct(
         private readonly AppConfig $config,
-        private readonly ConsoleLogger $logger,
+        private readonly Logger $logger,
         private readonly ActiveRoomRegistry $roomRegistry,
     ) {
     }

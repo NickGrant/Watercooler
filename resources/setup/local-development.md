@@ -41,6 +41,7 @@ Run from `frontend/`:
 ```powershell
 npm.cmd install
 npm.cmd run build
+npm.cmd test -- --watch=false --browsers=ChromeHeadless
 npm.cmd run start -- --host 0.0.0.0 --port 4200
 ```
 
@@ -51,6 +52,7 @@ Run from `backend/api/`:
 ```powershell
 composer install
 composer lint
+composer test
 composer serve
 ```
 
@@ -66,6 +68,7 @@ Run from `backend/realtime/`:
 ```powershell
 composer install
 composer lint
+composer test
 php bin/server.php --once
 php bin/server.php
 ```
@@ -119,9 +122,12 @@ The database container initializes the current schema automatically from:
 These checks were completed during bootstrapping:
 
 - Angular production build succeeded
+- Angular unit tests succeeded
 - API Composer autoload and lint succeeded
+- API PHPUnit suite succeeded
 - API `/health` responded successfully through PHP's built-in server
 - realtime Composer autoload and lint succeeded
+- realtime PHPUnit suite succeeded
 - realtime `php bin/server.php --once` succeeded
 - initial schema executed successfully against a disposable local MariaDB database
 - `docker compose config` succeeded

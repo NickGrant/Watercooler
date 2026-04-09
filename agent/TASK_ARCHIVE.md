@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-034
+
+- Name: Seed starter Workplace Advantages and Executives content
+- Priority: Medium
+- Blocked By: None
+- Blocks: TASK-031
+- Description: Create the initial themed content set for cards, executives, labels, and system copy.
+
 ### TASK-028
 
 - Name: Implement reconnect and resync flow

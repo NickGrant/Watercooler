@@ -11,16 +11,8 @@ This file keeps the active working set small enough to remain in normal agent co
 - Name: Capture and triage active UAT findings
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-039, TASK-041, TASK-042, TASK-043, TASK-044, TASK-046
+- Blocks: TASK-039, TASK-042, TASK-043, TASK-044, TASK-046
 - Description: Record incoming UAT issues, confirm expected behavior, reproduce defects, and turn validated findings into implementation tasks.
-
-### TASK-041
-
-- Name: Widen landing page h1 treatment
-- Priority: Medium
-- Blocked By: TASK-038
-- Blocks: None
-- Description: Adjust the landing page heading layout so the primary h1 has more horizontal room and reads cleanly during UAT review.
 
 ### TASK-042
 

@@ -630,3 +630,7 @@ I verified the create-game fix end to end by restarting the frontend container, 
 #### Entry 095
 Assistant:
 I moved to `TASK-040`, removed the extra status-grid section from the landing page, tightened the home-page stylesheet, added a focused unit test asserting that the status grid no longer renders, and reran the frontend test suite and production build successfully.
+
+#### Entry 096
+Assistant:
+I completed `TASK-041` as a style-only landing-page polish change by widening the hero `h1` measure so the headline has more horizontal room, then validated it with a production frontend build; I did not add unit tests for that task because the change was purely typographic styling.

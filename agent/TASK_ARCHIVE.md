@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-041
+
+- Name: Widen landing page h1 treatment
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Adjust the landing page heading layout so the primary h1 has more horizontal room and reads cleanly during UAT review.
+
 ### TASK-040
 
 - Name: Remove home page status-grid section

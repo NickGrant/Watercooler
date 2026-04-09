@@ -25,6 +25,12 @@ import { GamesApiService } from '../../core/services/games-api.service';
 import { GameSessionService } from '../../core/services/game-session.service';
 import { StartedGameResponse } from '../../core/models/started-game-response.model';
 
+interface ActionRecoveryPayload {
+  shouldResync?: boolean;
+  game?: GameSummary;
+  state?: ActiveGameState;
+}
+
 @Component({
   selector: 'app-game-page',
   imports: [
@@ -104,7 +110,11 @@ export class GamePageComponent {
 
     const sessionToken = this.session.sessionToken();
     if (sessionToken !== null) {
-      this.syncGameState(sessionToken);
+      this.refreshGameState(sessionToken, {
+        target: 'startup',
+        successMessage: 'Recovered synchronized game state from the authenticated state endpoint.',
+        failureMessage: 'We could not refresh the board from the authenticated state endpoint.'
+      });
     }
   }
 
@@ -156,7 +166,14 @@ export class GamePageComponent {
     });
   }
 
-  private syncGameState(sessionToken: string): void {
+  private refreshGameState(
+    sessionToken: string,
+    options: {
+      target: 'startup' | 'action';
+      successMessage: string;
+      failureMessage: string;
+    }
+  ): void {
     const slug = this.session.slug();
 
     if (slug === null) {
@@ -166,11 +183,33 @@ export class GamePageComponent {
     this.gamesApi.getGameState(slug, sessionToken).subscribe({
       next: (result) => {
         this.applyGameStateResult(result);
+        this.selectedTakeResources.set([]);
+
+        if (options.target === 'startup') {
+          this.startMessage.set(options.successMessage);
+        } else {
+          this.actionError.set(null);
+          this.actionMessage.set(options.successMessage);
+        }
       },
       error: (error: unknown) => {
         if (this.getStatus(error) === 401) {
           this.session.clearStoredSessionToken(slug);
-          this.joinError.set('Your temporary access badge expired. Please identify yourself again.');
+          if (options.target === 'startup') {
+            this.joinError.set('Your temporary access badge expired. Please identify yourself again.');
+          } else {
+            this.actionError.set('Your temporary access badge expired. Please identify yourself again.');
+            this.joinError.set('Your temporary access badge expired. Please identify yourself again.');
+            this.actionMessage.set(null);
+          }
+          return;
+        }
+
+        if (options.target === 'startup') {
+          this.joinError.set(options.failureMessage);
+        } else {
+          this.actionError.set(options.failureMessage);
+          this.actionMessage.set(null);
         }
       }
     });
@@ -192,12 +231,6 @@ export class GamePageComponent {
     this.session.applyGameState(result);
     this.game.set(result.game);
     this.joinError.set(null);
-
-    if (result.state !== undefined) {
-      this.startMessage.set('Recovered synchronized game state from the authenticated state endpoint.');
-    } else {
-      this.startMessage.set(null);
-    }
   }
 
   private performJoin(payload: { displayName: string; avatar: AvatarDraft } | { sessionToken: string }): void {
@@ -405,9 +438,58 @@ export class GamePageComponent {
       },
       error: (error: unknown) => {
         this.actionPending.set(false);
+        const recovery = this.extractActionRecovery(error);
+
+        if (recovery !== null) {
+          this.applyActionRecovery(recovery);
+          return;
+        }
+
+        const status = this.getStatus(error);
+        const sessionToken = this.session.sessionToken();
+
+        if (status === 401) {
+          const slug = this.session.slug();
+
+          if (slug !== null) {
+            this.session.clearStoredSessionToken(slug);
+          }
+
+          this.actionError.set('Your temporary access badge expired. Please identify yourself again.');
+          this.actionMessage.set(null);
+          return;
+        }
+
+        if (sessionToken !== null && [0, 409, 412, 423].includes(status)) {
+          this.actionMessage.set(
+            'The board may have drifted. Refreshing the latest server state now...'
+          );
+          this.refreshGameState(sessionToken, {
+            target: 'action',
+            successMessage: 'Recovered synchronized game state after a stale action.',
+            failureMessage: 'The board could not be refreshed after that action.'
+          });
+          return;
+        }
+
         this.actionError.set(this.getActionErrorMessage(error));
       }
     });
+  }
+
+  private applyActionRecovery(recovery: ActionRecoveryPayload): void {
+    if (recovery.state !== undefined) {
+      this.startedGame.set(recovery.state);
+      this.session.applyStartedGameState(recovery.state);
+    }
+
+    if (recovery.game !== undefined) {
+      this.game.set(recovery.game);
+    }
+
+    this.selectedTakeResources.set([]);
+    this.actionMessage.set('The server reported a newer board state and the UI was resynced.');
+    this.actionError.set(null);
   }
 
   private getErrorMessage(error: unknown): string {
@@ -452,20 +534,64 @@ export class GamePageComponent {
 
   private getActionErrorMessage(error: unknown): string {
     const apiMessage = this.getApiMessage(error);
+    const status = this.getStatus(error);
 
     if (typeof apiMessage === 'string') {
       return apiMessage;
     }
 
+    if (status === 401) {
+      return 'Your temporary access badge expired. Please identify yourself again.';
+    }
+
+    if (status === 409) {
+      return 'That action is stale. The board needs to resync before you can try again.';
+    }
+
+    if (status === 0) {
+      return 'The office action could not complete because the network connection dropped.';
+    }
+
     return 'The office action could not be completed. Please resync and try again.';
   }
 
+  private extractActionRecovery(error: unknown): ActionRecoveryPayload | null {
+    const payload = this.getErrorPayload(error);
+    const recovery = payload !== null && typeof payload === 'object' && 'recovery' in payload
+      ? (payload.recovery as ActionRecoveryPayload | null)
+      : null;
+
+    if (recovery === null) {
+      return null;
+    }
+
+    if (recovery.state === undefined && recovery.game === undefined) {
+      return null;
+    }
+
+    return recovery;
+  }
+
   private getApiMessage(error: unknown): string | null {
-    return error instanceof HttpErrorResponse
-      ? (typeof error.error?.message === 'string' ? error.error.message : null)
-      : typeof error === 'object' && error !== null && 'error' in error
-        ? (error.error as { message?: unknown }).message as string | null
-        : null;
+    const payload = this.getErrorPayload(error);
+
+    return payload !== null && typeof payload.message === 'string' ? payload.message : null;
+  }
+
+  private getErrorPayload(error: unknown): {
+    message?: unknown;
+    recovery?: unknown;
+  } | null {
+    if (error instanceof HttpErrorResponse) {
+      return typeof error.error === 'object' && error.error !== null ? error.error : null;
+    }
+
+    if (typeof error === 'object' && error !== null && 'error' in error) {
+      const payload = (error as { error?: unknown }).error;
+      return typeof payload === 'object' && payload !== null ? (payload as { message?: unknown; recovery?: unknown }) : null;
+    }
+
+    return null;
   }
 
   private getStatus(error: unknown): number {

@@ -511,6 +511,123 @@ describe('GamePageComponent', () => {
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
   });
 
+  it('uses the embedded recovery payload when an action returns a stale conflict', () => {
+    gamesApi.takeResources.and.returnValue(
+      throwError(() => ({
+        status: 409,
+        error: {
+          message: 'Only the active player may take resources right now.',
+          recovery: {
+            shouldResync: true,
+            game: {
+              id: 1,
+              slug: 'synergy-report-telemetry',
+              status: 'active',
+              phase: 'active',
+              playerCount: 2,
+              createdAt: '2026-04-08 00:00:00',
+              path: '/game/synergy-report-telemetry'
+            },
+            state: createActiveState({
+              currentTurnGamePlayerId: 2
+            })
+          }
+        }
+      }))
+    );
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.componentInstance.toggleTakeResource('coffee');
+    fixture.componentInstance.toggleTakeResource('budget');
+    fixture.componentInstance.toggleTakeResource('time');
+    fixture.componentInstance.submitTakeResources();
+
+    expect(gamesApi.getGameState.calls.count()).toBe(1);
+    expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
+    expect(fixture.componentInstance.actionMessage()).toContain('resynced');
+    expect(fixture.componentInstance.actionError()).toBeNull();
+  });
+
+  it('refreshes the board from /state after a stale or network action failure', () => {
+    gamesApi.takeResources.and.returnValue(throwError(() => ({ status: 0 })));
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    const refreshedState = createActiveState({
+      currentTurnGamePlayerId: 2,
+      bank: {
+        coffee: 3,
+        spreadsheets: 4,
+        budget: 3,
+        connections: 4,
+        time: 3,
+        executiveFavor: 5
+      }
+    });
+    gamesApi.getGameState.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'active',
+          phase: 'active',
+          playerCount: 2,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        player: {
+          gamePlayerId: 1,
+          playerId: 1,
+          displayName: 'Pam',
+          isHost: true,
+          joinStatus: 'connected',
+          avatar: DEFAULT_AVATAR_DRAFT
+        },
+        session: {
+          token: 'temporary-session-token',
+          reconnectEnabled: true
+        },
+        realtime: {
+          transport: 'websocket',
+          roomSlug: 'synergy-report-telemetry',
+          sessionToken: 'temporary-session-token'
+        },
+        state: refreshedState
+      })
+    );
+    fixture.componentInstance.toggleTakeResource('coffee');
+    fixture.componentInstance.toggleTakeResource('budget');
+    fixture.componentInstance.toggleTakeResource('time');
+    fixture.componentInstance.submitTakeResources();
+
+    expect(gamesApi.getGameState.calls.count()).toBe(2);
+    expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
+    expect(fixture.componentInstance.actionMessage()).toContain('Recovered synchronized game state');
+    expect(fixture.componentInstance.actionError()).toBeNull();
+  });
+
+  it('marks the session stale when an action refresh also returns 401', () => {
+    gamesApi.takeResources.and.returnValue(throwError(() => ({ status: 401 })));
+    gamesApi.getGameState.and.returnValue(throwError(() => ({ status: 401 })));
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.componentInstance.updatePlayerName('Pam');
+    fixture.componentInstance.submitJoin();
+    fixture.componentInstance.requestStartGame();
+
+    fixture.componentInstance.toggleTakeResource('coffee');
+    fixture.componentInstance.toggleTakeResource('budget');
+    fixture.componentInstance.toggleTakeResource('time');
+    fixture.componentInstance.submitTakeResources();
+
+    expect(fixture.componentInstance.session.sessionToken()).toBeNull();
+    expect(fixture.componentInstance.actionError()).toBe(
+      'Your temporary access badge expired. Please identify yourself again.'
+    );
+    expect(localStorage.getItem('watercooler.session.synergy-report-telemetry')).toBeNull();
+  });
+
   it('claims a market card through the active game API', () => {
     localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
 

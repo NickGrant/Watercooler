@@ -34,7 +34,7 @@ This file maps major product and repo-operating features to the tasks that deliv
 
 - Name: Lobby And Session Management
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Support player presence, host controls, start-game readiness, and lightweight reconnect behavior without full accounts.
 - Tasks: TASK-018, TASK-020, TASK-021, TASK-028, TASK-033
 
@@ -66,6 +66,6 @@ This file maps major product and repo-operating features to the tasks that deliv
 
 - Name: Persistence And Recovery
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Persist enough state to support active gameplay, reconnects, and post-game reconstruction.
 - Tasks: TASK-014, TASK-019, TASK-020, TASK-021, TASK-028, TASK-033

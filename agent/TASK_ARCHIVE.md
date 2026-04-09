@@ -29,6 +29,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 - Blocks: TASK-033
 - Description: Allow a player with a valid temporary session to re-enter an in-progress or lobby game without a full account system.
 
+### TASK-033
+
+- Name: Add disconnect, stale-action, and recovery handling
+- Priority: Medium
+- Blocked By: TASK-028
+- Blocks: None
+- Description: Handle socket failures, stale client actions, and recovery messaging gracefully across lobby and game states.
+
 ### TASK-030
 
 - Name: Add core game rules automated tests

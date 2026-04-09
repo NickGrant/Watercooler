@@ -6,13 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-030
-
-- Name: Add core game rules automated tests
-- Priority: High
-- Blocked By: None
-- Blocks: None
-- Description: Cover legal and illegal move validation, executive logic, and endgame behavior at the rules layer.
+Feature 5 is complete. No active task is currently loaded while the repo pauses for user verification before work begins on the next feature.
 
 ## Task Management Rules
 

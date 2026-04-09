@@ -30,14 +30,6 @@ This file tracks outstanding work that matters to the project but does not need 
 - Blocks: None
 - Description: Show the winner, final standings, and tie-break explanation with options to leave or start a new session.
 
-### TASK-030
-
-- Name: Add core game rules automated tests
-- Priority: High
-- Blocked By: None
-- Blocks: None
-- Description: Cover legal and illegal move validation, executive logic, and endgame behavior at the rules layer.
-
 ### TASK-031
 
 - Name: Build in-app rules and help surface

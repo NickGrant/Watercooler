@@ -104,6 +104,33 @@ final class TakeResourcesServiceTest extends TestCase
             'resources' => ['coffee', 'budget', 'time'],
         ]);
     }
+
+    public function testItRejectsThreeResourceSelectionsThatAreNotDistinct(): void
+    {
+        $service = new TakeResourcesService(new InMemoryTakeResourcesRepository());
+
+        $this->expectException(TakeResourcesException::class);
+        $this->expectExceptionMessage('Taking three resources requires three different resource colors.');
+
+        $service->take('synergy-report-telemetry', [
+            'sessionToken' => 'host-token',
+            'resources' => ['coffee', 'coffee', 'budget'],
+        ]);
+    }
+
+    public function testItAllowsResourceTakingDuringTheEndgameRound(): void
+    {
+        $repository = new InMemoryTakeResourcesRepository(gamePhase: 'endgame');
+        $service = new TakeResourcesService($repository);
+
+        $result = $service->take('synergy-report-telemetry', [
+            'sessionToken' => 'host-token',
+            'resources' => ['coffee', 'budget', 'time'],
+        ]);
+
+        self::assertSame(2, $result->state->currentTurnGamePlayerId);
+        self::assertSame('endgame', $result->game->phase);
+    }
 }
 
 final class InMemoryTakeResourcesRepository implements TakeResourcesRepository
@@ -126,9 +153,9 @@ final class InMemoryTakeResourcesRepository implements TakeResourcesRepository
      * @param list<ActiveGamePlayer>|null $players
      * @param array<string, int>|null $bank
      */
-    public function __construct(?array $players = null, ?array $bank = null)
+    public function __construct(?array $players = null, ?array $bank = null, string $gamePhase = 'active')
     {
-        $this->game = new GameSummary(1, 'synergy-report-telemetry', 'active', 'active', 2, '2026-04-08 00:00:00');
+        $this->game = new GameSummary(1, 'synergy-report-telemetry', 'active', $gamePhase, 2, '2026-04-08 00:00:00');
         $this->players = $players ?? [
             new ActiveGamePlayer(1, 'Pam', true, 'connected', 1, 0, new PlayerResourceSet(0, 0, 0, 0, 0, 0)),
             new ActiveGamePlayer(2, 'Jim', false, 'connected', 2, 0, new PlayerResourceSet(0, 0, 0, 0, 0, 0)),

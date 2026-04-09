@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-030
+
+- Name: Add core game rules automated tests
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Cover legal and illegal move validation, executive logic, and endgame behavior at the rules layer.
+
 ### TASK-026
 
 - Name: Implement endgame trigger and winner resolution

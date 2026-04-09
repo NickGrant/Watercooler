@@ -293,7 +293,15 @@ I completed `TASK-026` by introducing a pure endgame resolver for threshold and 
 Assistant:
 I validated the endgame flow with PHPUnit, PHP linting, and a live Docker-backed API scenario that forced a threshold-crossing host purchase, confirmed the game entered `endgame`, let the remaining player take a final turn, and then verified the game completed with the expected winner persisted in MySQL.
 
+#### Entry 044
+Assistant:
+I completed `TASK-030` by expanding the service-level rules matrix for take-resources, claim-project, and purchase flows, adding direct coverage for illegal selections, invalid claim sources, out-of-turn purchase attempts, and the newly supported endgame-round action window.
+
+#### Entry 045
+Assistant:
+I marked `TASK-030` archived, updated `FEATURE-005` to `Complete`, cleared the active task list into a verification pause, and prepared to stop so the completed server-authoritative gameplay feature can be reviewed before work continues into the next feature.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 043.
+- Last updated through Session 001, Entry 045.
 - The next transcription update should append new user and assistant messages after this point.

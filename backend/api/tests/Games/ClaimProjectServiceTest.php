@@ -93,6 +93,36 @@ final class ClaimProjectServiceTest extends TestCase
             'marketSlot' => 1,
         ]);
     }
+
+    public function testItRejectsInvalidClaimSources(): void
+    {
+        $service = new ClaimProjectService(new InMemoryClaimProjectRepository());
+
+        $this->expectException(ClaimProjectException::class);
+        $this->expectExceptionMessage('Claimed projects must come from either the market or the top of a tier deck.');
+
+        $service->claim('synergy-report-telemetry', [
+            'sessionToken' => 'host-token',
+            'source' => 'unknown',
+            'tier' => 1,
+        ]);
+    }
+
+    public function testItAllowsClaimingDuringTheEndgameRound(): void
+    {
+        $repository = new InMemoryClaimProjectRepository(gamePhase: 'endgame');
+        $service = new ClaimProjectService($repository);
+
+        $result = $service->claim('synergy-report-telemetry', [
+            'sessionToken' => 'host-token',
+            'source' => 'market',
+            'tier' => 1,
+            'marketSlot' => 1,
+        ]);
+
+        self::assertSame(2, $result->state->currentTurnGamePlayerId);
+        self::assertSame('endgame', $result->game->phase);
+    }
 }
 
 final class InMemoryClaimProjectRepository implements ClaimProjectRepository
@@ -109,9 +139,9 @@ final class InMemoryClaimProjectRepository implements ClaimProjectRepository
      * @param list<ActiveGamePlayer>|null $players
      * @param array<string, int>|null $bank
      */
-    public function __construct(?array $players = null, ?array $bank = null)
+    public function __construct(?array $players = null, ?array $bank = null, string $gamePhase = 'active')
     {
-        $this->game = new GameSummary(1, 'synergy-report-telemetry', 'active', 'active', 2, '2026-04-08 00:00:00');
+        $this->game = new GameSummary(1, 'synergy-report-telemetry', 'active', $gamePhase, 2, '2026-04-08 00:00:00');
         $this->players = $players ?? [
             new ActiveGamePlayer(1, 'Pam', true, 'connected', 1, 0, new PlayerResourceSet(0, 0, 0, 0, 0, 0)),
             new ActiveGamePlayer(2, 'Jim', false, 'connected', 2, 0, new PlayerResourceSet(0, 0, 0, 0, 0, 0)),

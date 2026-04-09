@@ -42,7 +42,7 @@ This file maps major product and repo-operating features to the tasks that deliv
 
 - Name: Server-Authoritative Gameplay
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Implement Splendor-equivalent rules for actions, purchases, executive awards, prestige, and endgame resolution.
 - Tasks: TASK-022, TASK-023, TASK-024, TASK-025, TASK-026, TASK-030
 

@@ -176,6 +176,37 @@ final class PurchaseAdvantageServiceTest extends TestCase
         self::assertCount(1, $result->state->executives);
         self::assertSame('executive-second', $result->state->executives[0]->code);
     }
+
+    public function testItRejectsPurchasesTakenOutOfTurn(): void
+    {
+        $service = new PurchaseAdvantageService(new InMemoryPurchaseAdvantageRepository());
+
+        $this->expectException(PurchaseAdvantageException::class);
+        $this->expectExceptionMessage('Only the active player may purchase a Workplace Advantage right now.');
+
+        $service->purchase('synergy-report-telemetry', [
+            'sessionToken' => 'guest-token',
+            'source' => 'market',
+            'tier' => 1,
+            'marketSlot' => 1,
+        ]);
+    }
+
+    public function testItAllowsPurchasingDuringTheEndgameRound(): void
+    {
+        $repository = new InMemoryPurchaseAdvantageRepository(gamePhase: 'endgame');
+        $service = new PurchaseAdvantageService($repository);
+
+        $result = $service->purchase('synergy-report-telemetry', [
+            'sessionToken' => 'host-token',
+            'source' => 'market',
+            'tier' => 1,
+            'marketSlot' => 1,
+        ]);
+
+        self::assertSame(1, $result->state->playerById(1)?->officePrestige);
+        self::assertSame('endgame', $result->game->phase);
+    }
 }
 
 final class InMemoryPurchaseAdvantageRepository implements PurchaseAdvantageRepository
@@ -200,9 +231,9 @@ final class InMemoryPurchaseAdvantageRepository implements PurchaseAdvantageRepo
      * @param array<int, list<CardSeedDefinition>>|null $marketCardsByTier
      * @param list<ExecutiveSeedDefinition>|null $executives
      */
-    public function __construct(?array $players = null, ?array $bank = null, ?array $marketCardsByTier = null, ?array $executives = null)
+    public function __construct(?array $players = null, ?array $bank = null, ?array $marketCardsByTier = null, ?array $executives = null, string $gamePhase = 'active')
     {
-        $this->game = new GameSummary(1, 'synergy-report-telemetry', 'active', 'active', 2, '2026-04-08 00:00:00');
+        $this->game = new GameSummary(1, 'synergy-report-telemetry', 'active', $gamePhase, 2, '2026-04-08 00:00:00');
         $this->players = $players ?? [
             new ActiveGamePlayer(
                 1,

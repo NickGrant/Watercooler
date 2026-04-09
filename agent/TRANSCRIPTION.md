@@ -301,7 +301,14 @@ I completed `TASK-030` by expanding the service-level rules matrix for take-reso
 Assistant:
 I marked `TASK-030` archived, updated `FEATURE-005` to `Complete`, cleared the active task list into a verification pause, and prepared to stop so the completed server-authoritative gameplay feature can be reviewed before work continues into the next feature.
 
+#### Entry 046
+User:
+Lets update how our skills are defined, I want to define them in /agent/skills/<skill name>/SKILL.md then place thin pointer files in system specific places like .codes/skills/<skill name>/ that point back to the generic versions. Store this pattern in our AGENTS files
+
+Assistant:
+I moved the shared skill definition pattern into the repo docs, created a canonical `agent/skills/transcription-sync/` skill location with its shared reference file, and converted the `.codex/` and `.github/` skill entries into thin pointer `SKILL.md` adapters that refer back to the shared source.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 045.
+- Last updated through Session 001, Entry 046.
 - The next transcription update should append new user and assistant messages after this point.

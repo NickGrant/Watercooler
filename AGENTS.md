@@ -53,6 +53,8 @@ If sources conflict, prefer the narrower planning or workflow file over the broa
 - Put application-related documentation under `resources/`.
 - Put application planning breakdowns under `resources/planning/`.
 - Put agent-facing operating material under `agent/`.
+- Put shared, system-agnostic skill definitions under `agent/skills/<skill-name>/SKILL.md`.
+- Keep tool-specific skill directories thin and point them back to the shared `agent/skills/` version instead of duplicating the full skill body.
 - Keep system-specific integration files only where the tool requires them, such as `.github/` or `.codex/`.
 
 ## Definition Of Done

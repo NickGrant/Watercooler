@@ -35,12 +35,15 @@ Before ending a session or clearing context:
 - move navigation-heavy detail to `agent/LLM_CONTEXT.md`
 - move human onboarding detail to `README.md`
 - move application-specific detail to the narrowest file under `resources/`
+- keep shared skill definitions in `agent/skills/`
+- keep system-specific skill directories as thin pointers or metadata adapters back to `agent/skills/`
 
 ## System Adapters
 
 - Copilot adapter: `.github/copilot-instructions.md`
-- Copilot skill: `.github/copilot/skills/transcription-sync/`
-- Codex skill: `.codex/skills/transcription-sync/`
+- Shared skill source: `agent/skills/`
+- Copilot skill adapter: `.github/copilot/skills/`
+- Codex skill adapter: `.codex/skills/`
 
 ## Priority
 

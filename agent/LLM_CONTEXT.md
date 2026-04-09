@@ -33,12 +33,14 @@ This file tells agents what should stay in normal working context, what should b
   Setup, run, and validation commands.
 - `resources/INITIAL_PROMPT.md`
   Original broad project brief.
+- `agent/skills/`
+  Shared, system-agnostic skill definitions and their shared references.
 - `.github/copilot-instructions.md`
   Copilot-specific adapter.
 - `.github/copilot/skills/transcription-sync/`
-  Copilot transcript-maintenance skill.
+  Copilot transcript-maintenance pointer and any required tool-specific metadata.
 - `.codex/skills/transcription-sync/`
-  Codex transcript-maintenance skill.
+  Codex transcript-maintenance pointer and any required tool-specific metadata.
 
 ## Never Load
 
@@ -64,6 +66,7 @@ This file tells agents what should stay in normal working context, what should b
 - Put root-level guardrails in `AGENTS.md`.
 - Put context-loading and documentation-location guidance in `agent/LLM_CONTEXT.md`.
 - Put workflow behavior in `agent/AGENT_WORKFLOW.md`.
+- Put shared skill definitions in `agent/skills/`.
 - Put human onboarding in `README.md`.
 - Put application planning in `resources/planning/`.
 - Put agent-operating records in `agent/`.

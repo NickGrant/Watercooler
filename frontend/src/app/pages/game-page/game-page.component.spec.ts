@@ -535,6 +535,81 @@ describe('GamePageComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('Jim');
   }));
 
+  it('auto-refreshes the active board and announces important state changes', fakeAsync(() => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    const updatedState = createActiveState({
+      currentTurnGamePlayerId: 1,
+      players: [
+        {
+          ...createActiveState().players[0],
+          purchasedCards: [
+            {
+              code: 'budget-sign-off',
+              tier: 1,
+              name: 'Budget Sign-off',
+              resourceDiscount: 'budget',
+              officePrestige: 1,
+              cost: {
+                coffee: 0,
+                spreadsheets: 2,
+                budget: 1,
+                connections: 0,
+                time: 0
+              }
+            }
+          ],
+          purchasedCardCount: 1
+        },
+        createActiveState().players[1]
+      ]
+    });
+
+    gamesApi.getGameState.calls.reset();
+    gamesApi.getGameState.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'active',
+          phase: 'active',
+          playerCount: 2,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        player: {
+          gamePlayerId: 1,
+          playerId: 1,
+          displayName: 'Pam',
+          isHost: true,
+          joinStatus: 'connected',
+          avatar: DEFAULT_AVATAR_DRAFT
+        },
+        session: {
+          token: 'temporary-session-token',
+          reconnectEnabled: true
+        },
+        realtime: {
+          transport: 'websocket',
+          roomSlug: 'synergy-report-telemetry',
+          sessionToken: 'temporary-session-token'
+        },
+        state: updatedState
+      })
+    );
+
+    tick(2500);
+    fixture.detectChanges();
+
+    expect(gamesApi.getGameState).toHaveBeenCalledOnceWith(
+      'synergy-report-telemetry',
+      'temporary-session-token'
+    );
+    expect(fixture.componentInstance.startedGame()?.players[0].purchasedCardCount).toBe(1);
+    expect(fixture.componentInstance.latestToastMessage()).toBe('Pam acquired Budget Sign-off.');
+  }));
+
   it('restores an active game from the authenticated state endpoint when a session token exists', () => {
     localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
 
@@ -722,7 +797,9 @@ describe('GamePageComponent', () => {
     });
     expect(fixture.componentInstance.session.stage()).toBe('in-game');
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(1);
-    expect(fixture.componentInstance.startMessage()).toContain('opening board is ready');
+    expect(fixture.componentInstance.latestToastMessage()).toBe(
+      'The room is now live. The opening board is ready.'
+    );
   });
 
   it('submits take-resource actions against the active game API', () => {
@@ -738,8 +815,9 @@ describe('GamePageComponent', () => {
       sessionToken: 'temporary-session-token',
       resources: ['coffee', 'budget', 'time']
     });
-    expect(fixture.componentInstance.actionMessage()).toContain('office supply bank');
+    expect(fixture.componentInstance.actionMessage()).toBeNull();
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
+    expect(fixture.componentInstance.latestToastMessage()).toBe("It is now Jim's turn.");
   });
 
   it('uses the embedded recovery payload when an action returns a stale conflict', () => {
@@ -776,8 +854,11 @@ describe('GamePageComponent', () => {
 
     expect(gamesApi.getGameState.calls.count()).toBe(1);
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
-    expect(fixture.componentInstance.actionMessage()).toContain('resynced');
+    expect(fixture.componentInstance.actionMessage()).toBeNull();
     expect(fixture.componentInstance.actionError()).toBeNull();
+    expect(fixture.componentInstance.latestToastMessage()).toBe(
+      'A newer room state was detected and your board was resynced.'
+    );
   });
 
   it('refreshes the board from /state after a stale or network action failure', () => {
@@ -875,7 +956,7 @@ describe('GamePageComponent', () => {
       tier: 1,
       marketSlot: 1
     });
-    expect(fixture.componentInstance.actionMessage()).toContain('claimed-project tray');
+    expect(fixture.componentInstance.latestToastMessage()).toContain('Conference Room Coup');
   });
 
   it('purchases a reserved card through the active game API', () => {
@@ -895,7 +976,7 @@ describe('GamePageComponent', () => {
       source: 'reserved',
       cardCode: 'reserved-1'
     });
-    expect(fixture.componentInstance.actionMessage()).toContain('claimed-project tray');
+    expect(fixture.componentInstance.latestToastMessage()).toContain('Budget Buffer');
   });
 
   it('orders completed-game standings by prestige, purchased cards, and seat order', () => {

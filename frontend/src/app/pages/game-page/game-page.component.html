@@ -25,7 +25,7 @@
   }
 
   <section class="shell-grid">
-    <mat-card appearance="outlined" class="shell-panel">
+    <mat-card appearance="outlined" class="shell-panel shell-panel--desk">
       @if (!session.hasJoined()) {
         <h2>Employee Check-In</h2>
         <p class="panel-copy">
@@ -144,11 +144,17 @@
             </div>
           </section>
         } @else {
-          <h2>Turn Command Desk</h2>
-          <p class="panel-copy">
-            The board is now live. Use this desk to review the turn queue, submit allowed actions,
-            and keep an eye on the latest room state after each move.
-          </p>
+          <div class="section-heading">
+            <h2>Turn Command Desk</h2>
+            <button
+              type="button"
+              class="heading-help"
+              [matTooltip]="'Track turn ownership here. Actions unlock only when the server says it is your turn.'"
+              aria-label="Turn command help"
+            >
+              ?
+            </button>
+          </div>
 
           <div class="turn-summary">
             <div class="turn-summary__tile">
@@ -171,17 +177,24 @@
 
           <div class="action-desk">
             <section class="action-panel">
-              <h3>Take Resources</h3>
-              <p class="panel-copy">
-                Select up to three resources. Duplicate picks are allowed here and will still be
-                validated by the API.
-              </p>
+              <div class="section-heading">
+                <h3>Take Resources</h3>
+                <button
+                  type="button"
+                  class="heading-help"
+                  [matTooltip]="'Take up to three resources. The server still validates duplicate-pick rules and hand limits.'"
+                  aria-label="Take resources help"
+                >
+                  ?
+                </button>
+              </div>
               <div class="resource-picks">
                 @for (resource of resourceTypes; track resource) {
                   <button
                     mat-stroked-button
                     class="resource-chip resource-chip--pick"
                     type="button"
+                    [matTooltip]="resourceLabel(resource) + ': ' + (activeState()?.bank?.[resource] ?? 0) + ' available in the bank'"
                     [attr.aria-label]="'Take ' + resourceLabel(resource) + ' from the bank. ' + (activeState()?.bank?.[resource] ?? 0) + ' remain available.'"
                     [disabled]="actionPending() || !isCurrentPlayersTurn()"
                     [class.resource-pick--selected]="selectedTakeResources().includes(resource)"
@@ -211,20 +224,6 @@
                 {{ actionPending() ? 'Submitting...' : 'Take Selected Resources' }}
               </button>
             </section>
-
-            <section class="action-panel">
-              <h3>Project And Purchase Guidance</h3>
-              <p class="panel-copy">
-                Market cards offer both claim and purchase actions. Reserved cards can be purchased
-                from your personal tray below.
-              </p>
-              <ul class="action-tips">
-                <li>Claiming a market card may grant Executive Favor if the bank still has one.</li>
-                <li>Purchases use permanent discounts first, then Executive Favor as wildcard support.</li>
-                <li>The server still decides legality, turn order, executive awards, and endgame timing.</li>
-                <li>Stale, expired, or interrupted actions will resync the board when the API can recover.</li>
-              </ul>
-            </section>
           </div>
         }
       } @else {
@@ -244,24 +243,23 @@
       }
     </mat-card>
 
-    <mat-card appearance="outlined" class="shell-panel">
+    <mat-card appearance="outlined" class="shell-panel shell-panel--roster">
       @if (session.stage() !== 'in-game') {
         <h2>Waiting Room</h2>
-        <p class="panel-copy">
-          {{ session.joinedPlayerCount() }} of {{ session.maximumLobbyPlayers() }} desks are occupied.
-          The host can start when at least {{ session.minimumLobbyPlayers() }} employees are present.
-        </p>
       } @else if (isCompletedGame()) {
         <h2>Final Standings</h2>
-        <p class="panel-copy">
-          The completed game is ordered by prestige first, then purchased workplace advantages, and
-          finally seat order as the last tie-break.
-        </p>
       } @else {
-        <h2>Player Panels</h2>
-        <p class="panel-copy">
-          {{ orderedPlayers().length }} employees are synchronized into the current board state.
-        </p>
+        <div class="section-heading">
+          <h2>Player Panels</h2>
+          <button
+            type="button"
+            class="heading-help"
+            [matTooltip]="'Hover resource rows for labels. Current turn, resources, discounts, purchases, and claims all reflect the latest authoritative state.'"
+            aria-label="Player panel help"
+          >
+            ?
+          </button>
+        </div>
       }
 
       <div class="lobby-status">
@@ -322,16 +320,24 @@
                 </span>
               </div>
 
-              <div class="player-panel__metrics">
+              <div class="player-panel__metrics player-panel__metrics--resources">
                 @for (resource of resourceTypes; track resource) {
-                  <div class="metric-chip" [attr.aria-label]="resourceLabel(resource) + ': ' + player.resources[resource]">
+                  <div
+                    class="metric-chip"
+                    [matTooltip]="resourceLabel(resource) + ': ' + player.resources[resource]"
+                    [attr.aria-label]="resourceLabel(resource) + ': ' + player.resources[resource]"
+                  >
                     <span class="metric-chip__icon-wrap">
                       <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
                     </span>
                     <strong>{{ player.resources[resource] }}</strong>
                   </div>
                 }
-                <div class="metric-chip" aria-label="Executive Favor">
+                <div
+                  class="metric-chip"
+                  [matTooltip]="'Executive Favor: ' + player.resources.executiveFavor"
+                  aria-label="Executive Favor"
+                >
                   <span class="metric-chip__icon-wrap">
                     <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
                   </span>
@@ -339,9 +345,13 @@
                 </div>
               </div>
 
-              <div class="player-panel__metrics">
+              <div class="player-panel__metrics player-panel__metrics--discounts">
                 @for (resource of resourceTypes; track resource) {
-                  <div class="metric-chip metric-chip--discount" [attr.aria-label]="resourceLabel(resource) + ' discount: ' + player.permanentDiscounts[resource]">
+                  <div
+                    class="metric-chip metric-chip--discount"
+                    [matTooltip]="resourceLabel(resource) + ' discount: ' + player.permanentDiscounts[resource]"
+                    [attr.aria-label]="resourceLabel(resource) + ' discount: ' + player.permanentDiscounts[resource]"
+                  >
                     <span class="metric-chip__icon-wrap">
                       <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
                     </span>
@@ -363,7 +373,11 @@
                       @for (card of player.reservedCards; track trackByCardCode($index, card)) {
                         <article class="mini-card">
                           <strong>{{ card.name }}</strong>
-                          <p class="resource-reference" [attr.aria-label]="resourceLabel(card.resourceDiscount) + ' discount'">
+                          <p
+                            class="resource-reference"
+                            [matTooltip]="resourceLabel(card.resourceDiscount) + ' discount'"
+                            [attr.aria-label]="resourceLabel(card.resourceDiscount) + ' discount'"
+                          >
                             <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
                           </p>
                           <p>Prestige {{ card.officePrestige }}</p>
@@ -432,19 +446,8 @@
           >
             {{ startPending() ? 'Starting Game...' : 'Start Game' }}
           </button>
-          <p class="start-hint">
-            @if (session.canRequestStart()) {
-              The roster is large enough. The host can now promote this lobby into an active game.
-            } @else {
-              Waiting for the minimum player count before the host can launch the game.
-            }
-          </p>
         </div>
       } @else {
-        <p class="start-hint">
-          This room has already moved beyond the lobby, so the start controls are locked.
-        </p>
-
         @if (isCompletedGame()) {
           <div class="start-controls">
             <button
@@ -459,21 +462,11 @@
         }
       }
 
-      @if (startMessage(); as startMessage) {
-        <p class="start-message">{{ startMessage }}</p>
-      }
-
       <mat-divider />
 
       <section class="action-panel">
-        <div class="player-panel__header">
-          <div>
-            <h3>Rules & Help Desk</h3>
-            <p class="panel-copy">
-              A quick reference for the live match: what you can do on your turn, how purchases
-              work, how executives are awarded, and how the final standings resolve.
-            </p>
-          </div>
+        <div class="section-heading">
+          <h3>Rules & Help</h3>
           <button mat-button type="button" (click)="toggleRulesHelp()">
             {{ showRulesHelp() ? 'Hide Rules' : 'Show Rules' }}
           </button>
@@ -502,30 +495,43 @@
       </section>
     </mat-card>
 
-    <mat-card appearance="outlined" class="board-panel wide">
-      <h2>{{ session.stage() === 'in-game' ? (isCompletedGame() ? 'Completed Board Snapshot' : 'Main Board') : 'Room Snapshot' }}</h2>
+    <mat-card appearance="outlined" class="board-panel">
+      <div class="section-heading section-heading--board">
+        <h2>{{ session.stage() === 'in-game' ? (isCompletedGame() ? 'Completed Board Snapshot' : 'Main Board') : 'Room Snapshot' }}</h2>
+        @if (session.stage() === 'in-game' && !isCompletedGame()) {
+          <button
+            type="button"
+            class="heading-help"
+            [matTooltip]="'Claim from the market, purchase when affordable, and watch the executive row for automatic awards.'"
+            aria-label="Board help"
+          >
+            ?
+          </button>
+        }
+      </div>
       @if (startedGame(); as startedGame) {
-        <p class="panel-copy">
-          @if (isCompletedGame()) {
-            The board below preserves the final server-authoritative snapshot so players can review
-            the last market, executive row, and office resource distribution after scoring resolves.
-          } @else {
-            The board below reflects the latest room state. Market purchases, claimed projects,
-            and executive awards resolve through the game rules before the UI updates.
-          }
-        </p>
         <mat-divider />
         <div class="board-layout">
           <section class="board-column">
-            <h3>Resource Bank</h3>
+            <div class="section-heading">
+              <h3>Resource Bank</h3>
+              <button
+                type="button"
+                class="heading-help"
+                [matTooltip]="'Available supply in the bank. Hover any icon for its label.'"
+                aria-label="Resource bank help"
+              >
+                ?
+              </button>
+            </div>
             <div class="resource-bank">
               @for (resource of resourceTypes; track resource) {
-                <article class="resource-bank__tile" [attr.aria-label]="resourceLabel(resource) + ': ' + startedGame.bank[resource]">
+                <article class="resource-bank__tile" [matTooltip]="resourceLabel(resource) + ': ' + startedGame.bank[resource]" [attr.aria-label]="resourceLabel(resource) + ': ' + startedGame.bank[resource]">
                   <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
                   <strong>{{ startedGame.bank[resource] }}</strong>
                 </article>
               }
-              <article class="resource-bank__tile resource-bank__tile--favor" aria-label="Executive Favor">
+              <article class="resource-bank__tile resource-bank__tile--favor" [matTooltip]="'Executive Favor: ' + startedGame.bank.executiveFavor" aria-label="Executive Favor">
                 <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
                 <strong>{{ startedGame.bank.executiveFavor }}</strong>
               </article>
@@ -533,7 +539,17 @@
           </section>
 
           <section class="board-column board-column--wide">
-            <h3>Visible Market</h3>
+            <div class="section-heading">
+              <h3>Visible Market</h3>
+              <button
+                type="button"
+                class="heading-help"
+                [matTooltip]="'Purchase or claim market cards from here. Hover resource icons for labels and costs.'"
+                aria-label="Visible market help"
+              >
+                ?
+              </button>
+            </div>
             <div class="market-grid">
               <section class="market-tier">
                 <header>
@@ -544,7 +560,11 @@
                   @for (card of startedGame.market.tier1; track trackByCardCode($index, card)) {
                     <article class="market-card">
                       <div class="market-card__meta">
-                        <span class="resource-reference" [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)">
+                        <span
+                          class="resource-reference"
+                          [matTooltip]="'Discount: ' + resourceLabel(card.resourceDiscount)"
+                          [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)"
+                        >
                           <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
                         </span>
                         <strong>Prestige {{ card.officePrestige }}</strong>
@@ -553,7 +573,11 @@
                       <p>Market slot {{ card.marketSlot }}</p>
                       <div class="cost-row">
                         @for (entry of resourceEntries(card.cost); track entry[0]) {
-                          <span class="resource-cost" [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]">
+                          <span
+                            class="resource-cost"
+                            [matTooltip]="resourceLabel(entry[0]) + ': ' + entry[1]"
+                            [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]"
+                          >
                             <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
                             <strong>{{ entry[1] }}</strong>
                           </span>
@@ -593,7 +617,11 @@
                   @for (card of startedGame.market.tier2; track trackByCardCode($index, card)) {
                     <article class="market-card">
                       <div class="market-card__meta">
-                        <span class="resource-reference" [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)">
+                        <span
+                          class="resource-reference"
+                          [matTooltip]="'Discount: ' + resourceLabel(card.resourceDiscount)"
+                          [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)"
+                        >
                           <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
                         </span>
                         <strong>Prestige {{ card.officePrestige }}</strong>
@@ -602,7 +630,11 @@
                       <p>Market slot {{ card.marketSlot }}</p>
                       <div class="cost-row">
                         @for (entry of resourceEntries(card.cost); track entry[0]) {
-                          <span class="resource-cost" [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]">
+                          <span
+                            class="resource-cost"
+                            [matTooltip]="resourceLabel(entry[0]) + ': ' + entry[1]"
+                            [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]"
+                          >
                             <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
                             <strong>{{ entry[1] }}</strong>
                           </span>
@@ -642,7 +674,11 @@
                   @for (card of startedGame.market.tier3; track trackByCardCode($index, card)) {
                     <article class="market-card">
                       <div class="market-card__meta">
-                        <span class="resource-reference" [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)">
+                        <span
+                          class="resource-reference"
+                          [matTooltip]="'Discount: ' + resourceLabel(card.resourceDiscount)"
+                          [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)"
+                        >
                           <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
                         </span>
                         <strong>Prestige {{ card.officePrestige }}</strong>
@@ -651,7 +687,11 @@
                       <p>Market slot {{ card.marketSlot }}</p>
                       <div class="cost-row">
                         @for (entry of resourceEntries(card.cost); track entry[0]) {
-                          <span class="resource-cost" [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]">
+                          <span
+                            class="resource-cost"
+                            [matTooltip]="resourceLabel(entry[0]) + ': ' + entry[1]"
+                            [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]"
+                          >
                             <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
                             <strong>{{ entry[1] }}</strong>
                           </span>
@@ -685,7 +725,17 @@
           </section>
 
           <section class="board-column board-column--executive">
-            <h3>Executive Row</h3>
+            <div class="section-heading">
+              <h3>Executive Row</h3>
+              <button
+                type="button"
+                class="heading-help"
+                [matTooltip]="'Executives are awarded automatically when a player satisfies the requirement profile shown on the card.'"
+                aria-label="Executive row help"
+              >
+                ?
+              </button>
+            </div>
             <div class="executive-grid">
               @for (executive of startedGame.executives; track executive.code) {
                 <article class="executive-card">
@@ -698,7 +748,11 @@
                     <span class="executive-card__label">Requirement Profile</span>
                     <div class="cost-row">
                       @for (entry of resourceEntries(executive.requirements); track entry[0]) {
-                        <span class="resource-cost" [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]">
+                        <span
+                          class="resource-cost"
+                          [matTooltip]="resourceLabel(entry[0]) + ': ' + entry[1]"
+                          [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]"
+                        >
                           <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
                           <strong>{{ entry[1] }}</strong>
                         </span>
@@ -712,10 +766,6 @@
             </div>
           </section>
         </div>
-
-        @if (actionMessage(); as actionMessage) {
-          <p class="start-message">{{ actionMessage }}</p>
-        }
 
         @if (actionError(); as actionError) {
           <p class="inline-error" role="alert">{{ actionError }}</p>

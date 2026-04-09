@@ -699,3 +699,12 @@ I completed `TASK-051` by redesigning the executive row into portrait-style prof
 #### Entry 108
 Assistant:
 I completed `TASK-052` by widening the game-page shell and rebalancing the three-column board layout so more of the active board fits above the fold on larger screens, then closed out the UAT cleanup feature bookkeeping by archiving the umbrella UAT tasks and marking `FEATURE-009` complete.
+
+#### Entry 109
+User:
+We have a couple major problems, I am not sure which one you want to address first.
+- websockets: Are we sure we are setup correctly? I am not seeing very much change in game state, like indicating that it is now my turn and I can select resources. If we are connected we need to review the information we send across and make sure that the frontend is correctly representing the state (whose turn it is, what everyones resources & purchases are, what things are available). Let's additionally add a small toast that pops up at the bottom of the screen that alerts players to changes in game state so messages like "Carlos acquired Budget Sign-off. It is now your turn"
+- layout: see attached image. We are currently having an issue where our columns are not displaying correctly and a majority of our content is being pushed below the fold, causing a lot of unneeded scrolling. Additionally, I want to strip all of the "how to play" style text from this page, that can be stored entirely within the rules. If some of that is still appropriate for different areas, we should expose a ? style icon that has a tooltip hover effect revealing the info. Further more, I want to tighten up icon sizes and players cards. Resource icons can be significantly smaller on the player card (like 32x32) if possible, displaying them all in one line is very beneficial. Also, add tooltip labels on hover
+
+Assistant:
+I audited the state-sync path and confirmed that live websocket gameplay is not actually wired end-to-end yet, so I stabilized the user-facing behavior by extending authoritative polling into active games, adding bottom snack-bar change alerts for turn and card updates, tightening the board layout into a true three-column desktop view, stripping most instructional copy from active play, shrinking player-resource chips into a single compact row with hover tooltips, and recording a backlog task for the future true websocket transport.

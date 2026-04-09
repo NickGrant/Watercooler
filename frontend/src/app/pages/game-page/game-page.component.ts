@@ -7,6 +7,8 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
 import { interval, Observable } from 'rxjs';
 
@@ -47,18 +49,21 @@ interface AvatarOptionDefinition {
     MatCardModule,
     MatDividerModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    MatSnackBarModule,
+    MatTooltipModule
   ],
   templateUrl: './game-page.component.html',
   styleUrl: './game-page.component.scss'
 })
 export class GamePageComponent {
-  private static readonly LOBBY_REFRESH_INTERVAL_MS = 3000;
+  private static readonly STATE_REFRESH_INTERVAL_MS = 2500;
 
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly gamesApi = inject(GamesApiService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly snackBar = inject(MatSnackBar);
 
   readonly session = inject(GameSessionService);
   readonly game = signal<GameSummary | null>(null);
@@ -70,6 +75,7 @@ export class GamePageComponent {
   readonly actionPending = signal(false);
   readonly actionMessage = signal<string | null>(null);
   readonly actionError = signal<string | null>(null);
+  readonly latestToastMessage = signal<string | null>(null);
   readonly createNextGamePending = signal(false);
   readonly showRulesHelp = signal(false);
   readonly startedGame = signal<ActiveGameState | null>(null);
@@ -165,7 +171,7 @@ export class GamePageComponent {
     const slug = this.route.snapshot.paramMap.get('slug') ?? 'unknown-room';
     this.session.setSlug(slug);
     this.loadGame(slug);
-    this.startLobbyRefreshLoop();
+    this.startStateRefreshLoop();
 
     const sessionToken = this.session.sessionToken();
     if (sessionToken !== null) {
@@ -177,31 +183,32 @@ export class GamePageComponent {
     }
   }
 
-  private startLobbyRefreshLoop(): void {
-    interval(GamePageComponent.LOBBY_REFRESH_INTERVAL_MS)
+  private startStateRefreshLoop(): void {
+    interval(GamePageComponent.STATE_REFRESH_INTERVAL_MS)
       .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe(() => {
-        this.refreshLobbyRoster();
+        this.refreshPassiveState();
       });
   }
 
-  private refreshLobbyRoster(): void {
+  private refreshPassiveState(): void {
     const slug = this.session.slug();
     const sessionToken = this.session.sessionToken();
 
     if (
       slug === null ||
       sessionToken === null ||
-      this.session.stage() !== 'lobby' ||
+      this.session.stage() === 'pre-join' ||
       this.joinPending() ||
-      this.startPending()
+      this.startPending() ||
+      this.actionPending()
     ) {
       return;
     }
 
     this.gamesApi.getGameState(slug, sessionToken).subscribe({
       next: (result) => {
-        this.applyGameStateResult(result);
+        this.applyGameStateResult(result, 'passive');
       },
       error: (error: unknown) => {
         if (this.getStatus(error) === 401) {
@@ -268,13 +275,13 @@ export class GamePageComponent {
 
     this.gamesApi.startGame(slug, { sessionToken }).subscribe({
       next: (result) => {
-        this.startedGame.set(result.state);
-        this.session.applyStartedGameState(result.state);
-        this.game.set(result.game);
+        this.applyStartedGameState(result.game, result.state, {
+          toastMessage: 'The room is now live. The opening board is ready.'
+        });
         this.startPending.set(false);
         this.actionMessage.set(null);
         this.actionError.set(null);
-        this.startMessage.set('The room is now live. The opening board is ready.');
+        this.startMessage.set(null);
       },
       error: (error: unknown) => {
         this.startPending.set(false);
@@ -319,7 +326,10 @@ export class GamePageComponent {
 
     this.gamesApi.getGameState(slug, sessionToken).subscribe({
       next: (result) => {
-        this.applyGameStateResult(result);
+        this.applyGameStateResult(
+          result,
+          options.target === 'startup' ? 'startup' : 'action-recovery'
+        );
         this.selectedTakeResources.set([]);
 
         if (options.target === 'startup') {
@@ -363,11 +373,41 @@ export class GamePageComponent {
     });
   }
 
-  private applyGameStateResult(result: GameStateResponse): void {
-    this.startedGame.set(result.state ?? null);
+  private applyGameStateResult(
+    result: GameStateResponse,
+    source: 'startup' | 'passive' | 'action-recovery'
+  ): void {
+    if (result.state !== undefined) {
+      const stateChangeSummary = this.describeStateChanges(this.startedGame(), result.state);
+      this.startedGame.set(result.state);
+
+      if (stateChangeSummary !== null && source === 'passive') {
+        this.openStateToast(stateChangeSummary);
+      }
+    } else {
+      this.startedGame.set(null);
+    }
+
     this.session.applyGameState(result);
     this.game.set(result.game);
     this.joinError.set(null);
+  }
+
+  private applyStartedGameState(
+    game: GameSummary,
+    state: ActiveGameState,
+    options: { toastMessage?: string } = {}
+  ): void {
+    const stateChangeSummary = this.describeStateChanges(this.startedGame(), state);
+
+    this.startedGame.set(state);
+    this.session.applyStartedGameState(state);
+    this.game.set(game);
+
+    const toastMessage = options.toastMessage ?? stateChangeSummary;
+    if (toastMessage !== undefined && toastMessage !== null) {
+      this.openStateToast(toastMessage);
+    }
   }
 
   private performJoin(payload: { displayName: string; avatar: AvatarDraft } | { sessionToken: string }): void {
@@ -607,12 +647,12 @@ export class GamePageComponent {
 
     request$.subscribe({
       next: (result) => {
-        this.startedGame.set(result.state);
-        this.session.applyStartedGameState(result.state);
-        this.game.set(result.game);
+        this.applyStartedGameState(result.game, result.state, {
+          toastMessage: this.describeStateChanges(this.startedGame(), result.state) ?? successMessage
+        });
         this.selectedTakeResources.set([]);
         this.actionPending.set(false);
-        this.actionMessage.set(successMessage);
+        this.actionMessage.set(null);
       },
       error: (error: unknown) => {
         this.actionPending.set(false);
@@ -666,8 +706,76 @@ export class GamePageComponent {
     }
 
     this.selectedTakeResources.set([]);
-    this.actionMessage.set('A newer room state was detected and your board was resynced.');
+    this.actionMessage.set(null);
     this.actionError.set(null);
+    this.openStateToast('A newer room state was detected and your board was resynced.');
+  }
+
+  private describeStateChanges(previous: ActiveGameState | null, next: ActiveGameState): string | null {
+    if (previous === null) {
+      return null;
+    }
+
+    const events: string[] = [];
+
+    for (const player of next.players) {
+      const previousPlayer = previous.players.find(
+        (candidate) => candidate.gamePlayerId === player.gamePlayerId
+      );
+
+      if (previousPlayer === undefined) {
+        continue;
+      }
+
+      const newPurchasedCard = player.purchasedCards.find(
+        (card) => !previousPlayer.purchasedCards.some((candidate) => candidate.code === card.code)
+      );
+      if (newPurchasedCard !== undefined) {
+        events.push(`${player.displayName} acquired ${newPurchasedCard.name}.`);
+      }
+
+      const newReservedCard = player.reservedCards.find(
+        (card) => !previousPlayer.reservedCards.some((candidate) => candidate.code === card.code)
+      );
+      if (newReservedCard !== undefined) {
+        events.push(`${player.displayName} claimed ${newReservedCard.name}.`);
+      }
+
+      const newExecutive = player.claimedExecutives.find(
+        (executive) =>
+          !previousPlayer.claimedExecutives.some((candidate) => candidate.code === executive.code)
+      );
+      if (newExecutive !== undefined) {
+        events.push(`${player.displayName} secured ${newExecutive.name}.`);
+      }
+    }
+
+    if (previous.currentTurnGamePlayerId !== next.currentTurnGamePlayerId) {
+      const activePlayer = next.players.find(
+        (player) => player.gamePlayerId === next.currentTurnGamePlayerId
+      );
+
+      if (activePlayer !== undefined) {
+        const currentPlayerId = this.session.currentPlayer()?.gamePlayerId;
+        events.push(
+          activePlayer.gamePlayerId === currentPlayerId
+            ? 'It is now your turn.'
+            : `It is now ${activePlayer.displayName}'s turn.`
+        );
+      }
+    }
+
+    return events.length > 0 ? events.slice(0, 2).join(' ') : null;
+  }
+
+  private openStateToast(message: string): void {
+    this.latestToastMessage.set(message);
+    this.snackBar.dismiss();
+    this.snackBar.open(message, 'Dismiss', {
+      duration: 4200,
+      horizontalPosition: 'center',
+      verticalPosition: 'bottom'
+    });
   }
 
   private getErrorMessage(error: unknown): string {

@@ -6,6 +6,22 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-054
+
+- Name: Tighten game-page layout and contextual help
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Reduce below-the-fold scrolling on the main game route, remove passive instructional copy from active play, and replace it with tighter layout plus contextual tooltip help.
+
+### TASK-053
+
+- Name: Stabilize active-game state sync and change alerts
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-055
+- Description: Ensure the frontend keeps the active game route synchronized with authoritative state, clearly reflects turn ownership and state changes, and surfaces short bottom-of-screen toast notifications when important board changes occur.
+
 ### TASK-052
 
 - Name: Expand the game scene to use more of the available viewport

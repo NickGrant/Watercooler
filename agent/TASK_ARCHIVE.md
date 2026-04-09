@@ -6,6 +6,30 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-052
+
+- Name: Expand the game scene to use more of the available viewport
+- Priority: High
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Adjust the game screen layout so it uses more of the available horizontal space and brings more of the primary board state above the fold.
+
+### TASK-039
+
+- Name: Resolve validated UAT issues
+- Priority: High
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Implement, test, and verify the fixes for confirmed UAT findings once they have been reproduced and scoped.
+
+### TASK-038
+
+- Name: Capture and triage active UAT findings
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-039, TASK-046
+- Description: Record incoming UAT issues, confirm expected behavior, reproduce defects, and turn validated findings into implementation tasks.
+
 ### TASK-051
 
 - Name: Redesign executive cards with a Guess Who style visual treatment

@@ -6,21 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-038
-
-- Name: Capture and triage active UAT findings
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-039, TASK-046
-- Description: Record incoming UAT issues, confirm expected behavior, reproduce defects, and turn validated findings into implementation tasks.
-
-### TASK-052
-
-- Name: Expand the game scene to use more of the available viewport
-- Priority: High
-- Blocked By: TASK-038
-- Blocks: None
-- Description: Adjust the game screen layout so it uses more of the available horizontal space and brings more of the primary board state above the fold.
+No active tasks right now.
 
 ## Task Management Rules
 

@@ -11,16 +11,8 @@ This file keeps the active working set small enough to remain in normal agent co
 - Name: Capture and triage active UAT findings
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-039, TASK-042, TASK-043, TASK-044, TASK-046
+- Blocks: TASK-039, TASK-043, TASK-044, TASK-046
 - Description: Record incoming UAT issues, confirm expected behavior, reproduce defects, and turn validated findings into implementation tasks.
-
-### TASK-042
-
-- Name: Add consistent padding to game screen columns
-- Priority: Medium
-- Blocked By: TASK-038
-- Blocks: None
-- Description: Tighten the game board layout so each major column and panel has consistent internal spacing and does not feel cramped during gameplay UAT.
 
 ### TASK-043
 

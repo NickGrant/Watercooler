@@ -25,7 +25,7 @@
   }
 
   <section class="shell-grid">
-    <mat-card appearance="outlined">
+    <mat-card appearance="outlined" class="shell-panel">
       @if (!session.hasJoined()) {
         <h2>Employee Check-In</h2>
         <p class="panel-copy">
@@ -219,7 +219,7 @@
       }
     </mat-card>
 
-    <mat-card appearance="outlined">
+    <mat-card appearance="outlined" class="shell-panel">
       @if (session.stage() !== 'in-game') {
         <h2>Waiting Room</h2>
         <p class="panel-copy">
@@ -470,7 +470,7 @@
       </section>
     </mat-card>
 
-    <mat-card appearance="outlined" class="wide">
+    <mat-card appearance="outlined" class="board-panel wide">
       <h2>{{ session.stage() === 'in-game' ? (isCompletedGame() ? 'Completed Board Snapshot' : 'Main Board') : 'Authenticated Game State' }}</h2>
       @if (startedGame(); as startedGame) {
         <p class="panel-copy">

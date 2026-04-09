@@ -330,6 +330,14 @@ describe('GamePageComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('Final standings break ties');
   });
 
+  it('applies explicit panel classes so the game route can keep consistent padding', () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelectorAll('.shell-panel').length).toBe(2);
+    expect(fixture.nativeElement.querySelector('.board-panel')).not.toBeNull();
+  });
+
   it('stores the loaded game summary for the route', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
 

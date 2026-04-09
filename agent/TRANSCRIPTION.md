@@ -634,3 +634,7 @@ I moved to `TASK-040`, removed the extra status-grid section from the landing pa
 #### Entry 096
 Assistant:
 I completed `TASK-041` as a style-only landing-page polish change by widening the hero `h1` measure so the headline has more horizontal room, then validated it with a production frontend build; I did not add unit tests for that task because the change was purely typographic styling.
+
+#### Entry 097
+Assistant:
+I completed `TASK-042` by adding explicit padded panel classes to the game route, giving the board columns more internal spacing, adding a focused unit test that asserts the padded panel hooks are present, and rerunning the frontend test suite and production build successfully.

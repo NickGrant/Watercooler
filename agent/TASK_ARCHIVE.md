@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-042
+
+- Name: Add consistent padding to game screen columns
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Tighten the game board layout so each major column and panel has consistent internal spacing and does not feel cramped during gameplay UAT.
+
 ### TASK-041
 
 - Name: Widen landing page h1 treatment

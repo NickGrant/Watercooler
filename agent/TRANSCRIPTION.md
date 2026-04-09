@@ -315,7 +315,28 @@ it is my understanding that we don't need a [copilot-instructions.md](.github/co
 Assistant:
 I confirmed the repo-local `copilot-instructions.md` file was only restating shared guidance already covered by `AGENTS.md`, `agent/AGENT_WORKFLOW.md`, and the shared skill location, then removed that file and updated the shared docs so the repository guidance lives in one shared place instead of a Copilot-specific copy.
 
+#### Entry 048
+User:
+Please implement the backend/realtime side of TASK-028 that does not overlap the frontend. You own backend/realtime files only. Extend reconnect/resync primitives so websocket-side reconnect can align with the new /state contract, and add or update PHPUnit coverage in backend/realtime.
+
+Assistant:
+I updated the realtime room/session flow so reconnects replace stale connections for the same player, surface reconnect metadata in join results, and emit a reconnect-specific resync event from `RealtimeServer`, with PHPUnit coverage added for the room, join service, and server paths.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 047.
+- Last updated through Session 001, Entry 048.
 - The next transcription update should append new user and assistant messages after this point.
+
+#### Entry 049
+User:
+Quick status check: what files are you currently editing for the frontend TASK-028 slice, and are you close to completion? Please do not change scope; I just need coordination context.
+
+Assistant:
+I confirmed the frontend TASK-028 edit set was centered on the shared game-state model, `GamesApiService`, `GameSessionService`, and `GamePageComponent` plus their related specs, and that the implementation was already close to the validation phase rather than a scope expansion.
+
+#### Entry 050
+User:
+Implement the frontend side of TASK-028 using the new authenticated GET /api/games/{slug}/state contract. You own only frontend files. You are not alone in the codebase; do not revert others' edits, and adjust to accommodate concurrent changes. Focus on adding the frontend model(s), GamesApiService getGameState call, GameSessionService support for resynced state, and GamePageComponent startup flow so active/completed games resync from /state instead of only replaying join-bootstrap. Add or update Angular tests. In your final message, list the files you changed.
+
+Assistant:
+I implemented the frontend `/state` contract support by adding a shared game-state response model, wiring `GamesApiService.getGameState`, teaching `GameSessionService` to store resynced active game state, and updating `GamePageComponent` so authenticated reloads restore from `/state` for both lobby and active-game paths instead of replaying join-bootstrap. I also added and updated Angular tests for the new API call, session behavior, and page startup flow.

@@ -4,6 +4,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { DEFAULT_AVATAR_DRAFT } from '../models/avatar-draft.model';
 import { GameSummary } from '../models/game-summary.model';
+import { GameStateResponse } from '../models/game-state-response.model';
 import { GamesApiService } from './games-api.service';
 
 describe('GamesApiService', () => {
@@ -111,6 +112,61 @@ describe('GamesApiService', () => {
     });
 
     expect(response).toBeTruthy();
+  });
+
+  it('loads authenticated game state through the API', () => {
+    let response: GameStateResponse | undefined;
+
+    service.getGameState('synergy-report-telemetry', 'temporary-session-token').subscribe((state) => {
+      response = state;
+    });
+
+    const request = httpController.expectOne(
+      '/api/games/synergy-report-telemetry/state?sessionToken=temporary-session-token'
+    );
+    expect(request.request.method).toBe('GET');
+
+    request.flush({
+      game: sampleGame,
+      player: {
+        gamePlayerId: 1,
+        playerId: 1,
+        displayName: 'Pam',
+        isHost: true,
+        joinStatus: 'connected',
+        avatar: DEFAULT_AVATAR_DRAFT
+      },
+      session: {
+        token: 'temporary-session-token',
+        reconnectEnabled: true
+      },
+      realtime: {
+        transport: 'websocket',
+        roomSlug: 'synergy-report-telemetry',
+        sessionToken: 'temporary-session-token'
+      },
+      state: {
+        currentTurnGamePlayerId: 1,
+        players: [],
+        bank: {
+          coffee: 4,
+          spreadsheets: 4,
+          budget: 4,
+          connections: 4,
+          time: 4,
+          executiveFavor: 5
+        },
+        market: {
+          tier1: [],
+          tier2: [],
+          tier3: []
+        },
+        executives: []
+      }
+    });
+
+    expect(response?.game.slug).toBe('synergy-report-telemetry');
+    expect(response?.state?.currentTurnGamePlayerId).toBe(1);
   });
 
   it('submits start-game requests for a slug', () => {

@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import { AvatarDraft } from '../models/avatar-draft.model';
 import { GameResponse } from '../models/game-response.model';
+import { GameStateResponse } from '../models/game-state-response.model';
 import { GameSummary } from '../models/game-summary.model';
 import { JoinBootstrapResponse } from '../models/join-bootstrap-response.model';
 import { StartedGameResponse } from '../models/started-game-response.model';
@@ -22,6 +23,12 @@ export class GamesApiService {
     return this.http
       .get<GameResponse>(`/api/games/${encodeURIComponent(slug)}`)
       .pipe(map((response) => response.game));
+  }
+
+  getGameState(slug: string, sessionToken: string): Observable<GameStateResponse> {
+    return this.http.get<GameStateResponse>(`/api/games/${encodeURIComponent(slug)}/state`, {
+      params: new HttpParams().set('sessionToken', sessionToken)
+    });
   }
 
   joinBootstrap(

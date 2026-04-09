@@ -14,6 +14,7 @@ describe('GamePageComponent', () => {
     localStorage.clear();
     gamesApi = jasmine.createSpyObj<GamesApiService>('GamesApiService', [
       'getGame',
+      'getGameState',
       'joinBootstrap',
       'startGame'
     ]);
@@ -70,6 +71,63 @@ describe('GamePageComponent', () => {
           transport: 'websocket',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
+        }
+      })
+    );
+    gamesApi.getGameState.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'active',
+          phase: 'active',
+          playerCount: 2,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        player: {
+          gamePlayerId: 1,
+          playerId: 1,
+          displayName: 'Pam',
+          isHost: true,
+          joinStatus: 'connected',
+          avatar: DEFAULT_AVATAR_DRAFT
+        },
+        session: {
+          token: 'temporary-session-token',
+          reconnectEnabled: true
+        },
+        realtime: {
+          transport: 'websocket',
+          roomSlug: 'synergy-report-telemetry',
+          sessionToken: 'temporary-session-token'
+        },
+        state: {
+          currentTurnGamePlayerId: 1,
+          players: [
+            {
+              gamePlayerId: 1,
+              displayName: 'Pam',
+              isHost: true,
+              joinStatus: 'connected',
+              seatOrder: 1,
+              officePrestige: 0
+            }
+          ],
+          bank: {
+            coffee: 4,
+            spreadsheets: 4,
+            budget: 4,
+            connections: 4,
+            time: 4,
+            executiveFavor: 5
+          },
+          market: {
+            tier1: [],
+            tier2: [],
+            tier3: []
+          },
+          executives: []
         }
       })
     );
@@ -160,6 +218,83 @@ describe('GamePageComponent', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
 
     expect(fixture.componentInstance.game()?.slug).toBe('synergy-report-telemetry');
+  });
+
+  it('restores an active game from the authenticated state endpoint when a session token exists', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    const session = TestBed.inject(GameSessionService);
+
+    expect(gamesApi.getGameState).toHaveBeenCalledWith(
+      'synergy-report-telemetry',
+      'temporary-session-token'
+    );
+    expect(gamesApi.joinBootstrap).not.toHaveBeenCalled();
+    expect(session.stage()).toBe('in-game');
+    expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(1);
+    expect(fixture.componentInstance.startMessage()).toContain('authenticated state endpoint');
+  });
+
+  it('restores lobby state from the authenticated state endpoint when a session token exists', () => {
+    gamesApi.getGameState.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'lobby',
+          phase: 'lobby',
+          playerCount: 1,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        player: {
+          gamePlayerId: 1,
+          playerId: 1,
+          displayName: 'Pam',
+          isHost: true,
+          joinStatus: 'joined',
+          avatar: DEFAULT_AVATAR_DRAFT
+        },
+        session: {
+          token: 'temporary-session-token',
+          reconnectEnabled: true
+        },
+        realtime: {
+          transport: 'websocket',
+          roomSlug: 'synergy-report-telemetry',
+          sessionToken: 'temporary-session-token'
+        },
+        lobby: {
+          minimumPlayers: 2,
+          maximumPlayers: 4,
+          canStart: false,
+          joinedPlayers: [
+            {
+              gamePlayerId: 1,
+              playerId: 1,
+              displayName: 'Pam',
+              isHost: true,
+              joinStatus: 'joined',
+              avatar: DEFAULT_AVATAR_DRAFT
+            }
+          ]
+        }
+      })
+    );
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    const session = TestBed.inject(GameSessionService);
+
+    expect(gamesApi.getGameState).toHaveBeenCalledWith(
+      'synergy-report-telemetry',
+      'temporary-session-token'
+    );
+    expect(gamesApi.joinBootstrap).not.toHaveBeenCalled();
+    expect(session.stage()).toBe('lobby');
+    expect(session.joinedPlayers().length).toBe(1);
+    expect(fixture.componentInstance.startedGame()).toBeNull();
   });
 
   it('shows a room-specific error when the game lookup returns 404', () => {

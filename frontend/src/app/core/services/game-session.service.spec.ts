@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { DEFAULT_AVATAR_DRAFT } from '../models/avatar-draft.model';
+import { GameStateResponse } from '../models/game-state-response.model';
 import { GameSessionService } from './game-session.service';
 
 describe('GameSessionService', () => {
@@ -147,5 +148,69 @@ describe('GameSessionService', () => {
 
     expect(service.joinedPlayerCount()).toBe(2);
     expect(service.canRequestStart()).toBeTrue();
+  });
+
+  it('stores authenticated active state snapshots and locks lobby start actions', () => {
+    const state: GameStateResponse = {
+      game: {
+        id: 1,
+        slug: 'synergy-report-telemetry',
+        status: 'active',
+        phase: 'active',
+        playerCount: 2,
+        createdAt: '2026-04-08 00:00:00',
+        path: '/game/synergy-report-telemetry'
+      },
+      player: {
+        gamePlayerId: 1,
+        playerId: 1,
+        displayName: 'Pam',
+        isHost: true,
+        joinStatus: 'connected',
+        avatar: DEFAULT_AVATAR_DRAFT
+      },
+      session: {
+        token: 'temporary-session-token',
+        reconnectEnabled: true
+      },
+      realtime: {
+        transport: 'websocket',
+        roomSlug: 'synergy-report-telemetry',
+        sessionToken: 'temporary-session-token'
+      },
+      state: {
+        currentTurnGamePlayerId: 1,
+        players: [
+          {
+            gamePlayerId: 1,
+            displayName: 'Pam',
+            isHost: true,
+            joinStatus: 'connected',
+            seatOrder: 1,
+            officePrestige: 0
+          }
+        ],
+        bank: {
+          coffee: 4,
+          spreadsheets: 4,
+          budget: 4,
+          connections: 4,
+          time: 4,
+          executiveFavor: 5
+        },
+        market: {
+          tier1: [],
+          tier2: [],
+          tier3: []
+        },
+        executives: []
+      }
+    };
+
+    service.applyGameState(state);
+
+    expect(service.stage()).toBe('in-game');
+    expect(service.activeGameState()?.currentTurnGamePlayerId).toBe(1);
+    expect(service.canRequestStart()).toBeFalse();
   });
 });

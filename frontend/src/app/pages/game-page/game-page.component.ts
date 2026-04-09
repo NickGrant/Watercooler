@@ -11,6 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { AvatarDraft } from '../../core/models/avatar-draft.model';
 import { GameSummary } from '../../core/models/game-summary.model';
+import { GameStateResponse } from '../../core/models/game-state-response.model';
 import { GamesApiService } from '../../core/services/games-api.service';
 import { GameSessionService } from '../../core/services/game-session.service';
 import { StartedGameResponse } from '../../core/models/started-game-response.model';
@@ -62,8 +63,9 @@ export class GamePageComponent {
     this.session.setSlug(slug);
     this.loadGame(slug);
 
-    if (this.session.sessionToken()) {
-      this.performJoin({ sessionToken: this.session.sessionToken() ?? '' });
+    const sessionToken = this.session.sessionToken();
+    if (sessionToken !== null) {
+      this.syncGameState(sessionToken);
     }
   }
 
@@ -101,7 +103,7 @@ export class GamePageComponent {
     this.gamesApi.startGame(slug, { sessionToken }).subscribe({
       next: (result) => {
         this.startedGame.set(result.state);
-        this.session.setStage('in-game');
+        this.session.applyStartedGameState(result.state);
         this.game.set(result.game);
         this.startPending.set(false);
         this.startMessage.set('The room is now live. The synchronized opening state came from the API.');
@@ -109,6 +111,26 @@ export class GamePageComponent {
       error: (error: unknown) => {
         this.startPending.set(false);
         this.startMessage.set(this.getStartErrorMessage(error));
+      }
+    });
+  }
+
+  private syncGameState(sessionToken: string): void {
+    const slug = this.session.slug();
+
+    if (slug === null) {
+      return;
+    }
+
+    this.gamesApi.getGameState(slug, sessionToken).subscribe({
+      next: (result) => {
+        this.applyGameStateResult(result);
+      },
+      error: (error: unknown) => {
+        if (this.getStatus(error) === 401) {
+          this.session.clearStoredSessionToken(slug);
+          this.joinError.set('Your temporary access badge expired. Please identify yourself again.');
+        }
       }
     });
   }
@@ -124,6 +146,19 @@ export class GamePageComponent {
     });
   }
 
+  private applyGameStateResult(result: GameStateResponse): void {
+    this.startedGame.set(result.state ?? null);
+    this.session.applyGameState(result);
+    this.game.set(result.game);
+    this.joinError.set(null);
+
+    if (result.state !== undefined) {
+      this.startMessage.set('Recovered synchronized game state from the authenticated state endpoint.');
+    } else {
+      this.startMessage.set(null);
+    }
+  }
+
   private performJoin(payload: { displayName: string; avatar: AvatarDraft } | { sessionToken: string }): void {
     const slug = this.session.slug();
 
@@ -136,6 +171,7 @@ export class GamePageComponent {
 
     this.gamesApi.joinBootstrap(slug, payload).subscribe({
       next: (result) => {
+        this.startedGame.set(null);
         this.session.applyJoinBootstrap(result);
         this.game.set(result.game);
         this.startMessage.set(null);
@@ -152,13 +188,17 @@ export class GamePageComponent {
     });
   }
 
+  getActivePlayerPrestige(gamePlayerId: number | null | undefined): number {
+    if (gamePlayerId === null || gamePlayerId === undefined) {
+      return 0;
+    }
+
+    return this.startedGame()?.players.find((player) => player.gamePlayerId === gamePlayerId)
+      ?.officePrestige ?? 0;
+  }
+
   private getErrorMessage(error: unknown): string {
-    const status =
-      error instanceof HttpErrorResponse
-        ? error.status
-        : typeof error === 'object' && error !== null && 'status' in error
-          ? Number(error.status)
-          : 0;
+    const status = this.getStatus(error);
 
     if (status === 404) {
       return 'This room slug does not map to an active Watercooler game.';
@@ -168,12 +208,7 @@ export class GamePageComponent {
   }
 
   private getJoinErrorMessage(error: unknown): string {
-    const status =
-      error instanceof HttpErrorResponse
-        ? error.status
-        : typeof error === 'object' && error !== null && 'status' in error
-          ? Number(error.status)
-          : 0;
+    const status = this.getStatus(error);
     const apiMessage =
       error instanceof HttpErrorResponse
         ? error.error?.message
@@ -205,5 +240,13 @@ export class GamePageComponent {
     }
 
     return 'The host start request could not be completed.';
+  }
+
+  private getStatus(error: unknown): number {
+    return error instanceof HttpErrorResponse
+      ? error.status
+      : typeof error === 'object' && error !== null && 'status' in error
+        ? Number(error.status)
+        : 0;
   }
 }

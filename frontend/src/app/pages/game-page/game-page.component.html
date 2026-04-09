@@ -89,6 +89,22 @@
         @if (joinError(); as joinError) {
           <p class="inline-error" role="alert">{{ joinError }}</p>
         }
+      } @else if (session.stage() === 'in-game') {
+        <h2>Game Restored</h2>
+        <p class="panel-copy">
+          The authenticated state endpoint restored your live desk assignment and the active board
+          snapshot.
+        </p>
+
+        <div class="badge-summary">
+          <p><strong>Host:</strong> {{ session.currentPlayer()?.isHost ? 'Yes' : 'No' }}</p>
+          <p><strong>Player ID:</strong> {{ session.currentPlayer()?.gamePlayerId }}</p>
+          <p>
+            <strong>Office Prestige:</strong>
+            {{ getActivePlayerPrestige(session.currentPlayer()?.gamePlayerId) }}
+          </p>
+          <p><strong>Resources:</strong> Resynced from the authenticated game state.</p>
+        </div>
       } @else {
         <h2>Check-In Approved</h2>
         <p class="panel-copy">
@@ -108,11 +124,19 @@
     </mat-card>
 
     <mat-card appearance="outlined">
-      <h2>Waiting Room</h2>
-      <p class="panel-copy">
-        {{ session.joinedPlayerCount() }} of {{ session.maximumLobbyPlayers() }} desks are occupied.
-        The host can start when at least {{ session.minimumLobbyPlayers() }} employees are present.
-      </p>
+      @if (session.stage() === 'in-game') {
+        <h2>Active Roster</h2>
+        <p class="panel-copy">
+          {{ startedGame()?.players?.length ?? 0 }} employees are now synchronized into the live
+          game state.
+        </p>
+      } @else {
+        <h2>Waiting Room</h2>
+        <p class="panel-copy">
+          {{ session.joinedPlayerCount() }} of {{ session.maximumLobbyPlayers() }} desks are occupied.
+          The host can start when at least {{ session.minimumLobbyPlayers() }} employees are present.
+        </p>
+      }
 
       <div class="lobby-status">
         <div class="lobby-status__metric">
@@ -127,38 +151,61 @@
       </div>
 
       <div class="roster">
-        @for (player of session.joinedPlayers(); track player.gamePlayerId) {
-          <div class="roster-row">
-            <div>
-              <strong>{{ player.displayName }}</strong>
-              <p>{{ player.avatar.body }} / {{ player.avatar.face }} / {{ player.avatar.hair }}</p>
+        @if (session.stage() === 'in-game' && startedGame(); as startedGame) {
+          @for (player of startedGame.players; track player.gamePlayerId) {
+            <div class="roster-row">
+              <div>
+                <strong>{{ player.displayName }}</strong>
+                <p>Seat {{ player.seatOrder }} | Prestige {{ player.officePrestige }}</p>
+              </div>
+              <span class="roster-badge">{{ player.isHost ? 'Host' : player.joinStatus }}</span>
             </div>
-            <span class="roster-badge">{{ player.isHost ? 'Host' : player.joinStatus }}</span>
-          </div>
-        } @empty {
-          <p class="panel-copy">
-            No one has checked in yet. This room is still waiting on its first employee.
-          </p>
+          } @empty {
+            <p class="panel-copy">
+              The authenticated game state did not return any players.
+            </p>
+          }
+        } @else {
+          @for (player of session.joinedPlayers(); track player.gamePlayerId) {
+            <div class="roster-row">
+              <div>
+                <strong>{{ player.displayName }}</strong>
+                <p>{{ player.avatar.body }} / {{ player.avatar.face }} / {{ player.avatar.hair }}</p>
+              </div>
+              <span class="roster-badge">{{ player.isHost ? 'Host' : player.joinStatus }}</span>
+            </div>
+          } @empty {
+            <p class="panel-copy">
+              No one has checked in yet. This room is still waiting on its first employee.
+            </p>
+          }
         }
       </div>
 
-      <div class="start-controls">
-        <button
-          mat-flat-button
-          type="button"
-          [disabled]="!session.hasJoined() || startPending()"
-          (click)="requestStartGame()"
-        >
-          {{ startPending() ? 'Starting Game...' : 'Start Game' }}
-        </button>
+      @if (session.stage() === 'lobby') {
+        <div class="start-controls">
+          <button
+            mat-flat-button
+            type="button"
+            [disabled]="!session.hasJoined() || startPending()"
+            (click)="requestStartGame()"
+          >
+            {{ startPending() ? 'Starting Game...' : 'Start Game' }}
+          </button>
+          <p class="start-hint">
+            @if (session.canRequestStart()) {
+              The roster is large enough. The host can now promote this lobby into an active game.
+            } @else {
+              Waiting for the minimum player count before the host can launch the game.
+            }
+          </p>
+        </div>
+      } @else {
         <p class="start-hint">
-          @if (session.canRequestStart()) {
-            The roster is large enough. The host can now promote this lobby into an active game.
-          } @else {
-            Waiting for the minimum player count before the host can launch the game.
-          }
+          The authenticated game state has already advanced past the lobby, so start controls are
+          locked.
         </p>
-      </div>
+      }
 
       @if (startMessage(); as startMessage) {
         <p class="start-message">{{ startMessage }}</p>
@@ -166,11 +213,11 @@
     </mat-card>
 
     <mat-card appearance="outlined" class="wide">
-      <h2>Board Bootstrap</h2>
+      <h2>Authenticated Game State</h2>
       @if (startedGame(); as startedGame) {
         <p>
           Current turn: employee #{{ startedGame.currentTurnGamePlayerId }}. The backend seeded the
-          bank, market, and executive row for the first active round.
+          bank, market, and executive row for the current synchronized game state.
         </p>
         <mat-divider />
         <div class="future-columns">

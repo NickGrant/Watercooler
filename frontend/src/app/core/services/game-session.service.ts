@@ -2,8 +2,10 @@ import { computed, Injectable, signal } from '@angular/core';
 
 import { AvatarDraft, DEFAULT_AVATAR_DRAFT } from '../models/avatar-draft.model';
 import { GameShellStage } from '../models/game-shell-stage.model';
+import { GameStateResponse } from '../models/game-state-response.model';
 import { JoinBootstrapResponse } from '../models/join-bootstrap-response.model';
 import { JoinedPlayer } from '../models/joined-player.model';
+import { StartedGameResponse } from '../models/started-game-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,7 @@ export class GameSessionService {
   private readonly sessionTokenState = signal<string | null>(null);
   private readonly currentPlayerState = signal<JoinedPlayer | null>(null);
   private readonly joinedPlayersState = signal<JoinedPlayer[]>([]);
+  private readonly activeGameStateState = signal<StartedGameResponse['state'] | null>(null);
 
   readonly slug = this.slugState.asReadonly();
   readonly stage = this.stageState.asReadonly();
@@ -26,10 +29,15 @@ export class GameSessionService {
   readonly sessionToken = this.sessionTokenState.asReadonly();
   readonly currentPlayer = this.currentPlayerState.asReadonly();
   readonly joinedPlayers = this.joinedPlayersState.asReadonly();
+  readonly activeGameState = this.activeGameStateState.asReadonly();
   readonly joinedPlayerCount = computed(() => this.joinedPlayersState().length);
   readonly minimumLobbyPlayers = computed(() => 2);
   readonly maximumLobbyPlayers = computed(() => 4);
   readonly canRequestStart = computed(() => {
+    if (this.stageState() !== 'lobby') {
+      return false;
+    }
+
     const currentPlayer = this.currentPlayerState();
 
     return currentPlayer !== null && currentPlayer.isHost && this.joinedPlayersState().length >= 2;
@@ -53,6 +61,7 @@ export class GameSessionService {
       this.sessionTokenState.set(this.readStoredSessionToken(slug));
       this.currentPlayerState.set(null);
       this.joinedPlayersState.set([]);
+      this.activeGameStateState.set(null);
     }
   }
 
@@ -76,7 +85,25 @@ export class GameSessionService {
     this.sessionTokenState.set(result.session.token);
     this.currentPlayerState.set(result.player);
     this.joinedPlayersState.set(result.lobby.joinedPlayers);
+    this.activeGameStateState.set(null);
     this.persistSessionToken(result.game.slug, result.session.token);
+  }
+
+  applyGameState(result: GameStateResponse): void {
+    this.slugState.set(result.game.slug);
+    this.stageState.set(result.state === undefined ? 'lobby' : 'in-game');
+    this.playerNameState.set(result.player.displayName);
+    this.avatarDraftState.set(result.player.avatar);
+    this.sessionTokenState.set(result.session.token);
+    this.currentPlayerState.set(result.player);
+    this.joinedPlayersState.set(result.lobby?.joinedPlayers ?? []);
+    this.activeGameStateState.set(result.state ?? null);
+    this.persistSessionToken(result.game.slug, result.session.token);
+  }
+
+  applyStartedGameState(state: StartedGameResponse['state']): void {
+    this.stageState.set('in-game');
+    this.activeGameStateState.set(state);
   }
 
   clearStoredSessionToken(slug: string): void {

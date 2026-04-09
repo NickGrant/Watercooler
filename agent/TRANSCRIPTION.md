@@ -660,3 +660,22 @@ I pivoted to a repo-native SVG source pipeline, created an illustrative avatar o
 #### Entry 101
 Assistant:
 I completed `TASK-044` by replacing the join-page avatar selectors with image carousel controls in hair, face, body order, wiring them to the shared avatar draft state, styling the carousel frames, and adding Angular test coverage for both the render order and the cycling behavior.
+
+#### Entry 102
+User:
+add task - waiting room list needs to be auto updating
+add task - format room name in title with spaces instead of hyphens and each word capitalized
+add task - current room state box needs padding
+add task - replace labels for resources with iconography to significantly tighten up resource display
+add task - executive cards need redesigned to be much more visual, should be reminscent of "guess who" style cards
+add task - game scene width currently only using 2 of 3 columns, adjust layout to fit more on scren above the fold
+
+Assistant:
+I added `TASK-047` through `TASK-052` to the active UAT queue, covering waiting-room auto-refresh, room-title formatting, current-state spacing, compact resource iconography, a more visual executive-card treatment, and a wider above-the-fold board layout.
+
+#### Entry 103
+User:
+lets go ahead and start working through those tasks
+
+Assistant:
+I resumed the UAT cleanup pass, checked the repo state, confirmed only unrelated local changes were present outside the task files, then completed `TASK-048` by formatting room slugs into readable title-case room names in the game page header and adding frontend test coverage for the new title rendering.

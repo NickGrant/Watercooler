@@ -2,7 +2,7 @@
   <header class="board-header">
     <div>
       <p class="eyebrow">Watercooler Room</p>
-      <h1>{{ game()?.slug ?? session.slug() }}</h1>
+      <h1>{{ formattedRoomName() }}</h1>
       <p class="subhead">
         @if (game(); as game) {
           {{ game.playerCount }} employees checked in | {{ game.status }} status | {{ game.phase }}

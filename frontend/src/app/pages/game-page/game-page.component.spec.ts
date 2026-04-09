@@ -379,6 +379,16 @@ describe('GamePageComponent', () => {
     expect(fixture.componentInstance.game()?.slug).toBe('synergy-report-telemetry');
   });
 
+  it('formats the room slug as a readable room title', () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.formattedRoomName()).toBe('Synergy Report Telemetry');
+    expect(fixture.nativeElement.querySelector('h1')?.textContent?.trim()).toBe(
+      'Synergy Report Telemetry'
+    );
+  });
+
   it('restores an active game from the authenticated state endpoint when a session token exists', () => {
     localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
 

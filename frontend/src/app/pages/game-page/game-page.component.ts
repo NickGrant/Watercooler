@@ -100,6 +100,9 @@ export class GamePageComponent {
     'connections',
     'time'
   ];
+  readonly formattedRoomName = computed(() =>
+    this.formatRoomName(this.game()?.slug ?? this.session.slug())
+  );
   readonly activeState = computed(() => this.startedGame());
   readonly orderedPlayers = computed(
     () => [...(this.activeState()?.players ?? [])].sort((left, right) => left.seatOrder - right.seatOrder)
@@ -530,6 +533,18 @@ export class GamePageComponent {
     }
 
     return `${winner.displayName} secured the win on Office Prestige.`;
+  }
+
+  formatRoomName(slug: string | null | undefined): string {
+    if (typeof slug !== 'string' || slug.trim() === '') {
+      return 'Unknown Room';
+    }
+
+    return slug
+      .split('-')
+      .filter((segment) => segment.trim().length > 0)
+      .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
+      .join(' ');
   }
 
   private performGameAction(

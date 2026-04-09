@@ -22,14 +22,6 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocks: None
 - Description: Make the waiting room player list update automatically so new joins, reconnects, and status changes appear without a manual refresh during UAT.
 
-### TASK-048
-
-- Name: Format room slugs as readable title text
-- Priority: Medium
-- Blocked By: TASK-038
-- Blocks: None
-- Description: Present the room name in the page title area with spaces instead of hyphens and with each word capitalized so it reads like a real room name.
-
 ### TASK-049
 
 - Name: Add padding to the current room state box

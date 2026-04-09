@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-048
+
+- Name: Format room slugs as readable title text
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Present the room name in the page title area with spaces instead of hyphens and with each word capitalized so it reads like a real room name.
+
 ### TASK-044
 
 - Name: Rework avatar picker order and interaction model

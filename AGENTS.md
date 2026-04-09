@@ -46,6 +46,8 @@ If sources conflict, prefer the narrower planning or workflow file over the broa
 - Keep `agent/TASKS.md` small by moving future work to `agent/TASK_BACKLOG.md` and completed work to `agent/TASK_ARCHIVE.md`.
 - Treat unit tests as required for all new code and behavior changes unless there is a documented technical reason they cannot be added yet.
 - When adding or changing code, update or add tests in the same task rather than deferring them.
+- Use the shared skill definitions under `agent/skills/` when a workflow is captured as a repo skill.
+- Treat system-specific adapter directories as discovery shims only; shared behavior should live in `AGENTS.md`, `agent/AGENT_WORKFLOW.md`, `agent/LLM_CONTEXT.md`, or `agent/skills/`.
 
 ## File Placement
 

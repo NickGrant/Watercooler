@@ -35,8 +35,6 @@ This file tells agents what should stay in normal working context, what should b
   Original broad project brief.
 - `agent/skills/`
   Shared, system-agnostic skill definitions and their shared references.
-- `.github/copilot-instructions.md`
-  Copilot-specific adapter.
 - `.github/copilot/skills/transcription-sync/`
   Copilot transcript-maintenance pointer and any required tool-specific metadata.
 - `.codex/skills/transcription-sync/`

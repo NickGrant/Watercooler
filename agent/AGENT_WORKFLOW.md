@@ -40,7 +40,6 @@ Before ending a session or clearing context:
 
 ## System Adapters
 
-- Copilot adapter: `.github/copilot-instructions.md`
 - Shared skill source: `agent/skills/`
 - Copilot skill adapter: `.github/copilot/skills/`
 - Codex skill adapter: `.codex/skills/`

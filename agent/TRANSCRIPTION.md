@@ -308,7 +308,14 @@ Lets update how our skills are defined, I want to define them in /agent/skills/<
 Assistant:
 I moved the shared skill definition pattern into the repo docs, created a canonical `agent/skills/transcription-sync/` skill location with its shared reference file, and converted the `.codex/` and `.github/` skill entries into thin pointer `SKILL.md` adapters that refer back to the shared source.
 
+#### Entry 047
+User:
+it is my understanding that we don't need a [copilot-instructions.md](.github/copilot-instructions.md) file since we have an [AGENTS.md](AGENTS.md) file. If that is true can we condense everything into AGENTS and remove copilot-instructions
+
+Assistant:
+I confirmed the repo-local `copilot-instructions.md` file was only restating shared guidance already covered by `AGENTS.md`, `agent/AGENT_WORKFLOW.md`, and the shared skill location, then removed that file and updated the shared docs so the repository guidance lives in one shared place instead of a Copilot-specific copy.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 046.
+- Last updated through Session 001, Entry 047.
 - The next transcription update should append new user and assistant messages after this point.

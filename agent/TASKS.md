@@ -14,14 +14,6 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocks: TASK-039, TASK-046
 - Description: Record incoming UAT issues, confirm expected behavior, reproduce defects, and turn validated findings into implementation tasks.
 
-### TASK-051
-
-- Name: Redesign executive cards with a Guess Who style visual treatment
-- Priority: Medium
-- Blocked By: TASK-038
-- Blocks: None
-- Description: Redesign the executive cards to feel more visual and character-forward, with a presentation reminiscent of Guess Who style portrait cards.
-
 ### TASK-052
 
 - Name: Expand the game scene to use more of the available viewport

@@ -684,17 +684,26 @@
             </div>
           </section>
 
-          <section class="board-column">
+          <section class="board-column board-column--executive">
             <h3>Executive Row</h3>
             <div class="executive-grid">
               @for (executive of startedGame.executives; track executive.code) {
                 <article class="executive-card">
-                  <strong>{{ executive.name }}</strong>
-                  <p>Prestige {{ executive.officePrestige }}</p>
-                  <div class="cost-row">
-                    @for (entry of resourceEntries(executive.requirements); track entry[0]) {
-                      <span>{{ resourceLabel(entry[0]) }} {{ entry[1] }}</span>
-                    }
+                  <div class="executive-card__portrait">
+                    <span>Executive Portrait</span>
+                    <strong>{{ executive.name }}</strong>
+                    <p>Prestige {{ executive.officePrestige }}</p>
+                  </div>
+                  <div class="executive-card__details">
+                    <span class="executive-card__label">Requirement Profile</span>
+                    <div class="cost-row">
+                      @for (entry of resourceEntries(executive.requirements); track entry[0]) {
+                        <span class="resource-cost" [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]">
+                          <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
+                          <strong>{{ entry[1] }}</strong>
+                        </span>
+                      }
+                    </div>
                   </div>
                 </article>
               } @empty {

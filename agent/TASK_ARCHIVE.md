@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-051
+
+- Name: Redesign executive cards with a Guess Who style visual treatment
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Redesign the executive cards to feel more visual and character-forward, with a presentation reminiscent of Guess Who style portrait cards.
+
 ### TASK-050
 
 - Name: Replace resource text labels with compact iconography

@@ -383,6 +383,21 @@ describe('GamePageComponent', () => {
     expect(fixture.nativeElement.querySelector('.board-panel')).not.toBeNull();
   });
 
+  it('renders executive portrait cards with a portrait-and-profile layout', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    const executiveCards = fixture.nativeElement.querySelectorAll('.executive-card');
+
+    expect(executiveCards.length).toBe(1);
+    expect(executiveCards[0].querySelector('.executive-card__portrait')).not.toBeNull();
+    expect(executiveCards[0].querySelector('.executive-card__details')).not.toBeNull();
+    expect(executiveCards[0].textContent).toContain('Executive Portrait');
+    expect(executiveCards[0].textContent).toContain('Requirement Profile');
+  });
+
   it('does not show development-oriented board copy on the route shell', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
     fixture.detectChanges();

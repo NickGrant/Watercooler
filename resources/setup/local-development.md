@@ -112,6 +112,8 @@ Start the current local stack:
 docker compose up
 ```
 
+The Angular dev server proxies `/api/*` and `/health` requests to the API service during development, so browser traffic from `http://localhost:4200` can reach the PHP API without hardcoded frontend base URLs.
+
 Stop it again:
 
 ```powershell

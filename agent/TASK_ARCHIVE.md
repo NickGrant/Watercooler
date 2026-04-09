@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-046
+
+- Name: Debug create-new-game failure
+- Priority: High
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Reproduce and diagnose why the create-new-game flow is failing during UAT, then identify whether the issue is in the frontend request path, API behavior, Docker environment, or persisted data state.
+
 ### TASK-031
 
 - Name: Build in-app rules and help surface

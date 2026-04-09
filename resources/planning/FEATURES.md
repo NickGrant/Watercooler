@@ -69,3 +69,11 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Status: Complete
 - Description: Persist enough state to support active gameplay, reconnects, and post-game reconstruction.
 - Tasks: TASK-014, TASK-019, TASK-020, TASK-021, TASK-028, TASK-033
+
+### FEATURE-009
+
+- Name: UAT Cleanup And Stabilization
+- Priority: High
+- Status: In Progress
+- Description: Capture user-acceptance findings, fix defects, smooth rough edges, and harden the MVP experience before broader testing or release.
+- Tasks: TASK-038, TASK-039

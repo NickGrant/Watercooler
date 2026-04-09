@@ -554,3 +554,71 @@ I tightened the global Material theme definition to the map-based M2 form so the
 #### Entry 084
 Assistant:
 I reran the frontend build after the theme cleanup and confirmed it passed cleanly with only the pre-existing bundle and component-style budget warnings remaining.
+
+#### Entry 085
+User:
+I am running into an error when I try and bring these servers up in docker
+
+Assistant:
+I investigated the Docker startup path, reproduced the failure, found the immediate cause was a host port collision on `3306`, and updated the Docker configuration to move the host database port to `3307`, add the missing realtime database environment variables, mount the seed migration, and wait for a healthy database before starting dependent services.
+
+#### Entry 086
+User:
+alright, i am working on doing UAT, can you generate me an in-depth list of things to test
+
+Assistant:
+I produced a detailed UAT checklist covering create-game flow, pre-join, lobby, gameplay actions, executives, endgame, recovery, multiplayer consistency, help surface, visual presentation, and negative-path testing.
+
+#### Entry 087
+User:
+lets go ahead and start a UAT cleanup feature and I can start giving you tasks to add
+
+Assistant:
+I created a dedicated UAT cleanup feature in the planning files, promoted an intake task for capturing and triaging findings, and added a follow-on backlog task for implementing validated fixes.
+
+#### Entry 088
+User:
+add a task to remove the status-grid section on the home page
+
+Assistant:
+I added `TASK-040` to the active working set to remove the status-grid section from the landing page during the UAT cleanup pass.
+
+#### Entry 089
+User:
+add a task to make the h1 wider on the landing page
+
+Assistant:
+I added `TASK-041` to widen the landing page heading treatment so the hero text has more horizontal room.
+
+#### Entry 090
+User:
+add a task to make sure columns in game screen have padding
+add another task to remove any development related texted from the game screen like in the section labeled authenticated game state
+
+Assistant:
+I added `TASK-042` for game-screen spacing cleanup and `TASK-043` for removing development-oriented copy from the game route.
+
+#### Entry 091
+User:
+add a task to present the avatar form in this order:
+- hair
+- face
+- body
+and change them to image carousels. We will need graphic assets to represent each choice
+
+Assistant:
+I split that request into `TASK-044` for the avatar picker interaction and ordering changes and `TASK-045` for the supporting avatar art assets.
+
+#### Entry 092
+User:
+add a task to debug why create new game fails
+
+Assistant:
+I added `TASK-046` as a high-priority UAT debugging item because the create-game path is on the critical path for all other testing.
+
+#### Entry 093
+User:
+with those tasks, lets go ahead get to work through this feature. Commit after each task is complete, stop and confirm at the end of the feature. Ask any questions as you go
+
+Assistant:
+I started with `TASK-046`, reproduced the create-game failure, confirmed the API itself was healthy, identified that the Angular dev server was receiving `POST /api/games` directly and returning `Cannot POST /api/games`, then fixed the frontend development routing by adding an Angular proxy configuration so `/api` and `/health` requests are forwarded to the API service during local and Docker-backed development.

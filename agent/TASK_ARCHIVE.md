@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-045
+
+- Name: Create avatar option art assets
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Produce or integrate the graphic assets needed to represent each avatar choice in the carousel-based builder.
+
 ### TASK-043
 
 - Name: Remove development-oriented copy from the game screen

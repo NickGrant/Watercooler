@@ -61,6 +61,15 @@ final class RoomJoinServiceTest extends TestCase
 
         self::assertSame('disconnected', $repository->participants[1]->joinStatus);
     }
+
+    public function testItIgnoresDisconnectsForUnknownConnections(): void
+    {
+        $repository = new InMemoryJoinRoomRepository();
+        $service = new RoomJoinService($repository, new ActiveRoomRegistry());
+
+        self::assertNull($service->disconnect('missing-connection'));
+        self::assertSame('joined', $repository->participants[1]->joinStatus);
+    }
 }
 
 final class InMemoryJoinRoomRepository implements JoinRoomRepository

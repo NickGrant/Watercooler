@@ -69,4 +69,63 @@ final class RealtimeServerTest extends TestCase
         self::assertTrue($payload['payload']['reconnect']['wasReconnect']);
         self::assertSame('conn-1', $payload['payload']['reconnect']['replacedConnectionId']);
     }
+
+    public function testItReturnsADisconnectPayloadAndRoomSnapshotWhenAConnectionCloses(): void
+    {
+        $logger = new InMemoryLogger();
+        $registry = new ActiveRoomRegistry();
+        $server = new RealtimeServer(
+            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $logger,
+            $registry,
+            new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+        );
+
+        $server->joinConnection('conn-1', 'synergy-report-telemetry', 'temporary-session-token');
+        $payload = $server->disconnectConnection('conn-1');
+
+        self::assertSame('lobby.presence.disconnect', $payload['event']);
+        self::assertTrue($payload['payload']['wasKnownConnection']);
+        self::assertTrue($payload['payload']['roomEmptied']);
+        self::assertNull($payload['room']);
+    }
+
+    public function testItPreservesTheRemainingRoomSnapshotWhenOneConnectionDisconnects(): void
+    {
+        $logger = new InMemoryLogger();
+        $registry = new ActiveRoomRegistry();
+        $server = new RealtimeServer(
+            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $logger,
+            $registry,
+            new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+        );
+
+        $server->joinConnection('conn-1', 'synergy-report-telemetry', 'temporary-session-token');
+        $server->joinConnection('conn-2', 'synergy-report-telemetry', 'second-token');
+        $payload = $server->disconnectConnection('conn-1');
+
+        self::assertSame('lobby.presence.disconnect', $payload['event']);
+        self::assertFalse($payload['payload']['roomEmptied']);
+        self::assertSame('conn-2', $payload['room']['connections'][0]['connectionId']);
+        self::assertSame(1, $payload['payload']['remainingConnections']);
+    }
+
+    public function testItGracefullyIgnoresUnknownDisconnects(): void
+    {
+        $logger = new InMemoryLogger();
+        $registry = new ActiveRoomRegistry();
+        $server = new RealtimeServer(
+            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $logger,
+            $registry,
+            new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+        );
+
+        $payload = $server->disconnectConnection('missing-conn');
+
+        self::assertSame('lobby.presence.disconnect.missed', $payload['event']);
+        self::assertFalse($payload['payload']['wasKnownConnection']);
+        self::assertNull($payload['room']);
+    }
 }

@@ -35,4 +35,16 @@ final class ActiveRoomRegistryTest extends TestCase
         self::assertSame('conn-1', $removed?->connectionId);
         self::assertSame([], $registry->snapshot());
     }
+
+    public function testItReturnsNullWhenAnUnknownConnectionIsRemoved(): void
+    {
+        $registry = new ActiveRoomRegistry();
+        $registry->addConnection(
+            'synergy-report-telemetry',
+            new ClientSession('conn-1', 'synergy-report-telemetry', 'player-1', 'game-player-1'),
+        );
+
+        self::assertNull($registry->removeConnection('missing-connection'));
+        self::assertArrayHasKey('synergy-report-telemetry', $registry->snapshot());
+    }
 }

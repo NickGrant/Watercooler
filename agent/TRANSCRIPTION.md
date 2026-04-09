@@ -351,7 +351,14 @@ I strengthened the starter content set by renaming the seeded Workplace Advantag
 Assistant:
 I completed `TASK-027` by expanding the frontend active-game model to include full player resources, discounts, reserved cards, purchases, and executives; wiring the gameplay action endpoints into `GamesApiService`; and turning the game route into a working board shell with turn status, resource bank, market tiers, executive row, player panels, and action surfaces for taking resources, claiming projects, and purchasing advantages. I verified the board slice with Angular unit tests and a production build, then promoted `TASK-029` into the active working set and marked `FEATURE-006` as in progress.
 
+#### Entry 054
+User:
+Implement the backend/realtime slice of TASK-033. You own only backend/realtime files. Goal: improve disconnect/recovery handling around the existing room/session primitives so the server can surface graceful disconnect/resync events for lobby/game recovery work. Keep scope to realtime primitives and PHPUnit coverage.
+
+Assistant:
+I updated the realtime server and room/session primitives so disconnects now return structured graceful events with room snapshots for recovery flows, while unknown disconnects are handled as no-ops, and I backed the behavior with PHPUnit coverage in the room, registry, and server tests.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 053.
+- Last updated through Session 001, Entry 054.
 - The next transcription update should append new user and assistant messages after this point.

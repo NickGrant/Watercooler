@@ -82,18 +82,49 @@ final class RealtimeServer
         ];
     }
 
-    public function disconnectConnection(string $connectionId): void
+    /**
+     * @return array<string, mixed>
+     */
+    public function disconnectConnection(string $connectionId): array
     {
         $session = $this->joinRoomService->disconnect($connectionId);
+        $roomSnapshot = $this->roomRegistry->snapshot();
 
         if ($session === null) {
-            return;
+            $this->logger->debug('Realtime disconnect ignored for unknown connection.', [
+                'connectionId' => $connectionId,
+            ]);
+
+            return [
+                'event' => 'lobby.presence.disconnect.missed',
+                'room' => null,
+                'payload' => [
+                    'connectionId' => $connectionId,
+                    'wasKnownConnection' => false,
+                ],
+            ];
         }
+
+        $room = $roomSnapshot[$session->gameSlug] ?? null;
 
         $this->logger->info('Realtime connection disconnected from room.', [
             'connectionId' => $connectionId,
             'gameSlug' => $session->gameSlug,
-            'activeRooms' => count($this->roomRegistry->snapshot()),
+            'activeRooms' => count($roomSnapshot),
+            'remainingConnections' => $room !== null ? count($room['connections']) : 0,
+            'roomEmptied' => $room === null,
         ]);
+
+        return [
+            'event' => 'lobby.presence.disconnect',
+            'room' => $room,
+            'payload' => [
+                'connectionId' => $connectionId,
+                'session' => $session->toArray(),
+                'wasKnownConnection' => true,
+                'roomEmptied' => $room === null,
+                'remainingConnections' => $room !== null ? count($room['connections']) : 0,
+            ],
+        ];
     }
 }

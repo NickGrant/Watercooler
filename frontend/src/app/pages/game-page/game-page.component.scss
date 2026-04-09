@@ -6,8 +6,16 @@
   min-height: 100dvh;
   padding: 1.5rem;
   background:
-    linear-gradient(180deg, rgba(228, 235, 247, 0.98), rgba(207, 217, 232, 0.98)),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.28), transparent);
+    radial-gradient(circle at top right, rgba(255, 246, 210, 0.42), transparent 24%),
+    radial-gradient(circle at left 20%, rgba(183, 199, 226, 0.35), transparent 28%),
+    linear-gradient(180deg, rgba(240, 244, 250, 0.97), rgba(211, 221, 234, 0.97)),
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.06) 0,
+      rgba(255, 255, 255, 0.06) 1px,
+      transparent 1px,
+      transparent 14px
+    );
 }
 
 .board-header {
@@ -17,12 +25,13 @@
   gap: 1rem;
   max-width: 72rem;
   margin: 0 auto 1rem;
+  padding: 0.2rem 0.25rem;
 }
 
 .eyebrow,
 .status-card__label {
   margin: 0 0 0.35rem;
-  color: var(--wc-accent-strong);
+  color: var(--wc-accent-warm);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -32,6 +41,8 @@
 h1 {
   margin: 0;
   font-size: clamp(1.9rem, 4vw, 3rem);
+  letter-spacing: -0.02em;
+  color: var(--wc-ink-strong);
 }
 
 .subhead {
@@ -48,6 +59,12 @@ h1 {
 .status-card {
   min-width: 18rem;
   border-radius: 0;
+  border: 1px solid rgba(45, 61, 87, 0.14);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.75) inset,
+    0 10px 24px rgba(33, 49, 73, 0.08);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(240, 245, 252, 0.94));
 }
 
 .load-banner {
@@ -74,7 +91,12 @@ h1 {
 
 mat-card {
   border-radius: 0;
-  background: rgba(255, 255, 255, 0.82);
+  border: 1px solid rgba(47, 61, 87, 0.14);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.9), rgba(245, 248, 252, 0.88));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.8) inset,
+    0 16px 34px rgba(33, 49, 73, 0.08);
 }
 
 mat-form-field {
@@ -130,8 +152,9 @@ p {
 .executive-card,
 .metric-chip,
 .mini-card {
-  border: 1px solid rgba(47, 61, 87, 0.16);
-  background: rgba(248, 250, 253, 0.92);
+  border: 1px solid rgba(47, 61, 87, 0.18);
+  background:
+    linear-gradient(180deg, rgba(250, 252, 255, 0.96), rgba(240, 244, 250, 0.95));
 }
 
 .turn-summary__tile,
@@ -145,7 +168,7 @@ p {
 .metric-chip span {
   display: block;
   margin-bottom: 0.3rem;
-  color: var(--wc-accent-strong);
+  color: var(--wc-accent-warm);
   font-size: 0.78rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -153,7 +176,8 @@ p {
 }
 
 .resource-bank__tile--favor {
-  background: rgba(255, 244, 214, 0.95);
+  background:
+    linear-gradient(180deg, rgba(255, 247, 221, 0.98), rgba(250, 233, 187, 0.94));
 }
 
 .action-panel {
@@ -167,7 +191,7 @@ p {
   padding: 1.2rem;
   border: 1px solid rgba(52, 76, 115, 0.2);
   background:
-    linear-gradient(135deg, rgba(255, 247, 220, 0.96), rgba(239, 244, 255, 0.96));
+    linear-gradient(135deg, rgba(255, 248, 223, 0.97), rgba(234, 241, 252, 0.97));
 }
 
 .results-hero h3 {
@@ -206,7 +230,7 @@ p {
 
 .resource-pick--selected {
   border-color: rgba(52, 76, 115, 0.7);
-  background: rgba(228, 235, 247, 0.95);
+  background: linear-gradient(180deg, rgba(228, 235, 247, 0.98), rgba(210, 222, 239, 0.98));
 }
 
 .selection-copy {
@@ -229,7 +253,8 @@ p {
 .lobby-status__metric {
   padding: 0.8rem 0.95rem;
   border: 1px solid rgba(47, 61, 87, 0.16);
-  background: rgba(248, 250, 253, 0.9);
+  background:
+    linear-gradient(180deg, rgba(250, 252, 255, 0.95), rgba(240, 244, 250, 0.92));
 }
 
 .lobby-status__metric span {
@@ -249,13 +274,13 @@ p {
   gap: 1rem;
   padding: 0.85rem 1rem;
   border: 1px solid rgba(47, 61, 87, 0.16);
-  background: rgba(240, 244, 251, 0.8);
+  background: linear-gradient(180deg, rgba(244, 247, 252, 0.92), rgba(233, 238, 247, 0.88));
 }
 
 .roster-badge {
   padding: 0.2rem 0.55rem;
   border: 1px solid rgba(52, 76, 115, 0.2);
-  background: white;
+  background: linear-gradient(180deg, #ffffff, #eef2f8);
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.04em;
@@ -264,7 +289,7 @@ p {
 
 .roster-badge--winner {
   border-color: rgba(161, 117, 19, 0.28);
-  background: rgba(255, 243, 204, 0.95);
+  background: linear-gradient(180deg, rgba(255, 247, 209, 0.98), rgba(248, 226, 162, 0.96));
   color: #6f5410;
 }
 
@@ -274,7 +299,9 @@ p {
 
 .player-panel--active {
   border-color: rgba(52, 76, 115, 0.45);
-  box-shadow: inset 0 0 0 1px rgba(52, 76, 115, 0.2);
+  box-shadow:
+    inset 0 0 0 1px rgba(52, 76, 115, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.45);
 }
 
 .player-panel__header {
@@ -292,7 +319,7 @@ p {
 }
 
 .metric-chip--discount {
-  background: rgba(232, 245, 238, 0.92);
+  background: linear-gradient(180deg, rgba(232, 245, 238, 0.96), rgba(223, 236, 229, 0.96));
 }
 
 .card-stack,
@@ -309,7 +336,7 @@ p {
 }
 
 .mini-card--executive {
-  background: rgba(250, 240, 214, 0.95);
+  background: linear-gradient(180deg, rgba(252, 245, 221, 0.98), rgba(244, 232, 194, 0.95));
 }
 
 .start-controls {
@@ -330,7 +357,7 @@ p {
   margin-top: 1rem;
   padding: 0.75rem 1rem;
   border: 1px solid rgba(52, 76, 115, 0.18);
-  background: rgba(238, 243, 252, 0.9);
+  background: linear-gradient(180deg, rgba(238, 243, 252, 0.96), rgba(228, 235, 246, 0.94));
   color: var(--wc-ink-strong);
   font-weight: 600;
 }
@@ -365,7 +392,8 @@ p {
 .market-tier {
   padding: 1rem;
   border: 1px solid rgba(47, 61, 87, 0.16);
-  background: rgba(244, 247, 252, 0.94);
+  background:
+    linear-gradient(180deg, rgba(246, 248, 252, 0.96), rgba(236, 241, 248, 0.94));
 }
 
 .market-tier > header,
@@ -395,9 +423,44 @@ p {
 .cost-row span {
   padding: 0.25rem 0.55rem;
   border: 1px solid rgba(52, 76, 115, 0.16);
-  background: white;
+  background: linear-gradient(180deg, #ffffff, #eef2f8);
   font-size: 0.82rem;
   font-weight: 600;
+}
+
+.results-hero,
+.action-panel,
+.market-tier,
+.player-panel,
+.status-card,
+.turn-summary__tile,
+.lobby-status__metric,
+.resource-bank__tile,
+.mini-card,
+.market-card,
+.executive-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.results-hero::after,
+.action-panel::after,
+.market-tier::after,
+.player-panel::after,
+.status-card::after,
+.turn-summary__tile::after,
+.lobby-status__metric::after,
+.resource-bank__tile::after,
+.mini-card::after,
+.market-card::after,
+.executive-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 40%);
+  opacity: 0.6;
 }
 
 @media (max-width: 640px) {

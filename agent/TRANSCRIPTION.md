@@ -360,7 +360,7 @@ I updated the realtime server and room/session primitives so disconnects now ret
 
 ## Sync Notes
 
-- Last updated through Session 001, Entry 075.
+- Last updated through Session 001, Entry 076.
 - The next transcription update should append new user and assistant messages after this point.
 
 #### Entry 055
@@ -512,3 +512,10 @@ yes please, I did not realize we had skipped ahead
 
 Assistant:
 I resumed `FEATURE-006`, finished `TASK-029` by adding completed-game results presentation, winner/tie-break rendering, and a new-room path on the frontend with unit-test coverage, then moved the active working set to `TASK-031` and `TASK-032`.
+
+#### Entry 076
+User:
+Implement TASK-032 as a frontend visual-only slice. You own only style-oriented files unless absolutely necessary: frontend/src/app/pages/game-page/game-page.component.scss and any global frontend style file if needed. Goal: apply a stronger retro intranet / faux-corporate portal visual skin to the existing Angular board while preserving readability on desktop and mobile. Favor intentional typography, office-portal color treatment, and subtle atmospheric styling over generic defaults. You are not alone in the codebase; do not revert others' edits, and adjust to accommodate concurrent changes. Avoid editing TS/HTML unless you are blocked and can keep the write set minimal; if blocked, stop and say so instead of colliding. Run frontend build if practical. In your final message, list files changed and verification run.
+
+Assistant:
+I applied the retro intranet visual skin through component and global style updates, tuned the portal-like palette, textures, and card treatments for readability on desktop and mobile, verified the frontend build, and archived `TASK-032` as complete.

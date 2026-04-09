@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-032
+
+- Name: Apply retro intranet visual skin
+- Priority: Medium
+- Blocked By: TASK-027
+- Blocks: None
+- Description: Theme the Angular Material base into a readable faux-corporate portal with strong visual identity.
+
 ### TASK-029
 
 - Name: Build endgame and results presentation

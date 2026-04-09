@@ -14,14 +14,6 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocks: None
 - Description: Provide a concise rules modal or help surface using Watercooler terminology while remaining mechanically precise.
 
-### TASK-032
-
-- Name: Apply retro intranet visual skin
-- Priority: Medium
-- Blocked By: TASK-027
-- Blocks: None
-- Description: Theme the Angular Material base into a readable faux-corporate portal with strong visual identity.
-
 ## Task Management Rules
 
 - Keep this file limited to the current working set.

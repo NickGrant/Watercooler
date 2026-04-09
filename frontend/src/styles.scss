@@ -12,13 +12,16 @@ html {
 }
 
 :root {
-  --wc-panel: #f6f8fc;
-  --wc-accent: #5a6d95;
-  --wc-accent-strong: #2d456e;
-  --wc-frame-dark: #617492;
-  --wc-frame-light: #dbe4f0;
-  --wc-ink: #32435e;
-  --wc-ink-strong: #18263c;
+  --wc-panel: #f6f7fb;
+  --wc-panel-alt: #eef2f8;
+  --wc-accent: #566784;
+  --wc-accent-strong: #233a5c;
+  --wc-accent-warm: #8b6730;
+  --wc-frame-dark: #6d7f99;
+  --wc-frame-light: #d6dfeb;
+  --wc-ink: #2f3d53;
+  --wc-ink-strong: #1a2537;
+  --wc-glow: rgba(255, 248, 209, 0.55);
 }
 
 * {
@@ -33,7 +36,9 @@ body {
 body {
   margin: 0;
   color-scheme: light;
-  background: #dfe6f1;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.72), transparent 36%),
+    linear-gradient(180deg, #dbe3ef 0%, #c8d3e2 100%);
   color: var(--wc-ink);
   font-family: Tahoma, 'Trebuchet MS', Verdana, sans-serif;
 }
@@ -48,8 +53,21 @@ select {
 .mat-mdc-unelevated-button.mat-primary {
   --mdc-filled-button-container-color: var(--wc-accent-strong);
   --mdc-filled-button-label-text-color: #ffffff;
+  --mdc-filled-button-container-shape: 0;
+  --mdc-filled-button-label-text-font: 'Trebuchet MS', Tahoma, sans-serif;
+  --mdc-filled-button-label-text-tracking: 0.08em;
 }
 
 .mat-mdc-outlined-button {
   --mdc-outlined-button-outline-color: var(--wc-frame-dark);
+  --mdc-outlined-button-label-text-font: 'Trebuchet MS', Tahoma, sans-serif;
+}
+
+.mat-mdc-button-base {
+  letter-spacing: 0.04em;
+}
+
+::selection {
+  background: rgba(37, 63, 101, 0.16);
+  color: var(--wc-ink-strong);
 }

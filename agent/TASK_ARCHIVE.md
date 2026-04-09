@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-049
+
+- Name: Add padding to the current room state box
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Add internal spacing to the current room state status box so it feels visually balanced with the rest of the screen.
+
 ### TASK-048
 
 - Name: Format room slugs as readable title text

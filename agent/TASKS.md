@@ -22,14 +22,6 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocks: None
 - Description: Make the waiting room player list update automatically so new joins, reconnects, and status changes appear without a manual refresh during UAT.
 
-### TASK-049
-
-- Name: Add padding to the current room state box
-- Priority: Medium
-- Blocked By: TASK-038
-- Blocks: None
-- Description: Add internal spacing to the current room state status box so it feels visually balanced with the rest of the screen.
-
 ### TASK-050
 
 - Name: Replace resource text labels with compact iconography

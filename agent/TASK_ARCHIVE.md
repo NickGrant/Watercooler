@@ -13,7 +13,6 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: TASK-031, TASK-032
 - Description: Render the market, bank, executives, player panels, turn state, and action surfaces in a readable real-time layout.
-
 ### TASK-034
 
 - Name: Seed starter Workplace Advantages and Executives content

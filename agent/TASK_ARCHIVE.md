@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-044
+
+- Name: Rework avatar picker order and interaction model
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Change the avatar builder to present options in hair, face, body order and replace the current selectors with image carousel controls that preview each choice clearly.
+
 ### TASK-045
 
 - Name: Create avatar option art assets

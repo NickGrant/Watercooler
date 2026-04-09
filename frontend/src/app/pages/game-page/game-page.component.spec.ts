@@ -315,6 +315,33 @@ describe('GamePageComponent', () => {
     expect(session.playerName()).toBe('Pam');
   });
 
+  it('renders the avatar carousels in hair, face, body order', () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    const labels = Array.from(
+      fixture.nativeElement.querySelectorAll('.avatar-carousel__header span'),
+      (element: Element) => element.textContent?.trim()
+    );
+
+    expect(labels).toEqual(['Hair', 'Face', 'Body']);
+  });
+
+  it('cycles avatar selections through the image carousel controls', () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    const session = TestBed.inject(GameSessionService);
+
+    fixture.componentInstance.cycleAvatarOption('hair', 1);
+    fixture.componentInstance.cycleAvatarOption('face', 1);
+    fixture.componentInstance.cycleAvatarOption('body', 1);
+
+    expect(session.avatarDraft()).toEqual({
+      hair: 'executive-swoop',
+      face: 'coffee-grin',
+      body: 'hoodie'
+    });
+  });
+
   it('toggles the rules and help desk open and closed', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
     fixture.detectChanges();

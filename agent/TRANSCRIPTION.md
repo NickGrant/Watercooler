@@ -656,3 +656,7 @@ go ahead generate svg images for now and I can use them to feed an image gen api
 
 Assistant:
 I pivoted to a repo-native SVG source pipeline, created an illustrative avatar option asset set under `frontend/public/avatar-options/` for all current hair, face, and body options plus a mustache reference asset, and prepared to wire those assets into the avatar picker carousel next.
+
+#### Entry 101
+Assistant:
+I completed `TASK-044` by replacing the join-page avatar selectors with image carousel controls in hair, face, body order, wiring them to the shared avatar draft state, styling the carousel frames, and adding Angular test coverage for both the render order and the cycling behavior.

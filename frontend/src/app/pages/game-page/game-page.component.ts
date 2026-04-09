@@ -6,7 +6,6 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
@@ -31,6 +30,14 @@ interface ActionRecoveryPayload {
   state?: ActiveGameState;
 }
 
+type AvatarPart = keyof AvatarDraft;
+
+interface AvatarOptionDefinition {
+  value: string;
+  label: string;
+  imagePath: string;
+}
+
 @Component({
   selector: 'app-game-page',
   imports: [
@@ -39,8 +46,7 @@ interface ActionRecoveryPayload {
     MatCardModule,
     MatDividerModule,
     MatFormFieldModule,
-    MatInputModule,
-    MatSelectModule
+    MatInputModule
   ],
   templateUrl: './game-page.component.html',
   styleUrl: './game-page.component.scss'
@@ -64,21 +70,29 @@ export class GamePageComponent {
   readonly showRulesHelp = signal(false);
   readonly startedGame = signal<ActiveGameState | null>(null);
   readonly selectedTakeResources = signal<ResourceType[]>([]);
-  readonly bodyOptions = ['blazer', 'hoodie', 'cardigan', 'polo', 'power-suit'];
-  readonly faceOptions = [
-    'corporate-neutral',
-    'coffee-grin',
-    'meeting-fatigue',
-    'deadline-focus',
-    'visionary-smirk'
-  ];
-  readonly hairOptions = [
-    'side-part',
-    'executive-swoop',
-    'startup-mess',
-    'weekend-buzz',
-    'presentation-curl'
-  ];
+  readonly avatarOptions: Record<AvatarPart, AvatarOptionDefinition[]> = {
+    hair: [
+      { value: 'side-part', label: 'Side Part', imagePath: 'avatar-options/hair/side-part.svg' },
+      { value: 'executive-swoop', label: 'Executive Swoop', imagePath: 'avatar-options/hair/executive-swoop.svg' },
+      { value: 'startup-mess', label: 'Startup Mess', imagePath: 'avatar-options/hair/startup-mess.svg' },
+      { value: 'weekend-buzz', label: 'Weekend Buzz', imagePath: 'avatar-options/hair/weekend-buzz.svg' },
+      { value: 'presentation-curl', label: 'Presentation Curl', imagePath: 'avatar-options/hair/presentation-curl.svg' }
+    ],
+    face: [
+      { value: 'corporate-neutral', label: 'Corporate Neutral', imagePath: 'avatar-options/face/corporate-neutral.svg' },
+      { value: 'coffee-grin', label: 'Coffee Grin', imagePath: 'avatar-options/face/coffee-grin.svg' },
+      { value: 'meeting-fatigue', label: 'Meeting Fatigue', imagePath: 'avatar-options/face/meeting-fatigue.svg' },
+      { value: 'deadline-focus', label: 'Deadline Focus', imagePath: 'avatar-options/face/deadline-focus.svg' },
+      { value: 'visionary-smirk', label: 'Visionary Smirk', imagePath: 'avatar-options/face/visionary-smirk.svg' }
+    ],
+    body: [
+      { value: 'blazer', label: 'Blazer', imagePath: 'avatar-options/body/blazer.svg' },
+      { value: 'hoodie', label: 'Hoodie', imagePath: 'avatar-options/body/hoodie.svg' },
+      { value: 'cardigan', label: 'Cardigan', imagePath: 'avatar-options/body/cardigan.svg' },
+      { value: 'polo', label: 'Polo', imagePath: 'avatar-options/body/polo.svg' },
+      { value: 'power-suit', label: 'Power Suit', imagePath: 'avatar-options/body/power-suit.svg' }
+    ]
+  };
   readonly resourceTypes: ResourceType[] = [
     'coffee',
     'spreadsheets',
@@ -161,6 +175,25 @@ export class GamePageComponent {
 
   updateAvatar(part: keyof AvatarDraft, value: string): void {
     this.session.patchAvatarDraft({ [part]: value });
+  }
+
+  cycleAvatarOption(part: AvatarPart, direction: -1 | 1): void {
+    const options = this.avatarOptions[part];
+    const currentValue = this.session.avatarDraft()[part];
+    const currentIndex = Math.max(
+      0,
+      options.findIndex((option) => option.value === currentValue)
+    );
+    const nextIndex = (currentIndex + direction + options.length) % options.length;
+
+    this.updateAvatar(part, options[nextIndex].value);
+  }
+
+  currentAvatarOption(part: AvatarPart): AvatarOptionDefinition {
+    return (
+      this.avatarOptions[part].find((option) => option.value === this.session.avatarDraft()[part]) ??
+      this.avatarOptions[part][0]
+    );
   }
 
   toggleRulesHelp(): void {

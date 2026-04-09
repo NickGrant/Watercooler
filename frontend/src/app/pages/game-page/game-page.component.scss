@@ -123,6 +123,42 @@ p {
   gap: 0.75rem;
 }
 
+.avatar-carousel {
+  padding: 1rem;
+  border: 1px solid rgba(47, 61, 87, 0.16);
+  background: linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(238, 244, 251, 0.94));
+}
+
+.avatar-carousel__header {
+  display: grid;
+  gap: 0.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.avatar-carousel__header span {
+  color: var(--wc-accent-warm);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.avatar-carousel__frame {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.avatar-carousel__image {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: 0.6rem;
+  border: 1px solid rgba(47, 61, 87, 0.16);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 248, 253, 0.95));
+}
+
 .inline-error {
   margin-top: 1rem;
   padding: 0.75rem 1rem;

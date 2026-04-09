@@ -45,41 +45,65 @@
         </mat-form-field>
 
         <div class="avatar-grid">
-          <mat-form-field appearance="outline">
-            <mat-label>Body</mat-label>
-            <mat-select
-              [ngModel]="session.avatarDraft().body"
-              (ngModelChange)="updateAvatar('body', $event)"
-            >
-              @for (option of bodyOptions; track option) {
-                <mat-option [value]="option">{{ option }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+          <section class="avatar-carousel">
+            <div class="avatar-carousel__header">
+              <span>Hair</span>
+              <strong>{{ currentAvatarOption('hair').label }}</strong>
+            </div>
+            <div class="avatar-carousel__frame">
+              <button mat-mini-fab type="button" aria-label="Previous hair option" (click)="cycleAvatarOption('hair', -1)">
+                ‹
+              </button>
+              <img
+                class="avatar-carousel__image"
+                [src]="currentAvatarOption('hair').imagePath"
+                [alt]="currentAvatarOption('hair').label"
+              />
+              <button mat-mini-fab type="button" aria-label="Next hair option" (click)="cycleAvatarOption('hair', 1)">
+                ›
+              </button>
+            </div>
+          </section>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Face</mat-label>
-            <mat-select
-              [ngModel]="session.avatarDraft().face"
-              (ngModelChange)="updateAvatar('face', $event)"
-            >
-              @for (option of faceOptions; track option) {
-                <mat-option [value]="option">{{ option }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+          <section class="avatar-carousel">
+            <div class="avatar-carousel__header">
+              <span>Face</span>
+              <strong>{{ currentAvatarOption('face').label }}</strong>
+            </div>
+            <div class="avatar-carousel__frame">
+              <button mat-mini-fab type="button" aria-label="Previous face option" (click)="cycleAvatarOption('face', -1)">
+                ‹
+              </button>
+              <img
+                class="avatar-carousel__image"
+                [src]="currentAvatarOption('face').imagePath"
+                [alt]="currentAvatarOption('face').label"
+              />
+              <button mat-mini-fab type="button" aria-label="Next face option" (click)="cycleAvatarOption('face', 1)">
+                ›
+              </button>
+            </div>
+          </section>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Hair</mat-label>
-            <mat-select
-              [ngModel]="session.avatarDraft().hair"
-              (ngModelChange)="updateAvatar('hair', $event)"
-            >
-              @for (option of hairOptions; track option) {
-                <mat-option [value]="option">{{ option }}</mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
+          <section class="avatar-carousel">
+            <div class="avatar-carousel__header">
+              <span>Body</span>
+              <strong>{{ currentAvatarOption('body').label }}</strong>
+            </div>
+            <div class="avatar-carousel__frame">
+              <button mat-mini-fab type="button" aria-label="Previous body option" (click)="cycleAvatarOption('body', -1)">
+                ‹
+              </button>
+              <img
+                class="avatar-carousel__image"
+                [src]="currentAvatarOption('body').imagePath"
+                [alt]="currentAvatarOption('body').label"
+              />
+              <button mat-mini-fab type="button" aria-label="Next body option" (click)="cycleAvatarOption('body', 1)">
+                ›
+              </button>
+            </div>
+          </section>
         </div>
 
         <button mat-flat-button type="button" [disabled]="joinPending()" (click)="submitJoin()">

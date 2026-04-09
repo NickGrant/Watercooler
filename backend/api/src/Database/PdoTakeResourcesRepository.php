@@ -10,6 +10,7 @@ use Watercooler\Api\Games\ActiveGamePlayer;
 use Watercooler\Api\Games\ActiveGameState;
 use Watercooler\Api\Games\CardSeedDefinition;
 use Watercooler\Api\Games\ClaimProjectRepository;
+use Watercooler\Api\Games\EndgameResolver;
 use Watercooler\Api\Games\ExecutiveSeedDefinition;
 use Watercooler\Api\Games\GameSummary;
 use Watercooler\Api\Games\PlayerResourceSet;
@@ -25,6 +26,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
 
     public function __construct(
         private readonly DatabaseConfig $config,
+        private readonly EndgameResolver $endgameResolver = new EndgameResolver(),
     ) {
     }
 
@@ -426,6 +428,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
     ): ActiveGameState {
         $connection = $this->connection();
         $connection->beginTransaction();
+        $currentPhase = $this->currentGamePhase($connection, $gameId);
 
         try {
             $resourceCounts = array_count_values($resources);
@@ -477,6 +480,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
             ]);
 
             $updatedState = $this->loadState($gameId);
+            $this->applyPostTurnGameProgression($connection, $gameId, $actingGamePlayerId, $updatedState, $currentPhase);
 
             $connection->prepare(
                 <<<'SQL'
@@ -527,6 +531,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
     ): ActiveGameState {
         $connection = $this->connection();
         $connection->beginTransaction();
+        $currentPhase = $this->currentGamePhase($connection, $gameId);
 
         try {
             if ($source === 'market') {
@@ -685,6 +690,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
             ]);
 
             $updatedState = $this->loadState($gameId);
+            $this->applyPostTurnGameProgression($connection, $gameId, $actingGamePlayerId, $updatedState, $currentPhase);
 
             $connection->prepare(
                 <<<'SQL'
@@ -740,6 +746,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
     ): ActiveGameState {
         $connection = $this->connection();
         $connection->beginTransaction();
+        $currentPhase = $this->currentGamePhase($connection, $gameId);
 
         try {
             $selectedCardRow = null;
@@ -940,6 +947,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
             ]);
 
             $updatedState = $this->loadState($gameId);
+            $this->applyPostTurnGameProgression($connection, $gameId, $actingGamePlayerId, $updatedState, $currentPhase);
 
             $connection->prepare(
                 <<<'SQL'
@@ -1021,6 +1029,70 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
             'time' => 'permanent_time',
             default => throw new \InvalidArgumentException('Unsupported permanent discount column requested.'),
         };
+    }
+
+    private function currentGamePhase(PDO $connection, int $gameId): string
+    {
+        $statement = $connection->prepare('SELECT phase FROM games WHERE id = :game_id LIMIT 1');
+        $statement->execute(['game_id' => $gameId]);
+        $phase = $statement->fetchColumn();
+
+        if (!is_string($phase) || $phase === '') {
+            throw new \RuntimeException('The current game phase could not be determined.');
+        }
+
+        return $phase;
+    }
+
+    private function applyPostTurnGameProgression(
+        PDO $connection,
+        int $gameId,
+        int $actingGamePlayerId,
+        ActiveGameState $updatedState,
+        string $currentPhase,
+    ): void {
+        $shouldTriggerEndgame = $currentPhase === 'active'
+            && $this->endgameResolver->shouldTriggerEndgame($updatedState, $actingGamePlayerId);
+
+        if ($shouldTriggerEndgame && !$this->endgameResolver->isLastSeat($updatedState, $actingGamePlayerId)) {
+            $connection->prepare(
+                <<<'SQL'
+                UPDATE games
+                SET phase = 'endgame',
+                    endgame_triggered_by_game_player_id = :acting_game_player_id
+                WHERE id = :game_id
+                SQL
+            )->execute([
+                'acting_game_player_id' => $actingGamePlayerId,
+                'game_id' => $gameId,
+            ]);
+
+            return;
+        }
+
+        $shouldCompleteGame = ($currentPhase === 'endgame' || $shouldTriggerEndgame)
+            && $this->endgameResolver->isLastSeat($updatedState, $actingGamePlayerId);
+
+        if (!$shouldCompleteGame) {
+            return;
+        }
+
+        $winner = $this->endgameResolver->resolveWinner($updatedState);
+        $connection->prepare(
+            <<<'SQL'
+            UPDATE games
+            SET status = 'completed',
+                phase = 'completed',
+                winning_game_player_id = :winning_game_player_id,
+                endgame_triggered_by_game_player_id = COALESCE(endgame_triggered_by_game_player_id, :acting_game_player_id),
+                ended_at = CURRENT_TIMESTAMP
+            WHERE id = :game_id
+            SQL
+        )->execute([
+            'winning_game_player_id' => $winner->winnerGamePlayerId,
+            'acting_game_player_id' => $actingGamePlayerId,
+            'game_id' => $gameId,
+        ]);
     }
 
     /**

@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-026
+
+- Name: Implement endgame trigger and winner resolution
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-029, TASK-030
+- Description: Detect the prestige threshold, complete the round correctly, and resolve the winner according to Splendor-equivalent rules.
+
 ### TASK-025
 
 - Name: Implement Executive award and Office Prestige logic

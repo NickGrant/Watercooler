@@ -285,7 +285,15 @@ I implemented `TASK-025` by projecting claimed executives into player state, awa
 Assistant:
 I verified the executive-award work with PHPUnit, PHP linting, and a live Docker-backed API check that forced a known executive requirement for the active game, then confirmed a successful purchase response with a claimed executive, updated prestige, and one fewer available executive.
 
+#### Entry 042
+Assistant:
+I completed `TASK-026` by introducing a pure endgame resolver for threshold and winner logic, allowing legal actions during the final round, and teaching the shared gameplay repository to move games from `active` to `endgame` and finally to `completed` after the last seat in the round acts.
+
+#### Entry 043
+Assistant:
+I validated the endgame flow with PHPUnit, PHP linting, and a live Docker-backed API scenario that forced a threshold-crossing host purchase, confirmed the game entered `endgame`, let the remaining player take a final turn, and then verified the game completed with the expected winner persisted in MySQL.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 041.
+- Last updated through Session 001, Entry 043.
 - The next transcription update should append new user and assistant messages after this point.

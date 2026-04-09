@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-026
-
-- Name: Implement endgame trigger and winner resolution
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-029, TASK-030
-- Description: Detect the prestige threshold, complete the round correctly, and resolve the winner according to Splendor-equivalent rules.
-
 ### TASK-027
 
 - Name: Build main game board UI
@@ -42,7 +34,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Add core game rules automated tests
 - Priority: High
-- Blocked By: TASK-022, TASK-023, TASK-024, TASK-025, TASK-026
+- Blocked By: None
 - Blocks: None
 - Description: Cover legal and illegal move validation, executive logic, and endgame behavior at the rules layer.
 

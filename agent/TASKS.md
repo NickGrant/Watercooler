@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-026
+### TASK-030
 
-- Name: Implement endgame trigger and winner resolution
+- Name: Add core game rules automated tests
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-029, TASK-030
-- Description: Detect the prestige threshold, complete the round correctly, and resolve the winner according to Splendor-equivalent rules.
+- Blocks: None
+- Description: Cover legal and illegal move validation, executive logic, and endgame behavior at the rules layer.
 
 ## Task Management Rules
 

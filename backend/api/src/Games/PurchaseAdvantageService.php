@@ -22,7 +22,7 @@ final class PurchaseAdvantageService
             throw new PurchaseAdvantageException(404, 'game_not_found', 'No game exists for the provided slug.');
         }
 
-        if ($game->status !== 'active' || $game->phase !== 'active') {
+        if ($game->status !== 'active' || !in_array($game->phase, ['active', 'endgame'], true)) {
             throw new PurchaseAdvantageException(409, 'game_not_active', 'This Watercooler room is not currently accepting turn actions.');
         }
 

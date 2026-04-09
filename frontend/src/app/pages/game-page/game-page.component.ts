@@ -505,6 +505,12 @@ export class GamePageComponent {
       : resource.replace(/([A-Z])/g, ' $1').replace(/^./, (value) => value.toUpperCase());
   }
 
+  resourceIconPath(resource: string): string {
+    const iconName = resource === 'executiveFavor' ? 'executive-favor' : resource;
+
+    return `/resource-icons/${iconName}.svg`;
+  }
+
   resourceEntries(resources: Record<string, number>): Array<[string, number]> {
     return Object.entries(resources).filter(([, amount]) => amount > 0);
   }

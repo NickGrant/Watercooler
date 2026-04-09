@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">Budget resource icon</title>
+  <desc id="desc">A compact wallet with a coin.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#83c68f" />
+      <stop offset="1" stop-color="#4b9e5d" />
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="32" r="30" fill="url(#bg)" />
+  <path d="M15 26a4 4 0 0 1 4-4h23a7 7 0 0 1 7 7v14a4 4 0 0 1-4 4H19a4 4 0 0 1-4-4V26z" fill="#fff8ea" stroke="#255234" stroke-width="2.5" />
+  <path d="M42 29h8a3 3 0 0 1 0 6h-8z" fill="#ffe27c" stroke="#8d6d11" stroke-width="2.5" stroke-linejoin="round" />
+  <circle cx="39" cy="34" r="2.2" fill="#d4a726" />
+  <path d="M22 28h11" stroke="#255234" stroke-width="2.5" stroke-linecap="round" />
+  <path d="M22 41h18" stroke="#255234" stroke-width="2.5" stroke-linecap="round" />
+</svg>

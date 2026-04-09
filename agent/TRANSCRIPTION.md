@@ -687,3 +687,7 @@ I completed `TASK-049` by adding internal padding to the `Current Room State` st
 #### Entry 105
 Assistant:
 I completed `TASK-047` by adding a quiet lobby refresh loop that polls the authenticated room-state endpoint every few seconds while the page is in lobby, reuses the existing session-state application path, and adds Angular test coverage proving the waiting-room roster updates itself when another player appears.
+
+#### Entry 106
+Assistant:
+I completed `TASK-050` by replacing verbose resource labels throughout the game route with compact icon chips backed by new SVG resource assets, preserving accessibility through `aria-label`s, and validating the change with the frontend unit suite and production build.

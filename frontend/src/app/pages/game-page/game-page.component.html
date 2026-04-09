@@ -180,14 +180,16 @@
                 @for (resource of resourceTypes; track resource) {
                   <button
                     mat-stroked-button
+                    class="resource-chip resource-chip--pick"
                     type="button"
+                    [attr.aria-label]="'Take ' + resourceLabel(resource) + ' from the bank. ' + (activeState()?.bank?.[resource] ?? 0) + ' remain available.'"
                     [disabled]="actionPending() || !isCurrentPlayersTurn()"
                     [class.resource-pick--selected]="selectedTakeResources().includes(resource)"
                     (click)="toggleTakeResource(resource)"
                   >
-                    {{ resourceLabel(resource) }}
+                    <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
                     <span class="resource-pick__count">
-                      {{ activeState()?.bank?.[resource] ?? 0 }} in bank
+                      {{ activeState()?.bank?.[resource] ?? 0 }}
                     </span>
                   </button>
                 }
@@ -322,21 +324,27 @@
 
               <div class="player-panel__metrics">
                 @for (resource of resourceTypes; track resource) {
-                  <div class="metric-chip">
-                    <span>{{ resourceLabel(resource) }}</span>
+                  <div class="metric-chip" [attr.aria-label]="resourceLabel(resource) + ': ' + player.resources[resource]">
+                    <span class="metric-chip__icon-wrap">
+                      <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
+                    </span>
                     <strong>{{ player.resources[resource] }}</strong>
                   </div>
                 }
-                <div class="metric-chip">
-                  <span>Executive Favor</span>
+                <div class="metric-chip" aria-label="Executive Favor">
+                  <span class="metric-chip__icon-wrap">
+                    <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
+                  </span>
                   <strong>{{ player.resources.executiveFavor }}</strong>
                 </div>
               </div>
 
               <div class="player-panel__metrics">
                 @for (resource of resourceTypes; track resource) {
-                  <div class="metric-chip metric-chip--discount">
-                    <span>{{ resourceLabel(resource) }} Discount</span>
+                  <div class="metric-chip metric-chip--discount" [attr.aria-label]="resourceLabel(resource) + ' discount: ' + player.permanentDiscounts[resource]">
+                    <span class="metric-chip__icon-wrap">
+                      <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
+                    </span>
                     <strong>{{ player.permanentDiscounts[resource] }}</strong>
                   </div>
                 }
@@ -355,7 +363,9 @@
                       @for (card of player.reservedCards; track trackByCardCode($index, card)) {
                         <article class="mini-card">
                           <strong>{{ card.name }}</strong>
-                          <p>{{ resourceLabel(card.resourceDiscount) }} discount</p>
+                          <p class="resource-reference" [attr.aria-label]="resourceLabel(card.resourceDiscount) + ' discount'">
+                            <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
+                          </p>
                           <p>Prestige {{ card.officePrestige }}</p>
                           <button
                             mat-button
@@ -510,13 +520,13 @@
             <h3>Resource Bank</h3>
             <div class="resource-bank">
               @for (resource of resourceTypes; track resource) {
-                <article class="resource-bank__tile">
-                  <span>{{ resourceLabel(resource) }}</span>
+                <article class="resource-bank__tile" [attr.aria-label]="resourceLabel(resource) + ': ' + startedGame.bank[resource]">
+                  <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
                   <strong>{{ startedGame.bank[resource] }}</strong>
                 </article>
               }
-              <article class="resource-bank__tile resource-bank__tile--favor">
-                <span>Executive Favor</span>
+              <article class="resource-bank__tile resource-bank__tile--favor" aria-label="Executive Favor">
+                <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
                 <strong>{{ startedGame.bank.executiveFavor }}</strong>
               </article>
             </div>
@@ -534,14 +544,19 @@
                   @for (card of startedGame.market.tier1; track trackByCardCode($index, card)) {
                     <article class="market-card">
                       <div class="market-card__meta">
-                        <span>Discount: {{ resourceLabel(card.resourceDiscount) }}</span>
+                        <span class="resource-reference" [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)">
+                          <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
+                        </span>
                         <strong>Prestige {{ card.officePrestige }}</strong>
                       </div>
                       <h4>{{ card.name }}</h4>
                       <p>Market slot {{ card.marketSlot }}</p>
                       <div class="cost-row">
                         @for (entry of resourceEntries(card.cost); track entry[0]) {
-                          <span>{{ resourceLabel(entry[0]) }} {{ entry[1] }}</span>
+                          <span class="resource-cost" [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]">
+                            <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
+                            <strong>{{ entry[1] }}</strong>
+                          </span>
                         }
                       </div>
                       <div class="market-card__actions">
@@ -578,14 +593,19 @@
                   @for (card of startedGame.market.tier2; track trackByCardCode($index, card)) {
                     <article class="market-card">
                       <div class="market-card__meta">
-                        <span>Discount: {{ resourceLabel(card.resourceDiscount) }}</span>
+                        <span class="resource-reference" [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)">
+                          <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
+                        </span>
                         <strong>Prestige {{ card.officePrestige }}</strong>
                       </div>
                       <h4>{{ card.name }}</h4>
                       <p>Market slot {{ card.marketSlot }}</p>
                       <div class="cost-row">
                         @for (entry of resourceEntries(card.cost); track entry[0]) {
-                          <span>{{ resourceLabel(entry[0]) }} {{ entry[1] }}</span>
+                          <span class="resource-cost" [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]">
+                            <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
+                            <strong>{{ entry[1] }}</strong>
+                          </span>
                         }
                       </div>
                       <div class="market-card__actions">
@@ -622,14 +642,19 @@
                   @for (card of startedGame.market.tier3; track trackByCardCode($index, card)) {
                     <article class="market-card">
                       <div class="market-card__meta">
-                        <span>Discount: {{ resourceLabel(card.resourceDiscount) }}</span>
+                        <span class="resource-reference" [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)">
+                          <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
+                        </span>
                         <strong>Prestige {{ card.officePrestige }}</strong>
                       </div>
                       <h4>{{ card.name }}</h4>
                       <p>Market slot {{ card.marketSlot }}</p>
                       <div class="cost-row">
                         @for (entry of resourceEntries(card.cost); track entry[0]) {
-                          <span>{{ resourceLabel(entry[0]) }} {{ entry[1] }}</span>
+                          <span class="resource-cost" [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]">
+                            <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
+                            <strong>{{ entry[1] }}</strong>
+                          </span>
                         }
                       </div>
                       <div class="market-card__actions">

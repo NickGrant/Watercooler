@@ -14,14 +14,6 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocks: TASK-039, TASK-046
 - Description: Record incoming UAT issues, confirm expected behavior, reproduce defects, and turn validated findings into implementation tasks.
 
-### TASK-050
-
-- Name: Replace resource text labels with compact iconography
-- Priority: Medium
-- Blocked By: TASK-038
-- Blocks: None
-- Description: Replace or supplement verbose resource labels with recognizable iconography so the resource displays become significantly tighter and faster to scan.
-
 ### TASK-051
 
 - Name: Redesign executive cards with a Guess Who style visual treatment

@@ -327,6 +327,24 @@ describe('GamePageComponent', () => {
     expect(labels).toEqual(['Hair', 'Face', 'Body']);
   });
 
+  it('renders resource displays as compact icon chips with accessible labels', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    const resourceBankTile = fixture.nativeElement.querySelector('.resource-bank__tile');
+    const resourcePick = fixture.nativeElement.querySelector('.resource-chip--pick');
+    const resourceCost = fixture.nativeElement.querySelector('.resource-cost');
+
+    expect(resourceBankTile?.getAttribute('aria-label')).toContain('Coffee');
+    expect(resourceBankTile?.textContent?.replace(/\s+/g, '')).toBe('4');
+    expect(resourcePick?.getAttribute('aria-label')).toContain('Take Coffee');
+    expect(resourcePick?.querySelector('img.resource-icon')).not.toBeNull();
+    expect(resourceCost?.getAttribute('aria-label')).toContain('Coffee');
+    expect(resourceCost?.textContent?.replace(/\s+/g, '')).toBe('2');
+  });
+
   it('cycles avatar selections through the image carousel controls', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
     const session = TestBed.inject(GameSessionService);

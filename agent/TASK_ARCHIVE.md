@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-050
+
+- Name: Replace resource text labels with compact iconography
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Replace or supplement verbose resource labels with recognizable iconography so the resource displays become significantly tighter and faster to scan.
+
 ### TASK-047
 
 - Name: Auto-update the waiting room roster

@@ -30,6 +30,13 @@ describe('HomePageComponent', () => {
     expect(link?.textContent).toContain('Preview Game Route Shell');
   });
 
+  it('does not render the landing-page status grid during UAT cleanup', () => {
+    const fixture = TestBed.createComponent(HomePageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.status-grid')).toBeNull();
+  });
+
   it('creates a game and navigates to the game route', async () => {
     gamesApi.createGame.and.returnValue(
       of({

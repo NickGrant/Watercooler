@@ -622,3 +622,11 @@ with those tasks, lets go ahead get to work through this feature. Commit after e
 
 Assistant:
 I started with `TASK-046`, reproduced the create-game failure, confirmed the API itself was healthy, identified that the Angular dev server was receiving `POST /api/games` directly and returning `Cannot POST /api/games`, then fixed the frontend development routing by adding an Angular proxy configuration so `/api` and `/health` requests are forwarded to the API service during local and Docker-backed development.
+
+#### Entry 094
+Assistant:
+I verified the create-game fix end to end by restarting the frontend container, confirming `POST http://localhost:4200/api/games` now proxies successfully to the API, and then committed `TASK-046`.
+
+#### Entry 095
+Assistant:
+I moved to `TASK-040`, removed the extra status-grid section from the landing page, tightened the home-page stylesheet, added a focused unit test asserting that the status grid no longer renders, and reran the frontend test suite and production build successfully.

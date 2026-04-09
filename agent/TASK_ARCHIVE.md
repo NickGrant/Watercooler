@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-040
+
+- Name: Remove home page status-grid section
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Remove the status-grid section from the home page so the landing experience stays focused on the primary create-game path during UAT cleanup.
+
 ### TASK-046
 
 - Name: Debug create-new-game failure

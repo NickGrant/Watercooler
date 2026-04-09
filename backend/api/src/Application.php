@@ -12,6 +12,7 @@ use Watercooler\Api\Database\PdoStartGameRepository;
 use Watercooler\Api\Database\PdoTakeResourcesRepository;
 use Watercooler\Api\Games\ClaimProjectService;
 use Watercooler\Api\Games\CreateGameService;
+use Watercooler\Api\Games\LoadGameStateService;
 use Watercooler\Api\Games\OfficeSlugGenerator;
 use Watercooler\Api\Games\PurchaseAdvantageService;
 use Watercooler\Api\Games\RandomDeckShuffler;
@@ -65,6 +66,7 @@ final class Application
         $takeResourcesService = new TakeResourcesService($takeResourcesRepository);
         $claimProjectService = new ClaimProjectService($takeResourcesRepository);
         $purchaseAdvantageService = new PurchaseAdvantageService($takeResourcesRepository);
+        $loadGameStateService = new LoadGameStateService($joinBootstrapRepository, $takeResourcesRepository);
 
         $healthCheckAction = new HealthCheckAction($config);
         $createGameAction = new CreateGameAction($createGameService);
@@ -74,7 +76,7 @@ final class Application
         $purchaseAdvantageAction = new PurchaseAdvantageAction($purchaseAdvantageService);
         $startGameAction = new StartGameAction($startGameService);
         $takeResourcesAction = new TakeResourcesAction($takeResourcesService);
-        $gameStateAction = new GameStateAction();
+        $gameStateAction = new GameStateAction($loadGameStateService);
 
         $router->get('/health', static fn(Request $request, RouteMatch $match): Response => $healthCheckAction($request, $match));
         $router->post('/api/games', static fn(Request $request, RouteMatch $match): Response => $createGameAction($request, $match));

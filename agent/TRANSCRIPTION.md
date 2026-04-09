@@ -322,21 +322,25 @@ Please implement the backend/realtime side of TASK-028 that does not overlap the
 Assistant:
 I updated the realtime room/session flow so reconnects replace stale connections for the same player, surface reconnect metadata in join results, and emit a reconnect-specific resync event from `RealtimeServer`, with PHPUnit coverage added for the room, join service, and server paths.
 
-## Sync Notes
-
-- Last updated through Session 001, Entry 048.
-- The next transcription update should append new user and assistant messages after this point.
-
 #### Entry 049
 User:
-Quick status check: what files are you currently editing for the frontend TASK-028 slice, and are you close to completion? Please do not change scope; I just need coordination context.
+please commit and then evaluate the next block of work, if possible, try and group the tasks so you can use sub-agents to complete these in parallel
 
 Assistant:
-I confirmed the frontend TASK-028 edit set was centered on the shared game-state model, `GamesApiService`, `GameSessionService`, and `GamePageComponent` plus their related specs, and that the implementation was already close to the validation phase rather than a scope expansion.
+I committed the documentation cleanup, evaluated the remaining roadmap, and recommended a parallel next block centered on `TASK-027`, `TASK-028`, and `TASK-034`, with guidance about which work could safely run in parallel and which files should stay under single ownership.
 
 #### Entry 050
 User:
-Implement the frontend side of TASK-028 using the new authenticated GET /api/games/{slug}/state contract. You own only frontend files. You are not alone in the codebase; do not revert others' edits, and adjust to accommodate concurrent changes. Focus on adding the frontend model(s), GamesApiService getGameState call, GameSessionService support for resynced state, and GamePageComponent startup flow so active/completed games resync from /state instead of only replaying join-bootstrap. Add or update Angular tests. In your final message, list the files you changed.
+yes please. Is this the correct way to orchestrate subagents? I am new to the concept
 
 Assistant:
-I implemented the frontend `/state` contract support by adding a shared game-state response model, wiring `GamesApiService.getGameState`, teaching `GameSessionService` to store resynced active game state, and updating `GamePageComponent` so authenticated reloads restore from `/state` for both lobby and active-game paths instead of replaying join-bootstrap. I also added and updated Angular tests for the new API call, session behavior, and page startup flow.
+I confirmed that the orchestration pattern was sound, explained that the right approach is to keep the blocking contract decision local while delegating bounded, non-overlapping slices, then activated `TASK-028`, delegated backend/realtime and frontend-adjacent work where appropriate, and implemented the authenticated `/api/games/{slug}/state` resync contract on the API side.
+
+#### Entry 051
+Assistant:
+I integrated the reconnect/resync slice across API, realtime, and frontend, verified it with PHPUnit, linting, Angular tests, and a production frontend build, then moved `TASK-028` to the archive and promoted `TASK-027` into the active working set for the next feature block.
+
+## Sync Notes
+
+- Last updated through Session 001, Entry 051.
+- The next transcription update should append new user and assistant messages after this point.

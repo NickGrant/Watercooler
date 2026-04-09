@@ -6,7 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-Feature 5 is complete. No active task is currently loaded while the repo pauses for user verification before work begins on the next feature.
+### TASK-027
+
+- Name: Build main game board UI
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-031, TASK-032
+- Description: Render the market, bank, executives, player panels, turn state, and action surfaces in a readable real-time layout.
 
 ## Task Management Rules
 

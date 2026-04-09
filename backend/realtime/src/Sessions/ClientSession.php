@@ -14,6 +14,13 @@ final class ClientSession
     ) {
     }
 
+    public function isSamePlayer(ClientSession $other): bool
+    {
+        return $this->gameSlug === $other->gameSlug
+            && $this->gamePlayerId !== null
+            && $this->gamePlayerId === $other->gamePlayerId;
+    }
+
     public function toArray(): array
     {
         return [

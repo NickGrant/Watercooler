@@ -20,10 +20,13 @@ final class ActiveRoomRegistry
         return $this->rooms[$slug];
     }
 
-    public function addConnection(string $slug, ClientSession $session): void
+    /**
+     * @return ClientSession|null
+     */
+    public function addConnection(string $slug, ClientSession $session): ?ClientSession
     {
         $room = $this->getOrCreate($slug);
-        $room->addSession($session);
+        return $room->addSession($session);
     }
 
     public function removeConnection(string $connectionId): ?ClientSession

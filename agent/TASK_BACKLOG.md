@@ -6,22 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-027
-
-- Name: Build main game board UI
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-031, TASK-032
-- Description: Render the market, bank, executives, player panels, turn state, and action surfaces in a readable real-time layout.
-
-### TASK-028
-
-- Name: Implement reconnect and resync flow
-- Priority: Medium
-- Blocked By: None
-- Blocks: TASK-033
-- Description: Allow a player with a valid temporary session to re-enter an in-progress or lobby game without a full account system.
-
 ### TASK-029
 
 - Name: Build endgame and results presentation

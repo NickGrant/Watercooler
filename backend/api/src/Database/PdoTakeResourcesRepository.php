@@ -13,6 +13,7 @@ use Watercooler\Api\Games\ClaimProjectRepository;
 use Watercooler\Api\Games\EndgameResolver;
 use Watercooler\Api\Games\ExecutiveSeedDefinition;
 use Watercooler\Api\Games\GameSummary;
+use Watercooler\Api\Games\GameStateProjectionRepository;
 use Watercooler\Api\Games\PlayerResourceSet;
 use Watercooler\Api\Games\PlayerCardView;
 use Watercooler\Api\Games\PlayerExecutiveView;
@@ -20,7 +21,7 @@ use Watercooler\Api\Games\PurchaseAdvantageRepository;
 use Watercooler\Api\Games\StartGamePlayer;
 use Watercooler\Api\Games\TakeResourcesRepository;
 
-final class PdoTakeResourcesRepository implements TakeResourcesRepository, ClaimProjectRepository, PurchaseAdvantageRepository
+final class PdoTakeResourcesRepository implements TakeResourcesRepository, ClaimProjectRepository, PurchaseAdvantageRepository, GameStateProjectionRepository
 {
     private ?PDO $connection = null;
 

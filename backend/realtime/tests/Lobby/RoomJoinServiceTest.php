@@ -24,6 +24,21 @@ final class RoomJoinServiceTest extends TestCase
         self::assertSame('conn-1', $result->session->connectionId);
         self::assertSame('connected', $repository->participants[1]->joinStatus);
         self::assertCount(2, $result->participants);
+        self::assertFalse($result->wasReconnect);
+    }
+
+    public function testItFlagsAReconnectWhenTheSamePlayerJoinsFromADifferentConnection(): void
+    {
+        $repository = new InMemoryJoinRoomRepository();
+        $registry = new ActiveRoomRegistry();
+        $service = new RoomJoinService($repository, $registry);
+
+        $service->join('conn-1', 'synergy-report-telemetry', 'temporary-session-token');
+        $result = $service->join('conn-2', 'synergy-report-telemetry', 'temporary-session-token');
+
+        self::assertTrue($result->wasReconnect);
+        self::assertSame('conn-1', $result->replacedConnectionId);
+        self::assertSame('conn-2', $registry->snapshot()['synergy-report-telemetry']['connections'][0]['connectionId']);
     }
 
     public function testItRejectsUnknownTokens(): void

@@ -64,16 +64,19 @@ final class RealtimeServer
     {
         $result = $this->joinRoomService->join($connectionId, $slug, $sessionToken);
         $roomSnapshot = $this->roomRegistry->snapshot();
+        $event = $result->wasReconnect ? 'lobby.presence.resync' : 'lobby.presence.sync';
 
         $this->logger->info('Realtime connection joined room.', [
             'connectionId' => $connectionId,
             'gameSlug' => $slug,
             'playerId' => $result->participant->playerId,
             'connectedPlayers' => count($result->participants),
+            'wasReconnect' => $result->wasReconnect,
+            'replacedConnectionId' => $result->replacedConnectionId,
         ]);
 
         return [
-            'event' => 'lobby.presence.sync',
+            'event' => $event,
             'room' => $roomSnapshot[$slug] ?? null,
             'payload' => $result->toArray(),
         ];

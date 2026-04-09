@@ -15,6 +15,8 @@ final class RoomJoinResult
         public readonly ClientSession $session,
         public readonly LobbyParticipant $participant,
         public readonly array $participants,
+        public readonly bool $wasReconnect = false,
+        public readonly ?string $replacedConnectionId = null,
     ) {
     }
 
@@ -26,6 +28,10 @@ final class RoomJoinResult
         return [
             'session' => $this->session->toArray(),
             'participant' => $this->participant->toArray(),
+            'reconnect' => [
+                'wasReconnect' => $this->wasReconnect,
+                'replacedConnectionId' => $this->replacedConnectionId,
+            ],
             'presence' => array_map(
                 static fn(LobbyParticipant $participant): array => $participant->toArray(),
                 $this->participants,

@@ -16,9 +16,23 @@ final class GameRoom
     ) {
     }
 
-    public function addSession(ClientSession $session): void
+    /**
+     * @return ClientSession|null The replaced session if the same player reconnected.
+     */
+    public function addSession(ClientSession $session): ?ClientSession
     {
+        foreach ($this->sessions as $connectionId => $existingSession) {
+            if ($existingSession->isSamePlayer($session)) {
+                unset($this->sessions[$connectionId]);
+                $this->sessions[$session->connectionId] = $session;
+
+                return $existingSession;
+            }
+        }
+
         $this->sessions[$session->connectionId] = $session;
+
+        return null;
     }
 
     public function removeSession(string $connectionId): ?ClientSession

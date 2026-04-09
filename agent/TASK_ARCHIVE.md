@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-028
+
+- Name: Implement reconnect and resync flow
+- Priority: Medium
+- Blocked By: None
+- Blocks: TASK-033
+- Description: Allow a player with a valid temporary session to re-enter an in-progress or lobby game without a full account system.
+
 ### TASK-030
 
 - Name: Add core game rules automated tests

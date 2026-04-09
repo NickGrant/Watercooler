@@ -37,12 +37,14 @@ final class RoomJoinService
         );
 
         $this->repository->markConnected($participant->gamePlayerId);
-        $this->roomRegistry->addConnection($participant->gameSlug, $session);
+        $replacedSession = $this->roomRegistry->addConnection($participant->gameSlug, $session);
 
         return new RoomJoinResult(
             session: $session,
             participant: $participant,
             participants: $this->repository->listParticipants($participant->gameId),
+            wasReconnect: $replacedSession !== null,
+            replacedConnectionId: $replacedSession?->connectionId,
         );
     }
 

@@ -50,4 +50,23 @@ final class RealtimeServerTest extends TestCase
         self::assertSame('conn-1', $payload['room']['connections'][0]['connectionId']);
         self::assertSame('Pam', $payload['payload']['participant']['displayName']);
     }
+
+    public function testItReturnsAReconnectResyncPayloadWhenTheSamePlayerReconnects(): void
+    {
+        $logger = new InMemoryLogger();
+        $registry = new ActiveRoomRegistry();
+        $server = new RealtimeServer(
+            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $logger,
+            $registry,
+            new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+        );
+
+        $server->joinConnection('conn-1', 'synergy-report-telemetry', 'temporary-session-token');
+        $payload = $server->joinConnection('conn-2', 'synergy-report-telemetry', 'temporary-session-token');
+
+        self::assertSame('lobby.presence.resync', $payload['event']);
+        self::assertTrue($payload['payload']['reconnect']['wasReconnect']);
+        self::assertSame('conn-1', $payload['payload']['reconnect']['replacedConnectionId']);
+    }
 }

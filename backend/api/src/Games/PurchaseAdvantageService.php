@@ -38,7 +38,12 @@ final class PurchaseAdvantageService
 
         $state = $this->repository->loadState($game->id);
         if ($state->currentTurnGamePlayerId !== $actingPlayer->gamePlayerId) {
-            throw new PurchaseAdvantageException(409, 'not_players_turn', 'Only the active player may purchase a Workplace Advantage right now.');
+            throw $this->recoverableConflict(
+                'not_players_turn',
+                'Only the active player may purchase a Workplace Advantage right now.',
+                $game,
+                $state,
+            );
         }
 
         $playerState = $state->playerById($actingPlayer->gamePlayerId)
@@ -70,7 +75,12 @@ final class PurchaseAdvantageService
             }
 
             if ($selectedCard === null) {
-                throw new PurchaseAdvantageException(404, 'market_card_not_found', 'The selected market card is no longer available.');
+                throw $this->recoverableConflict(
+                    'market_card_not_found',
+                    'The selected market card is no longer available.',
+                    $game,
+                    $state,
+                );
             }
         } else {
             $cardCode = trim((string) ($payload['cardCode'] ?? ''));
@@ -86,11 +96,16 @@ final class PurchaseAdvantageService
             }
 
             if ($selectedCard === null) {
-                throw new PurchaseAdvantageException(404, 'reserved_card_not_found', 'The selected reserved card is not owned by this player.');
+                throw $this->recoverableConflict(
+                    'reserved_card_not_found',
+                    'The selected reserved card is not owned by this player.',
+                    $game,
+                    $state,
+                );
             }
         }
 
-        $spentResources = $this->buildSpentResources($playerState, $selectedCard);
+        $spentResources = $this->buildSpentResources($playerState, $selectedCard, $game, $state);
 
         $updatedState = $this->repository->applyPurchaseAdvantage(
             $game->id,
@@ -113,7 +128,7 @@ final class PurchaseAdvantageService
     /**
      * @return array<string, int>
      */
-    private function buildSpentResources(ActiveGamePlayer $player, PlayerCardView|CardSeedDefinition $card): array
+    private function buildSpentResources(ActiveGamePlayer $player, PlayerCardView|CardSeedDefinition $card, GameSummary $game, ActiveGameState $state): array
     {
         $availableResources = [
             'coffee' => $player->resources->coffee,
@@ -141,15 +156,30 @@ final class PurchaseAdvantageService
         }
 
         if ($remainingShortfall > $player->resources->executiveFavor) {
-            throw new PurchaseAdvantageException(
-                409,
+            throw $this->recoverableConflict(
                 'insufficient_resources',
                 'The selected Workplace Advantage is not affordable with the player resources and Executive Favor currently available.',
+                $game,
+                $state,
             );
         }
 
         $spentResources['executiveFavor'] = $remainingShortfall;
 
         return $spentResources;
+    }
+
+    private function recoverableConflict(string $error, string $message, GameSummary $game, ActiveGameState $state): PurchaseAdvantageException
+    {
+        return new PurchaseAdvantageException(
+            409,
+            $error,
+            $message,
+            [
+                'shouldResync' => true,
+                'game' => $game->toArray(),
+                'state' => $state->toArray(),
+            ],
+        );
     }
 }

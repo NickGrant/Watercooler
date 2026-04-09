@@ -38,14 +38,24 @@ final class ClaimProjectService
 
         $state = $this->repository->loadState($game->id);
         if ($state->currentTurnGamePlayerId !== $actingPlayer->gamePlayerId) {
-            throw new ClaimProjectException(409, 'not_players_turn', 'Only the active player may claim a project right now.');
+            throw $this->recoverableConflict(
+                'not_players_turn',
+                'Only the active player may claim a project right now.',
+                $game,
+                $state,
+            );
         }
 
         $playerState = $state->playerById($actingPlayer->gamePlayerId)
             ?? throw new \RuntimeException('The acting player could not be found in the active game state.');
 
         if (count($playerState->reservedCards) >= 3) {
-            throw new ClaimProjectException(409, 'reserve_limit_reached', 'A player may not hold more than three claimed projects.');
+            throw $this->recoverableConflict(
+                'reserve_limit_reached',
+                'A player may not hold more than three claimed projects.',
+                $game,
+                $state,
+            );
         }
 
         $source = trim((string) ($payload['source'] ?? ''));
@@ -65,10 +75,11 @@ final class ClaimProjectService
 
         $wouldGainExecutiveFavor = ($state->bank['executiveFavor'] ?? 0) > 0;
         if ($wouldGainExecutiveFavor && $playerState->resources->totalTokens() >= 10) {
-            throw new ClaimProjectException(
-                409,
+            throw $this->recoverableConflict(
                 'resource_limit_exceeded',
                 'Claiming a project while Executive Favor is available would exceed the 10-resource limit.',
+                $game,
+                $state,
             );
         }
 
@@ -85,6 +96,20 @@ final class ClaimProjectService
             game: $this->repository->findGameBySlug($slug)
                 ?? throw new \RuntimeException('Updated game summary could not be reloaded.'),
             state: $updatedState,
+        );
+    }
+
+    private function recoverableConflict(string $error, string $message, GameSummary $game, ActiveGameState $state): ClaimProjectException
+    {
+        return new ClaimProjectException(
+            409,
+            $error,
+            $message,
+            [
+                'shouldResync' => true,
+                'game' => $game->toArray(),
+                'state' => $state->toArray(),
+            ],
         );
     }
 }

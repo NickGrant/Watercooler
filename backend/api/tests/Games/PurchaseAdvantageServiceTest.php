@@ -181,15 +181,19 @@ final class PurchaseAdvantageServiceTest extends TestCase
     {
         $service = new PurchaseAdvantageService(new InMemoryPurchaseAdvantageRepository());
 
-        $this->expectException(PurchaseAdvantageException::class);
-        $this->expectExceptionMessage('Only the active player may purchase a Workplace Advantage right now.');
-
-        $service->purchase('synergy-report-telemetry', [
-            'sessionToken' => 'guest-token',
-            'source' => 'market',
-            'tier' => 1,
-            'marketSlot' => 1,
-        ]);
+        try {
+            $service->purchase('synergy-report-telemetry', [
+                'sessionToken' => 'guest-token',
+                'source' => 'market',
+                'tier' => 1,
+                'marketSlot' => 1,
+            ]);
+            self::fail('Expected a PurchaseAdvantageException to be thrown.');
+        } catch (PurchaseAdvantageException $exception) {
+            self::assertSame('Only the active player may purchase a Workplace Advantage right now.', $exception->getMessage());
+            self::assertTrue($exception->recovery['shouldResync'] ?? false);
+            self::assertSame(1, $exception->recovery['state']['currentTurnGamePlayerId'] ?? null);
+        }
     }
 
     public function testItAllowsPurchasingDuringTheEndgameRound(): void

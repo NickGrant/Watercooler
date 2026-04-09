@@ -54,13 +54,17 @@ final class TakeResourcesServiceTest extends TestCase
     {
         $service = new TakeResourcesService(new InMemoryTakeResourcesRepository());
 
-        $this->expectException(TakeResourcesException::class);
-        $this->expectExceptionMessage('Only the active player may take resources right now.');
-
-        $service->take('synergy-report-telemetry', [
-            'sessionToken' => 'guest-token',
-            'resources' => ['coffee', 'budget', 'time'],
-        ]);
+        try {
+            $service->take('synergy-report-telemetry', [
+                'sessionToken' => 'guest-token',
+                'resources' => ['coffee', 'budget', 'time'],
+            ]);
+            self::fail('Expected a TakeResourcesException to be thrown.');
+        } catch (TakeResourcesException $exception) {
+            self::assertSame('Only the active player may take resources right now.', $exception->getMessage());
+            self::assertTrue($exception->recovery['shouldResync'] ?? false);
+            self::assertSame(1, $exception->recovery['state']['currentTurnGamePlayerId'] ?? null);
+        }
     }
 
     public function testItRejectsDoubleTakesWhenTheBankIsTooLow(): void

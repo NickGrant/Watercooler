@@ -74,6 +74,33 @@ final class PurchaseAdvantageActionTest extends TestCase
         self::assertSame(422, $response->statusCode);
         self::assertStringContainsString('invalid_purchase_source', $response->body);
     }
+
+    public function testItReturnsRecoverableConflictStateWhenTheActionIsStale(): void
+    {
+        $action = new PurchaseAdvantageAction(
+            new PurchaseAdvantageService(new HandlerPurchaseAdvantageRepository()),
+        );
+
+        $response = $action(
+            new Request(
+                'POST',
+                '/api/games/synergy-report-telemetry/purchase-advantage',
+                [],
+                [],
+                [
+                    'sessionToken' => 'guest-token',
+                    'source' => 'market',
+                    'tier' => 1,
+                    'marketSlot' => 1,
+                ],
+            ),
+            new RouteMatch(static fn() => null, ['slug' => 'synergy-report-telemetry']),
+        );
+
+        self::assertSame(409, $response->statusCode);
+        self::assertStringContainsString('"shouldResync": true', $response->body);
+        self::assertStringContainsString('"currentTurnGamePlayerId": 1', $response->body);
+    }
 }
 
 final class HandlerPurchaseAdvantageRepository implements PurchaseAdvantageRepository
@@ -87,9 +114,11 @@ final class HandlerPurchaseAdvantageRepository implements PurchaseAdvantageRepos
 
     public function findPlayerBySessionToken(int $gameId, string $sessionTokenHash): ?StartGamePlayer
     {
-        return $sessionTokenHash === hash('sha256', 'host-token')
-            ? new StartGamePlayer(1, 'Pam', true, 'connected', 1, 0)
-            : null;
+        return match ($sessionTokenHash) {
+            hash('sha256', 'host-token') => new StartGamePlayer(1, 'Pam', true, 'connected', 1, 0),
+            hash('sha256', 'guest-token') => new StartGamePlayer(2, 'Jim', false, 'connected', 2, 0),
+            default => null,
+        };
     }
 
     public function loadState(int $gameId): ActiveGameState

@@ -10,6 +10,7 @@ final class PurchaseAdvantageException extends \RuntimeException
         public readonly int $statusCode,
         public readonly string $error,
         string $message,
+        public readonly ?array $recovery = null,
     ) {
         parent::__construct($message);
     }
@@ -19,9 +20,15 @@ final class PurchaseAdvantageException extends \RuntimeException
      */
     public function toArray(): array
     {
-        return [
+        $payload = [
             'error' => $this->error,
             'message' => $this->getMessage(),
         ];
+
+        if ($this->recovery !== null) {
+            $payload['recovery'] = $this->recovery;
+        }
+
+        return $payload;
     }
 }

@@ -62,15 +62,19 @@ final class ClaimProjectServiceTest extends TestCase
         );
         $service = new ClaimProjectService($repository);
 
-        $this->expectException(ClaimProjectException::class);
-        $this->expectExceptionMessage('A player may not hold more than three claimed projects.');
-
-        $service->claim('synergy-report-telemetry', [
-            'sessionToken' => 'host-token',
-            'source' => 'market',
-            'tier' => 1,
-            'marketSlot' => 1,
-        ]);
+        try {
+            $service->claim('synergy-report-telemetry', [
+                'sessionToken' => 'host-token',
+                'source' => 'market',
+                'tier' => 1,
+                'marketSlot' => 1,
+            ]);
+            self::fail('Expected a ClaimProjectException to be thrown.');
+        } catch (ClaimProjectException $exception) {
+            self::assertSame('A player may not hold more than three claimed projects.', $exception->getMessage());
+            self::assertTrue($exception->recovery['shouldResync'] ?? false);
+            self::assertCount(3, $exception->recovery['state']['players'][0]['reservedCards'] ?? []);
+        }
     }
 
     public function testItRejectsClaimingWhenExecutiveFavorWouldBreakTheTokenLimit(): void

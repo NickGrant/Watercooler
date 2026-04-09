@@ -41,7 +41,12 @@ final class TakeResourcesService
 
         $state = $this->repository->loadState($game->id);
         if ($state->currentTurnGamePlayerId !== $actingPlayer->gamePlayerId) {
-            throw new TakeResourcesException(409, 'not_players_turn', 'Only the active player may take resources right now.');
+            throw $this->recoverableConflict(
+                'not_players_turn',
+                'Only the active player may take resources right now.',
+                $game,
+                $state,
+            );
         }
 
         /** @var list<string> $resources */
@@ -52,7 +57,7 @@ final class TakeResourcesService
             ),
         );
 
-        $this->assertSelectionIsLegal($resources, $state, $actingPlayer->gamePlayerId);
+        $this->assertSelectionIsLegal($resources, $state, $actingPlayer->gamePlayerId, $game);
 
         $updatedState = $this->repository->applyTakeResources(
             $game->id,
@@ -71,7 +76,7 @@ final class TakeResourcesService
     /**
      * @param list<string> $resources
      */
-    private function assertSelectionIsLegal(array $resources, ActiveGameState $state, int $actingGamePlayerId): void
+    private function assertSelectionIsLegal(array $resources, ActiveGameState $state, int $actingGamePlayerId, GameSummary $game): void
     {
         if (!in_array(count($resources), [2, 3], true)) {
             throw new TakeResourcesException(
@@ -95,10 +100,11 @@ final class TakeResourcesService
             ?? throw new \RuntimeException('The acting player could not be found in the active game state.');
 
         if ($actingPlayer->resources->totalTokens() + count($resources) > 10) {
-            throw new TakeResourcesException(
-                409,
+            throw $this->recoverableConflict(
                 'resource_limit_exceeded',
                 'A player may not hold more than ten resources after taking from the bank.',
+                $game,
+                $state,
             );
         }
 
@@ -115,10 +121,11 @@ final class TakeResourcesService
 
             $resource = $resources[0];
             if (($state->bank[$resource] ?? 0) < 4) {
-                throw new TakeResourcesException(
-                    409,
+                throw $this->recoverableConflict(
                     'insufficient_bank_for_double_take',
                     'Taking two matching resources requires at least four of that resource in the bank beforehand.',
+                    $game,
+                    $state,
                 );
             }
 
@@ -135,12 +142,27 @@ final class TakeResourcesService
 
         foreach (array_keys($resourceCounts) as $resource) {
             if (($state->bank[$resource] ?? 0) < 1) {
-                throw new TakeResourcesException(
-                    409,
+                throw $this->recoverableConflict(
                     'insufficient_bank_resources',
                     'The selected resources are not all currently available in the bank.',
+                    $game,
+                    $state,
                 );
             }
         }
+    }
+
+    private function recoverableConflict(string $error, string $message, GameSummary $game, ActiveGameState $state): TakeResourcesException
+    {
+        return new TakeResourcesException(
+            409,
+            $error,
+            $message,
+            [
+                'shouldResync' => true,
+                'game' => $game->toArray(),
+                'state' => $state->toArray(),
+            ],
+        );
     }
 }

@@ -14,14 +14,6 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocks: TASK-039, TASK-046
 - Description: Record incoming UAT issues, confirm expected behavior, reproduce defects, and turn validated findings into implementation tasks.
 
-### TASK-047
-
-- Name: Auto-update the waiting room roster
-- Priority: High
-- Blocked By: TASK-038
-- Blocks: None
-- Description: Make the waiting room player list update automatically so new joins, reconnects, and status changes appear without a manual refresh during UAT.
-
 ### TASK-050
 
 - Name: Replace resource text labels with compact iconography

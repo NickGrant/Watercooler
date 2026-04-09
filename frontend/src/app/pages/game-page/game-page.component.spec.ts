@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing';
+import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
@@ -388,6 +388,119 @@ describe('GamePageComponent', () => {
       'Synergy Report Telemetry'
     );
   });
+
+  it('auto-refreshes the waiting room roster while the lobby is open', fakeAsync(() => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    const session = TestBed.inject(GameSessionService);
+
+    session.applyJoinBootstrap({
+      game: {
+        id: 1,
+        slug: 'synergy-report-telemetry',
+        status: 'lobby',
+        phase: 'lobby',
+        playerCount: 1,
+        createdAt: '2026-04-08 00:00:00',
+        path: '/game/synergy-report-telemetry'
+      },
+      player: {
+        gamePlayerId: 1,
+        playerId: 1,
+        displayName: 'Pam',
+        isHost: true,
+        joinStatus: 'joined',
+        avatar: DEFAULT_AVATAR_DRAFT
+      },
+      session: {
+        token: 'temporary-session-token',
+        reconnectEnabled: true
+      },
+      lobby: {
+        minimumPlayers: 2,
+        maximumPlayers: 4,
+        canStart: true,
+        joinedPlayers: [
+          {
+            gamePlayerId: 1,
+            playerId: 1,
+            displayName: 'Pam',
+            isHost: true,
+            joinStatus: 'joined',
+            avatar: DEFAULT_AVATAR_DRAFT
+          }
+        ]
+      },
+      realtime: {
+        transport: 'websocket',
+        roomSlug: 'synergy-report-telemetry',
+        sessionToken: 'temporary-session-token'
+      }
+    });
+    gamesApi.getGameState.calls.reset();
+    gamesApi.getGameState.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'lobby',
+          phase: 'lobby',
+          playerCount: 2,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        player: {
+          gamePlayerId: 1,
+          playerId: 1,
+          displayName: 'Pam',
+          isHost: true,
+          joinStatus: 'joined',
+          avatar: DEFAULT_AVATAR_DRAFT
+        },
+        session: {
+          token: 'temporary-session-token',
+          reconnectEnabled: true
+        },
+        lobby: {
+          minimumPlayers: 2,
+          maximumPlayers: 4,
+          canStart: true,
+          joinedPlayers: [
+            {
+              gamePlayerId: 1,
+              playerId: 1,
+              displayName: 'Pam',
+              isHost: true,
+              joinStatus: 'joined',
+              avatar: DEFAULT_AVATAR_DRAFT
+            },
+            {
+              gamePlayerId: 2,
+              playerId: 2,
+              displayName: 'Jim',
+              isHost: false,
+              joinStatus: 'joined',
+              avatar: DEFAULT_AVATAR_DRAFT
+            }
+          ]
+        },
+        realtime: {
+          transport: 'websocket',
+          roomSlug: 'synergy-report-telemetry',
+          sessionToken: 'temporary-session-token'
+        }
+      })
+    );
+
+    tick(3000);
+    fixture.detectChanges();
+
+    expect(gamesApi.getGameState).toHaveBeenCalledOnceWith(
+      'synergy-report-telemetry',
+      'temporary-session-token'
+    );
+    expect(session.joinedPlayerCount()).toBe(2);
+    expect(fixture.nativeElement.textContent).toContain('Jim');
+  }));
 
   it('restores an active game from the authenticated state endpoint when a session token exists', () => {
     localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');

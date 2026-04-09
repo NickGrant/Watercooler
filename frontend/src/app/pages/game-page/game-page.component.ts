@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -7,7 +8,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { interval, Observable } from 'rxjs';
 
 import {
   ActiveGameCard,
@@ -52,9 +53,12 @@ interface AvatarOptionDefinition {
   styleUrl: './game-page.component.scss'
 })
 export class GamePageComponent {
+  private static readonly LOBBY_REFRESH_INTERVAL_MS = 3000;
+
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly gamesApi = inject(GamesApiService);
+  private readonly destroyRef = inject(DestroyRef);
 
   readonly session = inject(GameSessionService);
   readonly game = signal<GameSummary | null>(null);
@@ -161,6 +165,7 @@ export class GamePageComponent {
     const slug = this.route.snapshot.paramMap.get('slug') ?? 'unknown-room';
     this.session.setSlug(slug);
     this.loadGame(slug);
+    this.startLobbyRefreshLoop();
 
     const sessionToken = this.session.sessionToken();
     if (sessionToken !== null) {
@@ -170,6 +175,41 @@ export class GamePageComponent {
         failureMessage: 'We could not refresh your saved room state.'
       });
     }
+  }
+
+  private startLobbyRefreshLoop(): void {
+    interval(GamePageComponent.LOBBY_REFRESH_INTERVAL_MS)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.refreshLobbyRoster();
+      });
+  }
+
+  private refreshLobbyRoster(): void {
+    const slug = this.session.slug();
+    const sessionToken = this.session.sessionToken();
+
+    if (
+      slug === null ||
+      sessionToken === null ||
+      this.session.stage() !== 'lobby' ||
+      this.joinPending() ||
+      this.startPending()
+    ) {
+      return;
+    }
+
+    this.gamesApi.getGameState(slug, sessionToken).subscribe({
+      next: (result) => {
+        this.applyGameStateResult(result);
+      },
+      error: (error: unknown) => {
+        if (this.getStatus(error) === 401) {
+          this.session.clearStoredSessionToken(slug);
+          this.joinError.set('Your temporary access badge expired. Please identify yourself again.');
+        }
+      }
+    });
   }
 
   updatePlayerName(name: string): void {

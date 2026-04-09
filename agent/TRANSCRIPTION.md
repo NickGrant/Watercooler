@@ -683,3 +683,7 @@ I resumed the UAT cleanup pass, checked the repo state, confirmed only unrelated
 #### Entry 104
 Assistant:
 I completed `TASK-049` by adding internal padding to the `Current Room State` status card so it reads as a balanced header tile during UAT, then validated the frontend build and confirmed the existing bundle and stylesheet budget warnings still remain but the build passes.
+
+#### Entry 105
+Assistant:
+I completed `TASK-047` by adding a quiet lobby refresh loop that polls the authenticated room-state endpoint every few seconds while the page is in lobby, reuses the existing session-state application path, and adds Angular test coverage proving the waiting-room roster updates itself when another player appears.

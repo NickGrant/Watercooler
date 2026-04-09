@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-047
+
+- Name: Auto-update the waiting room roster
+- Priority: High
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Make the waiting room player list update automatically so new joins, reconnects, and status changes appear without a manual refresh during UAT.
+
 ### TASK-049
 
 - Name: Add padding to the current room state box

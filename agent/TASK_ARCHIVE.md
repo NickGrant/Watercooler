@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-031
+
+- Name: Build in-app rules and help surface
+- Priority: Medium
+- Blocked By: TASK-027
+- Blocks: None
+- Description: Provide a concise rules modal or help surface using Watercooler terminology while remaining mechanically precise.
+
 ### TASK-032
 
 - Name: Apply retro intranet visual skin

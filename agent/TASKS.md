@@ -6,13 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-031
-
-- Name: Build in-app rules and help surface
-- Priority: Medium
-- Blocked By: TASK-027
-- Blocks: None
-- Description: Provide a concise rules modal or help surface using Watercooler terminology while remaining mechanically precise.
+No active tasks are currently parked in the working set.
 
 ## Task Management Rules
 

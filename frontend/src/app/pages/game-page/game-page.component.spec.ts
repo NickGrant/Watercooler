@@ -315,6 +315,21 @@ describe('GamePageComponent', () => {
     expect(session.playerName()).toBe('Pam');
   });
 
+  it('toggles the rules and help desk open and closed', () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.showRulesHelp()).toBeFalse();
+    expect(fixture.nativeElement.textContent).not.toContain('Turn Options');
+
+    fixture.componentInstance.toggleRulesHelp();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.showRulesHelp()).toBeTrue();
+    expect(fixture.nativeElement.textContent).toContain('Turn Options');
+    expect(fixture.nativeElement.textContent).toContain('Final standings break ties');
+  });
+
   it('stores the loaded game summary for the route', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
 

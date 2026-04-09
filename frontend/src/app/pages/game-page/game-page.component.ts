@@ -61,6 +61,7 @@ export class GamePageComponent {
   readonly actionMessage = signal<string | null>(null);
   readonly actionError = signal<string | null>(null);
   readonly createNextGamePending = signal(false);
+  readonly showRulesHelp = signal(false);
   readonly startedGame = signal<ActiveGameState | null>(null);
   readonly selectedTakeResources = signal<ResourceType[]>([]);
   readonly bodyOptions = ['blazer', 'hoodie', 'cardigan', 'polo', 'power-suit'];
@@ -160,6 +161,10 @@ export class GamePageComponent {
 
   updateAvatar(part: keyof AvatarDraft, value: string): void {
     this.session.patchAvatarDraft({ [part]: value });
+  }
+
+  toggleRulesHelp(): void {
+    this.showRulesHelp.set(!this.showRulesHelp());
   }
 
   submitJoin(): void {

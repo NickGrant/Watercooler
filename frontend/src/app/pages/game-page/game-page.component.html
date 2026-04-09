@@ -1,7 +1,7 @@
 <main class="game-page">
   <header class="board-header">
     <div>
-      <p class="eyebrow">Game Route Shell</p>
+      <p class="eyebrow">Watercooler Room</p>
       <h1>{{ game()?.slug ?? session.slug() }}</h1>
       <p class="subhead">
         @if (game(); as game) {
@@ -13,7 +13,7 @@
     </div>
 
     <mat-card appearance="outlined" class="status-card">
-      <p class="status-card__label">Current shell state</p>
+      <p class="status-card__label">Current Room State</p>
       <strong>{{ session.stageLabel() }}</strong>
     </mat-card>
   </header>
@@ -123,7 +123,7 @@
           <h2>Turn Command Desk</h2>
           <p class="panel-copy">
             The board is now live. Use this desk to review the turn queue, submit allowed actions,
-            and watch the server-authoritative state return after each move.
+            and keep an eye on the latest room state after each move.
           </p>
 
           <div class="turn-summary">
@@ -205,8 +205,7 @@
         <h2>Check-In Approved</h2>
         <p class="panel-copy">
           You are checked in as <strong>{{ session.currentPlayer()?.displayName }}</strong>.
-          Realtime room auth is implemented on the backend. The UI waiting room is live here while
-          websocket client transport lands in the next slice.
+          The room is waiting on the full roster so the host can launch the match.
         </p>
 
         <div class="badge-summary">
@@ -369,7 +368,7 @@
             </div>
           } @empty {
             <p class="panel-copy">
-              The authenticated game state did not return any players.
+              The room state did not return any players.
             </p>
           }
         } @else {
@@ -409,8 +408,7 @@
         </div>
       } @else {
         <p class="start-hint">
-          The authenticated game state has already advanced past the lobby, so start controls are
-          locked.
+          This room has already moved beyond the lobby, so the start controls are locked.
         </p>
 
         @if (isCompletedGame()) {
@@ -471,15 +469,15 @@
     </mat-card>
 
     <mat-card appearance="outlined" class="board-panel wide">
-      <h2>{{ session.stage() === 'in-game' ? (isCompletedGame() ? 'Completed Board Snapshot' : 'Main Board') : 'Authenticated Game State' }}</h2>
+      <h2>{{ session.stage() === 'in-game' ? (isCompletedGame() ? 'Completed Board Snapshot' : 'Main Board') : 'Room Snapshot' }}</h2>
       @if (startedGame(); as startedGame) {
         <p class="panel-copy">
           @if (isCompletedGame()) {
             The board below preserves the final server-authoritative snapshot so players can review
             the last market, executive row, and office resource distribution after scoring resolves.
           } @else {
-            The board below reflects the latest server-authoritative state. Market purchases, claimed
-            projects, and executive awards all flow back through the API before the UI updates.
+            The board below reflects the latest room state. Market purchases, claimed projects,
+            and executive awards resolve through the game rules before the UI updates.
           }
         </p>
         <mat-divider />
@@ -665,17 +663,17 @@
           <p class="inline-error" role="alert">{{ actionError }}</p>
         }
       } @else {
-        <p>Resource bank, market, executives, player panels, and turn actions will live here.</p>
+        <p>The room board will appear here as soon as the live state is ready.</p>
         <mat-divider />
         <div class="future-columns">
           <div>
-            <h3>Client state ready</h3>
-            <p>Name, avatar, joined roster, and temporary session token now live in shared state.</p>
+            <h3>Room Access</h3>
+            <p>Your name, avatar, and room session are ready for the next step.</p>
           </div>
 
           <div>
-            <h3>Server authority preserved</h3>
-            <p>The shell assumes the backend remains the source of truth for game state and legality.</p>
+            <h3>Match Setup</h3>
+            <p>The market, executives, and player panels will appear once the match begins.</p>
           </div>
         </div>
       }

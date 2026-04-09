@@ -149,8 +149,8 @@ export class GamePageComponent {
     if (sessionToken !== null) {
       this.refreshGameState(sessionToken, {
         target: 'startup',
-        successMessage: 'Recovered synchronized game state from the authenticated state endpoint.',
-        failureMessage: 'We could not refresh the board from the authenticated state endpoint.'
+        successMessage: 'Recovered your saved room state.',
+        failureMessage: 'We could not refresh your saved room state.'
       });
     }
   }
@@ -198,7 +198,7 @@ export class GamePageComponent {
         this.startPending.set(false);
         this.actionMessage.set(null);
         this.actionError.set(null);
-        this.startMessage.set('The room is now live. The synchronized opening state came from the API.');
+        this.startMessage.set('The room is now live. The opening board is ready.');
       },
       error: (error: unknown) => {
         this.startPending.set(false);
@@ -546,11 +546,11 @@ export class GamePageComponent {
 
         if (sessionToken !== null && [0, 409, 412, 423].includes(status)) {
           this.actionMessage.set(
-            'The board may have drifted. Refreshing the latest server state now...'
+            'The board may have drifted. Refreshing the latest room state now...'
           );
           this.refreshGameState(sessionToken, {
             target: 'action',
-            successMessage: 'Recovered synchronized game state after a stale action.',
+            successMessage: 'Recovered the latest room state after a stale action.',
             failureMessage: 'The board could not be refreshed after that action.'
           });
           return;
@@ -572,7 +572,7 @@ export class GamePageComponent {
     }
 
     this.selectedTakeResources.set([]);
-    this.actionMessage.set('The server reported a newer board state and the UI was resynced.');
+    this.actionMessage.set('A newer room state was detected and your board was resynced.');
     this.actionError.set(null);
   }
 

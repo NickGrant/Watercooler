@@ -11,16 +11,8 @@ This file keeps the active working set small enough to remain in normal agent co
 - Name: Capture and triage active UAT findings
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-039, TASK-043, TASK-044, TASK-046
+- Blocks: TASK-039, TASK-044, TASK-046
 - Description: Record incoming UAT issues, confirm expected behavior, reproduce defects, and turn validated findings into implementation tasks.
-
-### TASK-043
-
-- Name: Remove development-oriented copy from the game screen
-- Priority: Medium
-- Blocked By: TASK-038
-- Blocks: None
-- Description: Remove placeholder or development-facing text from the game route, including sections like "Authenticated Game State", so the UI reads like a finished product during UAT.
 
 ### TASK-044
 

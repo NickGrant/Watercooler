@@ -338,6 +338,14 @@ describe('GamePageComponent', () => {
     expect(fixture.nativeElement.querySelector('.board-panel')).not.toBeNull();
   });
 
+  it('does not show development-oriented board copy on the route shell', () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.textContent).not.toContain('Authenticated Game State');
+    expect(fixture.nativeElement.textContent).not.toContain('Game Route Shell');
+  });
+
   it('stores the loaded game summary for the route', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
 
@@ -357,7 +365,7 @@ describe('GamePageComponent', () => {
     expect(gamesApi.joinBootstrap).not.toHaveBeenCalled();
     expect(session.stage()).toBe('in-game');
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(1);
-    expect(fixture.componentInstance.startMessage()).toContain('authenticated state endpoint');
+    expect(fixture.componentInstance.startMessage()).toContain('saved room state');
   });
 
   it('restores lobby state from the authenticated state endpoint when a session token exists', () => {
@@ -531,7 +539,7 @@ describe('GamePageComponent', () => {
     });
     expect(fixture.componentInstance.session.stage()).toBe('in-game');
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(1);
-    expect(fixture.componentInstance.startMessage()).toContain('synchronized opening state');
+    expect(fixture.componentInstance.startMessage()).toContain('opening board is ready');
   });
 
   it('submits take-resource actions against the active game API', () => {
@@ -643,7 +651,7 @@ describe('GamePageComponent', () => {
 
     expect(gamesApi.getGameState.calls.count()).toBe(2);
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
-    expect(fixture.componentInstance.actionMessage()).toContain('Recovered synchronized game state');
+    expect(fixture.componentInstance.actionMessage()).toContain('Recovered the latest room state');
     expect(fixture.componentInstance.actionError()).toBeNull();
   });
 

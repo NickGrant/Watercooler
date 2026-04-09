@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-043
+
+- Name: Remove development-oriented copy from the game screen
+- Priority: Medium
+- Blocked By: TASK-038
+- Blocks: None
+- Description: Remove placeholder or development-facing text from the game route, including sections like "Authenticated Game State", so the UI reads like a finished product during UAT.
+
 ### TASK-042
 
 - Name: Add consistent padding to game screen columns

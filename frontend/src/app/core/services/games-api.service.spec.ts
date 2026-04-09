@@ -215,4 +215,157 @@ describe('GamesApiService', () => {
 
     expect(response).toBeTruthy();
   });
+
+  it('submits take-resource requests for a slug', () => {
+    let response: unknown;
+
+    service
+      .takeResources('synergy-report-telemetry', {
+        sessionToken: 'temporary-session-token',
+        resources: ['coffee', 'budget', 'time']
+      })
+      .subscribe((result) => {
+        response = result;
+      });
+
+    const request = httpController.expectOne('/api/games/synergy-report-telemetry/take-resources');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({
+      sessionToken: 'temporary-session-token',
+      resources: ['coffee', 'budget', 'time']
+    });
+
+    request.flush({
+      game: {
+        ...sampleGame,
+        status: 'active',
+        phase: 'active',
+        playerCount: 2
+      },
+      state: {
+        currentTurnGamePlayerId: 2,
+        players: [],
+        bank: {
+          coffee: 3,
+          spreadsheets: 4,
+          budget: 3,
+          connections: 4,
+          time: 3,
+          executiveFavor: 5
+        },
+        market: {
+          tier1: [],
+          tier2: [],
+          tier3: []
+        },
+        executives: []
+      }
+    });
+
+    expect(response).toBeTruthy();
+  });
+
+  it('submits claim-project requests for a market card', () => {
+    let response: unknown;
+
+    service
+      .claimProject('synergy-report-telemetry', {
+        sessionToken: 'temporary-session-token',
+        source: 'market',
+        tier: 2,
+        marketSlot: 3
+      })
+      .subscribe((result) => {
+        response = result;
+      });
+
+    const request = httpController.expectOne('/api/games/synergy-report-telemetry/claim-project');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({
+      sessionToken: 'temporary-session-token',
+      source: 'market',
+      tier: 2,
+      marketSlot: 3
+    });
+
+    request.flush({
+      game: {
+        ...sampleGame,
+        status: 'active',
+        phase: 'active',
+        playerCount: 2
+      },
+      state: {
+        currentTurnGamePlayerId: 2,
+        players: [],
+        bank: {
+          coffee: 4,
+          spreadsheets: 4,
+          budget: 4,
+          connections: 4,
+          time: 4,
+          executiveFavor: 4
+        },
+        market: {
+          tier1: [],
+          tier2: [],
+          tier3: []
+        },
+        executives: []
+      }
+    });
+
+    expect(response).toBeTruthy();
+  });
+
+  it('submits purchase requests for a reserved card', () => {
+    let response: unknown;
+
+    service
+      .purchaseAdvantage('synergy-report-telemetry', {
+        sessionToken: 'temporary-session-token',
+        source: 'reserved',
+        cardCode: 'reserved-1'
+      })
+      .subscribe((result) => {
+        response = result;
+      });
+
+    const request = httpController.expectOne('/api/games/synergy-report-telemetry/purchase-advantage');
+    expect(request.request.method).toBe('POST');
+    expect(request.request.body).toEqual({
+      sessionToken: 'temporary-session-token',
+      source: 'reserved',
+      cardCode: 'reserved-1'
+    });
+
+    request.flush({
+      game: {
+        ...sampleGame,
+        status: 'active',
+        phase: 'active',
+        playerCount: 2
+      },
+      state: {
+        currentTurnGamePlayerId: 2,
+        players: [],
+        bank: {
+          coffee: 4,
+          spreadsheets: 4,
+          budget: 4,
+          connections: 4,
+          time: 4,
+          executiveFavor: 5
+        },
+        market: {
+          tier1: [],
+          tier2: [],
+          tier3: []
+        },
+        executives: []
+      }
+    });
+
+    expect(response).toBeTruthy();
+  });
 });

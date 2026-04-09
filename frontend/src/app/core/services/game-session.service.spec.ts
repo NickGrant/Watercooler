@@ -187,7 +187,28 @@ describe('GameSessionService', () => {
             isHost: true,
             joinStatus: 'connected',
             seatOrder: 1,
-            officePrestige: 0
+            officePrestige: 0,
+            resources: {
+              coffee: 1,
+              spreadsheets: 0,
+              budget: 0,
+              connections: 0,
+              time: 0,
+              executiveFavor: 0,
+              totalTokens: 1
+            },
+            permanentDiscounts: {
+              coffee: 1,
+              spreadsheets: 0,
+              budget: 0,
+              connections: 0,
+              time: 0
+            },
+            reservedCards: [],
+            purchasedCards: [],
+            purchasedCardCount: 0,
+            claimedExecutives: [],
+            claimedExecutiveCount: 0
           }
         ],
         bank: {

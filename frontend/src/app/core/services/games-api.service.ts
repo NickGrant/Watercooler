@@ -7,6 +7,7 @@ import { GameResponse } from '../models/game-response.model';
 import { GameStateResponse } from '../models/game-state-response.model';
 import { GameSummary } from '../models/game-summary.model';
 import { JoinBootstrapResponse } from '../models/join-bootstrap-response.model';
+import { ResourceType } from '../models/active-game-state.model';
 import { StartedGameResponse } from '../models/started-game-response.model';
 
 @Injectable({
@@ -43,5 +44,39 @@ export class GamesApiService {
 
   startGame(slug: string, payload: { sessionToken: string }): Observable<StartedGameResponse> {
     return this.http.post<StartedGameResponse>(`/api/games/${encodeURIComponent(slug)}/start`, payload);
+  }
+
+  takeResources(
+    slug: string,
+    payload: { sessionToken: string; resources: ResourceType[] }
+  ): Observable<StartedGameResponse> {
+    return this.http.post<StartedGameResponse>(
+      `/api/games/${encodeURIComponent(slug)}/take-resources`,
+      payload
+    );
+  }
+
+  claimProject(
+    slug: string,
+    payload:
+      | { sessionToken: string; source: 'market'; tier: number; marketSlot: number }
+      | { sessionToken: string; source: 'reserved'; cardCode: string }
+  ): Observable<StartedGameResponse> {
+    return this.http.post<StartedGameResponse>(
+      `/api/games/${encodeURIComponent(slug)}/claim-project`,
+      payload
+    );
+  }
+
+  purchaseAdvantage(
+    slug: string,
+    payload:
+      | { sessionToken: string; source: 'market'; tier: number; marketSlot: number }
+      | { sessionToken: string; source: 'reserved'; cardCode: string }
+  ): Observable<StartedGameResponse> {
+    return this.http.post<StartedGameResponse>(
+      `/api/games/${encodeURIComponent(slug)}/purchase-advantage`,
+      payload
+    );
   }
 }

@@ -108,6 +108,90 @@ p {
   gap: 0.75rem;
 }
 
+.turn-summary,
+.player-panel__metrics,
+.resource-bank,
+.future-columns,
+.action-desk {
+  display: grid;
+  gap: 1rem;
+}
+
+.turn-summary,
+.resource-bank {
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+}
+
+.turn-summary__tile,
+.action-panel,
+.player-panel,
+.resource-bank__tile,
+.market-card,
+.executive-card,
+.metric-chip,
+.mini-card {
+  border: 1px solid rgba(47, 61, 87, 0.16);
+  background: rgba(248, 250, 253, 0.92);
+}
+
+.turn-summary__tile,
+.resource-bank__tile,
+.metric-chip {
+  padding: 0.85rem 1rem;
+}
+
+.turn-summary__tile span,
+.resource-bank__tile span,
+.metric-chip span {
+  display: block;
+  margin-bottom: 0.3rem;
+  color: var(--wc-accent-strong);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.resource-bank__tile--favor {
+  background: rgba(255, 244, 214, 0.95);
+}
+
+.action-panel {
+  padding: 1rem;
+}
+
+.action-tips {
+  margin: 0;
+  padding-left: 1.1rem;
+  color: var(--wc-ink);
+  line-height: 1.6;
+}
+
+.resource-picks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.resource-pick__count {
+  display: block;
+  margin-top: 0.3rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--wc-ink);
+}
+
+.resource-pick--selected {
+  border-color: rgba(52, 76, 115, 0.7);
+  background: rgba(228, 235, 247, 0.95);
+}
+
+.selection-copy {
+  margin: 0 0 1rem;
+  color: var(--wc-ink);
+}
+
 .roster {
   display: grid;
   gap: 0.75rem;
@@ -156,6 +240,50 @@ p {
   text-transform: uppercase;
 }
 
+.player-panel {
+  padding: 1rem;
+}
+
+.player-panel--active {
+  border-color: rgba(52, 76, 115, 0.45);
+  box-shadow: inset 0 0 0 1px rgba(52, 76, 115, 0.2);
+}
+
+.player-panel__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.player-panel__collections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.metric-chip--discount {
+  background: rgba(232, 245, 238, 0.92);
+}
+
+.card-stack,
+.market-tier__cards,
+.executive-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.mini-card,
+.executive-card,
+.market-card {
+  padding: 0.9rem 1rem;
+}
+
+.mini-card--executive {
+  background: rgba(250, 240, 214, 0.95);
+}
+
 .start-controls {
   display: flex;
   flex-wrap: wrap;
@@ -180,10 +308,68 @@ p {
 }
 
 .future-columns {
-  display: grid;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  margin-top: 1rem;
+}
+
+.board-layout {
+  display: grid;
+  grid-template-columns: minmax(14rem, 18rem) minmax(0, 1fr) minmax(14rem, 18rem);
   gap: 1rem;
   margin-top: 1rem;
+  align-items: start;
+}
+
+.board-column {
+  display: grid;
+  gap: 1rem;
+}
+
+.board-column--wide {
+  min-width: 0;
+}
+
+.market-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.market-tier {
+  padding: 1rem;
+  border: 1px solid rgba(47, 61, 87, 0.16);
+  background: rgba(244, 247, 252, 0.94);
+}
+
+.market-tier > header,
+.market-card__meta,
+.market-card__actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.market-tier > header {
+  align-items: baseline;
+  margin-bottom: 0.75rem;
+}
+
+.market-card h4 {
+  margin: 0 0 0.4rem;
+}
+
+.cost-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 0.75rem 0;
+}
+
+.cost-row span {
+  padding: 0.25rem 0.55rem;
+  border: 1px solid rgba(52, 76, 115, 0.16);
+  background: white;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 
 @media (max-width: 640px) {
@@ -200,8 +386,20 @@ p {
     flex-direction: column;
   }
 
+  .player-panel__header,
+  .market-card__meta,
+  .market-card__actions {
+    flex-direction: column;
+  }
+
   .status-card {
     min-width: 0;
     width: 100%;
+  }
+}
+
+@media (max-width: 1080px) {
+  .board-layout {
+    grid-template-columns: 1fr;
   }
 }

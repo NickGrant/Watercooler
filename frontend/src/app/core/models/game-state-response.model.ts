@@ -1,6 +1,6 @@
+import { ActiveGameState } from './active-game-state.model';
 import { GameSummary } from './game-summary.model';
 import { JoinedPlayer } from './joined-player.model';
-import { StartedGameResponse } from './started-game-response.model';
 
 export interface GameStateResponse {
   game: GameSummary;
@@ -20,5 +20,5 @@ export interface GameStateResponse {
     canStart: boolean;
     joinedPlayers: JoinedPlayer[];
   };
-  state?: StartedGameResponse['state'];
+  state?: ActiveGameState;
 }

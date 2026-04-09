@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-029
-
-- Name: Build endgame and results presentation
-- Priority: Medium
-- Blocked By: TASK-026, TASK-027
-- Blocks: None
-- Description: Show the winner, final standings, and tie-break explanation with options to leave or start a new session.
-
 ### TASK-031
 
 - Name: Build in-app rules and help surface

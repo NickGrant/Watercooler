@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
+import { ActiveGameState } from '../../core/models/active-game-state.model';
 import { DEFAULT_AVATAR_DRAFT } from '../../core/models/avatar-draft.model';
 import { GamesApiService } from '../../core/services/games-api.service';
 import { GameSessionService } from '../../core/services/game-session.service';
@@ -16,7 +17,10 @@ describe('GamePageComponent', () => {
       'getGame',
       'getGameState',
       'joinBootstrap',
-      'startGame'
+      'startGame',
+      'takeResources',
+      'claimProject',
+      'purchaseAdvantage'
     ]);
     gamesApi.getGame.and.returnValue(
       of({
@@ -102,33 +106,7 @@ describe('GamePageComponent', () => {
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
         },
-        state: {
-          currentTurnGamePlayerId: 1,
-          players: [
-            {
-              gamePlayerId: 1,
-              displayName: 'Pam',
-              isHost: true,
-              joinStatus: 'connected',
-              seatOrder: 1,
-              officePrestige: 0
-            }
-          ],
-          bank: {
-            coffee: 4,
-            spreadsheets: 4,
-            budget: 4,
-            connections: 4,
-            time: 4,
-            executiveFavor: 5
-          },
-          market: {
-            tier1: [],
-            tier2: [],
-            tier3: []
-          },
-          executives: []
-        }
+        state: createActiveState()
       })
     );
     gamesApi.startGame.and.returnValue(
@@ -142,25 +120,78 @@ describe('GamePageComponent', () => {
           createdAt: '2026-04-08 00:00:00',
           path: '/game/synergy-report-telemetry'
         },
-        state: {
-          currentTurnGamePlayerId: 1,
+        state: createActiveState()
+      })
+    );
+    gamesApi.takeResources.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'active',
+          phase: 'active',
+          playerCount: 2,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        state: createActiveState({
+          currentTurnGamePlayerId: 2,
+          bank: {
+            coffee: 3,
+            spreadsheets: 4,
+            budget: 3,
+            connections: 4,
+            time: 3,
+            executiveFavor: 5
+          }
+        })
+      })
+    );
+    gamesApi.claimProject.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'active',
+          phase: 'active',
+          playerCount: 2,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        state: createActiveState({
+          currentTurnGamePlayerId: 2,
           players: [
             {
-              gamePlayerId: 1,
-              displayName: 'Pam',
-              isHost: true,
-              joinStatus: 'connected',
-              seatOrder: 1,
-              officePrestige: 0
+              ...createActiveState().players[0],
+              resources: {
+                coffee: 1,
+                spreadsheets: 1,
+                budget: 1,
+                connections: 0,
+                time: 0,
+                executiveFavor: 1,
+                totalTokens: 4
+              },
+              reservedCards: [
+                {
+                  code: 'reserved-1',
+                  tier: 1,
+                  name: 'Conference Room Coup',
+                  resourceDiscount: 'coffee',
+                  officePrestige: 0,
+                  cost: {
+                    coffee: 0,
+                    spreadsheets: 1,
+                    budget: 1,
+                    connections: 1,
+                    time: 0
+                  }
+                }
+              ],
+              purchasedCardCount: 0,
+              claimedExecutiveCount: 0
             },
-            {
-              gamePlayerId: 2,
-              displayName: 'Jim',
-              isHost: false,
-              joinStatus: 'joined',
-              seatOrder: 2,
-              officePrestige: 0
-            }
+            createActiveState().players[1]
           ],
           bank: {
             coffee: 4,
@@ -168,15 +199,68 @@ describe('GamePageComponent', () => {
             budget: 4,
             connections: 4,
             time: 4,
-            executiveFavor: 5
-          },
-          market: {
-            tier1: [],
-            tier2: [],
-            tier3: []
-          },
-          executives: []
-        }
+            executiveFavor: 4
+          }
+        })
+      })
+    );
+    gamesApi.purchaseAdvantage.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'active',
+          phase: 'active',
+          playerCount: 2,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        state: createActiveState({
+          currentTurnGamePlayerId: 2,
+          players: [
+            {
+              ...createActiveState().players[0],
+              officePrestige: 1,
+              resources: {
+                coffee: 0,
+                spreadsheets: 1,
+                budget: 1,
+                connections: 0,
+                time: 0,
+                executiveFavor: 0,
+                totalTokens: 2
+              },
+              permanentDiscounts: {
+                coffee: 1,
+                spreadsheets: 0,
+                budget: 0,
+                connections: 0,
+                time: 0
+              },
+              reservedCards: [],
+              purchasedCards: [
+                {
+                  code: 'market-card-1',
+                  tier: 1,
+                  name: 'Budget Buffer',
+                  resourceDiscount: 'coffee',
+                  officePrestige: 1,
+                  cost: {
+                    coffee: 2,
+                    spreadsheets: 0,
+                    budget: 1,
+                    connections: 0,
+                    time: 0
+                  }
+                }
+              ],
+              purchasedCardCount: 1,
+              claimedExecutives: [],
+              claimedExecutiveCount: 0
+            },
+            createActiveState().players[1]
+          ]
+        })
       })
     );
 
@@ -409,4 +493,175 @@ describe('GamePageComponent', () => {
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(1);
     expect(fixture.componentInstance.startMessage()).toContain('synchronized opening state');
   });
+
+  it('submits take-resource actions against the active game API', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.componentInstance.toggleTakeResource('coffee');
+    fixture.componentInstance.toggleTakeResource('budget');
+    fixture.componentInstance.toggleTakeResource('time');
+    fixture.componentInstance.submitTakeResources();
+
+    expect(gamesApi.takeResources).toHaveBeenCalledWith('synergy-report-telemetry', {
+      sessionToken: 'temporary-session-token',
+      resources: ['coffee', 'budget', 'time']
+    });
+    expect(fixture.componentInstance.actionMessage()).toContain('office supply bank');
+    expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
+  });
+
+  it('claims a market card through the active game API', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    const card = fixture.componentInstance.startedGame()?.market.tier1[0];
+
+    expect(card).toBeDefined();
+
+    fixture.componentInstance.claimMarketCard(card!);
+
+    expect(gamesApi.claimProject).toHaveBeenCalledWith('synergy-report-telemetry', {
+      sessionToken: 'temporary-session-token',
+      source: 'market',
+      tier: 1,
+      marketSlot: 1
+    });
+    expect(fixture.componentInstance.actionMessage()).toContain('claimed-project tray');
+  });
+
+  it('purchases a reserved card through the active game API', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.componentInstance.claimMarketCard(fixture.componentInstance.startedGame()!.market.tier1[0]);
+
+    const reservedCard = fixture.componentInstance.startedGame()?.players[0].reservedCards[0];
+
+    expect(reservedCard).toBeDefined();
+
+    fixture.componentInstance.purchaseReservedCard(reservedCard!);
+
+    expect(gamesApi.purchaseAdvantage).toHaveBeenCalledWith('synergy-report-telemetry', {
+      sessionToken: 'temporary-session-token',
+      source: 'reserved',
+      cardCode: 'reserved-1'
+    });
+    expect(fixture.componentInstance.actionMessage()).toContain('claimed-project tray');
+  });
 });
+
+function createActiveState(overrides: Partial<ActiveGameState> = {}): ActiveGameState {
+  const defaultState: ActiveGameState = {
+    currentTurnGamePlayerId: 1,
+    players: [
+      {
+        gamePlayerId: 1,
+        displayName: 'Pam',
+        isHost: true,
+        joinStatus: 'connected',
+        seatOrder: 1,
+        officePrestige: 0,
+        resources: {
+          coffee: 1,
+          spreadsheets: 1,
+          budget: 1,
+          connections: 0,
+          time: 0,
+          executiveFavor: 0,
+          totalTokens: 3
+        },
+        permanentDiscounts: {
+          coffee: 0,
+          spreadsheets: 0,
+          budget: 0,
+          connections: 0,
+          time: 0
+        },
+        reservedCards: [],
+        purchasedCards: [],
+        purchasedCardCount: 0,
+        claimedExecutives: [],
+        claimedExecutiveCount: 0
+      },
+      {
+        gamePlayerId: 2,
+        displayName: 'Jim',
+        isHost: false,
+        joinStatus: 'connected',
+        seatOrder: 2,
+        officePrestige: 0,
+        resources: {
+          coffee: 0,
+          spreadsheets: 0,
+          budget: 0,
+          connections: 1,
+          time: 1,
+          executiveFavor: 0,
+          totalTokens: 2
+        },
+        permanentDiscounts: {
+          coffee: 0,
+          spreadsheets: 0,
+          budget: 0,
+          connections: 0,
+          time: 0
+        },
+        reservedCards: [],
+        purchasedCards: [],
+        purchasedCardCount: 0,
+        claimedExecutives: [],
+        claimedExecutiveCount: 0
+      }
+    ],
+    bank: {
+      coffee: 4,
+      spreadsheets: 4,
+      budget: 4,
+      connections: 4,
+      time: 4,
+      executiveFavor: 5
+    },
+    market: {
+      tier1: [
+        {
+          code: 'market-card-1',
+          tier: 1,
+          name: 'Budget Buffer',
+          resourceDiscount: 'coffee',
+          officePrestige: 1,
+          cost: {
+            coffee: 2,
+            spreadsheets: 0,
+            budget: 1,
+            connections: 0,
+            time: 0
+          },
+          marketSlot: 1
+        }
+      ],
+      tier2: [],
+      tier3: []
+    },
+    executives: [
+      {
+        code: 'vp-of-synergy',
+        name: 'VP of Synergy',
+        officePrestige: 3,
+        requirements: {
+          coffee: 3,
+          spreadsheets: 0,
+          budget: 3,
+          connections: 3,
+          time: 0
+        },
+        slotOrder: 1
+      }
+    ]
+  };
+
+  return {
+    ...defaultState,
+    ...overrides
+  };
+}

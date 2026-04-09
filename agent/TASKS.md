@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-027
+### TASK-029
 
-- Name: Build main game board UI
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-031, TASK-032
-- Description: Render the market, bank, executives, player panels, turn state, and action surfaces in a readable real-time layout.
+- Name: Build endgame and results presentation
+- Priority: Medium
+- Blocked By: TASK-026, TASK-027
+- Blocks: None
+- Description: Show the winner, final standings, and tie-break explanation with options to leave or start a new session.
 
 ## Task Management Rules
 

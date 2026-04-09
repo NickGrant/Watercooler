@@ -50,7 +50,7 @@ This file maps major product and repo-operating features to the tasks that deliv
 
 - Name: Main Game Interface
 - Priority: High
-- Status: Not Started
+- Status: In Progress
 - Description: Present the real-time game state clearly across the board, player panels, action surfaces, rules, and results.
 - Tasks: TASK-027, TASK-029, TASK-031, TASK-032
 

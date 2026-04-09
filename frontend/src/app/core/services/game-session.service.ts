@@ -1,11 +1,11 @@
 import { computed, Injectable, signal } from '@angular/core';
 
+import { ActiveGameState } from '../models/active-game-state.model';
 import { AvatarDraft, DEFAULT_AVATAR_DRAFT } from '../models/avatar-draft.model';
 import { GameShellStage } from '../models/game-shell-stage.model';
 import { GameStateResponse } from '../models/game-state-response.model';
 import { JoinBootstrapResponse } from '../models/join-bootstrap-response.model';
 import { JoinedPlayer } from '../models/joined-player.model';
-import { StartedGameResponse } from '../models/started-game-response.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +20,7 @@ export class GameSessionService {
   private readonly sessionTokenState = signal<string | null>(null);
   private readonly currentPlayerState = signal<JoinedPlayer | null>(null);
   private readonly joinedPlayersState = signal<JoinedPlayer[]>([]);
-  private readonly activeGameStateState = signal<StartedGameResponse['state'] | null>(null);
+  private readonly activeGameStateState = signal<ActiveGameState | null>(null);
 
   readonly slug = this.slugState.asReadonly();
   readonly stage = this.stageState.asReadonly();
@@ -101,7 +101,7 @@ export class GameSessionService {
     this.persistSessionToken(result.game.slug, result.session.token);
   }
 
-  applyStartedGameState(state: StartedGameResponse['state']): void {
+  applyStartedGameState(state: ActiveGameState): void {
     this.stageState.set('in-game');
     this.activeGameStateState.set(state);
   }

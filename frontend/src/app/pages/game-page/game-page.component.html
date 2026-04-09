@@ -90,20 +90,84 @@
           <p class="inline-error" role="alert">{{ joinError }}</p>
         }
       } @else if (session.stage() === 'in-game') {
-        <h2>Game Restored</h2>
+        <h2>Turn Command Desk</h2>
         <p class="panel-copy">
-          The authenticated state endpoint restored your live desk assignment and the active board
-          snapshot.
+          The board is now live. Use this desk to review the turn queue, submit allowed actions,
+          and watch the server-authoritative state return after each move.
         </p>
 
-        <div class="badge-summary">
-          <p><strong>Host:</strong> {{ session.currentPlayer()?.isHost ? 'Yes' : 'No' }}</p>
-          <p><strong>Player ID:</strong> {{ session.currentPlayer()?.gamePlayerId }}</p>
-          <p>
-            <strong>Office Prestige:</strong>
-            {{ getActivePlayerPrestige(session.currentPlayer()?.gamePlayerId) }}
-          </p>
-          <p><strong>Resources:</strong> Resynced from the authenticated game state.</p>
+        <div class="turn-summary">
+          <div class="turn-summary__tile">
+            <span>Current Turn</span>
+            <strong>{{ currentTurnPlayer()?.displayName ?? 'Awaiting state' }}</strong>
+          </div>
+          <div class="turn-summary__tile">
+            <span>Your Seat</span>
+            <strong>#{{ currentUserPlayer()?.seatOrder ?? '—' }}</strong>
+          </div>
+          <div class="turn-summary__tile">
+            <span>Your Prestige</span>
+            <strong>{{ getActivePlayerPrestige(session.currentPlayer()?.gamePlayerId) }}</strong>
+          </div>
+          <div class="turn-summary__tile">
+            <span>Your Turn</span>
+            <strong>{{ isCurrentPlayersTurn() ? 'Act Now' : 'Stand By' }}</strong>
+          </div>
+        </div>
+
+        <div class="action-desk">
+          <section class="action-panel">
+            <h3>Take Resources</h3>
+            <p class="panel-copy">
+              Select up to three resources. Duplicate picks are allowed here and will still be
+              validated by the API.
+            </p>
+            <div class="resource-picks">
+              @for (resource of resourceTypes; track resource) {
+                <button
+                  mat-stroked-button
+                  type="button"
+                  [disabled]="actionPending() || !isCurrentPlayersTurn()"
+                  [class.resource-pick--selected]="selectedTakeResources().includes(resource)"
+                  (click)="toggleTakeResource(resource)"
+                >
+                  {{ resourceLabel(resource) }}
+                  <span class="resource-pick__count">
+                    {{ activeState()?.bank?.[resource] ?? 0 }} in bank
+                  </span>
+                </button>
+              }
+            </div>
+            <p class="selection-copy">
+              Selected:
+              @if (selectedTakeResources().length > 0) {
+                {{ selectedResourceSummary() }}
+              } @else {
+                None
+              }
+            </p>
+            <button
+              mat-flat-button
+              type="button"
+              [disabled]="actionPending() || !isCurrentPlayersTurn() || selectedTakeResources().length === 0"
+              (click)="submitTakeResources()"
+            >
+              {{ actionPending() ? 'Submitting...' : 'Take Selected Resources' }}
+            </button>
+          </section>
+
+          <section class="action-panel">
+            <h3>Project And Purchase Guidance</h3>
+            <p class="panel-copy">
+              Market cards offer both claim and purchase actions. Reserved cards can be purchased
+              from your personal tray below.
+            </p>
+            <ul class="action-tips">
+              <li>Claiming a market card may grant Executive Favor if the bank still has one.</li>
+              <li>Purchases use permanent discounts first, then Executive Favor as wildcard support.</li>
+              <li>The server still decides legality, turn order, executive awards, and endgame timing.</li>
+            </ul>
+          </section>
         </div>
       } @else {
         <h2>Check-In Approved</h2>
@@ -124,24 +188,29 @@
     </mat-card>
 
     <mat-card appearance="outlined">
-      @if (session.stage() === 'in-game') {
-        <h2>Active Roster</h2>
-        <p class="panel-copy">
-          {{ startedGame()?.players?.length ?? 0 }} employees are now synchronized into the live
-          game state.
-        </p>
-      } @else {
+      @if (session.stage() !== 'in-game') {
         <h2>Waiting Room</h2>
         <p class="panel-copy">
           {{ session.joinedPlayerCount() }} of {{ session.maximumLobbyPlayers() }} desks are occupied.
           The host can start when at least {{ session.minimumLobbyPlayers() }} employees are present.
         </p>
+      } @else {
+        <h2>Player Panels</h2>
+        <p class="panel-copy">
+          {{ orderedPlayers().length }} employees are synchronized into the current board state.
+        </p>
       }
 
       <div class="lobby-status">
         <div class="lobby-status__metric">
-          <span>Ready To Start</span>
-          <strong>{{ session.canRequestStart() ? 'Yes' : 'Not Yet' }}</strong>
+          <span>{{ session.stage() === 'in-game' ? 'Current Turn' : 'Ready To Start' }}</span>
+          <strong>
+            {{
+              session.stage() === 'in-game'
+                ? (currentTurnPlayer()?.displayName ?? 'Awaiting state')
+                : (session.canRequestStart() ? 'Yes' : 'Not Yet')
+            }}
+          </strong>
         </div>
 
         <div class="lobby-status__metric">
@@ -152,13 +221,94 @@
 
       <div class="roster">
         @if (session.stage() === 'in-game' && startedGame(); as startedGame) {
-          @for (player of startedGame.players; track player.gamePlayerId) {
-            <div class="roster-row">
-              <div>
-                <strong>{{ player.displayName }}</strong>
-                <p>Seat {{ player.seatOrder }} | Prestige {{ player.officePrestige }}</p>
+          @for (player of orderedPlayers(); track player.gamePlayerId) {
+            <div class="player-panel" [class.player-panel--active]="player.gamePlayerId === startedGame.currentTurnGamePlayerId">
+              <div class="player-panel__header">
+                <div>
+                  <strong>{{ player.displayName }}</strong>
+                  <p>
+                    Seat {{ player.seatOrder }} | Prestige {{ player.officePrestige }} | Tokens
+                    {{ totalVisibleResources(player.resources) }}
+                  </p>
+                </div>
+                <span class="roster-badge">
+                  {{
+                    player.gamePlayerId === startedGame.currentTurnGamePlayerId
+                      ? 'Current Turn'
+                      : (player.isHost ? 'Host' : player.joinStatus)
+                  }}
+                </span>
               </div>
-              <span class="roster-badge">{{ player.isHost ? 'Host' : player.joinStatus }}</span>
+
+              <div class="player-panel__metrics">
+                @for (resource of resourceTypes; track resource) {
+                  <div class="metric-chip">
+                    <span>{{ resourceLabel(resource) }}</span>
+                    <strong>{{ player.resources[resource] }}</strong>
+                  </div>
+                }
+                <div class="metric-chip">
+                  <span>Executive Favor</span>
+                  <strong>{{ player.resources.executiveFavor }}</strong>
+                </div>
+              </div>
+
+              <div class="player-panel__metrics">
+                @for (resource of resourceTypes; track resource) {
+                  <div class="metric-chip metric-chip--discount">
+                    <span>{{ resourceLabel(resource) }} Discount</span>
+                    <strong>{{ player.permanentDiscounts[resource] }}</strong>
+                  </div>
+                }
+              </div>
+
+              <div class="player-panel__collections">
+                <section>
+                  <h3>Purchased Advantages</h3>
+                  <p>{{ player.purchasedCardCount }} total</p>
+                </section>
+
+                <section>
+                  <h3>Claimed Projects</h3>
+                  @if (player.reservedCards.length > 0) {
+                    <div class="card-stack">
+                      @for (card of player.reservedCards; track trackByCardCode($index, card)) {
+                        <article class="mini-card">
+                          <strong>{{ card.name }}</strong>
+                          <p>{{ resourceLabel(card.resourceDiscount) }} discount</p>
+                          <p>Prestige {{ card.officePrestige }}</p>
+                          <button
+                            mat-button
+                            type="button"
+                            [disabled]="actionPending() || !isCurrentPlayersTurn() || currentUserPlayer()?.gamePlayerId !== player.gamePlayerId || !canAffordCard(currentUserPlayer(), card)"
+                            (click)="purchaseReservedCard(card)"
+                          >
+                            Purchase From Tray
+                          </button>
+                        </article>
+                      }
+                    </div>
+                  } @else {
+                    <p>No claimed projects waiting in this tray.</p>
+                  }
+                </section>
+
+                <section>
+                  <h3>Executives</h3>
+                  @if (player.claimedExecutives.length > 0) {
+                    <div class="card-stack">
+                      @for (executive of player.claimedExecutives; track executive.code) {
+                        <article class="mini-card mini-card--executive">
+                          <strong>{{ executive.name }}</strong>
+                          <p>Prestige {{ executive.officePrestige }}</p>
+                        </article>
+                      }
+                    </div>
+                  } @else {
+                    <p>No executives claimed yet.</p>
+                  }
+                </section>
+              </div>
             </div>
           } @empty {
             <p class="panel-copy">
@@ -213,35 +363,194 @@
     </mat-card>
 
     <mat-card appearance="outlined" class="wide">
-      <h2>Authenticated Game State</h2>
+      <h2>{{ session.stage() === 'in-game' ? 'Main Board' : 'Authenticated Game State' }}</h2>
       @if (startedGame(); as startedGame) {
-        <p>
-          Current turn: employee #{{ startedGame.currentTurnGamePlayerId }}. The backend seeded the
-          bank, market, and executive row for the current synchronized game state.
+        <p class="panel-copy">
+          The board below reflects the latest server-authoritative state. Market purchases, claimed
+          projects, and executive awards all flow back through the API before the UI updates.
         </p>
         <mat-divider />
-        <div class="future-columns">
-          <div>
-            <h3>Bank</h3>
-            <p>
-              Coffee {{ startedGame.bank['coffee'] }}, Spreadsheets
-              {{ startedGame.bank['spreadsheets'] }}, Budget {{ startedGame.bank['budget'] }},
-              Connections {{ startedGame.bank['connections'] }}, Time
-              {{ startedGame.bank['time'] }}, Executive Favor
-              {{ startedGame.bank['executiveFavor'] }}
-            </p>
-          </div>
+        <div class="board-layout">
+          <section class="board-column">
+            <h3>Resource Bank</h3>
+            <div class="resource-bank">
+              @for (resource of resourceTypes; track resource) {
+                <article class="resource-bank__tile">
+                  <span>{{ resourceLabel(resource) }}</span>
+                  <strong>{{ startedGame.bank[resource] }}</strong>
+                </article>
+              }
+              <article class="resource-bank__tile resource-bank__tile--favor">
+                <span>Executive Favor</span>
+                <strong>{{ startedGame.bank.executiveFavor }}</strong>
+              </article>
+            </div>
+          </section>
 
-          <div>
+          <section class="board-column board-column--wide">
             <h3>Visible Market</h3>
-            <p>
-              Tier 1: {{ startedGame.market.tier1.length }} cards | Tier 2:
-              {{ startedGame.market.tier2.length }} cards | Tier 3:
-              {{ startedGame.market.tier3.length }} cards
-            </p>
-            <p>Executive row: {{ startedGame.executives.length }} leaders.</p>
-          </div>
+            <div class="market-grid">
+              <section class="market-tier">
+                <header>
+                  <strong>Tier 1</strong>
+                  <span>{{ startedGame.market.tier1.length }} cards</span>
+                </header>
+                <div class="market-tier__cards">
+                  @for (card of startedGame.market.tier1; track trackByCardCode($index, card)) {
+                    <article class="market-card">
+                      <div class="market-card__meta">
+                        <span>Discount: {{ resourceLabel(card.resourceDiscount) }}</span>
+                        <strong>Prestige {{ card.officePrestige }}</strong>
+                      </div>
+                      <h4>{{ card.name }}</h4>
+                      <p>Market slot {{ card.marketSlot }}</p>
+                      <div class="cost-row">
+                        @for (entry of resourceEntries(card.cost); track entry[0]) {
+                          <span>{{ resourceLabel(entry[0]) }} {{ entry[1] }}</span>
+                        }
+                      </div>
+                      <div class="market-card__actions">
+                        <button
+                          mat-button
+                          type="button"
+                          [disabled]="actionPending() || !isCurrentPlayersTurn()"
+                          (click)="claimMarketCard(card)"
+                        >
+                          Claim Project
+                        </button>
+                        <button
+                          mat-flat-button
+                          type="button"
+                          [disabled]="actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
+                          (click)="purchaseMarketCard(card)"
+                        >
+                          Purchase
+                        </button>
+                      </div>
+                    </article>
+                  } @empty {
+                    <p>No tier 1 cards remain in the visible market.</p>
+                  }
+                </div>
+              </section>
+
+              <section class="market-tier">
+                <header>
+                  <strong>Tier 2</strong>
+                  <span>{{ startedGame.market.tier2.length }} cards</span>
+                </header>
+                <div class="market-tier__cards">
+                  @for (card of startedGame.market.tier2; track trackByCardCode($index, card)) {
+                    <article class="market-card">
+                      <div class="market-card__meta">
+                        <span>Discount: {{ resourceLabel(card.resourceDiscount) }}</span>
+                        <strong>Prestige {{ card.officePrestige }}</strong>
+                      </div>
+                      <h4>{{ card.name }}</h4>
+                      <p>Market slot {{ card.marketSlot }}</p>
+                      <div class="cost-row">
+                        @for (entry of resourceEntries(card.cost); track entry[0]) {
+                          <span>{{ resourceLabel(entry[0]) }} {{ entry[1] }}</span>
+                        }
+                      </div>
+                      <div class="market-card__actions">
+                        <button
+                          mat-button
+                          type="button"
+                          [disabled]="actionPending() || !isCurrentPlayersTurn()"
+                          (click)="claimMarketCard(card)"
+                        >
+                          Claim Project
+                        </button>
+                        <button
+                          mat-flat-button
+                          type="button"
+                          [disabled]="actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
+                          (click)="purchaseMarketCard(card)"
+                        >
+                          Purchase
+                        </button>
+                      </div>
+                    </article>
+                  } @empty {
+                    <p>No tier 2 cards remain in the visible market.</p>
+                  }
+                </div>
+              </section>
+
+              <section class="market-tier">
+                <header>
+                  <strong>Tier 3</strong>
+                  <span>{{ startedGame.market.tier3.length }} cards</span>
+                </header>
+                <div class="market-tier__cards">
+                  @for (card of startedGame.market.tier3; track trackByCardCode($index, card)) {
+                    <article class="market-card">
+                      <div class="market-card__meta">
+                        <span>Discount: {{ resourceLabel(card.resourceDiscount) }}</span>
+                        <strong>Prestige {{ card.officePrestige }}</strong>
+                      </div>
+                      <h4>{{ card.name }}</h4>
+                      <p>Market slot {{ card.marketSlot }}</p>
+                      <div class="cost-row">
+                        @for (entry of resourceEntries(card.cost); track entry[0]) {
+                          <span>{{ resourceLabel(entry[0]) }} {{ entry[1] }}</span>
+                        }
+                      </div>
+                      <div class="market-card__actions">
+                        <button
+                          mat-button
+                          type="button"
+                          [disabled]="actionPending() || !isCurrentPlayersTurn()"
+                          (click)="claimMarketCard(card)"
+                        >
+                          Claim Project
+                        </button>
+                        <button
+                          mat-flat-button
+                          type="button"
+                          [disabled]="actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
+                          (click)="purchaseMarketCard(card)"
+                        >
+                          Purchase
+                        </button>
+                      </div>
+                    </article>
+                  } @empty {
+                    <p>No tier 3 cards remain in the visible market.</p>
+                  }
+                </div>
+              </section>
+            </div>
+          </section>
+
+          <section class="board-column">
+            <h3>Executive Row</h3>
+            <div class="executive-grid">
+              @for (executive of startedGame.executives; track executive.code) {
+                <article class="executive-card">
+                  <strong>{{ executive.name }}</strong>
+                  <p>Prestige {{ executive.officePrestige }}</p>
+                  <div class="cost-row">
+                    @for (entry of resourceEntries(executive.requirements); track entry[0]) {
+                      <span>{{ resourceLabel(entry[0]) }} {{ entry[1] }}</span>
+                    }
+                  </div>
+                </article>
+              } @empty {
+                <p>All executives have already been claimed.</p>
+              }
+            </div>
+          </section>
         </div>
+
+        @if (actionMessage(); as actionMessage) {
+          <p class="start-message">{{ actionMessage }}</p>
+        }
+
+        @if (actionError(); as actionError) {
+          <p class="inline-error" role="alert">{{ actionError }}</p>
+        }
       } @else {
         <p>Resource bank, market, executives, player panels, and turn actions will live here.</p>
         <mat-divider />

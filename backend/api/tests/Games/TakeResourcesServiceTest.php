@@ -11,6 +11,7 @@ use Watercooler\Api\Games\CardSeedDefinition;
 use Watercooler\Api\Games\ExecutiveSeedDefinition;
 use Watercooler\Api\Games\GameSummary;
 use Watercooler\Api\Games\PlayerResourceSet;
+use Watercooler\Api\Games\PlayerCardView;
 use Watercooler\Api\Games\StartGamePlayer;
 use Watercooler\Api\Games\TakeResourcesException;
 use Watercooler\Api\Games\TakeResourcesRepository;
@@ -210,6 +211,8 @@ final class InMemoryTakeResourcesRepository implements TakeResourcesRepository
                     time: $player->resources->time + ($resourceCounts['time'] ?? 0),
                     executiveFavor: $player->resources->executiveFavor,
                 ),
+                permanentDiscounts: $player->permanentDiscounts,
+                reservedCards: $player->reservedCards,
             );
         }
 

@@ -6,6 +6,10 @@ namespace Watercooler\Api\Games;
 
 final class ActiveGamePlayer
 {
+    /**
+     * @param array<string, int> $permanentDiscounts
+     * @param list<PlayerCardView> $reservedCards
+     */
     public function __construct(
         public readonly int $gamePlayerId,
         public readonly string $displayName,
@@ -14,6 +18,14 @@ final class ActiveGamePlayer
         public readonly int $seatOrder,
         public readonly int $officePrestige,
         public readonly PlayerResourceSet $resources,
+        public readonly array $permanentDiscounts = [
+            'coffee' => 0,
+            'spreadsheets' => 0,
+            'budget' => 0,
+            'connections' => 0,
+            'time' => 0,
+        ],
+        public readonly array $reservedCards = [],
     ) {
     }
 
@@ -30,6 +42,11 @@ final class ActiveGamePlayer
             'seatOrder' => $this->seatOrder,
             'officePrestige' => $this->officePrestige,
             'resources' => $this->resources->toArray(),
+            'permanentDiscounts' => $this->permanentDiscounts,
+            'reservedCards' => array_map(
+                static fn(PlayerCardView $card): array => $card->toArray(),
+                $this->reservedCards,
+            ),
         ];
     }
 }

@@ -9,13 +9,15 @@ use Watercooler\Api\Config\DatabaseConfig;
 use Watercooler\Api\Games\ActiveGamePlayer;
 use Watercooler\Api\Games\ActiveGameState;
 use Watercooler\Api\Games\CardSeedDefinition;
+use Watercooler\Api\Games\ClaimProjectRepository;
 use Watercooler\Api\Games\ExecutiveSeedDefinition;
 use Watercooler\Api\Games\GameSummary;
 use Watercooler\Api\Games\PlayerResourceSet;
+use Watercooler\Api\Games\PlayerCardView;
 use Watercooler\Api\Games\StartGamePlayer;
 use Watercooler\Api\Games\TakeResourcesRepository;
 
-final class PdoTakeResourcesRepository implements TakeResourcesRepository
+final class PdoTakeResourcesRepository implements TakeResourcesRepository, ClaimProjectRepository
 {
     private ?PDO $connection = null;
 
@@ -117,6 +119,11 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository
                 gp.join_status,
                 gp.seat_order,
                 gp.office_prestige,
+                gp.permanent_coffee,
+                gp.permanent_spreadsheets,
+                gp.permanent_budget,
+                gp.permanent_connections,
+                gp.permanent_time,
                 pr.coffee,
                 pr.spreadsheets,
                 pr.budget,
@@ -132,6 +139,53 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository
         $playerStatement->execute(['game_id' => $gameId]);
         /** @var list<array<string, mixed>> $playerRows */
         $playerRows = $playerStatement->fetchAll(PDO::FETCH_ASSOC);
+
+        $reservedStatement = $this->connection()->prepare(
+            <<<'SQL'
+            SELECT
+                gc.owner_game_player_id,
+                c.code,
+                c.tier,
+                c.name,
+                c.resource_discount,
+                c.office_prestige,
+                c.cost_coffee,
+                c.cost_spreadsheets,
+                c.cost_budget,
+                c.cost_connections,
+                c.cost_time
+            FROM game_cards gc
+            INNER JOIN cards c ON c.id = gc.card_id
+            WHERE gc.game_id = :game_id
+              AND gc.location = 'reserved'
+              AND gc.owner_game_player_id IS NOT NULL
+            ORDER BY gc.reserved_at ASC, gc.id ASC
+            SQL
+        );
+        $reservedStatement->execute(['game_id' => $gameId]);
+        /** @var list<array<string, mixed>> $reservedRows */
+        $reservedRows = $reservedStatement->fetchAll(PDO::FETCH_ASSOC);
+
+        /** @var array<int, list<PlayerCardView>> $reservedByPlayer */
+        $reservedByPlayer = [];
+        foreach ($reservedRows as $row) {
+            $gamePlayerId = (int) $row['owner_game_player_id'];
+            $reservedByPlayer[$gamePlayerId] ??= [];
+            $reservedByPlayer[$gamePlayerId][] = new PlayerCardView(
+                code: (string) $row['code'],
+                tier: (int) $row['tier'],
+                name: (string) $row['name'],
+                resourceDiscount: (string) $row['resource_discount'],
+                officePrestige: (int) $row['office_prestige'],
+                cost: [
+                    'coffee' => (int) $row['cost_coffee'],
+                    'spreadsheets' => (int) $row['cost_spreadsheets'],
+                    'budget' => (int) $row['cost_budget'],
+                    'connections' => (int) $row['cost_connections'],
+                    'time' => (int) $row['cost_time'],
+                ],
+            );
+        }
 
         $bankStatement = $this->connection()->prepare(
             'SELECT coffee, spreadsheets, budget, connections, time, executive_favor FROM game_resource_bank WHERE game_id = :game_id LIMIT 1'
@@ -208,6 +262,14 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository
                     time: (int) $row['time'],
                     executiveFavor: (int) $row['executive_favor'],
                 ),
+                permanentDiscounts: [
+                    'coffee' => (int) $row['permanent_coffee'],
+                    'spreadsheets' => (int) $row['permanent_spreadsheets'],
+                    'budget' => (int) $row['permanent_budget'],
+                    'connections' => (int) $row['permanent_connections'],
+                    'time' => (int) $row['permanent_time'],
+                ],
+                reservedCards: $reservedByPlayer[(int) $row['game_player_id']] ?? [],
             ),
             $playerRows,
         );
@@ -334,6 +396,217 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository
                 'actor_game_player_id' => $actingGamePlayerId,
                 'payload' => json_encode([
                     'resources' => $resources,
+                    'state' => $updatedState->toArray(),
+                ], JSON_UNESCAPED_SLASHES),
+            ]);
+            $eventId = (int) $connection->lastInsertId();
+
+            $connection->prepare(
+                <<<'SQL'
+                INSERT INTO game_state_snapshots (game_id, source_event_id, snapshot_json)
+                VALUES (:game_id, :source_event_id, :snapshot_json)
+                SQL
+            )->execute([
+                'game_id' => $gameId,
+                'source_event_id' => $eventId,
+                'snapshot_json' => json_encode($updatedState->toArray(), JSON_UNESCAPED_SLASHES),
+            ]);
+
+            $connection->commit();
+
+            return $updatedState;
+        } catch (\Throwable $exception) {
+            if ($connection->inTransaction()) {
+                $connection->rollBack();
+            }
+
+            throw $exception;
+        }
+    }
+
+    public function applyClaimProject(
+        int $gameId,
+        int $actingGamePlayerId,
+        string $source,
+        int $tier,
+        ?int $marketSlot,
+        ActiveGameState $state,
+    ): ActiveGameState {
+        $connection = $this->connection();
+        $connection->beginTransaction();
+
+        try {
+            if ($source === 'market') {
+                $statement = $connection->prepare(
+                    <<<'SQL'
+                    SELECT id
+                    FROM game_cards
+                    WHERE game_id = :game_id
+                      AND location = 'market'
+                      AND tier = :tier
+                      AND market_slot = :market_slot
+                    LIMIT 1
+                    SQL
+                );
+                $statement->execute([
+                    'game_id' => $gameId,
+                    'tier' => $tier,
+                    'market_slot' => $marketSlot,
+                ]);
+                $gameCardId = $statement->fetchColumn();
+
+                if ($gameCardId === false) {
+                    throw new \RuntimeException('The requested market card could not be found.');
+                }
+
+                $connection->prepare(
+                    <<<'SQL'
+                    UPDATE game_cards
+                    SET location = 'reserved',
+                        owner_game_player_id = :owner_game_player_id,
+                        market_slot = NULL,
+                        reserved_at = CURRENT_TIMESTAMP
+                    WHERE id = :game_card_id
+                    SQL
+                )->execute([
+                    'owner_game_player_id' => $actingGamePlayerId,
+                    'game_card_id' => $gameCardId,
+                ]);
+
+                $deckStatement = $connection->prepare(
+                    <<<'SQL'
+                    SELECT id
+                    FROM game_cards
+                    WHERE game_id = :game_id
+                      AND location = 'deck'
+                      AND tier = :tier
+                    ORDER BY deck_position ASC
+                    LIMIT 1
+                    SQL
+                );
+                $deckStatement->execute([
+                    'game_id' => $gameId,
+                    'tier' => $tier,
+                ]);
+                $replacementId = $deckStatement->fetchColumn();
+
+                if ($replacementId !== false) {
+                    $connection->prepare(
+                        <<<'SQL'
+                        UPDATE game_cards
+                        SET location = 'market',
+                            deck_position = NULL,
+                            market_slot = :market_slot
+                        WHERE id = :game_card_id
+                        SQL
+                    )->execute([
+                        'market_slot' => $marketSlot,
+                        'game_card_id' => $replacementId,
+                    ]);
+                }
+            } else {
+                $statement = $connection->prepare(
+                    <<<'SQL'
+                    SELECT id
+                    FROM game_cards
+                    WHERE game_id = :game_id
+                      AND location = 'deck'
+                      AND tier = :tier
+                    ORDER BY deck_position ASC
+                    LIMIT 1
+                    SQL
+                );
+                $statement->execute([
+                    'game_id' => $gameId,
+                    'tier' => $tier,
+                ]);
+                $gameCardId = $statement->fetchColumn();
+
+                if ($gameCardId === false) {
+                    throw new \RuntimeException('The requested deck card could not be found.');
+                }
+
+                $connection->prepare(
+                    <<<'SQL'
+                    UPDATE game_cards
+                    SET location = 'reserved',
+                        owner_game_player_id = :owner_game_player_id,
+                        deck_position = NULL,
+                        reserved_at = CURRENT_TIMESTAMP
+                    WHERE id = :game_card_id
+                    SQL
+                )->execute([
+                    'owner_game_player_id' => $actingGamePlayerId,
+                    'game_card_id' => $gameCardId,
+                ]);
+            }
+
+            $actingPlayer = $state->playerById($actingGamePlayerId)
+                ?? throw new \RuntimeException('The acting player could not be found in the active game state.');
+
+            $gainedExecutiveFavor = ($state->bank['executiveFavor'] ?? 0) > 0;
+            if ($gainedExecutiveFavor) {
+                $connection->prepare(
+                    'UPDATE player_resources SET executive_favor = executive_favor + 1 WHERE game_player_id = :game_player_id'
+                )->execute([
+                    'game_player_id' => $actingGamePlayerId,
+                ]);
+                $connection->prepare(
+                    'UPDATE game_resource_bank SET executive_favor = executive_favor - 1 WHERE game_id = :game_id'
+                )->execute([
+                    'game_id' => $gameId,
+                ]);
+            }
+
+            $nextPlayerId = $this->nextPlayerId($state, $actingGamePlayerId);
+
+            $turnStatement = $connection->prepare('SELECT COALESCE(MAX(turn_number), 0) FROM game_turns WHERE game_id = :game_id');
+            $turnStatement->execute(['game_id' => $gameId]);
+            $turnNumber = ((int) $turnStatement->fetchColumn()) + 1;
+            $roundNumber = intdiv($turnNumber - 1, max(count($state->players), 1)) + 1;
+
+            $connection->prepare(
+                <<<'SQL'
+                INSERT INTO game_turns (game_id, round_number, turn_number, game_player_id, action_type, action_payload, was_legal, resolved_at)
+                VALUES (:game_id, :round_number, :turn_number, :game_player_id, :action_type, :action_payload, 1, CURRENT_TIMESTAMP)
+                SQL
+            )->execute([
+                'game_id' => $gameId,
+                'round_number' => $roundNumber,
+                'turn_number' => $turnNumber,
+                'game_player_id' => $actingGamePlayerId,
+                'action_type' => 'claim_project',
+                'action_payload' => json_encode([
+                    'source' => $source,
+                    'tier' => $tier,
+                    'marketSlot' => $marketSlot,
+                    'gainedExecutiveFavor' => $gainedExecutiveFavor,
+                ], JSON_UNESCAPED_SLASHES),
+            ]);
+
+            $connection->prepare(
+                'UPDATE games SET current_turn_game_player_id = :current_turn_game_player_id WHERE id = :game_id'
+            )->execute([
+                'current_turn_game_player_id' => $nextPlayerId,
+                'game_id' => $gameId,
+            ]);
+
+            $updatedState = $this->loadState($gameId);
+
+            $connection->prepare(
+                <<<'SQL'
+                INSERT INTO game_events (game_id, event_type, actor_game_player_id, payload)
+                VALUES (:game_id, :event_type, :actor_game_player_id, :payload)
+                SQL
+            )->execute([
+                'game_id' => $gameId,
+                'event_type' => 'project_claimed',
+                'actor_game_player_id' => $actingGamePlayerId,
+                'payload' => json_encode([
+                    'source' => $source,
+                    'tier' => $tier,
+                    'marketSlot' => $marketSlot,
+                    'gainedExecutiveFavor' => $gainedExecutiveFavor,
                     'state' => $updatedState->toArray(),
                 ], JSON_UNESCAPED_SLASHES),
             ]);

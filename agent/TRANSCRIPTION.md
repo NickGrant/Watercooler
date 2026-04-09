@@ -258,6 +258,10 @@ alright, lets move forward with our work
 Assistant:
 I resumed implementation with `TASK-022`, added a new take-resources API endpoint and service, enforced turn order and Splendor-style resource-taking rules, persisted bank and player resource mutations, advanced the turn pointer, added PHPUnit coverage, and verified the flow with a live Docker-backed API check.
 
+#### Entry 036
+Assistant:
+I continued through Feature 5 by widening the active-game state model to carry permanent discounts and reserved-card data, then implemented `TASK-023` with a claim-project endpoint, Executive Favor award handling, reserve-limit enforcement, market refill logic, persisted reserved-card ownership, PHPUnit coverage, and a live Docker-backed API check.
+
 ## Sync Notes
 
 - Last updated through Session 001, Entry 033.

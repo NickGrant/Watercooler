@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-024
-
-- Name: Implement Workplace Advantage purchase flow
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-025, TASK-026, TASK-030
-- Description: Add affordability validation, permanent discount application, cost payment, and purchased-card state updates.
-
 ### TASK-025
 
 - Name: Implement Executive award and Office Prestige logic

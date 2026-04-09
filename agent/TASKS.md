@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-023
+### TASK-024
 
-- Name: Implement project-claiming and Executive Favor flow
+- Name: Implement Workplace Advantage purchase flow
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-026, TASK-030
-- Description: Add reserve-equivalent behavior, wildcard distribution rules, and reserved-card state management.
+- Blocks: TASK-025, TASK-026, TASK-030
+- Description: Add affordability validation, permanent discount application, cost payment, and purchased-card state updates.
 
 ## Task Management Rules
 

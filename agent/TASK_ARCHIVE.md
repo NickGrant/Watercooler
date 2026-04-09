@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-023
+
+- Name: Implement project-claiming and Executive Favor flow
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-026, TASK-030
+- Description: Add reserve-equivalent behavior, wildcard distribution rules, and reserved-card state management.
+
 ### TASK-022
 
 - Name: Implement resource-taking action validation

@@ -11,6 +11,7 @@ use Watercooler\Api\Games\CardSeedDefinition;
 use Watercooler\Api\Games\ExecutiveSeedDefinition;
 use Watercooler\Api\Games\GameSummary;
 use Watercooler\Api\Games\PlayerCardView;
+use Watercooler\Api\Games\PlayerExecutiveView;
 use Watercooler\Api\Games\PlayerResourceSet;
 use Watercooler\Api\Games\PurchaseAdvantageException;
 use Watercooler\Api\Games\PurchaseAdvantageRepository;
@@ -105,6 +106,76 @@ final class PurchaseAdvantageServiceTest extends TestCase
             'marketSlot' => 1,
         ]);
     }
+
+    public function testItAwardsExactlyOneEligibleExecutiveAfterPurchase(): void
+    {
+        $repository = new InMemoryPurchaseAdvantageRepository(
+            players: [
+                new ActiveGamePlayer(
+                    1,
+                    'Pam',
+                    true,
+                    'connected',
+                    1,
+                    0,
+                    new PlayerResourceSet(0, 0, 0, 0, 0, 0),
+                    permanentDiscounts: [
+                        'coffee' => 3,
+                        'spreadsheets' => 0,
+                        'budget' => 0,
+                        'connections' => 0,
+                        'time' => 0,
+                    ],
+                ),
+                new ActiveGamePlayer(2, 'Jim', false, 'connected', 2, 0, new PlayerResourceSet(0, 0, 0, 0, 0, 0)),
+            ],
+            marketCardsByTier: [
+                1 => [
+                    new CardSeedDefinition('market-card-1', 1, 'Coffee Flow', 'coffee', 1, [
+                        'coffee' => 0,
+                        'spreadsheets' => 0,
+                        'budget' => 0,
+                        'connections' => 0,
+                        'time' => 0,
+                    ], 1),
+                ],
+                2 => [],
+                3 => [],
+            ],
+            executives: [
+                new ExecutiveSeedDefinition('executive-first', 'Executive First', 3, [
+                    'coffee' => 4,
+                    'spreadsheets' => 0,
+                    'budget' => 0,
+                    'connections' => 0,
+                    'time' => 0,
+                ]),
+                new ExecutiveSeedDefinition('executive-second', 'Executive Second', 3, [
+                    'coffee' => 4,
+                    'spreadsheets' => 0,
+                    'budget' => 0,
+                    'connections' => 0,
+                    'time' => 0,
+                ]),
+            ],
+        );
+        $service = new PurchaseAdvantageService($repository);
+
+        $result = $service->purchase('synergy-report-telemetry', [
+            'sessionToken' => 'host-token',
+            'source' => 'market',
+            'tier' => 1,
+            'marketSlot' => 1,
+        ]);
+
+        $player = $result->state->playerById(1);
+
+        self::assertSame(4, $player?->officePrestige);
+        self::assertCount(1, $player?->claimedExecutives ?? []);
+        self::assertSame('executive-first', $player?->claimedExecutives[0]->code ?? null);
+        self::assertCount(1, $result->state->executives);
+        self::assertSame('executive-second', $result->state->executives[0]->code);
+    }
 }
 
 final class InMemoryPurchaseAdvantageRepository implements PurchaseAdvantageRepository
@@ -127,8 +198,9 @@ final class InMemoryPurchaseAdvantageRepository implements PurchaseAdvantageRepo
      * @param list<ActiveGamePlayer>|null $players
      * @param array<string, int>|null $bank
      * @param array<int, list<CardSeedDefinition>>|null $marketCardsByTier
+     * @param list<ExecutiveSeedDefinition>|null $executives
      */
-    public function __construct(?array $players = null, ?array $bank = null, ?array $marketCardsByTier = null)
+    public function __construct(?array $players = null, ?array $bank = null, ?array $marketCardsByTier = null, ?array $executives = null)
     {
         $this->game = new GameSummary(1, 'synergy-report-telemetry', 'active', 'active', 2, '2026-04-08 00:00:00');
         $this->players = $players ?? [
@@ -171,7 +243,7 @@ final class InMemoryPurchaseAdvantageRepository implements PurchaseAdvantageRepo
             2 => [],
             3 => [],
         ];
-        $this->executives = [
+        $this->executives = $executives ?? [
             new ExecutiveSeedDefinition('vp-of-synergy', 'VP of Synergy', 3, ['coffee' => 3, 'spreadsheets' => 0, 'budget' => 3, 'connections' => 3, 'time' => 0]),
         ];
     }
@@ -223,6 +295,7 @@ final class InMemoryPurchaseAdvantageRepository implements PurchaseAdvantageRepo
         $updatedMarketCardsByTier = $state->marketCardsByTier;
         $updatedPlayers = [];
         $updatedBank = $state->bank;
+        $updatedExecutives = $state->executives;
 
         foreach ($spentResources as $resource => $count) {
             $updatedBank[$resource] += $count;
@@ -275,19 +348,71 @@ final class InMemoryPurchaseAdvantageRepository implements PurchaseAdvantageRepo
                 ],
                 reservedCards: $updatedReservedCards,
                 purchasedCards: [...$player->purchasedCards, $selectedCard],
+                claimedExecutives: $player->claimedExecutives,
             );
+        }
+
+        foreach ($updatedPlayers as $index => $player) {
+            if ($player->gamePlayerId !== $actingGamePlayerId) {
+                continue;
+            }
+
+            $eligibleExecutiveIndex = null;
+            foreach ($updatedExecutives as $executiveIndex => $executive) {
+                if (
+                    $player->permanentDiscounts['coffee'] >= $executive->requirements['coffee']
+                    && $player->permanentDiscounts['spreadsheets'] >= $executive->requirements['spreadsheets']
+                    && $player->permanentDiscounts['budget'] >= $executive->requirements['budget']
+                    && $player->permanentDiscounts['connections'] >= $executive->requirements['connections']
+                    && $player->permanentDiscounts['time'] >= $executive->requirements['time']
+                ) {
+                    $eligibleExecutiveIndex = $executiveIndex;
+                    break;
+                }
+            }
+
+            if ($eligibleExecutiveIndex === null) {
+                break;
+            }
+
+            $awardedExecutive = $updatedExecutives[$eligibleExecutiveIndex];
+            unset($updatedExecutives[$eligibleExecutiveIndex]);
+            $updatedExecutives = array_values($updatedExecutives);
+            $updatedPlayers[$index] = new ActiveGamePlayer(
+                gamePlayerId: $player->gamePlayerId,
+                displayName: $player->displayName,
+                isHost: $player->isHost,
+                joinStatus: $player->joinStatus,
+                seatOrder: $player->seatOrder,
+                officePrestige: $player->officePrestige + $awardedExecutive->officePrestige,
+                resources: $player->resources,
+                permanentDiscounts: $player->permanentDiscounts,
+                reservedCards: $player->reservedCards,
+                purchasedCards: $player->purchasedCards,
+                claimedExecutives: [
+                    ...$player->claimedExecutives,
+                    new PlayerExecutiveView(
+                        code: $awardedExecutive->code,
+                        name: $awardedExecutive->name,
+                        officePrestige: $awardedExecutive->officePrestige,
+                        requirements: $awardedExecutive->requirements,
+                    ),
+                ],
+            );
+            break;
         }
 
         $this->players = $updatedPlayers;
         $this->bank = $updatedBank;
         $this->marketCardsByTier = $updatedMarketCardsByTier;
+        $this->executives = $updatedExecutives;
 
         return new ActiveGameState(
             players: $this->players,
             currentTurnGamePlayerId: 2,
             bank: $this->bank,
             marketCardsByTier: $this->marketCardsByTier,
-            executives: $state->executives,
+            executives: $this->executives,
         );
     }
 }

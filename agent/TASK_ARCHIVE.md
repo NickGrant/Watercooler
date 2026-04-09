@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-025
+
+- Name: Implement Executive award and Office Prestige logic
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-026, TASK-030
+- Description: Award executives automatically when requirements are met and maintain correct prestige totals.
+
 ### TASK-024
 
 - Name: Implement Workplace Advantage purchase flow

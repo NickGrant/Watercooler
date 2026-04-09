@@ -14,6 +14,7 @@ use Watercooler\Api\Games\ExecutiveSeedDefinition;
 use Watercooler\Api\Games\GameSummary;
 use Watercooler\Api\Games\PlayerResourceSet;
 use Watercooler\Api\Games\PlayerCardView;
+use Watercooler\Api\Games\PlayerExecutiveView;
 use Watercooler\Api\Games\PurchaseAdvantageRepository;
 use Watercooler\Api\Games\StartGamePlayer;
 use Watercooler\Api\Games\TakeResourcesRepository;
@@ -235,6 +236,48 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
             );
         }
 
+        $claimedExecutiveStatement = $this->connection()->prepare(
+            <<<'SQL'
+            SELECT
+                ge.owner_game_player_id,
+                e.code,
+                e.name,
+                e.office_prestige,
+                e.required_coffee,
+                e.required_spreadsheets,
+                e.required_budget,
+                e.required_connections,
+                e.required_time
+            FROM game_executives ge
+            INNER JOIN executives e ON e.id = ge.executive_id
+            WHERE ge.game_id = :game_id
+              AND ge.owner_game_player_id IS NOT NULL
+            ORDER BY ge.claimed_at ASC, ge.id ASC
+            SQL
+        );
+        $claimedExecutiveStatement->execute(['game_id' => $gameId]);
+        /** @var list<array<string, mixed>> $claimedExecutiveRows */
+        $claimedExecutiveRows = $claimedExecutiveStatement->fetchAll(PDO::FETCH_ASSOC);
+
+        /** @var array<int, list<PlayerExecutiveView>> $claimedExecutivesByPlayer */
+        $claimedExecutivesByPlayer = [];
+        foreach ($claimedExecutiveRows as $row) {
+            $gamePlayerId = (int) $row['owner_game_player_id'];
+            $claimedExecutivesByPlayer[$gamePlayerId] ??= [];
+            $claimedExecutivesByPlayer[$gamePlayerId][] = new PlayerExecutiveView(
+                code: (string) $row['code'],
+                name: (string) $row['name'],
+                officePrestige: (int) $row['office_prestige'],
+                requirements: [
+                    'coffee' => (int) $row['required_coffee'],
+                    'spreadsheets' => (int) $row['required_spreadsheets'],
+                    'budget' => (int) $row['required_budget'],
+                    'connections' => (int) $row['required_connections'],
+                    'time' => (int) $row['required_time'],
+                ],
+            );
+        }
+
         $bankStatement = $this->connection()->prepare(
             'SELECT coffee, spreadsheets, budget, connections, time, executive_favor FROM game_resource_bank WHERE game_id = :game_id LIMIT 1'
         );
@@ -319,6 +362,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
                 ],
                 reservedCards: $reservedByPlayer[(int) $row['game_player_id']] ?? [],
                 purchasedCards: $purchasedByPlayer[(int) $row['game_player_id']] ?? [],
+                claimedExecutives: $claimedExecutivesByPlayer[(int) $row['game_player_id']] ?? [],
             ),
             $playerRows,
         );
@@ -699,6 +743,8 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
 
         try {
             $selectedCardRow = null;
+            $actingPlayer = $state->playerById($actingGamePlayerId)
+                ?? throw new \RuntimeException('The acting player could not be found in the active game state.');
 
             if ($source === 'market') {
                 $statement = $connection->prepare(
@@ -805,6 +851,12 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
                 ]);
             }
 
+            $updatedDiscounts = [
+                ...$actingPlayer->permanentDiscounts,
+                (string) $selectedCardRow['resource_discount'] => $actingPlayer->permanentDiscounts[(string) $selectedCardRow['resource_discount']] + 1,
+            ];
+            $awardedExecutiveRow = $this->findAwardableExecutiveRow($connection, $gameId, $updatedDiscounts);
+
             foreach ($spentResources as $resource => $count) {
                 if ($count <= 0) {
                     continue;
@@ -834,9 +886,23 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
                     $discountColumn,
                 )
             )->execute([
-                'office_prestige' => (int) $selectedCardRow['office_prestige'],
+                'office_prestige' => (int) $selectedCardRow['office_prestige'] + ((int) ($awardedExecutiveRow['office_prestige'] ?? 0)),
                 'game_player_id' => $actingGamePlayerId,
             ]);
+
+            if ($awardedExecutiveRow !== null) {
+                $connection->prepare(
+                    <<<'SQL'
+                    UPDATE game_executives
+                    SET owner_game_player_id = :owner_game_player_id,
+                        claimed_at = CURRENT_TIMESTAMP
+                    WHERE id = :game_executive_id
+                    SQL
+                )->execute([
+                    'owner_game_player_id' => $actingGamePlayerId,
+                    'game_executive_id' => $awardedExecutiveRow['id'],
+                ]);
+            }
 
             $nextPlayerId = $this->nextPlayerId($state, $actingGamePlayerId);
 
@@ -862,6 +928,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
                     'marketSlot' => $marketSlot,
                     'cardCode' => $cardCode,
                     'spentResources' => $spentResources,
+                    'awardedExecutiveCode' => $awardedExecutiveRow['code'] ?? null,
                 ], JSON_UNESCAPED_SLASHES),
             ]);
 
@@ -889,6 +956,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
                     'marketSlot' => $marketSlot,
                     'cardCode' => $cardCode,
                     'spentResources' => $spentResources,
+                    'awardedExecutiveCode' => $awardedExecutiveRow['code'] ?? null,
                     'state' => $updatedState->toArray(),
                 ], JSON_UNESCAPED_SLASHES),
             ]);
@@ -953,6 +1021,49 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
             'time' => 'permanent_time',
             default => throw new \InvalidArgumentException('Unsupported permanent discount column requested.'),
         };
+    }
+
+    /**
+     * @param array<string, int> $permanentDiscounts
+     * @return array<string, mixed>|null
+     */
+    private function findAwardableExecutiveRow(PDO $connection, int $gameId, array $permanentDiscounts): ?array
+    {
+        $statement = $connection->prepare(
+            <<<'SQL'
+            SELECT
+                ge.id,
+                e.code,
+                e.office_prestige,
+                e.required_coffee,
+                e.required_spreadsheets,
+                e.required_budget,
+                e.required_connections,
+                e.required_time
+            FROM game_executives ge
+            INNER JOIN executives e ON e.id = ge.executive_id
+            WHERE ge.game_id = :game_id
+              AND ge.owner_game_player_id IS NULL
+            ORDER BY ge.slot_order ASC
+            SQL
+        );
+        $statement->execute(['game_id' => $gameId]);
+        /** @var list<array<string, mixed>> $rows */
+        $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+        foreach ($rows as $row) {
+            if (
+                $permanentDiscounts['coffee'] >= (int) $row['required_coffee']
+                && $permanentDiscounts['spreadsheets'] >= (int) $row['required_spreadsheets']
+                && $permanentDiscounts['budget'] >= (int) $row['required_budget']
+                && $permanentDiscounts['connections'] >= (int) $row['required_connections']
+                && $permanentDiscounts['time'] >= (int) $row['required_time']
+            ) {
+                return $row;
+            }
+        }
+
+        return null;
     }
 
     private function connection(): PDO

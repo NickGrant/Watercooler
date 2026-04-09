@@ -277,7 +277,15 @@ I completed the remaining `TASK-024` API wiring by registering the purchase endp
 Assistant:
 I ran a live Docker-backed validation for `TASK-024` by serving the API from a Docker container against the local MariaDB instance, starting a fresh game, seeding the acting player resources in MySQL for setup efficiency, and confirming a successful `purchase-advantage` action that persisted a purchased card, prestige gain, and turn advancement.
 
+#### Entry 040
+Assistant:
+I implemented `TASK-025` by projecting claimed executives into player state, awarding at most one eligible executive automatically after each purchase in deterministic slot order, folding executive prestige into the same authoritative purchase mutation, and extending PHPUnit coverage for both service and handler behavior.
+
+#### Entry 041
+Assistant:
+I verified the executive-award work with PHPUnit, PHP linting, and a live Docker-backed API check that forced a known executive requirement for the active game, then confirmed a successful purchase response with a claimed executive, updated prestige, and one fewer available executive.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 039.
+- Last updated through Session 001, Entry 041.
 - The next transcription update should append new user and assistant messages after this point.

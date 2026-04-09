@@ -11,6 +11,7 @@ use Watercooler\Api\Games\CardSeedDefinition;
 use Watercooler\Api\Games\ExecutiveSeedDefinition;
 use Watercooler\Api\Games\GameSummary;
 use Watercooler\Api\Games\PlayerCardView;
+use Watercooler\Api\Games\PlayerExecutiveView;
 use Watercooler\Api\Games\PlayerResourceSet;
 use Watercooler\Api\Games\PurchaseAdvantageRepository;
 use Watercooler\Api\Games\PurchaseAdvantageService;
@@ -47,6 +48,7 @@ final class PurchaseAdvantageActionTest extends TestCase
         self::assertStringContainsString('"purchasedCards"', $response->body);
         self::assertStringContainsString('"purchasedCardCount": 1', $response->body);
         self::assertStringContainsString('"executiveFavor": 0', $response->body);
+        self::assertStringContainsString('"claimedExecutives"', $response->body);
     }
 
     public function testItReturnsValidationErrorsAsJson(): void
@@ -150,6 +152,9 @@ final class HandlerPurchaseAdvantageRepository implements PurchaseAdvantageRepos
                     purchasedCards: [
                         new PlayerCardView('market-card-1', 1, 'Coffee Flow', 'coffee', 1, ['coffee' => 3, 'spreadsheets' => 0, 'budget' => 0, 'connections' => 0, 'time' => 0]),
                     ],
+                    claimedExecutives: [
+                        new PlayerExecutiveView('vp-of-synergy', 'VP of Synergy', 3, ['coffee' => 3, 'spreadsheets' => 0, 'budget' => 3, 'connections' => 3, 'time' => 0]),
+                    ],
                 ),
                 new ActiveGamePlayer(2, 'Jim', false, 'connected', 2, 0, new PlayerResourceSet(0, 0, 0, 0, 0, 0)),
             ],
@@ -163,7 +168,7 @@ final class HandlerPurchaseAdvantageRepository implements PurchaseAdvantageRepos
                 'executiveFavor' => 5,
             ],
             marketCardsByTier: $state->marketCardsByTier,
-            executives: $state->executives,
+            executives: [],
         );
     }
 }

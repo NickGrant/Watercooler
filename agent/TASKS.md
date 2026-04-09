@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-025
+### TASK-026
 
-- Name: Implement Executive award and Office Prestige logic
+- Name: Implement endgame trigger and winner resolution
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-026, TASK-030
-- Description: Award executives automatically when requirements are met and maintain correct prestige totals.
+- Blocks: TASK-029, TASK-030
+- Description: Detect the prestige threshold, complete the round correctly, and resolve the winner according to Splendor-equivalent rules.
 
 ## Task Management Rules
 

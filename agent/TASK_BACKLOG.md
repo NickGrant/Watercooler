@@ -10,7 +10,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Implement endgame trigger and winner resolution
 - Priority: High
-- Blocked By: TASK-023, TASK-025
+- Blocked By: None
 - Blocks: TASK-029, TASK-030
 - Description: Detect the prestige threshold, complete the round correctly, and resolve the winner according to Splendor-equivalent rules.
 

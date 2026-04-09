@@ -10,6 +10,7 @@ final class ActiveGamePlayer
      * @param array<string, int> $permanentDiscounts
      * @param list<PlayerCardView> $reservedCards
      * @param list<PlayerCardView> $purchasedCards
+     * @param list<PlayerExecutiveView> $claimedExecutives
      */
     public function __construct(
         public readonly int $gamePlayerId,
@@ -28,6 +29,7 @@ final class ActiveGamePlayer
         ],
         public readonly array $reservedCards = [],
         public readonly array $purchasedCards = [],
+        public readonly array $claimedExecutives = [],
     ) {
     }
 
@@ -54,6 +56,11 @@ final class ActiveGamePlayer
                 $this->purchasedCards,
             ),
             'purchasedCardCount' => count($this->purchasedCards),
+            'claimedExecutives' => array_map(
+                static fn(PlayerExecutiveView $executive): array => $executive->toArray(),
+                $this->claimedExecutives,
+            ),
+            'claimedExecutiveCount' => count($this->claimedExecutives),
         ];
     }
 }

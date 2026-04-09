@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
+import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
 
 import { ActiveGameState } from '../../core/models/active-game-state.model';
@@ -10,10 +11,12 @@ import { GamePageComponent } from './game-page.component';
 
 describe('GamePageComponent', () => {
   let gamesApi: jasmine.SpyObj<GamesApiService>;
+  let router: jasmine.SpyObj<Router>;
 
   beforeEach(async () => {
     localStorage.clear();
     gamesApi = jasmine.createSpyObj<GamesApiService>('GamesApiService', [
+      'createGame',
       'getGame',
       'getGameState',
       'joinBootstrap',
@@ -31,6 +34,17 @@ describe('GamePageComponent', () => {
         playerCount: 0,
         createdAt: '2026-04-08 00:00:00',
         path: '/game/synergy-report-telemetry'
+      })
+    );
+    gamesApi.createGame.and.returnValue(
+      of({
+        id: 2,
+        slug: 'new-room-slug',
+        status: 'lobby',
+        phase: 'pre_join',
+        playerCount: 0,
+        createdAt: '2026-04-08 00:05:00',
+        path: '/game/new-room-slug'
       })
     );
     gamesApi.joinBootstrap.and.returnValue(
@@ -263,12 +277,15 @@ describe('GamePageComponent', () => {
         })
       })
     );
+    router = jasmine.createSpyObj<Router>('Router', ['navigate']);
+    router.navigate.and.returnValue(Promise.resolve(true));
 
     await TestBed.configureTestingModule({
       imports: [GamePageComponent],
       providers: [
         GameSessionService,
         { provide: GamesApiService, useValue: gamesApi },
+        { provide: Router, useValue: router },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -666,6 +683,58 @@ describe('GamePageComponent', () => {
     });
     expect(fixture.componentInstance.actionMessage()).toContain('claimed-project tray');
   });
+
+  it('orders completed-game standings by prestige, purchased cards, and seat order', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+    gamesApi.getGameState.and.returnValue(
+      of({
+        game: {
+          id: 1,
+          slug: 'synergy-report-telemetry',
+          status: 'completed',
+          phase: 'completed',
+          playerCount: 3,
+          createdAt: '2026-04-08 00:00:00',
+          path: '/game/synergy-report-telemetry'
+        },
+        player: {
+          gamePlayerId: 1,
+          playerId: 1,
+          displayName: 'Pam',
+          isHost: true,
+          joinStatus: 'connected',
+          avatar: DEFAULT_AVATAR_DRAFT
+        },
+        session: {
+          token: 'temporary-session-token',
+          reconnectEnabled: true
+        },
+        realtime: {
+          transport: 'websocket',
+          roomSlug: 'synergy-report-telemetry',
+          sessionToken: 'temporary-session-token'
+        },
+        state: createCompletedState()
+      })
+    );
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    const standings = fixture.componentInstance.finalStandings();
+
+    expect(fixture.componentInstance.isCompletedGame()).toBeTrue();
+    expect(standings.map((player) => player.displayName)).toEqual(['Pam', 'Jim', 'Dwight']);
+    expect(fixture.componentInstance.winningPlayer()?.displayName).toBe('Pam');
+    expect(fixture.componentInstance.finalTieBreakSummary()).toContain('fewer purchased Workplace Advantages');
+  });
+
+  it('creates a fresh room from the completed-game results desk', async () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+
+    await fixture.componentInstance.createNextGame();
+
+    expect(gamesApi.createGame).toHaveBeenCalled();
+    expect(router.navigate).toHaveBeenCalledWith(['/game', 'new-room-slug']);
+  });
 });
 
 function createActiveState(overrides: Partial<ActiveGameState> = {}): ActiveGameState {
@@ -780,5 +849,37 @@ function createActiveState(overrides: Partial<ActiveGameState> = {}): ActiveGame
   return {
     ...defaultState,
     ...overrides
+  };
+}
+
+function createCompletedState(): ActiveGameState {
+  return {
+    ...createActiveState({
+      currentTurnGamePlayerId: 2,
+      players: [
+        {
+          ...createActiveState().players[0],
+          displayName: 'Pam',
+          seatOrder: 1,
+          officePrestige: 12,
+          purchasedCardCount: 6
+        },
+        {
+          ...createActiveState().players[1],
+          displayName: 'Jim',
+          seatOrder: 2,
+          officePrestige: 12,
+          purchasedCardCount: 7
+        },
+        {
+          ...createActiveState().players[1],
+          gamePlayerId: 3,
+          displayName: 'Dwight',
+          seatOrder: 3,
+          officePrestige: 10,
+          purchasedCardCount: 5
+        }
+      ]
+    })
   };
 }

@@ -6,18 +6,4 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-031
-
-- Name: Build in-app rules and help surface
-- Priority: Medium
-- Blocked By: TASK-027
-- Blocks: None
-- Description: Provide a concise rules modal or help surface using Watercooler terminology while remaining mechanically precise.
-
-### TASK-032
-
-- Name: Apply retro intranet visual skin
-- Priority: Medium
-- Blocked By: TASK-027
-- Blocks: TASK-029, TASK-031
-- Description: Theme the Angular Material base into a readable faux-corporate portal with strong visual identity.
+No backlog tasks are currently parked outside the active working set.

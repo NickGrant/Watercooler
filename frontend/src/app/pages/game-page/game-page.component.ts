@@ -7,7 +7,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 
 import {
@@ -47,6 +47,7 @@ interface ActionRecoveryPayload {
 })
 export class GamePageComponent {
   private readonly route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
   private readonly gamesApi = inject(GamesApiService);
 
   readonly session = inject(GameSessionService);
@@ -59,6 +60,7 @@ export class GamePageComponent {
   readonly actionPending = signal(false);
   readonly actionMessage = signal<string | null>(null);
   readonly actionError = signal<string | null>(null);
+  readonly createNextGamePending = signal(false);
   readonly startedGame = signal<ActiveGameState | null>(null);
   readonly selectedTakeResources = signal<ResourceType[]>([]);
   readonly bodyOptions = ['blazer', 'hoodie', 'cardigan', 'polo', 'power-suit'];
@@ -102,6 +104,40 @@ export class GamePageComponent {
   readonly isCurrentPlayersTurn = computed(
     () => this.currentUserPlayer()?.gamePlayerId === this.activeState()?.currentTurnGamePlayerId
   );
+  readonly isCompletedGame = computed(
+    () => this.game()?.phase === 'completed' || this.game()?.status === 'completed'
+  );
+  readonly finalStandings = computed(() => {
+    const standings = [...(this.activeState()?.players ?? [])];
+
+    return standings.sort((left, right) => {
+      const prestigeComparison = right.officePrestige - left.officePrestige;
+      if (prestigeComparison !== 0) {
+        return prestigeComparison;
+      }
+
+      const purchasedCardComparison = left.purchasedCardCount - right.purchasedCardCount;
+      if (purchasedCardComparison !== 0) {
+        return purchasedCardComparison;
+      }
+
+      return left.seatOrder - right.seatOrder;
+    });
+  });
+  readonly winningPlayer = computed(() => this.finalStandings()[0] ?? null);
+  readonly tiedPlayers = computed(() => {
+    const winner = this.winningPlayer();
+
+    if (winner === null) {
+      return [];
+    }
+
+    return this.finalStandings().filter(
+      (player) =>
+        player.officePrestige === winner.officePrestige &&
+        player.purchasedCardCount === winner.purchasedCardCount
+    );
+  });
 
   constructor() {
     const slug = this.route.snapshot.paramMap.get('slug') ?? 'unknown-room';
@@ -162,6 +198,26 @@ export class GamePageComponent {
       error: (error: unknown) => {
         this.startPending.set(false);
         this.startMessage.set(this.getStartErrorMessage(error));
+      }
+    });
+  }
+
+  async createNextGame(): Promise<void> {
+    if (this.createNextGamePending()) {
+      return;
+    }
+
+    this.createNextGamePending.set(true);
+    this.actionError.set(null);
+
+    this.gamesApi.createGame().subscribe({
+      next: async (game) => {
+        this.createNextGamePending.set(false);
+        await this.router.navigate(['/game', game.slug]);
+      },
+      error: (error: unknown) => {
+        this.createNextGamePending.set(false);
+        this.actionError.set(this.getErrorMessage(error));
       }
     });
   }
@@ -413,6 +469,29 @@ export class GamePageComponent {
 
   trackByCardCode(_index: number, card: ActiveGameCard | ActivePlayerCard): string {
     return card.code;
+  }
+
+  finalPlacementLabel(index: number): string {
+    return ['1st', '2nd', '3rd', '4th'][index] ?? `${index + 1}th`;
+  }
+
+  finalTieBreakSummary(): string {
+    const winner = this.winningPlayer();
+
+    if (winner === null) {
+      return 'The final standings are unavailable.';
+    }
+
+    if (this.tiedPlayers().length > 1) {
+      return `${winner.displayName} won the tie on seat order after prestige and purchased-card count remained tied.`;
+    }
+
+    const runnerUp = this.finalStandings()[1] ?? null;
+    if (runnerUp !== null && runnerUp.officePrestige === winner.officePrestige) {
+      return `${winner.displayName} won the tie-break by finishing with fewer purchased Workplace Advantages.`;
+    }
+
+    return `${winner.displayName} secured the win on Office Prestige.`;
   }
 
   private performGameAction(

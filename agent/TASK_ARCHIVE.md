@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-029
+
+- Name: Build endgame and results presentation
+- Priority: Medium
+- Blocked By: TASK-026, TASK-027
+- Blocks: None
+- Description: Show the winner, final standings, and tie-break explanation with options to leave or start a new session.
+
 ### TASK-027
 
 - Name: Build main game board UI

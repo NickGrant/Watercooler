@@ -6,13 +6,21 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-029
+### TASK-031
 
-- Name: Build endgame and results presentation
+- Name: Build in-app rules and help surface
 - Priority: Medium
-- Blocked By: TASK-026, TASK-027
+- Blocked By: TASK-027
 - Blocks: None
-- Description: Show the winner, final standings, and tie-break explanation with options to leave or start a new session.
+- Description: Provide a concise rules modal or help surface using Watercooler terminology while remaining mechanically precise.
+
+### TASK-032
+
+- Name: Apply retro intranet visual skin
+- Priority: Medium
+- Blocked By: TASK-027
+- Blocks: None
+- Description: Theme the Angular Material base into a readable faux-corporate portal with strong visual identity.
 
 ## Task Management Rules
 

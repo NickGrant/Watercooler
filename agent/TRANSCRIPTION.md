@@ -360,7 +360,7 @@ I updated the realtime server and room/session primitives so disconnects now ret
 
 ## Sync Notes
 
-- Last updated through Session 001, Entry 054.
+- Last updated through Session 001, Entry 075.
 - The next transcription update should append new user and assistant messages after this point.
 
 #### Entry 055
@@ -373,3 +373,142 @@ I implemented the frontend recovery slice by teaching the game board to consume 
 #### Entry 056
 Assistant:
 I finished the bookkeeping pass for TASK-033 by archiving the task, updating the feature map so the reconnect/recovery features are now marked complete, and leaving the rest of the worktree untouched except for the frontend recovery changes and the transcript update.
+
+#### Entry 057
+User:
+Is that the end of our MVP build?
+
+Assistant:
+I clarified that the MVP was not finished yet because `FEATURE-006` still had the remaining UI work for endgame/results presentation, in-app rules/help, and the retro intranet visual pass.
+
+#### Entry 058
+User:
+alright, lets move forward with our work
+
+Assistant:
+I completed `TASK-022`, committed the server-authoritative resource-taking flow, and moved Feature 5 fully into progress so the remaining gameplay tasks could be finished next.
+
+#### Entry 059
+User:
+please continue working through the rest of feature 5. if you can work tasks in parallel, please consider that. Once all the tasks are done and have been committed, stop and let me know so I can verify
+
+Assistant:
+I finished the remaining Feature 5 task chain, committed `TASK-024`, `TASK-025`, `TASK-026`, and `TASK-030`, verified the backend rules flow, and paused for user verification with `FEATURE-005` marked complete.
+
+#### Entry 060
+User:
+Before we go further, I want to do a review of the [AGENTS.md](AGENTS.md) , [README.md](README.md) and the files inside the agent directory. I want to check for the following:
+- out of date information
+- factually incorrect information
+- duplicative information
+- information in a file that is better suited to another file (e.x. document maps outside of LLM_CONTEXT.md)
+
+We want our documents to be clean, consistent, and optimized for token consumption. For files that need to always be in context, try and differ away information to other files if that information doesn't need to be constantly available
+
+Assistant:
+I reviewed the shared docs and reported the main findings: stale planning-only language in `AGENTS.md` and `README.md`, duplicated document maps between `AGENTS.md`, `README.md`, and `agent/LLM_CONTEXT.md`, and the need to keep always-loaded files much slimmer.
+
+#### Entry 061
+User:
+go ahead and do that cleanup and commit your changes when done
+
+Assistant:
+I streamlined the operating docs, committed the cleanup, and made `AGENTS.md`, `README.md`, `agent/LLM_CONTEXT.md`, and `agent/AGENT_WORKFLOW.md` cleaner, more current, and less duplicative.
+
+#### Entry 062
+User:
+can you update the features file to mark which features are complete. Please continue to mark features as complete as they are finished and update AGENT_WORKFLOW to make sure you continue to do so
+
+Assistant:
+I updated `resources/planning/FEATURES.md` to track explicit feature status values, marked the completed features accurately, updated `agent/AGENT_WORKFLOW.md` so feature status maintenance is a standing workflow rule, and committed that documentation change.
+
+#### Entry 063
+User:
+please write anything important you need to temporary markdown file, it is time to compact this conversation. after compcation we will be continuing forward with feature work
+
+Assistant:
+I wrote a temporary compaction handoff file capturing current feature and task state, recent commits, implementation status, validation status, and workflow reminders so work could resume cleanly after context compaction.
+
+#### Entry 064
+User:
+compaction is complete, please read that file, delete it, then carry forward
+
+Assistant:
+I resumed from the compaction handoff, used the seeded card data as migration input rather than a runtime asset, completed `TASK-021`, and continued forward into the next gameplay slice without pausing because no feature boundary had been reached yet.
+
+#### Entry 065
+User:
+Those cards are for later reference, we should be using that information to make migrations
+
+Assistant:
+I confirmed the migration-based interpretation, updated the implementation to source seeded cards and executives from the database for game start orchestration, and validated the live Docker-backed create, join, and start-game flow.
+
+#### Entry 066
+User:
+Where are we at in the build process? What issues and features are remaining?
+
+Assistant:
+I summarized overall progress, noted that bootstrap and core gameplay foundations were in place, called out `FEATURE-006` as the last incomplete feature, and listed the remaining tasks and the known frontend build-budget warnings.
+
+#### Entry 067
+User:
+alright, lets move forward with our work
+
+Assistant:
+I completed `TASK-022`, committed the resource-taking action flow with authoritative validation and turn advancement, then moved directly into `TASK-023` as the next gameplay task.
+
+#### Entry 068
+User:
+please continue working through the rest of feature 5. if you can work tasks in parallel, please consider that. Once all the tasks are done and have been committed, stop and let me know so I can verify
+
+Assistant:
+I finished the remaining Feature 5 work, committed the purchase, executive-award, endgame, and rules-coverage tasks, updated tracking files, and paused with `FEATURE-005` marked complete for verification.
+
+#### Entry 069
+User:
+Lets update how our skills are defined, I want to define them in /agent/skills/<skill name>/SKILL.md then place thin pointer files in system specific places like .codes/skills/<skill name>/ that point back to the generic versions. Store this pattern in our AGENTS files
+
+Assistant:
+I centralized shared skill definitions under `agent/skills/`, converted the system-specific Codex and Copilot directories into thin adapters, updated the shared docs to record the pattern, and committed that structural change.
+
+#### Entry 070
+User:
+it is my understanding that we don't need a [copilot-instructions.md](.github/copilot-instructions.md) file since we have an [AGENTS.md](AGENTS.md) file. If that is true can we condense everything into AGENTS and remove copilot-instructions
+
+Assistant:
+I confirmed the file was redundant, removed `.github/copilot-instructions.md`, consolidated the shared guidance into `AGENTS.md`, `agent/AGENT_WORKFLOW.md`, and `agent/LLM_CONTEXT.md`, then later committed that cleanup.
+
+#### Entry 071
+User:
+please commit and then evaluate the next block of work, if possible, try and group the tasks so you can use sub-agents to complete these in parallel
+
+Assistant:
+I committed the redundant-instructions cleanup and proposed the next parallel work block around `TASK-027`, `TASK-028`, and `TASK-034`, with notes about which slices could safely run in parallel and which files should remain under single ownership.
+
+#### Entry 072
+User:
+yes please. Is this the correct way to orchestrate subagents? I am new to the concept
+
+Assistant:
+I confirmed the orchestration strategy was sound, explained the general pattern for safe delegation, completed `TASK-027`, refined the theme seed content as a sidecar task, and paused because `FEATURE-007` had reached completion.
+
+#### Entry 073
+User:
+lets go ahead and use the same divide and conquer strategy to finish whatever is remaining for feature 8
+
+Assistant:
+I finished Feature 8 with the disconnect and stale-action recovery work across API, realtime, and frontend, updated the tracking files so `FEATURE-008` and `FEATURE-004` were both complete, and paused for verification.
+
+#### Entry 074
+User:
+Is that the end of our MVP build?
+
+Assistant:
+I explained that the MVP still needed the remaining `FEATURE-006` work: endgame/results presentation, in-app rules/help, and the retro intranet visual skin.
+
+#### Entry 075
+User:
+yes please, I did not realize we had skipped ahead
+
+Assistant:
+I resumed `FEATURE-006`, finished `TASK-029` by adding completed-game results presentation, winner/tie-break rendering, and a new-room path on the frontend with unit-test coverage, then moved the active working set to `TASK-031` and `TASK-032`.

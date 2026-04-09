@@ -160,6 +160,28 @@ p {
   padding: 1rem;
 }
 
+.results-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 1rem;
+  padding: 1.2rem;
+  border: 1px solid rgba(52, 76, 115, 0.2);
+  background:
+    linear-gradient(135deg, rgba(255, 247, 220, 0.96), rgba(239, 244, 255, 0.96));
+}
+
+.results-hero h3 {
+  margin: 0 0 0.5rem;
+  font-size: clamp(1.4rem, 3vw, 2rem);
+}
+
+.results-hero__actions {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+  min-width: 12rem;
+}
+
 .action-tips {
   margin: 0;
   padding-left: 1.1rem;
@@ -238,6 +260,12 @@ p {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+.roster-badge--winner {
+  border-color: rgba(161, 117, 19, 0.28);
+  background: rgba(255, 243, 204, 0.95);
+  color: #6f5410;
 }
 
 .player-panel {
@@ -390,6 +418,10 @@ p {
   .market-card__meta,
   .market-card__actions {
     flex-direction: column;
+  }
+
+  .results-hero {
+    grid-template-columns: 1fr;
   }
 
   .status-card {

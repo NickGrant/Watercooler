@@ -90,86 +90,117 @@
           <p class="inline-error" role="alert">{{ joinError }}</p>
         }
       } @else if (session.stage() === 'in-game') {
-        <h2>Turn Command Desk</h2>
-        <p class="panel-copy">
-          The board is now live. Use this desk to review the turn queue, submit allowed actions,
-          and watch the server-authoritative state return after each move.
-        </p>
+        @if (isCompletedGame()) {
+          <h2>Final Results Desk</h2>
+          <p class="panel-copy">
+            The match is complete. Final standings below are derived from the server-authoritative
+            completed state so players can review the winner and immediately launch a new room.
+          </p>
 
-        <div class="turn-summary">
-          <div class="turn-summary__tile">
-            <span>Current Turn</span>
-            <strong>{{ currentTurnPlayer()?.displayName ?? 'Awaiting state' }}</strong>
-          </div>
-          <div class="turn-summary__tile">
-            <span>Your Seat</span>
-            <strong>#{{ currentUserPlayer()?.seatOrder ?? '—' }}</strong>
-          </div>
-          <div class="turn-summary__tile">
-            <span>Your Prestige</span>
-            <strong>{{ getActivePlayerPrestige(session.currentPlayer()?.gamePlayerId) }}</strong>
-          </div>
-          <div class="turn-summary__tile">
-            <span>Your Turn</span>
-            <strong>{{ isCurrentPlayersTurn() ? 'Act Now' : 'Stand By' }}</strong>
-          </div>
-        </div>
-
-        <div class="action-desk">
-          <section class="action-panel">
-            <h3>Take Resources</h3>
-            <p class="panel-copy">
-              Select up to three resources. Duplicate picks are allowed here and will still be
-              validated by the API.
-            </p>
-            <div class="resource-picks">
-              @for (resource of resourceTypes; track resource) {
-                <button
-                  mat-stroked-button
-                  type="button"
-                  [disabled]="actionPending() || !isCurrentPlayersTurn()"
-                  [class.resource-pick--selected]="selectedTakeResources().includes(resource)"
-                  (click)="toggleTakeResource(resource)"
-                >
-                  {{ resourceLabel(resource) }}
-                  <span class="resource-pick__count">
-                    {{ activeState()?.bank?.[resource] ?? 0 }} in bank
-                  </span>
-                </button>
-              }
+          <section class="results-hero">
+            <div>
+              <p class="eyebrow">Winning Employee</p>
+              <h3>{{ winningPlayer().displayName }}</h3>
+              <p class="panel-copy">{{ finalTieBreakSummary() }}</p>
             </div>
-            <p class="selection-copy">
-              Selected:
-              @if (selectedTakeResources().length > 0) {
-                {{ selectedResourceSummary() }}
-              } @else {
-                None
-              }
-            </p>
-            <button
-              mat-flat-button
-              type="button"
-              [disabled]="actionPending() || !isCurrentPlayersTurn() || selectedTakeResources().length === 0"
-              (click)="submitTakeResources()"
-            >
-              {{ actionPending() ? 'Submitting...' : 'Take Selected Resources' }}
-            </button>
-          </section>
 
-          <section class="action-panel">
-            <h3>Project And Purchase Guidance</h3>
-            <p class="panel-copy">
-              Market cards offer both claim and purchase actions. Reserved cards can be purchased
-              from your personal tray below.
-            </p>
-            <ul class="action-tips">
-              <li>Claiming a market card may grant Executive Favor if the bank still has one.</li>
-              <li>Purchases use permanent discounts first, then Executive Favor as wildcard support.</li>
-              <li>The server still decides legality, turn order, executive awards, and endgame timing.</li>
-              <li>Stale, expired, or interrupted actions will resync the board when the API can recover.</li>
-            </ul>
+            <div class="results-hero__actions">
+              <div class="turn-summary__tile">
+                <span>Winning Prestige</span>
+                <strong>{{ winningPlayer().officePrestige }}</strong>
+              </div>
+              <button
+                mat-flat-button
+                type="button"
+                [disabled]="createNextGamePending()"
+                (click)="createNextGame()"
+              >
+                {{ createNextGamePending() ? 'Opening New Room...' : 'Start A New Room' }}
+              </button>
+            </div>
           </section>
-        </div>
+        } @else {
+          <h2>Turn Command Desk</h2>
+          <p class="panel-copy">
+            The board is now live. Use this desk to review the turn queue, submit allowed actions,
+            and watch the server-authoritative state return after each move.
+          </p>
+
+          <div class="turn-summary">
+            <div class="turn-summary__tile">
+              <span>Current Turn</span>
+              <strong>{{ currentTurnPlayer()?.displayName ?? 'Awaiting state' }}</strong>
+            </div>
+            <div class="turn-summary__tile">
+              <span>Your Seat</span>
+              <strong>#{{ currentUserPlayer()?.seatOrder ?? '-' }}</strong>
+            </div>
+            <div class="turn-summary__tile">
+              <span>Your Prestige</span>
+              <strong>{{ getActivePlayerPrestige(session.currentPlayer()?.gamePlayerId) }}</strong>
+            </div>
+            <div class="turn-summary__tile">
+              <span>Your Turn</span>
+              <strong>{{ isCurrentPlayersTurn() ? 'Act Now' : 'Stand By' }}</strong>
+            </div>
+          </div>
+
+          <div class="action-desk">
+            <section class="action-panel">
+              <h3>Take Resources</h3>
+              <p class="panel-copy">
+                Select up to three resources. Duplicate picks are allowed here and will still be
+                validated by the API.
+              </p>
+              <div class="resource-picks">
+                @for (resource of resourceTypes; track resource) {
+                  <button
+                    mat-stroked-button
+                    type="button"
+                    [disabled]="actionPending() || !isCurrentPlayersTurn()"
+                    [class.resource-pick--selected]="selectedTakeResources().includes(resource)"
+                    (click)="toggleTakeResource(resource)"
+                  >
+                    {{ resourceLabel(resource) }}
+                    <span class="resource-pick__count">
+                      {{ activeState()?.bank?.[resource] ?? 0 }} in bank
+                    </span>
+                  </button>
+                }
+              </div>
+              <p class="selection-copy">
+                Selected:
+                @if (selectedTakeResources().length > 0) {
+                  {{ selectedResourceSummary() }}
+                } @else {
+                  None
+                }
+              </p>
+              <button
+                mat-flat-button
+                type="button"
+                [disabled]="actionPending() || !isCurrentPlayersTurn() || selectedTakeResources().length === 0"
+                (click)="submitTakeResources()"
+              >
+                {{ actionPending() ? 'Submitting...' : 'Take Selected Resources' }}
+              </button>
+            </section>
+
+            <section class="action-panel">
+              <h3>Project And Purchase Guidance</h3>
+              <p class="panel-copy">
+                Market cards offer both claim and purchase actions. Reserved cards can be purchased
+                from your personal tray below.
+              </p>
+              <ul class="action-tips">
+                <li>Claiming a market card may grant Executive Favor if the bank still has one.</li>
+                <li>Purchases use permanent discounts first, then Executive Favor as wildcard support.</li>
+                <li>The server still decides legality, turn order, executive awards, and endgame timing.</li>
+                <li>Stale, expired, or interrupted actions will resync the board when the API can recover.</li>
+              </ul>
+            </section>
+          </div>
+        }
       } @else {
         <h2>Check-In Approved</h2>
         <p class="panel-copy">
@@ -195,6 +226,12 @@
           {{ session.joinedPlayerCount() }} of {{ session.maximumLobbyPlayers() }} desks are occupied.
           The host can start when at least {{ session.minimumLobbyPlayers() }} employees are present.
         </p>
+      } @else if (isCompletedGame()) {
+        <h2>Final Standings</h2>
+        <p class="panel-copy">
+          The completed game is ordered by prestige first, then purchased workplace advantages, and
+          finally seat order as the last tie-break.
+        </p>
       } @else {
         <h2>Player Panels</h2>
         <p class="panel-copy">
@@ -204,11 +241,21 @@
 
       <div class="lobby-status">
         <div class="lobby-status__metric">
-          <span>{{ session.stage() === 'in-game' ? 'Current Turn' : 'Ready To Start' }}</span>
+          <span>
+            {{
+              session.stage() === 'in-game'
+                ? (isCompletedGame() ? 'Winning Employee' : 'Current Turn')
+                : 'Ready To Start'
+            }}
+          </span>
           <strong>
             {{
               session.stage() === 'in-game'
-                ? (currentTurnPlayer()?.displayName ?? 'Awaiting state')
+                ? (
+                    isCompletedGame()
+                      ? winningPlayer().displayName
+                      : (currentTurnPlayer()?.displayName ?? 'Awaiting state')
+                  )
                 : (session.canRequestStart() ? 'Yes' : 'Not Yet')
             }}
           </strong>
@@ -222,21 +269,30 @@
 
       <div class="roster">
         @if (session.stage() === 'in-game' && startedGame(); as startedGame) {
-          @for (player of orderedPlayers(); track player.gamePlayerId) {
-            <div class="player-panel" [class.player-panel--active]="player.gamePlayerId === startedGame.currentTurnGamePlayerId">
+          @for (player of (isCompletedGame() ? finalStandings() : orderedPlayers()); track player.gamePlayerId) {
+            <div class="player-panel" [class.player-panel--active]="!isCompletedGame() && player.gamePlayerId === startedGame.currentTurnGamePlayerId">
               <div class="player-panel__header">
                 <div>
                   <strong>{{ player.displayName }}</strong>
                   <p>
-                    Seat {{ player.seatOrder }} | Prestige {{ player.officePrestige }} | Tokens
-                    {{ totalVisibleResources(player.resources) }}
+                    @if (isCompletedGame()) {
+                      {{ finalPlacementLabel($index) }} place | Prestige {{ player.officePrestige }} |
+                      Purchased {{ player.purchasedCardCount }}
+                    } @else {
+                      Seat {{ player.seatOrder }} | Prestige {{ player.officePrestige }} | Tokens
+                      {{ totalVisibleResources(player.resources) }}
+                    }
                   </p>
                 </div>
-                <span class="roster-badge">
+                <span class="roster-badge" [class.roster-badge--winner]="isCompletedGame() && $index === 0">
                   {{
-                    player.gamePlayerId === startedGame.currentTurnGamePlayerId
-                      ? 'Current Turn'
-                      : (player.isHost ? 'Host' : player.joinStatus)
+                    isCompletedGame()
+                      ? ($index === 0 ? 'Winner' : 'Finalist')
+                      : (
+                          player.gamePlayerId === startedGame.currentTurnGamePlayerId
+                            ? 'Current Turn'
+                            : (player.isHost ? 'Host' : player.joinStatus)
+                        )
                   }}
                 </span>
               </div>
@@ -281,7 +337,7 @@
                           <button
                             mat-button
                             type="button"
-                            [disabled]="actionPending() || !isCurrentPlayersTurn() || currentUserPlayer()?.gamePlayerId !== player.gamePlayerId || !canAffordCard(currentUserPlayer(), card)"
+                            [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn() || currentUserPlayer()?.gamePlayerId !== player.gamePlayerId || !canAffordCard(currentUserPlayer(), card)"
                             (click)="purchaseReservedCard(card)"
                           >
                             Purchase From Tray
@@ -356,6 +412,19 @@
           The authenticated game state has already advanced past the lobby, so start controls are
           locked.
         </p>
+
+        @if (isCompletedGame()) {
+          <div class="start-controls">
+            <button
+              mat-flat-button
+              type="button"
+              [disabled]="createNextGamePending()"
+              (click)="createNextGame()"
+            >
+              {{ createNextGamePending() ? 'Opening New Room...' : 'Start A New Room' }}
+            </button>
+          </div>
+        }
       }
 
       @if (startMessage(); as startMessage) {
@@ -364,11 +433,16 @@
     </mat-card>
 
     <mat-card appearance="outlined" class="wide">
-      <h2>{{ session.stage() === 'in-game' ? 'Main Board' : 'Authenticated Game State' }}</h2>
+      <h2>{{ session.stage() === 'in-game' ? (isCompletedGame() ? 'Completed Board Snapshot' : 'Main Board') : 'Authenticated Game State' }}</h2>
       @if (startedGame(); as startedGame) {
         <p class="panel-copy">
-          The board below reflects the latest server-authoritative state. Market purchases, claimed
-          projects, and executive awards all flow back through the API before the UI updates.
+          @if (isCompletedGame()) {
+            The board below preserves the final server-authoritative snapshot so players can review
+            the last market, executive row, and office resource distribution after scoring resolves.
+          } @else {
+            The board below reflects the latest server-authoritative state. Market purchases, claimed
+            projects, and executive awards all flow back through the API before the UI updates.
+          }
         </p>
         <mat-divider />
         <div class="board-layout">
@@ -414,7 +488,7 @@
                         <button
                           mat-button
                           type="button"
-                          [disabled]="actionPending() || !isCurrentPlayersTurn()"
+                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn()"
                           (click)="claimMarketCard(card)"
                         >
                           Claim Project
@@ -422,7 +496,7 @@
                         <button
                           mat-flat-button
                           type="button"
-                          [disabled]="actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
+                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
                           (click)="purchaseMarketCard(card)"
                         >
                           Purchase
@@ -458,7 +532,7 @@
                         <button
                           mat-button
                           type="button"
-                          [disabled]="actionPending() || !isCurrentPlayersTurn()"
+                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn()"
                           (click)="claimMarketCard(card)"
                         >
                           Claim Project
@@ -466,7 +540,7 @@
                         <button
                           mat-flat-button
                           type="button"
-                          [disabled]="actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
+                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
                           (click)="purchaseMarketCard(card)"
                         >
                           Purchase
@@ -502,7 +576,7 @@
                         <button
                           mat-button
                           type="button"
-                          [disabled]="actionPending() || !isCurrentPlayersTurn()"
+                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn()"
                           (click)="claimMarketCard(card)"
                         >
                           Claim Project
@@ -510,7 +584,7 @@
                         <button
                           mat-flat-button
                           type="button"
-                          [disabled]="actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
+                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
                           (click)="purchaseMarketCard(card)"
                         >
                           Purchase

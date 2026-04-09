@@ -262,7 +262,22 @@ I resumed implementation with `TASK-022`, added a new take-resources API endpoin
 Assistant:
 I continued through Feature 5 by widening the active-game state model to carry permanent discounts and reserved-card data, then implemented `TASK-023` with a claim-project endpoint, Executive Favor award handling, reserve-limit enforcement, market refill logic, persisted reserved-card ownership, PHPUnit coverage, and a live Docker-backed API check.
 
+#### Entry 037
+User:
+please continue working through the rest of feature 5. if you can work tasks in parallel, please consider that. Once all the tasks are done and have been committed, stop and let me know so I can verify
+
+Assistant:
+I resumed Feature 5 from `TASK-024`, reviewed the in-progress purchase-flow changes, and delegated a parallel codebase inspection to a subagent so I could keep the main gameplay implementation moving while collecting schema and extension-point guidance in the background.
+
+#### Entry 038
+Assistant:
+I completed the remaining `TASK-024` API wiring by registering the purchase endpoint in the application bootstrap, adding dedicated service and handler tests, and verifying the purchase flow through PHPUnit and PHP linting.
+
+#### Entry 039
+Assistant:
+I ran a live Docker-backed validation for `TASK-024` by serving the API from a Docker container against the local MariaDB instance, starting a fresh game, seeding the acting player resources in MySQL for setup efficiency, and confirming a successful `purchase-advantage` action that persisted a purchased card, prestige gain, and turn advancement.
+
 ## Sync Notes
 
-- Last updated through Session 001, Entry 033.
+- Last updated through Session 001, Entry 039.
 - The next transcription update should append new user and assistant messages after this point.

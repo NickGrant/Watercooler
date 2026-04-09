@@ -213,6 +213,7 @@ final class InMemoryTakeResourcesRepository implements TakeResourcesRepository
                 ),
                 permanentDiscounts: $player->permanentDiscounts,
                 reservedCards: $player->reservedCards,
+                purchasedCards: $player->purchasedCards,
             );
         }
 

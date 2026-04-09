@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-024
+
+- Name: Implement Workplace Advantage purchase flow
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-025, TASK-026, TASK-030
+- Description: Add affordability validation, permanent discount application, cost payment, and purchased-card state updates.
+
 ### TASK-023
 
 - Name: Implement project-claiming and Executive Favor flow

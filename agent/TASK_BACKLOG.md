@@ -6,19 +6,11 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-025
-
-- Name: Implement Executive award and Office Prestige logic
-- Priority: High
-- Blocked By: TASK-024
-- Blocks: TASK-026, TASK-030
-- Description: Award executives automatically when requirements are met and maintain correct prestige totals.
-
 ### TASK-026
 
 - Name: Implement endgame trigger and winner resolution
 - Priority: High
-- Blocked By: TASK-023, TASK-024, TASK-025
+- Blocked By: TASK-023, TASK-025
 - Blocks: TASK-029, TASK-030
 - Description: Detect the prestige threshold, complete the round correctly, and resolve the winner according to Splendor-equivalent rules.
 

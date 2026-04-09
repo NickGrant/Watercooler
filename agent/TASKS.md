@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-024
+### TASK-025
 
-- Name: Implement Workplace Advantage purchase flow
+- Name: Implement Executive award and Office Prestige logic
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-025, TASK-026, TASK-030
-- Description: Add affordability validation, permanent discount application, cost payment, and purchased-card state updates.
+- Blocks: TASK-026, TASK-030
+- Description: Award executives automatically when requirements are met and maintain correct prestige totals.
 
 ## Task Management Rules
 

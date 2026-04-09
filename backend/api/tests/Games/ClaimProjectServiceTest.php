@@ -190,6 +190,7 @@ final class InMemoryClaimProjectRepository implements ClaimProjectRepository
                 ),
                 permanentDiscounts: $player->permanentDiscounts,
                 reservedCards: [...$player->reservedCards, reserveCard('claimed-market-card')],
+                purchasedCards: $player->purchasedCards,
             );
         }
 

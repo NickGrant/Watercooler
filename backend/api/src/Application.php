@@ -6,7 +6,6 @@ namespace Watercooler\Api;
 
 use Watercooler\Api\Config\AppConfig;
 use Watercooler\Api\Config\Env;
-use Watercooler\Api\Database\PdoClaimProjectRepository;
 use Watercooler\Api\Database\PdoGameRepository;
 use Watercooler\Api\Database\PdoJoinBootstrapRepository;
 use Watercooler\Api\Database\PdoStartGameRepository;
@@ -14,6 +13,7 @@ use Watercooler\Api\Database\PdoTakeResourcesRepository;
 use Watercooler\Api\Games\ClaimProjectService;
 use Watercooler\Api\Games\CreateGameService;
 use Watercooler\Api\Games\OfficeSlugGenerator;
+use Watercooler\Api\Games\PurchaseAdvantageService;
 use Watercooler\Api\Games\RandomDeckShuffler;
 use Watercooler\Api\Games\StartGameService;
 use Watercooler\Api\Games\TakeResourcesService;
@@ -23,6 +23,7 @@ use Watercooler\Api\Http\Handlers\GameStateAction;
 use Watercooler\Api\Http\Handlers\GetGameAction;
 use Watercooler\Api\Http\Handlers\HealthCheckAction;
 use Watercooler\Api\Http\Handlers\JoinBootstrapAction;
+use Watercooler\Api\Http\Handlers\PurchaseAdvantageAction;
 use Watercooler\Api\Http\Handlers\StartGameAction;
 use Watercooler\Api\Http\Handlers\TakeResourcesAction;
 use Watercooler\Api\Http\JsonResponse;
@@ -63,12 +64,14 @@ final class Application
         );
         $takeResourcesService = new TakeResourcesService($takeResourcesRepository);
         $claimProjectService = new ClaimProjectService($takeResourcesRepository);
+        $purchaseAdvantageService = new PurchaseAdvantageService($takeResourcesRepository);
 
         $healthCheckAction = new HealthCheckAction($config);
         $createGameAction = new CreateGameAction($createGameService);
         $claimProjectAction = new ClaimProjectAction($claimProjectService);
         $getGameAction = new GetGameAction($gameRepository);
         $joinBootstrapAction = new JoinBootstrapAction($joinBootstrapService);
+        $purchaseAdvantageAction = new PurchaseAdvantageAction($purchaseAdvantageService);
         $startGameAction = new StartGameAction($startGameService);
         $takeResourcesAction = new TakeResourcesAction($takeResourcesService);
         $gameStateAction = new GameStateAction();
@@ -78,6 +81,7 @@ final class Application
         $router->get('/api/games/{slug}', static fn(Request $request, RouteMatch $match): Response => $getGameAction($request, $match));
         $router->post('/api/games/{slug}/claim-project', static fn(Request $request, RouteMatch $match): Response => $claimProjectAction($request, $match));
         $router->post('/api/games/{slug}/join-bootstrap', static fn(Request $request, RouteMatch $match): Response => $joinBootstrapAction($request, $match));
+        $router->post('/api/games/{slug}/purchase-advantage', static fn(Request $request, RouteMatch $match): Response => $purchaseAdvantageAction($request, $match));
         $router->post('/api/games/{slug}/start', static fn(Request $request, RouteMatch $match): Response => $startGameAction($request, $match));
         $router->post('/api/games/{slug}/take-resources', static fn(Request $request, RouteMatch $match): Response => $takeResourcesAction($request, $match));
         $router->get('/api/games/{slug}/state', static fn(Request $request, RouteMatch $match): Response => $gameStateAction($request, $match));

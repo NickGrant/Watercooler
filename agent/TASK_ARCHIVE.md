@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-073
+
+- Name: Refactor frontend and backend hotspots for cleaner boundaries
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-074, TASK-075
+- Description: Review the Angular and PHP code for monolithic files, duplicated logic, and weak object boundaries, then refactor toward clearer components, services, and domain classes that follow DRY and OOP principles without changing gameplay behavior.
+
 ### TASK-072
 
 - Name: Remove standalone realtime-service deployment dependency

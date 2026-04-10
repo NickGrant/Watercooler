@@ -109,3 +109,11 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Status: Complete
 - Description: Rework passive game synchronization so Watercooler remains responsive for small rooms on simple shared PHP hosting without requiring a dedicated websocket service or extra exposed ports.
 - Tasks: TASK-070, TASK-071, TASK-072
+
+### FEATURE-014
+
+- Name: Codebase Cleanup And Maintainability Pass
+- Priority: High
+- Status: In Progress
+- Description: Improve code quality across the frontend and backend by tightening architectural boundaries, expanding meaningful automated coverage, documenting non-obvious behavior, and centralizing shared styling tokens.
+- Tasks: TASK-073, TASK-074, TASK-075, TASK-076

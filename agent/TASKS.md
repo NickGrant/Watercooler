@@ -6,7 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-- None currently. Promote the next ready item from `agent/TASK_BACKLOG.md` when work resumes.
+### TASK-074
+
+- Name: Expand automated coverage for major gameplay and UI flows
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Audit the current frontend and backend tests against major user-facing and rules-critical flows, then add or strengthen coverage so the main game, lobby, session recovery, and authoritative gameplay behaviors are exercised automatically.
 
 ## Task Management Rules
 

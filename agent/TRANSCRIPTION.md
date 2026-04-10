@@ -1010,3 +1010,21 @@ I completed `TASK-071` by replacing the fixed passive-refresh interval with a sm
 #### Entry 150
 Assistant:
 I completed `TASK-072` by switching deployment-facing transport metadata from `websocket` to `polling`, removing the standalone realtime service from the default Docker/local-development path, updating the planning docs to describe smart polling as the supported shared-hosting synchronization model, validating the API and frontend suites plus `docker compose config`, and closing `FEATURE-013` as complete.
+
+#### Entry 151
+User:
+Lets go ahead and create a cleanup feature, I want tasks to help cleanup the front and back end code. I want to make sure we cover the following:
+- Code follows DRY/OOP principles and is appropriately split into components, pages are not a monolith
+- Code has test coverage testing all major functionality
+- Code is well commented, including jsdoc or phpdoc as necessary
+- common CSS values like colors have been abstracted into global level CSS variables for reuse
+
+Assistant:
+I created `FEATURE-014` for a maintainability pass, added backlog tasks for architecture cleanup, coverage expansion, inline documentation, and shared CSS-token extraction, and then promoted `TASK-073` into the active set to begin the cleanup work.
+
+#### Entry 152
+User:
+yes, please start this work, I will check back in shortly
+
+Assistant:
+I completed `TASK-073` by extracting the game-page's pure presentation and state-summary logic into a dedicated frontend utility module with its own tests, splitting active-game state projection out of `PdoTakeResourcesRepository` into a dedicated `PdoActiveGameStateLoader` on the backend, rerunning the frontend test/build and backend PHPUnit suites successfully, and moving the cleanup feature forward to the coverage task.

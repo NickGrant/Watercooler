@@ -25,6 +25,19 @@ import { GameStateResponse } from '../../core/models/game-state-response.model';
 import { GamesApiService } from '../../core/services/games-api.service';
 import { GameSessionService } from '../../core/services/game-session.service';
 import { StartedGameResponse } from '../../core/models/started-game-response.model';
+import {
+  buildFinalTieBreakSummary as buildFinalTieBreakSummaryText,
+  canAffordCard as canAffordCardWithResources,
+  describeStateChanges as describeGameStateChanges,
+  finalPlacementLabel as formatFinalPlacementLabel,
+  formatRoomName as formatGameRoomName,
+  isExecutiveRequirementMet as isExecutiveRequirementSatisfied,
+  resourceEntries as collectResourceEntries,
+  resourceIconPath as buildResourceIconPath,
+  resourceLabel as formatResourceLabel,
+  sortPlayersByFinalStanding,
+  totalVisibleResources as countVisibleResources
+} from './game-page-state.utils';
 import { ExecutiveRowComponent } from './components/executive-row/executive-row.component';
 import { PlayerCardComponent } from './components/player-card/player-card.component';
 import { ResourceBankComponent } from './components/resource-bank/resource-bank.component';
@@ -133,7 +146,7 @@ export class GamePageComponent {
     'time'
   ];
   readonly formattedRoomName = computed(() =>
-    this.formatRoomName(this.game()?.slug ?? this.session.slug())
+    formatGameRoomName(this.game()?.slug ?? this.session.slug())
   );
   readonly activeState = computed(() => this.startedGame());
   readonly orderedPlayers = computed(
@@ -158,21 +171,7 @@ export class GamePageComponent {
     () => this.game()?.phase === 'completed' || this.game()?.status === 'completed'
   );
   readonly finalStandings = computed(() => {
-    const standings = [...(this.activeState()?.players ?? [])];
-
-    return standings.sort((left, right) => {
-      const prestigeComparison = right.officePrestige - left.officePrestige;
-      if (prestigeComparison !== 0) {
-        return prestigeComparison;
-      }
-
-      const purchasedCardComparison = left.purchasedCardCount - right.purchasedCardCount;
-      if (purchasedCardComparison !== 0) {
-        return purchasedCardComparison;
-      }
-
-      return left.seatOrder - right.seatOrder;
-    });
+    return sortPlayersByFinalStanding(this.activeState()?.players ?? []);
   });
   readonly winningPlayer = computed(() => this.finalStandings()[0] ?? null);
   readonly tiedPlayers = computed(() => {
@@ -458,7 +457,11 @@ export class GamePageComponent {
     source: 'startup' | 'passive' | 'action-recovery'
   ): void {
     if (result.state !== undefined) {
-      const stateChangeSummary = this.describeStateChanges(this.startedGame(), result.state);
+      const stateChangeSummary = describeGameStateChanges(
+        this.startedGame(),
+        result.state,
+        this.session.currentPlayer()?.gamePlayerId
+      );
       this.startedGame.set(result.state);
 
       if (stateChangeSummary !== null && source === 'passive') {
@@ -479,7 +482,11 @@ export class GamePageComponent {
     state: ActiveGameState,
     options: { toastMessage?: string } = {}
   ): void {
-    const stateChangeSummary = this.describeStateChanges(this.startedGame(), state);
+    const stateChangeSummary = describeGameStateChanges(
+      this.startedGame(),
+      state,
+      this.session.currentPlayer()?.gamePlayerId
+    );
 
     this.startedGame.set(state);
     this.session.applyStartedGameState(state);
@@ -623,64 +630,27 @@ export class GamePageComponent {
   }
 
   resourceLabel(resource: string): string {
-    return resource === 'executiveFavor'
-      ? 'Executive Favor'
-      : resource.replace(/([A-Z])/g, ' $1').replace(/^./, (value) => value.toUpperCase());
+    return formatResourceLabel(resource);
   }
 
   resourceIconPath(resource: string): string {
-    const iconName = resource === 'executiveFavor' ? 'executive-favor' : resource;
-
-    return `/resources/${iconName}.png`;
+    return buildResourceIconPath(resource);
   }
 
   resourceEntries(resources: Record<string, number>): Array<[string, number]> {
-    return Object.entries(resources).filter(([, amount]) => amount > 0);
+    return collectResourceEntries(resources);
   }
 
   totalVisibleResources(resources: ResourceLedger): number {
-    return resources.totalTokens ?? resources.coffee + resources.spreadsheets + resources.budget + resources.connections + resources.time + resources.executiveFavor;
+    return countVisibleResources(resources);
   }
 
   isExecutiveRequirementMet(resource: string, amount: number): boolean {
-    const currentPlayer = this.currentUserPlayer();
-
-    if (currentPlayer === null) {
-      return false;
-    }
-
-    return (currentPlayer.permanentDiscounts[resource as ResourceType] ?? 0) >= amount;
+    return isExecutiveRequirementSatisfied(this.currentUserPlayer(), resource, amount);
   }
 
   canAffordCard(player: ActiveGamePlayer | null, card: ActivePlayerCard | ActiveGameCard): boolean {
-    if (player === null) {
-      return false;
-    }
-
-    let remainingExecutiveFavor = player.resources.executiveFavor;
-
-    return this.resourceEntries(card.cost).every(([resource, amount]) => {
-      const permanentDiscount = player.permanentDiscounts[resource as ResourceType] ?? 0;
-      const discountedCost = Math.max(0, amount - permanentDiscount);
-      const available = player.resources[resource as keyof ResourceLedger];
-
-      if (typeof available !== 'number') {
-        return false;
-      }
-
-      if (available >= discountedCost) {
-        return true;
-      }
-
-      const shortfall = discountedCost - available;
-
-      if (shortfall > remainingExecutiveFavor) {
-        return false;
-      }
-
-      remainingExecutiveFavor -= shortfall;
-      return true;
-    });
+    return canAffordCardWithResources(player, card);
   }
 
   trackByCardCode(_index: number, card: ActiveGameCard | ActivePlayerCard): string {
@@ -688,38 +658,11 @@ export class GamePageComponent {
   }
 
   finalPlacementLabel(index: number): string {
-    return ['1st', '2nd', '3rd', '4th'][index] ?? `${index + 1}th`;
+    return formatFinalPlacementLabel(index);
   }
 
   finalTieBreakSummary(): string {
-    const winner = this.winningPlayer();
-
-    if (winner === null) {
-      return 'The final standings are unavailable.';
-    }
-
-    if (this.tiedPlayers().length > 1) {
-      return `${winner.displayName} won the tie on seat order after prestige and purchased-card count remained tied.`;
-    }
-
-    const runnerUp = this.finalStandings()[1] ?? null;
-    if (runnerUp !== null && runnerUp.officePrestige === winner.officePrestige) {
-      return `${winner.displayName} won the tie-break by finishing with fewer completed projects.`;
-    }
-
-    return `${winner.displayName} secured the win on Office Prestige.`;
-  }
-
-  formatRoomName(slug: string | null | undefined): string {
-    if (typeof slug !== 'string' || slug.trim() === '') {
-      return 'Unknown Room';
-    }
-
-    return slug
-      .split('-')
-      .filter((segment) => segment.trim().length > 0)
-      .map((segment) => segment.charAt(0).toUpperCase() + segment.slice(1))
-      .join(' ');
+    return buildFinalTieBreakSummaryText(this.finalStandings());
   }
 
   private performGameAction(
@@ -737,7 +680,11 @@ export class GamePageComponent {
     request$.subscribe({
       next: (result) => {
         this.applyStartedGameState(result.game, result.state, {
-          toastMessage: this.describeStateChanges(this.startedGame(), result.state) ?? successMessage
+          toastMessage: describeGameStateChanges(
+            this.startedGame(),
+            result.state,
+            this.session.currentPlayer()?.gamePlayerId
+          ) ?? successMessage
         });
         this.selectedTakeResources.set([]);
         this.actionPending.set(false);
@@ -798,63 +745,6 @@ export class GamePageComponent {
     this.actionMessage.set(null);
     this.actionError.set(null);
     this.openStateToast('A newer room state was detected and your board was resynced.');
-  }
-
-  private describeStateChanges(previous: ActiveGameState | null, next: ActiveGameState): string | null {
-    if (previous === null) {
-      return null;
-    }
-
-    const events: string[] = [];
-
-    for (const player of next.players) {
-      const previousPlayer = previous.players.find(
-        (candidate) => candidate.gamePlayerId === player.gamePlayerId
-      );
-
-      if (previousPlayer === undefined) {
-        continue;
-      }
-
-      const newPurchasedCard = player.purchasedCards.find(
-        (card) => !previousPlayer.purchasedCards.some((candidate) => candidate.code === card.code)
-      );
-      if (newPurchasedCard !== undefined) {
-        events.push(`${player.displayName} acquired ${newPurchasedCard.name}.`);
-      }
-
-      const newReservedCard = player.reservedCards.find(
-        (card) => !previousPlayer.reservedCards.some((candidate) => candidate.code === card.code)
-      );
-      if (newReservedCard !== undefined) {
-        events.push(`${player.displayName} claimed ${newReservedCard.name}.`);
-      }
-
-      const newExecutive = player.claimedExecutives.find(
-        (executive) =>
-          !previousPlayer.claimedExecutives.some((candidate) => candidate.code === executive.code)
-      );
-      if (newExecutive !== undefined) {
-        events.push(`${player.displayName} secured ${newExecutive.name}.`);
-      }
-    }
-
-    if (previous.currentTurnGamePlayerId !== next.currentTurnGamePlayerId) {
-      const activePlayer = next.players.find(
-        (player) => player.gamePlayerId === next.currentTurnGamePlayerId
-      );
-
-      if (activePlayer !== undefined) {
-        const currentPlayerId = this.session.currentPlayer()?.gamePlayerId;
-        events.push(
-          activePlayer.gamePlayerId === currentPlayerId
-            ? 'It is now your turn.'
-            : `It is now ${activePlayer.displayName}'s turn.`
-        );
-      }
-    }
-
-    return events.length > 0 ? events.slice(0, 2).join(' ') : null;
   }
 
   private openStateToast(message: string): void {

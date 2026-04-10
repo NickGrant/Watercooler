@@ -30,6 +30,7 @@ describe('ResourceBankComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.querySelectorAll('.resource-bank__tile').length).toBe(6);
+    expect(fixture.nativeElement.querySelector('.resource-bank__columns')).not.toBeNull();
     expect(fixture.nativeElement.querySelectorAll('.selection-copy__icon').length).toBe(2);
   });
 

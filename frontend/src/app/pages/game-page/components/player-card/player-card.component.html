@@ -32,8 +32,13 @@
           [style.--discount-count]="player().permanentDiscounts[resource]"
         >
           <div class="player-resource-bar__topline">
-            <img class="resource-icon" [src]="resourceIconPath()(resource)" alt="" aria-hidden="true" />
-            <strong>{{ player().resources[resource] + player().permanentDiscounts[resource] }}</strong>
+            <app-resource-icon
+              [src]="resourceIconPath()(resource)"
+              [label]="resourceLabel()(resource)"
+              [value]="player().resources[resource] + player().permanentDiscounts[resource]"
+              variant="small"
+              [decorative]="true"
+            />
           </div>
           <div class="player-resource-bar__frame">
             <span class="player-resource-bar__segment player-resource-bar__segment--resource"></span>
@@ -52,8 +57,12 @@
       [matTooltip]="'Executive Favor: ' + player().resources.executiveFavor"
       aria-label="Executive Favor"
     >
-      <img class="resource-icon" [src]="resourceIconPath()('executiveFavor')" alt="" aria-hidden="true" />
-      <strong>{{ player().resources.executiveFavor }}</strong>
+      <app-resource-icon
+        [src]="resourceIconPath()('executiveFavor')"
+        [label]="resourceLabel()('executiveFavor')"
+        [value]="player().resources.executiveFavor"
+        [decorative]="true"
+      />
     </div>
   </div>
 

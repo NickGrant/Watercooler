@@ -12,4 +12,5 @@ export class ExecutiveRowComponent {
   readonly executives = input.required<ActiveExecutive[]>();
   readonly resourceLabel = input.required<(resource: string) => string>();
   readonly resourceIconPath = input.required<(resource: string) => string>();
+  readonly requirementMet = input<(resource: string, amount: number) => boolean>(() => false);
 }

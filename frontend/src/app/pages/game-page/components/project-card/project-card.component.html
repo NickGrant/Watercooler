@@ -6,7 +6,12 @@
         [matTooltip]="'Discount: ' + resourceLabel()(card().resourceDiscount)"
         [attr.aria-label]="'Discount: ' + resourceLabel()(card().resourceDiscount)"
       >
-        <img class="resource-icon" [src]="resourceIconPath()(card().resourceDiscount)" alt="" aria-hidden="true" />
+        <app-resource-icon
+          [src]="resourceIconPath()(card().resourceDiscount)"
+          [label]="resourceLabel()(card().resourceDiscount)"
+          variant="small"
+          [decorative]="true"
+        />
       </span>
       <strong>Prestige {{ card().officePrestige }}</strong>
     </div>
@@ -19,8 +24,13 @@
           [matTooltip]="resourceLabel()(entry[0]) + ': ' + entry[1]"
           [attr.aria-label]="resourceLabel()(entry[0]) + ' ' + entry[1]"
         >
-          <img class="resource-icon" [src]="resourceIconPath()(entry[0])" alt="" aria-hidden="true" />
-          <strong>{{ entry[1] }}</strong>
+          <app-resource-icon
+            [src]="resourceIconPath()(entry[0])"
+            [label]="resourceLabel()(entry[0])"
+            [value]="entry[1]"
+            variant="small"
+            [decorative]="true"
+          />
         </span>
       }
     </div>
@@ -45,15 +55,39 @@
   </article>
 } @else {
   <article class="mini-card">
-    <strong>{{ card().name }}</strong>
-    <p
-      class="resource-reference"
-      [matTooltip]="resourceLabel()(card().resourceDiscount) + ' discount'"
-      [attr.aria-label]="resourceLabel()(card().resourceDiscount) + ' discount'"
-    >
-      <img class="resource-icon" [src]="resourceIconPath()(card().resourceDiscount)" alt="" aria-hidden="true" />
-    </p>
+    <div class="mini-card__header">
+      <strong>{{ card().name }}</strong>
+      <span
+        class="resource-reference"
+        [matTooltip]="resourceLabel()(card().resourceDiscount) + ' discount'"
+        [attr.aria-label]="resourceLabel()(card().resourceDiscount) + ' discount'"
+      >
+        <app-resource-icon
+          [src]="resourceIconPath()(card().resourceDiscount)"
+          [label]="resourceLabel()(card().resourceDiscount)"
+          variant="small"
+          [decorative]="true"
+        />
+      </span>
+    </div>
     <p>Prestige {{ card().officePrestige }}</p>
+    <div class="cost-row cost-row--mini">
+      @for (entry of resourceEntries(); track entry[0]) {
+        <span
+          class="resource-cost"
+          [matTooltip]="resourceLabel()(entry[0]) + ': ' + entry[1]"
+          [attr.aria-label]="resourceLabel()(entry[0]) + ' ' + entry[1]"
+        >
+          <app-resource-icon
+            [src]="resourceIconPath()(entry[0])"
+            [label]="resourceLabel()(entry[0])"
+            [value]="entry[1]"
+            variant="small"
+            [decorative]="true"
+          />
+        </span>
+      }
+    </div>
     <button
       mat-button
       type="button"

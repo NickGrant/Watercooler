@@ -568,6 +568,16 @@ export class GamePageComponent {
     return resources.totalTokens ?? resources.coffee + resources.spreadsheets + resources.budget + resources.connections + resources.time + resources.executiveFavor;
   }
 
+  isExecutiveRequirementMet(resource: string, amount: number): boolean {
+    const currentPlayer = this.currentUserPlayer();
+
+    if (currentPlayer === null) {
+      return false;
+    }
+
+    return (currentPlayer.permanentDiscounts[resource as ResourceType] ?? 0) >= amount;
+  }
+
   canAffordCard(player: ActiveGamePlayer | null, card: ActivePlayerCard | ActiveGameCard): boolean {
     if (player === null) {
       return false;

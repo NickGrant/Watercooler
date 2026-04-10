@@ -82,7 +82,7 @@ This file maps major product and repo-operating features to the tasks that deliv
 
 - Name: Gameplay UI Density And Interaction Polish
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Tighten the active-game interface so the board, player economy, and resource-taking flow fit more clearly and more densely without losing usability.
 - Tasks: TASK-065, TASK-066, TASK-067, TASK-068, TASK-069
 
@@ -90,6 +90,6 @@ This file maps major product and repo-operating features to the tasks that deliv
 
 - Name: Content Naming And Visual QA Tooling
 - Priority: Medium
-- Status: In Progress
+- Status: Complete
 - Description: Improve the thematic readability of project content and give agents a repeatable screenshot workflow for visual review during UAT.
 - Tasks: TASK-063, TASK-064

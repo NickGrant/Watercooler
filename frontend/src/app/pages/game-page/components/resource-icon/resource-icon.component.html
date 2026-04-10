@@ -1,0 +1,16 @@
+<span
+  class="resource-icon-badge"
+  [class.resource-icon-badge--small]="variant() === 'small'"
+  [attr.aria-label]="decorative() ? null : accessibilityLabel()"
+>
+  <img
+    class="resource-icon-badge__image"
+    [src]="src()"
+    [alt]="decorative() ? '' : label()"
+    [attr.aria-hidden]="decorative() ? 'true' : null"
+  />
+
+  @if (value() !== null && value() !== undefined && value() !== '') {
+    <strong class="resource-icon-badge__value">{{ value() }}</strong>
+  }
+</span>

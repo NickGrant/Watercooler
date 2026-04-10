@@ -6,6 +6,54 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-065
+
+- Name: Build reusable resource icon component
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-066, TASK-068
+- Description: Create a shared resource icon component with regular and small variants using square icon art and a superscript value badge with a solid background so resource display logic is centralized before further board-density cleanup.
+
+### TASK-066
+
+- Name: Tighten project cards and increase per-row density
+- Priority: High
+- Blocked By: TASK-065
+- Blocks: None
+- Description: Make project cards narrower and denser so more backlog items can fit on a single row without sacrificing readability.
+
+### TASK-067
+
+- Name: Remove border from take-selected-resources button
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Update the take-selected-resources control styling so it matches the other primary actions instead of reading as a bordered special case.
+
+### TASK-068
+
+- Name: Split resource bank into resources and Executive Favor columns
+- Priority: High
+- Blocked By: TASK-065
+- Blocks: None
+- Description: Rework the resource-bank layout so the main resource acquisition flow lives in one column while Executive Favor is separated into its own clearer column.
+
+### TASK-069
+
+- Name: Redesign executive cards from mock reference
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Rebuild the executive card presentation to match the structural intent of `resources/ui-mocks/executive-card-v1/mock.png`, using the portrait as the dominant visual, a bordered/stylistic portrait background treatment, a distinct executive-name band, a separate prestige number block, and requirement icons that visually indicate when their thresholds are satisfied.
+
+### TASK-063
+
+- Name: Rename projects to be more expressive
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Rewrite the seeded project names so backlog and completed-project content feels more expressive and thematic during play without changing gameplay balance.
+
 ### TASK-064
 
 - Name: Create screenshot skill for game-screen visual capture

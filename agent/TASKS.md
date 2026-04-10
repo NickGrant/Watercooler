@@ -6,21 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-063
-
-- Name: Rename projects to be more expressive
-- Priority: Medium
-- Blocked By: None
-- Blocks: None
-- Description: Rewrite the seeded project names so backlog and completed-project content feels more expressive and thematic during play without changing gameplay balance.
-
-### TASK-065
-
-- Name: Build reusable resource icon component
-- Priority: High
-- Blocked By: None
-- Blocks: TASK-066, TASK-068
-- Description: Create a shared resource icon component with regular and small variants using square icon art and a superscript value badge with a solid background so resource display logic is centralized before further board-density cleanup.
+- None currently. Promote the next ready item from `agent/TASK_BACKLOG.md` when work resumes.
 
 ## Task Management Rules
 

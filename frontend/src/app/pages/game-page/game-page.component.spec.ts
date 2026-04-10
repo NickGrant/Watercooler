@@ -343,7 +343,7 @@ describe('GamePageComponent', () => {
     expect(resourceBankTiles.length).toBe(6);
     expect(resourceBankTile?.getAttribute('aria-label')).toContain('Coffee');
     expect(resourceBankTile?.textContent?.replace(/\s+/g, '')).toBe('4');
-    expect(resourceBankTile?.querySelector('img.resource-icon')).not.toBeNull();
+    expect(resourceBankTile?.querySelector('app-resource-icon')).not.toBeNull();
     expect(economyBars.length).toBe(5);
     expect(economyBars[0]?.getAttribute('aria-label')).toContain('Coffee');
     expect(economyBars[0]?.querySelector('.player-resource-bar__frame')).not.toBeNull();
@@ -414,7 +414,8 @@ describe('GamePageComponent', () => {
     expect(executiveCards.length).toBe(1);
     expect(executiveCards[0].querySelector('.executive-card__portrait')).not.toBeNull();
     expect(executiveCards[0].querySelector('.executive-card__details')).not.toBeNull();
-    expect(executiveCards[0].textContent).toContain('Executive Portrait');
+    expect(executiveCards[0].querySelector('.executive-card__nameplate')).not.toBeNull();
+    expect(executiveCards[0].querySelector('.executive-card__prestige')).not.toBeNull();
     expect(executiveCards[0].textContent).toContain('Requirement Profile');
   });
 

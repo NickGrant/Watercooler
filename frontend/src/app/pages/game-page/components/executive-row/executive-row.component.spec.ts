@@ -22,6 +22,7 @@ describe('ExecutiveRowComponent', () => {
     ]);
     fixture.componentRef.setInput('resourceLabel', (resource: string) => resource);
     fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.png`);
+    fixture.componentRef.setInput('requirementMet', () => false);
   });
 
   it('renders executive cards', () => {

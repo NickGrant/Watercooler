@@ -227,8 +227,7 @@ p {
     0 0 0 1px rgba(52, 76, 115, 0.18);
 }
 
-.turn-summary__tile span,
-.resource-bank__tile span {
+.turn-summary__tile > span {
   display: block;
   margin-bottom: 0.3rem;
   color: var(--wc-accent-warm);
@@ -372,12 +371,6 @@ p {
 .executive-grid {
   display: grid;
   gap: 0.75rem;
-}
-
-.mini-card,
-.executive-card,
-.market-card {
-  padding: 0.9rem 1rem;
 }
 
 .mini-card--executive {

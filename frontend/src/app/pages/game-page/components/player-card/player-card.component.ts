@@ -4,10 +4,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActiveExecutive, ActiveGamePlayer, ActivePlayerCard, ResourceLedger, ResourceType } from '../../../../core/models/active-game-state.model';
 import { ExecutiveCardComponent } from '../executive-card/executive-card.component';
 import { ProjectCardComponent } from '../project-card/project-card.component';
+import { ResourceIconComponent } from '../resource-icon/resource-icon.component';
 
 @Component({
   selector: 'app-player-card',
-  imports: [MatTooltipModule, ExecutiveCardComponent, ProjectCardComponent],
+  imports: [MatTooltipModule, ExecutiveCardComponent, ProjectCardComponent, ResourceIconComponent],
   templateUrl: './player-card.component.html'
 })
 export class PlayerCardComponent {

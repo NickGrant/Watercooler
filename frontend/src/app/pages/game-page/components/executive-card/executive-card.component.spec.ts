@@ -24,6 +24,7 @@ describe('ExecutiveCardComponent', () => {
     fixture.componentRef.setInput('executive', executive);
     fixture.componentRef.setInput('resourceLabel', (resource: string) => resource);
     fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.png`);
+    fixture.componentRef.setInput('requirementMet', (_resource: string, amount: number) => amount >= 3);
   });
 
   it('renders the board executive variant', () => {
@@ -32,6 +33,8 @@ describe('ExecutiveCardComponent', () => {
     expect(fixture.nativeElement.querySelector('.executive-card')).not.toBeNull();
     expect(fixture.nativeElement.textContent).toContain('VP of Synergy');
     expect(fixture.nativeElement.textContent).toContain('Requirement Profile');
+    expect(fixture.nativeElement.textContent).toContain('Prestige');
+    expect(fixture.nativeElement.querySelectorAll('.resource-cost--met').length).toBe(3);
     expect(fixture.nativeElement.querySelector('.executive-card__portrait-image')?.getAttribute('src')).toContain('/executives/executive-1.png');
   });
 

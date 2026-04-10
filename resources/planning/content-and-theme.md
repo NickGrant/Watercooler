@@ -19,14 +19,14 @@ Watercooler should feel like a polished but cursed internal corporate portal. Th
 
 Use ridiculous but recognizable office-benefit language such as:
 
-- Auto-Fill Template
+- Coffee Spill Cleanup
 - Workflow Automation
-- Calendar Control
+- Calendar Collision Review
 - Budget Sign-Off
-- Department Ally
+- Department Liaison
 - Leadership Exposure
 - Priority Inbox Channel
-- Dashboard Consolidation
+- Spreadsheet Reconciliation
 - Strategic Alignment Deck
 - Executive Sponsor
 - Cross-Functional Buy-In
@@ -39,8 +39,8 @@ Use ridiculous but recognizable office-benefit language such as:
 
 The initial seed deck in `database/migrations/002_seed_cards_and_executives.sql` should use a small set of repeatable naming families so the starter content stays readable:
 
-- Tier 1 cards: `Auto-Fill Template`, `Dashboard Consolidation`, `Calendar Control`, `Budget Sign-Off`, `Department Ally`
-- Tier 2 cards: `Workflow Automation`, `Strategic Alignment Deck`, `Priority Inbox Channel`, `Executive Sponsor`, `Cross-Functional Buy-In`
+- Tier 1 cards: `Coffee Spill Cleanup`, `Spreadsheet Reconciliation`, `Calendar Collision Review`, `Budget Sign-Off`, `Department Liaison`
+- Tier 2 cards: `Workflow Automation`, `Priority Inbox Channel`, `Strategic Alignment Deck`, `Executive Sponsor`, `Cross-Functional Buy-In`
 - Tier 3 cards: `Leadership Exposure`, `Meeting Chair Privileges`, `Synergy Task Force`, `Quarterly Initiative Ownership`, `Operational Readout`
 
 `resources/cards.csv` remains the numeric cost matrix reference for those seed rows. The migration is the source of truth for the starter names.

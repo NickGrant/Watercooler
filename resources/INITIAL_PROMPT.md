@@ -142,11 +142,11 @@ Workplace Advantages should use exaggerated corporate jargon and office-politics
 
 Examples of card naming direction:
 
-- Auto-Fill Template
+- Coffee Spill Cleanup
 - Workflow Automation
-- Calendar Control
+- Calendar Collision Review
 - Budget Sign-Off
-- Department Ally
+- Department Liaison
 - Executive Sponsor
 - Visibility Initiative
 - Strategic Alignment Deck
@@ -161,7 +161,7 @@ Examples of card naming direction:
 - Leadership Exposure
 - Operational Readout
 - Priority Inbox Channel
-- Dashboard Consolidation
+- Spreadsheet Reconciliation
 
 These names should sound like ridiculous but recognizable corporate advantages.
 

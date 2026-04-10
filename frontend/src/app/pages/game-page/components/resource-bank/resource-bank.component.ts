@@ -3,10 +3,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ResourceLedger, ResourceType } from '../../../../core/models/active-game-state.model';
+import { ResourceIconComponent } from '../resource-icon/resource-icon.component';
 
 @Component({
   selector: 'app-resource-bank',
-  imports: [MatButtonModule, MatTooltipModule],
+  imports: [MatButtonModule, MatTooltipModule, ResourceIconComponent],
   templateUrl: './resource-bank.component.html'
 })
 export class ResourceBankComponent {

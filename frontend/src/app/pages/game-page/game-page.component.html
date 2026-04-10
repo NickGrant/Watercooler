@@ -183,6 +183,7 @@
             [executives]="startedGame.executives"
             [resourceLabel]="resourceLabel.bind(this)"
             [resourceIconPath]="resourceIconPath.bind(this)"
+            [requirementMet]="isExecutiveRequirementMet.bind(this)"
           />
         </mat-card>
       </div>
@@ -577,6 +578,7 @@
               [executives]="startedGame.executives"
               [resourceLabel]="resourceLabel.bind(this)"
               [resourceIconPath]="resourceIconPath.bind(this)"
+              [requirementMet]="isExecutiveRequirementMet.bind(this)"
             />
           </section>
         </div>

@@ -3,10 +3,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { ActiveGameCard, ActivePlayerCard } from '../../../../core/models/active-game-state.model';
+import { ResourceIconComponent } from '../resource-icon/resource-icon.component';
 
 @Component({
   selector: 'app-project-card',
-  imports: [MatButtonModule, MatTooltipModule],
+  imports: [MatButtonModule, MatTooltipModule, ResourceIconComponent],
   templateUrl: './project-card.component.html'
 })
 export class ProjectCardComponent {

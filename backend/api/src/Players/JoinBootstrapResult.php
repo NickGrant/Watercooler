@@ -41,7 +41,7 @@ final class JoinBootstrapResult
                 ),
             ],
             'realtime' => [
-                'transport' => 'websocket',
+                'transport' => 'polling',
                 'roomSlug' => $this->game->slug,
                 'sessionToken' => $this->sessionToken,
             ],

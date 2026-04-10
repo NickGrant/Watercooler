@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This guide documents the current bootstrap setup for Watercooler across the frontend, API, realtime service, database migration layer, and Docker-based local environment.
+This guide documents the current bootstrap setup for Watercooler across the frontend, API, database migration layer, and Docker-based local environment.
 
 ## Current Bootstrap Scope
 
@@ -10,7 +10,6 @@ The repository currently provides:
 
 - Angular frontend scaffold in `frontend/`
 - PHP HTTP API scaffold in `backend/api/`
-- PHP realtime scaffold in `backend/realtime/`
 - MySQL migration files in `database/migrations/`
 - Docker-based local orchestration in `docker-compose.yml`
 
@@ -19,7 +18,6 @@ The repository currently provides:
 Service-level environment examples are stored in:
 
 - `backend/api/.env.example`
-- `backend/realtime/.env.example`
 
 Current Docker defaults use:
 
@@ -29,7 +27,6 @@ Current Docker defaults use:
 - database user: `watercooler`
 - database password: `watercooler`
 - API port: `8080`
-- realtime port: `8090`
 - frontend port: `4200`
 
 ## Direct Local Commands
@@ -64,22 +61,6 @@ The API scaffold currently exposes:
 - `POST /api/games/{slug}/join-bootstrap`
 - planned state endpoint returning a scaffold response
 
-### Realtime
-
-Run from `backend/realtime/`:
-
-```powershell
-composer install
-composer lint
-composer test
-php bin/server.php --once
-php bin/server.php
-```
-
-Use `--once` for a bootstrap check that prints the configured room and session preview without entering the long-running loop.
-
-The realtime service now expects database environment variables as well so it can validate temporary player sessions and build lobby presence state.
-
 ### Database
 
 The initial schema lives in:
@@ -97,7 +78,7 @@ One local validation path used during bootstrap was:
 Build the scaffolded images from the repository root:
 
 ```powershell
-docker compose build frontend api realtime
+docker compose build frontend api
 ```
 
 Validate the composed configuration:
@@ -134,13 +115,9 @@ These checks were completed during bootstrapping:
 - API PHPUnit suite succeeded
 - API `/health` responded successfully through PHP's built-in server
 - API `POST /api/games/{slug}/join-bootstrap` responded successfully through a Docker-run API container backed by MariaDB
-- realtime Composer autoload and lint succeeded
-- realtime PHPUnit suite succeeded
-- realtime `php bin/server.php --once` succeeded
-- realtime room-join and presence-sync service primitives are covered by PHPUnit
 - initial schema executed successfully against a disposable local MariaDB database
 - `docker compose config` succeeded
-- Docker image builds for `frontend`, `api`, and `realtime` succeeded
+- Docker image builds for `frontend` and `api` succeeded
 
 ## Next Expected Work
 
@@ -149,4 +126,4 @@ After bootstrap, the next implementation-facing tasks are:
 - game creation and slug generation
 - home page create-game flow
 - join-bootstrap and session handling
-- lobby and realtime player synchronization
+- lobby and smart-polling synchronization

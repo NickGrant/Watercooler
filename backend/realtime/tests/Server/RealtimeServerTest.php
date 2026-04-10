@@ -10,6 +10,7 @@ use Watercooler\Realtime\Config\DatabaseConfig;
 use Watercooler\Realtime\Lobby\RoomJoinService;
 use Watercooler\Realtime\Rooms\ActiveRoomRegistry;
 use Watercooler\Realtime\Server\RealtimeServer;
+use Watercooler\Realtime\State\GameStateFetcher;
 use Watercooler\Realtime\Tests\Lobby\InMemoryJoinRoomRepository;
 use Watercooler\Realtime\Tests\Support\InMemoryLogger;
 
@@ -20,10 +21,11 @@ final class RealtimeServerTest extends TestCase
         $logger = new InMemoryLogger();
         $registry = new ActiveRoomRegistry();
         $server = new RealtimeServer(
-            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $this->config(),
             $logger,
             $registry,
             new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+            new InMemoryGameStateFetcher(),
         );
 
         $server->run(true);
@@ -38,10 +40,11 @@ final class RealtimeServerTest extends TestCase
         $logger = new InMemoryLogger();
         $registry = new ActiveRoomRegistry();
         $server = new RealtimeServer(
-            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $this->config(),
             $logger,
             $registry,
             new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+            new InMemoryGameStateFetcher(),
         );
 
         $payload = $server->joinConnection('conn-1', 'synergy-report-telemetry', 'temporary-session-token');
@@ -56,10 +59,11 @@ final class RealtimeServerTest extends TestCase
         $logger = new InMemoryLogger();
         $registry = new ActiveRoomRegistry();
         $server = new RealtimeServer(
-            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $this->config(),
             $logger,
             $registry,
             new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+            new InMemoryGameStateFetcher(),
         );
 
         $server->joinConnection('conn-1', 'synergy-report-telemetry', 'temporary-session-token');
@@ -75,10 +79,11 @@ final class RealtimeServerTest extends TestCase
         $logger = new InMemoryLogger();
         $registry = new ActiveRoomRegistry();
         $server = new RealtimeServer(
-            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $this->config(),
             $logger,
             $registry,
             new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+            new InMemoryGameStateFetcher(),
         );
 
         $server->joinConnection('conn-1', 'synergy-report-telemetry', 'temporary-session-token');
@@ -95,10 +100,11 @@ final class RealtimeServerTest extends TestCase
         $logger = new InMemoryLogger();
         $registry = new ActiveRoomRegistry();
         $server = new RealtimeServer(
-            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $this->config(),
             $logger,
             $registry,
             new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+            new InMemoryGameStateFetcher(),
         );
 
         $server->joinConnection('conn-1', 'synergy-report-telemetry', 'temporary-session-token');
@@ -116,10 +122,11 @@ final class RealtimeServerTest extends TestCase
         $logger = new InMemoryLogger();
         $registry = new ActiveRoomRegistry();
         $server = new RealtimeServer(
-            new AppConfig('development', true, '0.0.0.0', 8090, new DatabaseConfig('db', 3306, 'watercooler', 'root', '')),
+            $this->config(),
             $logger,
             $registry,
             new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+            new InMemoryGameStateFetcher(),
         );
 
         $payload = $server->disconnectConnection('missing-conn');
@@ -127,5 +134,110 @@ final class RealtimeServerTest extends TestCase
         self::assertSame('lobby.presence.disconnect.missed', $payload['event']);
         self::assertFalse($payload['payload']['wasKnownConnection']);
         self::assertNull($payload['room']);
+    }
+
+    public function testItBroadcastsAuthoritativeStateSnapshotsWhenRoomsChange(): void
+    {
+        $logger = new InMemoryLogger();
+        $registry = new ActiveRoomRegistry();
+        $fetcher = new InMemoryGameStateFetcher();
+        $server = new RealtimeServer(
+            $this->config(),
+            $logger,
+            $registry,
+            new RoomJoinService(new InMemoryJoinRoomRepository(), $registry),
+            $fetcher,
+        );
+        $messages = [];
+
+        $server->registerTransportSender('conn-1', static function (array $payload) use (&$messages): void {
+            $messages[] = $payload;
+        });
+        $server->joinConnection('conn-1', 'synergy-report-telemetry', 'temporary-session-token');
+
+        $server->syncActiveRooms();
+        $server->syncActiveRooms();
+        $fetcher->payload['state']['currentTurnGamePlayerId'] = 2;
+        $server->syncActiveRooms();
+
+        self::assertCount(2, $messages);
+        self::assertSame('game.state.sync', $messages[0]['event']);
+        self::assertSame(1, $messages[0]['payload']['state']['currentTurnGamePlayerId']);
+        self::assertSame(2, $messages[1]['payload']['state']['currentTurnGamePlayerId']);
+    }
+
+    private function config(): AppConfig
+    {
+        return new AppConfig(
+            'development',
+            true,
+            '0.0.0.0',
+            8090,
+            'http://api:8080',
+            1000,
+            new DatabaseConfig('db', 3306, 'watercooler', 'root', ''),
+        );
+    }
+}
+
+final class InMemoryGameStateFetcher implements GameStateFetcher
+{
+    /** @var array<string, mixed> */
+    public array $payload = [
+        'game' => [
+            'id' => 1,
+            'slug' => 'synergy-report-telemetry',
+            'status' => 'active',
+            'phase' => 'active',
+            'playerCount' => 2,
+            'createdAt' => '2026-04-08 00:00:00',
+            'path' => '/game/synergy-report-telemetry',
+        ],
+        'player' => [
+            'gamePlayerId' => 1,
+            'playerId' => 101,
+            'displayName' => 'Pam',
+            'isHost' => true,
+            'joinStatus' => 'connected',
+            'avatar' => [
+                'body' => 'blazer',
+                'face' => 'corporate-neutral',
+                'hair' => 'side-part',
+            ],
+        ],
+        'session' => [
+            'token' => 'temporary-session-token',
+            'reconnectEnabled' => true,
+        ],
+        'realtime' => [
+            'transport' => 'websocket',
+            'roomSlug' => 'synergy-report-telemetry',
+            'sessionToken' => 'temporary-session-token',
+        ],
+        'state' => [
+            'currentTurnGamePlayerId' => 1,
+            'players' => [],
+            'bank' => [
+                'coffee' => 4,
+                'spreadsheets' => 4,
+                'budget' => 4,
+                'connections' => 4,
+                'time' => 4,
+                'executiveFavor' => 5,
+            ],
+            'market' => [
+                'tier1' => [],
+                'tier2' => [],
+                'tier3' => [],
+            ],
+            'executives' => [],
+        ],
+    ];
+
+    public function fetch(string $slug, string $sessionToken): ?array
+    {
+        return $slug === 'synergy-report-telemetry' && $sessionToken === 'temporary-session-token'
+            ? $this->payload
+            : null;
     }
 }

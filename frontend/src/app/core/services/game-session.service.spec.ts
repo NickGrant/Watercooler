@@ -77,7 +77,7 @@ describe('GameSessionService', () => {
         ]
       },
       realtime: {
-        transport: 'websocket',
+        transport: 'polling',
         roomSlug: 'synergy-report-telemetry',
         sessionToken: 'temporary-session-token'
       }
@@ -140,7 +140,7 @@ describe('GameSessionService', () => {
         ]
       },
       realtime: {
-        transport: 'websocket',
+        transport: 'polling',
         roomSlug: 'synergy-report-telemetry',
         sessionToken: 'temporary-session-token'
       }
@@ -174,7 +174,7 @@ describe('GameSessionService', () => {
         reconnectEnabled: true
       },
       realtime: {
-        transport: 'websocket',
+        transport: 'polling',
         roomSlug: 'synergy-report-telemetry',
         sessionToken: 'temporary-session-token'
       },

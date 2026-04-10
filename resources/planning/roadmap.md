@@ -33,8 +33,8 @@ Lobby and session flow:
 - join validation
 - host assignment
 - lobby UI
-- websocket connection after join
-- room presence updates
+- authenticated room-state refresh after join
+- lobby presence updates through smart polling
 - start-game flow
 
 ## Phase 3

@@ -11,7 +11,7 @@ This document fixes the intended implementation layout before service scaffoldin
 - `backend/api/`
   PHP HTTP API application for request-response endpoints.
 - `backend/realtime/`
-  PHP long-running WebSocket service for lobby and gameplay synchronization.
+  Optional PHP realtime transport experiments and related service scaffolding. This is no longer required for the default shared-hosting deployment path.
 - `backend/shared/`
   Shared PHP domain code that can be used by both API and realtime services without duplicating rules logic.
 - `database/`
@@ -28,7 +28,7 @@ This document fixes the intended implementation layout before service scaffoldin
 - Angular app shell
 - routes and pages
 - Angular Material integration
-- websocket client integration
+- smart polling and browser-side refresh orchestration
 - browser-side session persistence
 
 ### `backend/api/`
@@ -40,10 +40,9 @@ This document fixes the intended implementation layout before service scaffoldin
 
 ### `backend/realtime/`
 
-- websocket server bootstrap
-- room membership and connection lifecycle
-- lobby presence broadcasting
-- authoritative action handling and state broadcast orchestration
+- optional transport experiments for future push-based synchronization
+- room membership and connection lifecycle prototypes
+- realtime state-broadcast orchestration prototypes
 
 ### `backend/shared/`
 
@@ -61,7 +60,7 @@ This document fixes the intended implementation layout before service scaffoldin
 
 ## Dependency Direction
 
-- `frontend/` depends on API and realtime contracts, but not on backend implementation details.
+- `frontend/` depends on API contracts, but not on backend implementation details.
 - `backend/api/` and `backend/realtime/` may depend on `backend/shared/`.
 - `backend/shared/` must not depend on transport-specific code from API or realtime layers.
 - `database/` is consumed by backend services, but should not contain service-specific business logic.

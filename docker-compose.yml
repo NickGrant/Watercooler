@@ -38,32 +38,6 @@ services:
       db:
         condition: service_healthy
 
-  realtime:
-    build:
-      context: ./backend/realtime
-    working_dir: /app
-    command: sh -c "composer install --no-interaction && php bin/server.php"
-    ports:
-      - "8090:8090"
-    environment:
-      APP_ENV: development
-      APP_DEBUG: "1"
-      REALTIME_HOST: 0.0.0.0
-      REALTIME_PORT: 8090
-      API_BASE_URL: http://api:8080
-      REALTIME_SYNC_INTERVAL_MS: 1000
-      DB_HOST: db
-      DB_PORT: 3306
-      DB_NAME: watercooler
-      DB_USER: watercooler
-      DB_PASSWORD: watercooler
-    volumes:
-      - ./backend/realtime:/app
-      - realtime_vendor:/app/vendor
-    depends_on:
-      db:
-        condition: service_healthy
-
   db:
     image: mariadb:10.11
     ports:
@@ -86,5 +60,4 @@ services:
 volumes:
   frontend_node_modules:
   api_vendor:
-  realtime_vendor:
   db_data:

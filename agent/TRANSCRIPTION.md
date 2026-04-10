@@ -1006,3 +1006,7 @@ I completed `TASK-070` by removing the browser-facing realtime connection servic
 #### Entry 149
 Assistant:
 I completed `TASK-071` by replacing the fixed passive-refresh interval with a smart rescheduled polling loop, adding lobby-versus-active and hidden-tab cadence changes plus an immediate visibility-return refresh, extending the Angular tests to cover the new behavior, and updating the task tracker so `TASK-072` became the remaining active slice.
+
+#### Entry 150
+Assistant:
+I completed `TASK-072` by switching deployment-facing transport metadata from `websocket` to `polling`, removing the standalone realtime service from the default Docker/local-development path, updating the planning docs to describe smart polling as the supported shared-hosting synchronization model, validating the API and frontend suites plus `docker compose config`, and closing `FEATURE-013` as complete.

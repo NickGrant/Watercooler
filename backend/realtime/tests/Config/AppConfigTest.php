@@ -17,6 +17,8 @@ final class AppConfigTest extends TestCase
             $_ENV['APP_DEBUG'],
             $_ENV['REALTIME_HOST'],
             $_ENV['REALTIME_PORT'],
+            $_ENV['API_BASE_URL'],
+            $_ENV['REALTIME_SYNC_INTERVAL_MS'],
             $_ENV['DB_HOST'],
             $_ENV['DB_PORT'],
             $_ENV['DB_NAME'],
@@ -31,6 +33,8 @@ final class AppConfigTest extends TestCase
         $_ENV['APP_DEBUG'] = 'false';
         $_ENV['REALTIME_HOST'] = '127.0.0.1';
         $_ENV['REALTIME_PORT'] = '9010';
+        $_ENV['API_BASE_URL'] = 'http://api:8080';
+        $_ENV['REALTIME_SYNC_INTERVAL_MS'] = '1500';
         $_ENV['DB_HOST'] = 'db';
         $_ENV['DB_PORT'] = '3307';
         $_ENV['DB_NAME'] = 'watercooler_test';
@@ -43,6 +47,8 @@ final class AppConfigTest extends TestCase
         self::assertFalse($config->debug);
         self::assertSame('127.0.0.1', $config->host);
         self::assertSame(9010, $config->port);
+        self::assertSame('http://api:8080', $config->apiBaseUrl);
+        self::assertSame(1500, $config->syncIntervalMs);
         self::assertSame('db', $config->database->host);
         self::assertSame(3307, $config->database->port);
         self::assertSame('watercooler_test', $config->database->name);

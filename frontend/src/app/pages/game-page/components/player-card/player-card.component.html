@@ -5,7 +5,7 @@
       <p>
         @if (isCompletedGame()) {
           {{ placementLabel() }} place | Prestige {{ player().officePrestige }} |
-          Purchased {{ player().purchasedCardCount }}
+          Completed {{ player().purchasedCardCount }}
         } @else {
           Seat {{ player().seatOrder }} | Prestige {{ player().officePrestige }} | Tokens
           {{ totalVisibleResources(player().resources) }}
@@ -59,7 +59,7 @@
 
   <div class="player-panel__collections">
     <section>
-      <h3>Purchased Advantages</h3>
+      <h3>Completed Projects</h3>
       <p>{{ player().purchasedCardCount }} total</p>
     </section>
 

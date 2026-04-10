@@ -1039,7 +1039,7 @@ describe('GamePageComponent', () => {
     expect(fixture.componentInstance.isCompletedGame()).toBeTrue();
     expect(standings.map((player) => player.displayName)).toEqual(['Pam', 'Jim', 'Dwight']);
     expect(fixture.componentInstance.winningPlayer()?.displayName).toBe('Pam');
-    expect(fixture.componentInstance.finalTieBreakSummary()).toContain('fewer purchased Workplace Advantages');
+    expect(fixture.componentInstance.finalTieBreakSummary()).toContain('fewer completed projects');
   });
 
   it('creates a fresh room from the completed-game results desk', async () => {

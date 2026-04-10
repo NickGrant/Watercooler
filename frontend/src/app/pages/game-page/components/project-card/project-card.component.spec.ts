@@ -61,7 +61,7 @@ describe('ProjectCardComponent', () => {
     const button = fixture.nativeElement.querySelector('button') as HTMLButtonElement;
     button.click();
 
-    expect(fixture.nativeElement.textContent).toContain('Purchase From Tray');
+    expect(fixture.nativeElement.textContent).toContain('Complete From Tray');
     expect(purchaseSpy).toHaveBeenCalledWith(card);
   });
 });

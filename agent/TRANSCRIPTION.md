@@ -808,3 +808,39 @@ go ahead and commit those two other files too
 
 Assistant:
 I reviewed the remaining local changes, confirmed they were the Docker reliability updates and the corresponding npm lockfile normalization, then prepared them as their own follow-up commit so the environment changes stayed separated from the UI layout work.
+
+#### Entry 122
+User:
+That is looking correct now but can we make the side columns a little wider, something like a 25 | 50 | 25 kind of split
+
+Assistant:
+I widened the side rails to behave more like a `25 / 50 / 25` split by shifting the active board grid to a `1fr / 2fr / 1fr` ratio, revalidated the frontend tests and build, and rebuilt the frontend container so the new proportions were immediately live for review.
+
+#### Entry 123
+User:
+lets update the central column to be 2.5fr and also remove the "Main Board" heading and help button
+
+Assistant:
+I increased the center rail to `2.5fr`, removed the `Main Board` heading row and help button, reran the frontend validation, and rebuilt the frontend container so the cleaner center column was live in Docker right away.
+
+#### Entry 124
+User:
+That is looking closer, can we however remove the divider and change the overall structure a little bit, right now it is : mat-card, mat-card, mat-card. I want to change that to:
+- div - column 1
+  - mat-card with player info
+  - mat-card with coworker list
+- div -column 2
+  - mat-card with resource bank
+  - mat-card with visible market
+
+additionally, I think we need to consolidate our wording around "Advantages" or "Projects" I think we should pick one theme and stick with it the whole time. I like Projects so lets go ahead and call the market "Backlog" and instead of "Purchased Advantages" call them "Completed Projects"
+
+Assistant:
+I restructured the active board so the left and center rails are now stacked `div` columns containing separate cards, removed the old divider-driven grouped card treatment, and aligned the player-facing copy around a single `Projects` theme by renaming the market-facing UI to `Backlog` and purchased-card summaries to `Completed Projects`, then revalidated the frontend and rebuilt the Docker frontend again.
+
+#### Entry 125
+User:
+go ahead and commit what we have, then I have added executive portraits to [public](frontend/public) please update the code to use these, we can wire them into the database values. It looks like we may have one more imae than we have entries so lets go ahead and create one more executive unless that messes up game balance
+
+Assistant:
+I split that into two clean steps: first preparing a commit for the current layout and terminology work, then planning a follow-up pass to inspect the new portrait assets under `frontend/public/executives`, wire them into the executive rendering path, and verify whether adding one more executive would preserve the intended balance before changing the seed data.

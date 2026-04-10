@@ -35,169 +35,157 @@
 
   @if (session.stage() === 'in-game' && !isCompletedGame() && startedGame(); as startedGame) {
     <section class="shell-grid shell-grid--active">
-      <mat-card appearance="outlined" class="shell-panel shell-panel--sidebar">
-        <div class="section-heading">
-          <h2>Your Desk</h2>
-          <button
-            type="button"
-            class="heading-help"
-            [matTooltip]="'Your player card tracks your resources, discounts, reserved projects, and claimed executives.'"
-            aria-label="Your desk help"
-          >
-            ?
-          </button>
-        </div>
+      <div class="shell-column shell-column--sidebar">
+        <mat-card appearance="outlined" class="shell-panel shell-panel--sidebar">
+          <div class="section-heading">
+            <h2>Your Desk</h2>
+            <button
+              type="button"
+              class="heading-help"
+              [matTooltip]="'Your player card tracks your resources, discounts, claimed projects, completed projects, and executives.'"
+              aria-label="Your desk help"
+            >
+              ?
+            </button>
+          </div>
 
-        @if (currentUserPlayer(); as currentPlayer) {
-          <app-player-card
-            [player]="currentPlayer"
+          @if (currentUserPlayer(); as currentPlayer) {
+            <app-player-card
+              [player]="currentPlayer"
+              [resourceTypes]="resourceTypes"
+              [isCompletedGame]="false"
+              [isActiveTurn]="currentPlayer.gamePlayerId === startedGame.currentTurnGamePlayerId"
+              [isWinner]="false"
+              [placementLabel]="null"
+              [actionPending]="actionPending()"
+              [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+              [isCurrentUserCard]="true"
+              [resourceLabel]="resourceLabel.bind(this)"
+              [resourceIconPath]="resourceIconPath.bind(this)"
+              [canPurchaseReservedCard]="canAffordCard.bind(this, currentPlayer)"
+              (purchaseReservedCard)="purchaseReservedCard($event)"
+            />
+          } @else {
+            <p class="panel-copy">Your player card will appear once the live state finishes loading.</p>
+          }
+        </mat-card>
+
+        <mat-card appearance="outlined" class="shell-panel shell-panel--coworkers">
+          <div class="section-heading">
+            <h3>Coworkers</h3>
+            <button
+              type="button"
+              class="heading-help"
+              [matTooltip]="'Everyone else in the room appears here so you can scan turn order, resources, and completed projects without leaving the main board.'"
+              aria-label="Coworkers help"
+            >
+              ?
+            </button>
+          </div>
+
+          <div class="roster roster--coworkers">
+            @for (player of orderedPlayers(); track player.gamePlayerId) {
+              @if (player.gamePlayerId !== currentUserPlayer()?.gamePlayerId) {
+                <app-player-card
+                  [player]="player"
+                  [resourceTypes]="resourceTypes"
+                  [isCompletedGame]="false"
+                  [isActiveTurn]="player.gamePlayerId === startedGame.currentTurnGamePlayerId"
+                  [isWinner]="false"
+                  [placementLabel]="null"
+                  [actionPending]="actionPending()"
+                  [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+                  [isCurrentUserCard]="false"
+                  [resourceLabel]="resourceLabel.bind(this)"
+                  [resourceIconPath]="resourceIconPath.bind(this)"
+                  [canPurchaseReservedCard]="canAffordCard.bind(this, currentUserPlayer())"
+                  (purchaseReservedCard)="purchaseReservedCard($event)"
+                />
+              }
+            } @empty {
+              <p class="panel-copy">No coworkers are visible in the room state yet.</p>
+            }
+          </div>
+        </mat-card>
+      </div>
+
+      <div class="shell-column shell-column--market">
+        <mat-card appearance="outlined" class="board-panel board-panel--supply">
+          <div class="section-heading">
+            <h3>Resource Bank</h3>
+            <button
+              type="button"
+              class="heading-help"
+              [matTooltip]="'On your turn, select three different resources, or two of the same if there are four or more of that kind available.'"
+              aria-label="Resource bank help"
+            >
+              ?
+            </button>
+          </div>
+          <app-resource-bank
             [resourceTypes]="resourceTypes"
-            [isCompletedGame]="false"
-            [isActiveTurn]="currentPlayer.gamePlayerId === startedGame.currentTurnGamePlayerId"
-            [isWinner]="false"
-            [placementLabel]="null"
+            [bank]="startedGame.bank"
+            [selectedResources]="selectedTakeResources()"
             [actionPending]="actionPending()"
             [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
-            [isCurrentUserCard]="true"
             [resourceLabel]="resourceLabel.bind(this)"
             [resourceIconPath]="resourceIconPath.bind(this)"
-            [canPurchaseReservedCard]="canAffordCard.bind(this, currentPlayer)"
-            (purchaseReservedCard)="purchaseReservedCard($event)"
+            (toggleResource)="toggleTakeResource($event)"
+            (submitSelection)="submitTakeResources()"
           />
-        } @else {
-          <p class="panel-copy">Your player card will appear once the live state finishes loading.</p>
-        }
+        </mat-card>
 
-        <mat-divider />
+        <mat-card appearance="outlined" class="board-panel board-panel--market">
+          <div class="section-heading">
+            <h3>Backlog</h3>
+            <button
+              type="button"
+              class="heading-help"
+              [matTooltip]="'Complete or claim projects from the backlog here. Hover resource icons for labels and costs.'"
+              aria-label="Backlog help"
+            >
+              ?
+            </button>
+          </div>
+          <app-visible-market
+            [market]="startedGame.market"
+            [isCompletedGame]="false"
+            [actionPending]="actionPending()"
+            [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+            [canPurchaseCard]="canAffordCard.bind(this, currentUserPlayer())"
+            [resourceLabel]="resourceLabel.bind(this)"
+            [resourceIconPath]="resourceIconPath.bind(this)"
+            (claimCard)="claimMarketCard($event)"
+            (purchaseCard)="purchaseMarketCard($event)"
+          />
 
-        <div class="section-heading">
-          <h3>Coworkers</h3>
-          <button
-            type="button"
-            class="heading-help"
-            [matTooltip]="'Everyone else in the room appears here so you can scan turn order, resources, and purchases without leaving the main board.'"
-            aria-label="Coworkers help"
-          >
-            ?
-          </button>
-        </div>
-
-        <div class="roster roster--coworkers">
-          @for (player of orderedPlayers(); track player.gamePlayerId) {
-            @if (player.gamePlayerId !== currentUserPlayer()?.gamePlayerId) {
-              <app-player-card
-                [player]="player"
-                [resourceTypes]="resourceTypes"
-                [isCompletedGame]="false"
-                [isActiveTurn]="player.gamePlayerId === startedGame.currentTurnGamePlayerId"
-                [isWinner]="false"
-                [placementLabel]="null"
-                [actionPending]="actionPending()"
-                [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
-                [isCurrentUserCard]="false"
-                [resourceLabel]="resourceLabel.bind(this)"
-                [resourceIconPath]="resourceIconPath.bind(this)"
-                [canPurchaseReservedCard]="canAffordCard.bind(this, currentUserPlayer())"
-                (purchaseReservedCard)="purchaseReservedCard($event)"
-              />
-            }
-          } @empty {
-            <p class="panel-copy">No coworkers are visible in the room state yet.</p>
+          @if (actionError(); as actionError) {
+            <p class="inline-error" role="alert">{{ actionError }}</p>
           }
-        </div>
-      </mat-card>
+        </mat-card>
+      </div>
 
-      <mat-card appearance="outlined" class="board-panel board-panel--market">
-        <div class="section-heading section-heading--board">
-          <h2>Main Board</h2>
-          <button
-            type="button"
-            class="heading-help"
-            [matTooltip]="'Claim from the market, purchase when affordable, and watch the executive row for automatic awards.'"
-            aria-label="Board help"
-          >
-            ?
-          </button>
-        </div>
+      <div class="shell-column shell-column--executives">
+        <mat-card appearance="outlined" class="shell-panel shell-panel--executives">
+          <div class="section-heading">
+            <h2>Executive Row</h2>
+            <button
+              type="button"
+              class="heading-help"
+              [matTooltip]="'Executives are awarded automatically when a player satisfies the requirement profile shown on the card.'"
+              aria-label="Executive row help"
+            >
+              ?
+            </button>
+          </div>
 
-        <mat-divider />
-
-        <div class="board-layout board-layout--market">
-          <section class="board-section board-section--supply">
-            <div class="section-heading">
-              <h3>Resource Bank</h3>
-              <button
-                type="button"
-                class="heading-help"
-                [matTooltip]="'On your turn, select three different resources, or two of the same if there are four or more of that kind available.'"
-                aria-label="Resource bank help"
-              >
-                ?
-              </button>
-            </div>
-            <app-resource-bank
-              [resourceTypes]="resourceTypes"
-              [bank]="startedGame.bank"
-              [selectedResources]="selectedTakeResources()"
-              [actionPending]="actionPending()"
-              [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
-              [resourceLabel]="resourceLabel.bind(this)"
-              [resourceIconPath]="resourceIconPath.bind(this)"
-              (toggleResource)="toggleTakeResource($event)"
-              (submitSelection)="submitTakeResources()"
-            />
-          </section>
-
-          <section class="board-section">
-            <div class="section-heading">
-              <h3>Visible Market</h3>
-              <button
-                type="button"
-                class="heading-help"
-                [matTooltip]="'Purchase or claim market cards from here. Hover resource icons for labels and costs.'"
-                aria-label="Visible market help"
-              >
-                ?
-              </button>
-            </div>
-            <app-visible-market
-              [market]="startedGame.market"
-              [isCompletedGame]="false"
-              [actionPending]="actionPending()"
-              [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
-              [canPurchaseCard]="canAffordCard.bind(this, currentUserPlayer())"
-              [resourceLabel]="resourceLabel.bind(this)"
-              [resourceIconPath]="resourceIconPath.bind(this)"
-              (claimCard)="claimMarketCard($event)"
-              (purchaseCard)="purchaseMarketCard($event)"
-            />
-          </section>
-        </div>
-
-        @if (actionError(); as actionError) {
-          <p class="inline-error" role="alert">{{ actionError }}</p>
-        }
-      </mat-card>
-
-      <mat-card appearance="outlined" class="shell-panel shell-panel--executives">
-        <div class="section-heading">
-          <h2>Executive Row</h2>
-          <button
-            type="button"
-            class="heading-help"
-            [matTooltip]="'Executives are awarded automatically when a player satisfies the requirement profile shown on the card.'"
-            aria-label="Executive row help"
-          >
-            ?
-          </button>
-        </div>
-
-        <app-executive-row
-          [executives]="startedGame.executives"
-          [resourceLabel]="resourceLabel.bind(this)"
-          [resourceIconPath]="resourceIconPath.bind(this)"
-        />
-      </mat-card>
+          <app-executive-row
+            [executives]="startedGame.executives"
+            [resourceLabel]="resourceLabel.bind(this)"
+            [resourceIconPath]="resourceIconPath.bind(this)"
+          />
+        </mat-card>
+      </div>
     </section>
   } @else {
     <section class="shell-grid">
@@ -489,8 +477,8 @@
               <h4>Turn Options</h4>
               <ul class="action-tips">
                 <li>Take up to three resources, with only one duplicate pair allowed when the bank supports it.</li>
-                <li>Claim a market project to hold it for later, then buy it when you can afford it.</li>
-                <li>Buy a market card or a reserved card from your tray when your resources and discounts line up.</li>
+                <li>Claim a project from the backlog to hold it for later, then complete it when you can afford it.</li>
+                <li>Complete a backlog project or a claimed project from your tray when your resources and discounts line up.</li>
               </ul>
             </div>
             <div>
@@ -498,7 +486,7 @@
               <ul class="action-tips">
                 <li>Executive awards resolve automatically when a player satisfies the requirement row.</li>
                 <li>The match ends when a player reaches the prestige threshold and the round finishes cleanly.</li>
-                <li>Final standings break ties by prestige, then purchased advantages, then seat order.</li>
+                <li>Final standings break ties by prestige, then completed projects, then seat order.</li>
               </ul>
             </div>
           </div>
@@ -550,12 +538,12 @@
 
           <section class="board-section">
             <div class="section-heading">
-              <h3>Visible Market</h3>
+              <h3>Backlog</h3>
               <button
                 type="button"
                 class="heading-help"
-                [matTooltip]="'Purchase or claim market cards from here. Hover resource icons for labels and costs.'"
-                aria-label="Visible market help"
+                [matTooltip]="'Complete or claim projects from the backlog here. Hover resource icons for labels and costs.'"
+                aria-label="Backlog help"
               >
                 ?
               </button>
@@ -607,7 +595,7 @@
 
           <div>
             <h3>Match Setup</h3>
-            <p>The market, executives, and player panels will appear once the match begins.</p>
+            <p>The backlog, executives, and player panels will appear once the match begins.</p>
           </div>
         </div>
       }

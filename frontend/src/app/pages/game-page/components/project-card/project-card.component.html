@@ -11,7 +11,7 @@
       <strong>Prestige {{ card().officePrestige }}</strong>
     </div>
     <h4>{{ card().name }}</h4>
-    <p>Market slot {{ $any(card()).marketSlot }}</p>
+    <p>Backlog slot {{ $any(card()).marketSlot }}</p>
     <div class="cost-row">
       @for (entry of resourceEntries(); track entry[0]) {
         <span
@@ -39,7 +39,7 @@
         [disabled]="isCompletedGame() || actionPending() || !canAct() || !canPurchase()"
         (click)="onPurchase()"
       >
-        Purchase
+        Complete Project
       </button>
     </div>
   </article>
@@ -60,7 +60,7 @@
       [disabled]="isCompletedGame() || actionPending() || !canAct() || !canPurchase()"
       (click)="onPurchase()"
     >
-      Purchase From Tray
+      Complete From Tray
     </button>
   </article>
 }

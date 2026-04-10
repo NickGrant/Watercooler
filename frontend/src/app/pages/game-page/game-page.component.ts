@@ -526,7 +526,7 @@ export class GamePageComponent {
         tier: card.tier,
         marketSlot: card.marketSlot
       }),
-      `${card.name} is now a permanent workplace advantage.`
+      `${card.name} is now marked as a completed project.`
     );
   }
 
@@ -620,7 +620,7 @@ export class GamePageComponent {
 
     const runnerUp = this.finalStandings()[1] ?? null;
     if (runnerUp !== null && runnerUp.officePrestige === winner.officePrestige) {
-      return `${winner.displayName} won the tie-break by finishing with fewer purchased Workplace Advantages.`;
+      return `${winner.displayName} won the tie-break by finishing with fewer completed projects.`;
     }
 
     return `${winner.displayName} secured the win on Office Prestige.`;

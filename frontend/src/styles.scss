@@ -79,22 +79,35 @@ select {
 
 .game-page {
   .shell-grid--active {
-    grid-template-columns: minmax(16rem, 19rem) minmax(0, 1fr) minmax(16rem, 19rem);
+    grid-template-columns: minmax(18rem, 1fr) minmax(0, 2.5fr) minmax(18rem, 1fr);
     align-items: start;
   }
 
+  .shell-column {
+    display: grid;
+    gap: 1rem;
+    min-width: 0;
+    align-content: start;
+  }
+
   .shell-panel--sidebar,
-  .shell-panel--executives,
-  .board-panel--market {
+  .shell-panel--coworkers,
+  .board-panel--supply,
+  .board-panel--market,
+  .shell-panel--executives {
     min-width: 0;
   }
 
-  .roster--coworkers {
-    margin-top: 1rem;
+  .shell-column--sidebar {
+    grid-column: 1;
   }
 
-  .board-layout--market {
-    gap: 1.2rem;
+  .shell-column--market {
+    grid-column: 2;
+  }
+
+  .shell-column--executives {
+    grid-column: 3;
   }
 
   .shell-panel--executives app-executive-row {
@@ -305,7 +318,7 @@ select {
   }
 
   .executive-grid {
-    grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
+    grid-template-columns: 1fr;
   }
 
   .executive-card {
@@ -429,7 +442,7 @@ select {
 }
 
 @media (min-width: 1180px) {
-  .game-page .shell-grid {
+  .game-page .shell-grid:not(.shell-grid--active) {
     grid-template-columns: minmax(15.5rem, 17rem) minmax(19rem, 22rem) minmax(0, 1fr);
     align-items: start;
   }
@@ -438,6 +451,12 @@ select {
 @media (max-width: 1080px) {
   .game-page .shell-grid--active {
     grid-template-columns: 1fr;
+  }
+
+  .game-page .shell-column--sidebar,
+  .game-page .shell-column--market,
+  .game-page .shell-column--executives {
+    grid-column: auto;
   }
 
   .game-page .resource-bank--compact {

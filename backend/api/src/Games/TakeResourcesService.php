@@ -109,24 +109,45 @@ final class TakeResourcesService
         }
 
         $resourceCounts = array_count_values($resources);
+        $availableDistinctResources = count(
+            array_filter(
+                self::RESOURCE_KEYS,
+                static fn(string $resource): bool => ($state->bank[$resource] ?? 0) > 0,
+            ),
+        );
 
         if (count($resources) === 2) {
-            if (count($resourceCounts) !== 1) {
+            if (count($resourceCounts) === 1) {
+                $resource = $resources[0];
+                if (($state->bank[$resource] ?? 0) < 4) {
+                    throw $this->recoverableConflict(
+                        'insufficient_bank_for_double_take',
+                        'Taking two matching resources requires at least four of that resource in the bank beforehand.',
+                        $game,
+                        $state,
+                    );
+                }
+
+                return;
+            }
+
+            if (count($resourceCounts) !== 2 || $availableDistinctResources > 2) {
                 throw new TakeResourcesException(
                     422,
-                    'double_take_requires_matching_resources',
-                    'Taking two resources requires selecting the same resource twice.',
+                    'forced_two_take_requires_distinct_resources',
+                    'Taking two non-matching resources is only allowed when the bank no longer offers three distinct resource colors.',
                 );
             }
 
-            $resource = $resources[0];
-            if (($state->bank[$resource] ?? 0) < 4) {
-                throw $this->recoverableConflict(
-                    'insufficient_bank_for_double_take',
-                    'Taking two matching resources requires at least four of that resource in the bank beforehand.',
-                    $game,
-                    $state,
-                );
+            foreach (array_keys($resourceCounts) as $resource) {
+                if (($state->bank[$resource] ?? 0) < 1) {
+                    throw $this->recoverableConflict(
+                        'insufficient_bank_resources',
+                        'The selected resources are not all currently available in the bank.',
+                        $game,
+                        $state,
+                    );
+                }
             }
 
             return;

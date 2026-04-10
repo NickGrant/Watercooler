@@ -333,16 +333,27 @@ describe('GamePageComponent', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
     fixture.detectChanges();
 
-    const resourceBankTile = fixture.nativeElement.querySelector('.resource-bank__tile');
-    const resourcePick = fixture.nativeElement.querySelector('.resource-chip--pick');
+    const resourceBankTile = fixture.nativeElement.querySelector('.resource-bank__tile--selectable');
     const resourceCost = fixture.nativeElement.querySelector('.resource-cost');
 
     expect(resourceBankTile?.getAttribute('aria-label')).toContain('Coffee');
     expect(resourceBankTile?.textContent?.replace(/\s+/g, '')).toBe('4');
-    expect(resourcePick?.getAttribute('aria-label')).toContain('Take Coffee');
-    expect(resourcePick?.querySelector('img.resource-icon')).not.toBeNull();
+    expect(resourceBankTile?.querySelector('img.resource-icon')).not.toBeNull();
     expect(resourceCost?.getAttribute('aria-label')).toContain('Coffee');
     expect(resourceCost?.textContent?.replace(/\s+/g, '')).toBe('2');
+  });
+
+  it('highlights the current-turn tile instead of rendering a separate your-turn box', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    const highlightedTile = fixture.nativeElement.querySelector('.turn-summary__tile--current-player');
+
+    expect(highlightedTile?.textContent).toContain('Current Turn');
+    expect(fixture.nativeElement.textContent).not.toContain('Your Turn');
+    expect(fixture.nativeElement.querySelectorAll('.turn-summary__tile').length).toBe(3);
   });
 
   it('cycles avatar selections through the image carousel controls', () => {

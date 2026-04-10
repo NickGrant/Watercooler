@@ -109,6 +109,44 @@ final class TakeResourcesServiceTest extends TestCase
         ]);
     }
 
+    public function testItAllowsTwoDistinctResourcesWhenOnlyTwoResourceColorsRemainInTheBank(): void
+    {
+        $repository = new InMemoryTakeResourcesRepository(
+            bank: [
+                'coffee' => 2,
+                'spreadsheets' => 0,
+                'budget' => 1,
+                'connections' => 0,
+                'time' => 0,
+                'executiveFavor' => 5,
+            ],
+        );
+        $service = new TakeResourcesService($repository);
+
+        $result = $service->take('synergy-report-telemetry', [
+            'sessionToken' => 'host-token',
+            'resources' => ['coffee', 'budget'],
+        ]);
+
+        self::assertSame(1, $result->state->playerById(1)?->resources->coffee);
+        self::assertSame(1, $result->state->playerById(1)?->resources->budget);
+        self::assertSame(1, $result->state->bank['coffee']);
+        self::assertSame(0, $result->state->bank['budget']);
+    }
+
+    public function testItRejectsTwoDistinctResourcesWhenThreeColorsAreStillAvailable(): void
+    {
+        $service = new TakeResourcesService(new InMemoryTakeResourcesRepository());
+
+        $this->expectException(TakeResourcesException::class);
+        $this->expectExceptionMessage('Taking two non-matching resources is only allowed when the bank no longer offers three distinct resource colors.');
+
+        $service->take('synergy-report-telemetry', [
+            'sessionToken' => 'host-token',
+            'resources' => ['coffee', 'budget'],
+        ]);
+    }
+
     public function testItRejectsThreeResourceSelectionsThatAreNotDistinct(): void
     {
         $service = new TakeResourcesService(new InMemoryTakeResourcesRepository());

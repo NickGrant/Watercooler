@@ -52,7 +52,7 @@
             </div>
             <div class="avatar-carousel__frame">
               <button mat-mini-fab type="button" aria-label="Previous hair option" (click)="cycleAvatarOption('hair', -1)">
-                ‹
+                &lsaquo;
               </button>
               <img
                 class="avatar-carousel__image"
@@ -60,7 +60,7 @@
                 [alt]="currentAvatarOption('hair').label"
               />
               <button mat-mini-fab type="button" aria-label="Next hair option" (click)="cycleAvatarOption('hair', 1)">
-                ›
+                &rsaquo;
               </button>
             </div>
           </section>
@@ -72,7 +72,7 @@
             </div>
             <div class="avatar-carousel__frame">
               <button mat-mini-fab type="button" aria-label="Previous face option" (click)="cycleAvatarOption('face', -1)">
-                ‹
+                &lsaquo;
               </button>
               <img
                 class="avatar-carousel__image"
@@ -80,7 +80,7 @@
                 [alt]="currentAvatarOption('face').label"
               />
               <button mat-mini-fab type="button" aria-label="Next face option" (click)="cycleAvatarOption('face', 1)">
-                ›
+                &rsaquo;
               </button>
             </div>
           </section>
@@ -92,7 +92,7 @@
             </div>
             <div class="avatar-carousel__frame">
               <button mat-mini-fab type="button" aria-label="Previous body option" (click)="cycleAvatarOption('body', -1)">
-                ‹
+                &lsaquo;
               </button>
               <img
                 class="avatar-carousel__image"
@@ -100,7 +100,7 @@
                 [alt]="currentAvatarOption('body').label"
               />
               <button mat-mini-fab type="button" aria-label="Next body option" (click)="cycleAvatarOption('body', 1)">
-                ›
+                &rsaquo;
               </button>
             </div>
           </section>
@@ -157,7 +157,7 @@
           </div>
 
           <div class="turn-summary">
-            <div class="turn-summary__tile">
+            <div class="turn-summary__tile" [class.turn-summary__tile--current-player]="isCurrentPlayersTurn()">
               <span>Current Turn</span>
               <strong>{{ currentTurnPlayer()?.displayName ?? 'Awaiting state' }}</strong>
             </div>
@@ -169,61 +169,6 @@
               <span>Your Prestige</span>
               <strong>{{ getActivePlayerPrestige(session.currentPlayer()?.gamePlayerId) }}</strong>
             </div>
-            <div class="turn-summary__tile">
-              <span>Your Turn</span>
-              <strong>{{ isCurrentPlayersTurn() ? 'Act Now' : 'Stand By' }}</strong>
-            </div>
-          </div>
-
-          <div class="action-desk">
-            <section class="action-panel">
-              <div class="section-heading">
-                <h3>Take Resources</h3>
-                <button
-                  type="button"
-                  class="heading-help"
-                  [matTooltip]="'Take up to three resources. The server still validates duplicate-pick rules and hand limits.'"
-                  aria-label="Take resources help"
-                >
-                  ?
-                </button>
-              </div>
-              <div class="resource-picks">
-                @for (resource of resourceTypes; track resource) {
-                  <button
-                    mat-stroked-button
-                    class="resource-chip resource-chip--pick"
-                    type="button"
-                    [matTooltip]="resourceLabel(resource) + ': ' + (activeState()?.bank?.[resource] ?? 0) + ' available in the bank'"
-                    [attr.aria-label]="'Take ' + resourceLabel(resource) + ' from the bank. ' + (activeState()?.bank?.[resource] ?? 0) + ' remain available.'"
-                    [disabled]="actionPending() || !isCurrentPlayersTurn()"
-                    [class.resource-pick--selected]="selectedTakeResources().includes(resource)"
-                    (click)="toggleTakeResource(resource)"
-                  >
-                    <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
-                    <span class="resource-pick__count">
-                      {{ activeState()?.bank?.[resource] ?? 0 }}
-                    </span>
-                  </button>
-                }
-              </div>
-              <p class="selection-copy">
-                Selected:
-                @if (selectedTakeResources().length > 0) {
-                  {{ selectedResourceSummary() }}
-                } @else {
-                  None
-                }
-              </p>
-              <button
-                mat-flat-button
-                type="button"
-                [disabled]="actionPending() || !isCurrentPlayersTurn() || selectedTakeResources().length === 0"
-                (click)="submitTakeResources()"
-              >
-                {{ actionPending() ? 'Submitting...' : 'Take Selected Resources' }}
-              </button>
-            </section>
           </div>
         }
       } @else {
@@ -512,33 +457,63 @@
       @if (startedGame(); as startedGame) {
         <mat-divider />
         <div class="board-layout">
-          <section class="board-column">
+          <section class="board-section board-section--supply">
             <div class="section-heading">
               <h3>Resource Bank</h3>
               <button
                 type="button"
                 class="heading-help"
-                [matTooltip]="'Available supply in the bank. Hover any icon for its label.'"
+                [matTooltip]="'Choose resources directly from the live bank. The server still validates token limits and forced two-color edge cases.'"
                 aria-label="Resource bank help"
               >
                 ?
               </button>
             </div>
-            <div class="resource-bank">
-              @for (resource of resourceTypes; track resource) {
-                <article class="resource-bank__tile" [matTooltip]="resourceLabel(resource) + ': ' + startedGame.bank[resource]" [attr.aria-label]="resourceLabel(resource) + ': ' + startedGame.bank[resource]">
-                  <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
-                  <strong>{{ startedGame.bank[resource] }}</strong>
+            <div class="supply-console">
+              <div class="resource-bank">
+                @for (resource of resourceTypes; track resource) {
+                  <button
+                    mat-stroked-button
+                    class="resource-bank__tile resource-bank__tile--selectable"
+                    type="button"
+                    [matTooltip]="resourceLabel(resource) + ': ' + startedGame.bank[resource] + ' available in the bank'"
+                    [attr.aria-label]="'Take ' + resourceLabel(resource) + ' from the bank. ' + startedGame.bank[resource] + ' remain available.'"
+                    [disabled]="actionPending() || !isCurrentPlayersTurn()"
+                    [class.resource-pick--selected]="selectedTakeResources().includes(resource)"
+                    (click)="toggleTakeResource(resource)"
+                  >
+                    <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
+                    <strong>{{ startedGame.bank[resource] }}</strong>
+                  </button>
+                }
+                <article class="resource-bank__tile resource-bank__tile--favor" [matTooltip]="'Executive Favor: ' + startedGame.bank.executiveFavor" aria-label="Executive Favor">
+                  <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
+                  <strong>{{ startedGame.bank.executiveFavor }}</strong>
                 </article>
-              }
-              <article class="resource-bank__tile resource-bank__tile--favor" [matTooltip]="'Executive Favor: ' + startedGame.bank.executiveFavor" aria-label="Executive Favor">
-                <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
-                <strong>{{ startedGame.bank.executiveFavor }}</strong>
-              </article>
+              </div>
+
+              <div class="supply-console__footer">
+                <p class="selection-copy">
+                  Selected:
+                  @if (selectedTakeResources().length > 0) {
+                    {{ selectedResourceSummary() }}
+                  } @else {
+                    None
+                  }
+                </p>
+                <button
+                  mat-flat-button
+                  type="button"
+                  [disabled]="actionPending() || !isCurrentPlayersTurn() || selectedTakeResources().length === 0"
+                  (click)="submitTakeResources()"
+                >
+                  {{ actionPending() ? 'Submitting...' : 'Take Selected Resources' }}
+                </button>
+              </div>
             </div>
           </section>
 
-          <section class="board-column board-column--wide">
+          <section class="board-section">
             <div class="section-heading">
               <h3>Visible Market</h3>
               <button
@@ -724,7 +699,7 @@
             </div>
           </section>
 
-          <section class="board-column board-column--executive">
+          <section class="board-section board-section--executives">
             <div class="section-heading">
               <h3>Executive Row</h3>
               <button
@@ -788,3 +763,4 @@
     </mat-card>
   </section>
 </main>
+

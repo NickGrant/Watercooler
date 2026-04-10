@@ -708,3 +708,14 @@ We have a couple major problems, I am not sure which one you want to address fir
 
 Assistant:
 I audited the state-sync path and confirmed that live websocket gameplay is not actually wired end-to-end yet, so I stabilized the user-facing behavior by extending authoritative polling into active games, adding bottom snack-bar change alerts for turn and card updates, tightening the board layout into a true three-column desktop view, stripping most instructional copy from active play, shrinking player-resource chips into a single compact row with hover tooltips, and recording a backlog task for the future true websocket transport.
+
+#### Entry 110
+User:
+This is getting better, here are some more issues:
+- error when forced to take only two nonmatching tokens due to resource bank constraints
+- lets remove the "your turn" box and instead highlight the "current turn" box when it is your turn
+- we can consolidate the resource bank and the take resources panels into a single interface since "take resources" shows remaining values
+- lets organize the rightmost column into having rows nested inside it instead of columns
+
+Assistant:
+I fixed the backend take-resources rule so forced two-color picks are legal when only two colors remain in the bank, removed the redundant `Your Turn` tile in favor of highlighting the `Current Turn` tile, merged the bank and take-resource controls into a single supply console, reorganized the board rail into stacked sections, and added regression coverage for both the rule edge case and the updated board presentation.

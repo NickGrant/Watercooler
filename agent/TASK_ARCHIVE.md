@@ -396,3 +396,19 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 - Blocked By: TASK-003
 - Blocks: TASK-010
 - Description: Add the context, task-tracking, feature-planning, and transcription operating files plus the initial transcript-maintenance workflow.
+
+### TASK-056
+
+- Name: Fix forced two-token bank edge case
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Allow the take-resources flow to accept two distinct tokens when the bank no longer offers three distinct resource colors, and lock that rule in with backend coverage.
+
+### TASK-057
+
+- Name: Consolidate active board turn and supply layout
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Remove the redundant `Your Turn` box, fold the resource bank and take-resource controls into one panel, and reorganize the board rail into nested rows so the page reads more cleanly during active play.

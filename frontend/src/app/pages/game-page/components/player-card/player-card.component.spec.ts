@@ -61,7 +61,7 @@ describe('PlayerCardComponent', () => {
     fixture.componentRef.setInput('player', player);
     fixture.componentRef.setInput('resourceTypes', ['coffee', 'spreadsheets', 'budget', 'connections', 'time']);
     fixture.componentRef.setInput('resourceLabel', (resource: string) => resource);
-    fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.svg`);
+    fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.png`);
     fixture.componentRef.setInput('canPurchaseReservedCard', () => true);
     fixture.componentRef.setInput('isCurrentPlayersTurn', true);
     fixture.componentRef.setInput('isCurrentUserCard', true);

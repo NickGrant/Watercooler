@@ -851,3 +851,17 @@ lets go ahead and commit all the changes we have now
 
 Assistant:
 I wired the executive portraits through DB-backed executive seed data, added the new portrait asset field through the backend and frontend executive payloads, applied the portrait column and values to the running Docker MariaDB for the current UAT environment, rebuilt the frontend container, and chose not to add an eleventh executive because that would change the seeded executive pool and therefore game balance; instead I kept the existing ten executives mapped to `executive-1.png` through `executive-10.png` and left the extra portrait unused for now before preparing a final commit of all remaining code and asset changes.
+
+#### Entry 127
+User:
+I have added png images under [resources](resources) that I want to use as our resource icons, replacing the existing svg ones. Once they are phased out, remove the svg files. Once you do this, restart the frontend for me so I can review sizing with the new icons
+
+Assistant:
+I switched the frontend resource icon pathing over to the PNG resource set under `frontend/public/resources`, updated the affected unit specs to use PNG icon references, removed the obsolete SVG files from `frontend/public/resource-icons`, revalidated the frontend test suite and production build, and rebuilt the frontend container so the new icons were live for sizing review.
+
+#### Entry 128
+User:
+lets go ahead and commit all of our changes we have now, after that I want to work with you to expand your skillset
+
+Assistant:
+I prepared the remaining PNG icon migration and SVG cleanup as its own commit so the repo would be clean before starting the next phase of skillset work together.

@@ -557,7 +557,7 @@ export class GamePageComponent {
   resourceIconPath(resource: string): string {
     const iconName = resource === 'executiveFavor' ? 'executive-favor' : resource;
 
-    return `/resource-icons/${iconName}.svg`;
+    return `/resources/${iconName}.png`;
   }
 
   resourceEntries(resources: Record<string, number>): Array<[string, number]> {

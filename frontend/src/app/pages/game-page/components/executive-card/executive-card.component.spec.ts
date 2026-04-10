@@ -23,7 +23,7 @@ describe('ExecutiveCardComponent', () => {
     fixture = TestBed.createComponent(ExecutiveCardComponent);
     fixture.componentRef.setInput('executive', executive);
     fixture.componentRef.setInput('resourceLabel', (resource: string) => resource);
-    fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.svg`);
+    fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.png`);
   });
 
   it('renders the board executive variant', () => {

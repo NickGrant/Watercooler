@@ -13,7 +13,7 @@ describe('ProjectCardComponent', () => {
 
     fixture = TestBed.createComponent(ProjectCardComponent);
     fixture.componentRef.setInput('resourceLabel', (resource: string) => resource);
-    fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.svg`);
+    fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.png`);
   });
 
   it('renders a market card and emits claim actions', () => {

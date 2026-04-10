@@ -23,7 +23,7 @@ describe('ResourceBankComponent', () => {
     fixture.componentRef.setInput('selectedResources', ['coffee', 'budget']);
     fixture.componentRef.setInput('isCurrentPlayersTurn', true);
     fixture.componentRef.setInput('resourceLabel', (resource: string) => resource);
-    fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.svg`);
+    fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.png`);
   });
 
   it('renders the compact bank row with selected icons', () => {

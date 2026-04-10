@@ -1,21 +1,17 @@
-import { signal } from '@angular/core';
 import { fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { Router } from '@angular/router';
 import { of, throwError } from 'rxjs';
-import { Subject } from 'rxjs';
 
 import { ActiveGameState } from '../../core/models/active-game-state.model';
 import { DEFAULT_AVATAR_DRAFT } from '../../core/models/avatar-draft.model';
 import { GamesApiService } from '../../core/services/games-api.service';
 import { GameSessionService } from '../../core/services/game-session.service';
-import { RealtimeConnectionService } from '../../core/services/realtime-connection.service';
 import { GamePageComponent } from './game-page.component';
 
 describe('GamePageComponent', () => {
   let gamesApi: jasmine.SpyObj<GamesApiService>;
   let router: jasmine.SpyObj<Router>;
-  let realtime: FakeRealtimeConnectionService;
 
   beforeEach(async () => {
     localStorage.clear();
@@ -283,15 +279,12 @@ describe('GamePageComponent', () => {
     );
     router = jasmine.createSpyObj<Router>('Router', ['navigate']);
     router.navigate.and.returnValue(Promise.resolve(true));
-    realtime = new FakeRealtimeConnectionService();
-
     await TestBed.configureTestingModule({
       imports: [GamePageComponent],
       providers: [
         GameSessionService,
         { provide: GamesApiService, useValue: gamesApi },
         { provide: Router, useValue: router },
-        { provide: RealtimeConnectionService, useValue: realtime },
         {
           provide: ActivatedRoute,
           useValue: {
@@ -651,7 +644,6 @@ describe('GamePageComponent', () => {
     expect(session.stage()).toBe('in-game');
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(1);
     expect(fixture.componentInstance.startMessage()).toContain('saved room state');
-    expect(realtime.connect).toHaveBeenCalledWith('synergy-report-telemetry', 'temporary-session-token');
   });
 
   it('restores lobby state from the authenticated state endpoint when a session token exists', () => {
@@ -713,7 +705,6 @@ describe('GamePageComponent', () => {
     expect(session.stage()).toBe('lobby');
     expect(session.joinedPlayers().length).toBe(1);
     expect(fixture.componentInstance.startedGame()).toBeNull();
-    expect(realtime.connect).toHaveBeenCalledWith('synergy-report-telemetry', 'temporary-session-token');
   });
 
   it('shows a room-specific error when the game lookup returns 404', () => {
@@ -740,53 +731,6 @@ describe('GamePageComponent', () => {
     });
     expect(session.stage()).toBe('lobby');
     expect(session.currentPlayer()?.displayName).toBe('Pam');
-    expect(realtime.connect).toHaveBeenCalledWith('synergy-report-telemetry', 'temporary-session-token');
-  });
-
-  it('applies websocket state sync messages without relying on passive polling', () => {
-    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
-
-    const fixture = TestBed.createComponent(GamePageComponent);
-    gamesApi.getGameState.calls.reset();
-
-    realtime.emit({
-      event: 'game.state.sync',
-      payload: {
-        game: {
-          id: 1,
-          slug: 'synergy-report-telemetry',
-          status: 'active',
-          phase: 'active',
-          playerCount: 2,
-          createdAt: '2026-04-08 00:00:00',
-          path: '/game/synergy-report-telemetry'
-        },
-        player: {
-          gamePlayerId: 1,
-          playerId: 1,
-          displayName: 'Pam',
-          isHost: true,
-          joinStatus: 'connected',
-          avatar: DEFAULT_AVATAR_DRAFT
-        },
-        session: {
-          token: 'temporary-session-token',
-          reconnectEnabled: true
-        },
-        realtime: {
-          transport: 'websocket',
-          roomSlug: 'synergy-report-telemetry',
-          sessionToken: 'temporary-session-token'
-        },
-        state: createActiveState({
-          currentTurnGamePlayerId: 2
-        })
-      }
-    });
-    fixture.detectChanges();
-
-    expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
-    expect(gamesApi.getGameState).not.toHaveBeenCalled();
   });
 
   it('shows backend join errors to the player', () => {
@@ -1253,16 +1197,4 @@ function createCompletedState(): ActiveGameState {
       ]
     })
   };
-}
-
-class FakeRealtimeConnectionService {
-  readonly connect = jasmine.createSpy('connect');
-  readonly disconnect = jasmine.createSpy('disconnect');
-  readonly isConnected = signal(false);
-  private readonly messageSubject = new Subject<{ event: string; payload: unknown }>();
-  readonly messages$ = this.messageSubject.asObservable();
-
-  emit(message: { event: string; payload: unknown }): void {
-    this.messageSubject.next(message);
-  }
 }

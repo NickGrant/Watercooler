@@ -994,3 +994,11 @@ please commit any changes we already have too
 
 Assistant:
 I decided to snapshot the already-pending realtime transport work in its own commit before continuing with the smart-polling refactor so the repository history would preserve both the websocket implementation and the subsequent shared-hosting rollback cleanly.
+
+#### Entry 147
+Assistant:
+I restored the pending websocket-client files, synced the transcript, and committed the existing realtime transport work as `256ded1` with message `feat: add websocket gameplay transport` so the repo had a clean baseline before beginning the shared-hosting refactor.
+
+#### Entry 148
+Assistant:
+I completed `TASK-070` by removing the browser-facing realtime connection service, stripping the websocket-specific game-page integration and tests back to the HTTP-driven state path, rerunning the Angular test suite and production build successfully, and updating the task tracker so `TASK-071` became the active next slice under `FEATURE-013`.

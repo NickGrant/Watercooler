@@ -26,7 +26,6 @@ import { GameStateResponse } from '../../core/models/game-state-response.model';
 import { GamesApiService } from '../../core/services/games-api.service';
 import { GameSessionService } from '../../core/services/game-session.service';
 import { StartedGameResponse } from '../../core/models/started-game-response.model';
-import { RealtimeConnectionService } from '../../core/services/realtime-connection.service';
 import { ExecutiveRowComponent } from './components/executive-row/executive-row.component';
 import { PlayerCardComponent } from './components/player-card/player-card.component';
 import { ResourceBankComponent } from './components/resource-bank/resource-bank.component';
@@ -74,7 +73,6 @@ export class GamePageComponent {
   private readonly gamesApi = inject(GamesApiService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly snackBar = inject(MatSnackBar);
-  private readonly realtime = inject(RealtimeConnectionService);
 
   readonly session = inject(GameSessionService);
   readonly game = signal<GameSummary | null>(null);
@@ -183,7 +181,6 @@ export class GamePageComponent {
     this.session.setSlug(slug);
     this.loadGame(slug);
     this.startStateRefreshLoop();
-    this.subscribeToRealtime();
 
     const sessionToken = this.session.sessionToken();
     if (sessionToken !== null) {
@@ -203,22 +200,6 @@ export class GamePageComponent {
       });
   }
 
-  private subscribeToRealtime(): void {
-    this.realtime.messages$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe((message) => {
-        if (message.event === 'game.state.sync' && typeof message.payload === 'object' && message.payload !== null) {
-          this.applyGameStateResult(message.payload as GameStateResponse, 'passive');
-        }
-
-        if (message.event === 'realtime.error') {
-          const payload = message.payload as { message?: string } | null;
-          const errorMessage = payload?.message ?? 'Realtime sync is temporarily unavailable.';
-          this.actionError.set(errorMessage);
-        }
-      });
-  }
-
   private refreshPassiveState(): void {
     const slug = this.session.slug();
     const sessionToken = this.session.sessionToken();
@@ -226,7 +207,6 @@ export class GamePageComponent {
     if (
       slug === null ||
       sessionToken === null ||
-      this.realtime.isConnected() ||
       this.session.stage() === 'pre-join' ||
       this.joinPending() ||
       this.startPending() ||
@@ -242,7 +222,6 @@ export class GamePageComponent {
       error: (error: unknown) => {
         if (this.getStatus(error) === 401) {
           this.session.clearStoredSessionToken(slug);
-          this.realtime.disconnect();
           this.joinError.set('Your temporary access badge expired. Please identify yourself again.');
         }
       }
@@ -360,7 +339,6 @@ export class GamePageComponent {
           result,
           options.target === 'startup' ? 'startup' : 'action-recovery'
         );
-        this.ensureRealtimeConnection(result.realtime.roomSlug, result.realtime.sessionToken);
         this.selectedTakeResources.set([]);
 
         if (options.target === 'startup') {
@@ -373,7 +351,6 @@ export class GamePageComponent {
       error: (error: unknown) => {
         if (this.getStatus(error) === 401) {
           this.session.clearStoredSessionToken(slug);
-          this.realtime.disconnect();
           if (options.target === 'startup') {
             this.joinError.set('Your temporary access badge expired. Please identify yourself again.');
           } else {
@@ -423,7 +400,6 @@ export class GamePageComponent {
     this.session.applyGameState(result);
     this.game.set(result.game);
     this.joinError.set(null);
-    this.ensureRealtimeConnection(result.realtime.roomSlug, result.realtime.sessionToken);
   }
 
   private applyStartedGameState(
@@ -458,14 +434,12 @@ export class GamePageComponent {
         this.startedGame.set(null);
         this.session.applyJoinBootstrap(result);
         this.game.set(result.game);
-        this.ensureRealtimeConnection(result.realtime.roomSlug, result.realtime.sessionToken);
         this.startMessage.set(null);
         this.joinPending.set(false);
       },
       error: (error: unknown) => {
         if ('sessionToken' in payload) {
           this.session.clearStoredSessionToken(slug);
-          this.realtime.disconnect();
         }
 
         this.joinPending.set(false);
@@ -713,7 +687,6 @@ export class GamePageComponent {
           if (slug !== null) {
             this.session.clearStoredSessionToken(slug);
           }
-          this.realtime.disconnect();
 
           this.actionError.set('Your temporary access badge expired. Please identify yourself again.');
           this.actionMessage.set(null);
@@ -818,12 +791,6 @@ export class GamePageComponent {
       horizontalPosition: 'center',
       verticalPosition: 'bottom'
     });
-  }
-
-  private ensureRealtimeConnection(roomSlug: string, sessionToken: string): void {
-    if (this.session.hasJoined()) {
-      this.realtime.connect(roomSlug, sessionToken);
-    }
   }
 
   private getErrorMessage(error: unknown): string {

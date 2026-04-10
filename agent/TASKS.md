@@ -6,7 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-- None currently. Promote the next ready item from `agent/TASK_BACKLOG.md` when work resumes.
+### TASK-071
+
+- Name: Add adaptive polling intervals and visibility-aware refresh policy
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Tune gameplay and lobby polling behavior so the client refreshes aggressively enough for a 4-to-6-player game while reducing unnecessary request volume when the tab is hidden or the room is idle.
 
 ## Task Management Rules
 

@@ -106,6 +106,6 @@ This file maps major product and repo-operating features to the tasks that deliv
 
 - Name: Shared-Hosting Smart Polling Compatibility
 - Priority: High
-- Status: Not Started
+- Status: In Progress
 - Description: Rework passive game synchronization so Watercooler remains responsive for small rooms on simple shared PHP hosting without requiring a dedicated websocket service or extra exposed ports.
 - Tasks: TASK-070, TASK-071, TASK-072

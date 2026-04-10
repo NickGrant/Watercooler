@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-070
+
+- Name: Replace websocket gameplay sync with smart polling
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-071, TASK-072
+- Description: Remove the browser-facing websocket dependency from active-game synchronization and replace it with an adaptive smart-polling flow that works on shared PHP hosting while preserving server-authoritative gameplay state.
+
 ### TASK-065
 
 - Name: Build reusable resource icon component

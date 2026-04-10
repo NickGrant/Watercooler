@@ -265,44 +265,40 @@
                 </span>
               </div>
 
-              <div class="player-panel__metrics player-panel__metrics--resources">
-                @for (resource of resourceTypes; track resource) {
-                  <div
-                    class="metric-chip"
-                    [matTooltip]="resourceLabel(resource) + ': ' + player.resources[resource]"
-                    [attr.aria-label]="resourceLabel(resource) + ': ' + player.resources[resource]"
-                  >
-                    <span class="metric-chip__icon-wrap">
-                      <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
-                    </span>
-                    <strong>{{ player.resources[resource] }}</strong>
-                  </div>
-                }
+              <div class="player-panel__economy">
+                <div class="player-resource-bars">
+                  @for (resource of resourceTypes; track resource) {
+                    <article
+                      class="player-resource-bar"
+                      [matTooltip]="resourceLabel(resource) + ': ' + player.resources[resource] + ' tokens, ' + player.permanentDiscounts[resource] + ' discount, total ' + (player.resources[resource] + player.permanentDiscounts[resource])"
+                      [attr.aria-label]="resourceLabel(resource) + ': ' + player.resources[resource] + ' tokens, ' + player.permanentDiscounts[resource] + ' discount'"
+                      [style.--resource-count]="player.resources[resource]"
+                      [style.--discount-count]="player.permanentDiscounts[resource]"
+                    >
+                      <div class="player-resource-bar__topline">
+                        <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
+                        <strong>{{ player.resources[resource] + player.permanentDiscounts[resource] }}</strong>
+                      </div>
+                      <div class="player-resource-bar__frame">
+                        <span class="player-resource-bar__segment player-resource-bar__segment--resource"></span>
+                        <span class="player-resource-bar__segment player-resource-bar__segment--discount"></span>
+                      </div>
+                      <div class="player-resource-bar__legend">
+                        <span>{{ player.resources[resource] }}</span>
+                        <span>{{ player.permanentDiscounts[resource] }}</span>
+                      </div>
+                    </article>
+                  }
+                </div>
+
                 <div
-                  class="metric-chip"
+                  class="player-favor-chip"
                   [matTooltip]="'Executive Favor: ' + player.resources.executiveFavor"
                   aria-label="Executive Favor"
                 >
-                  <span class="metric-chip__icon-wrap">
-                    <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
-                  </span>
+                  <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
                   <strong>{{ player.resources.executiveFavor }}</strong>
                 </div>
-              </div>
-
-              <div class="player-panel__metrics player-panel__metrics--discounts">
-                @for (resource of resourceTypes; track resource) {
-                  <div
-                    class="metric-chip metric-chip--discount"
-                    [matTooltip]="resourceLabel(resource) + ' discount: ' + player.permanentDiscounts[resource]"
-                    [attr.aria-label]="resourceLabel(resource) + ' discount: ' + player.permanentDiscounts[resource]"
-                  >
-                    <span class="metric-chip__icon-wrap">
-                      <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
-                    </span>
-                    <strong>{{ player.permanentDiscounts[resource] }}</strong>
-                  </div>
-                }
               </div>
 
               <div class="player-panel__collections">
@@ -470,7 +466,7 @@
               </button>
             </div>
             <div class="supply-console">
-              <div class="resource-bank">
+              <div class="resource-bank resource-bank--compact">
                 @for (resource of resourceTypes; track resource) {
                   <button
                     mat-stroked-button
@@ -486,6 +482,7 @@
                     <strong>{{ startedGame.bank[resource] }}</strong>
                   </button>
                 }
+                <article class="resource-bank__divider" aria-hidden="true"></article>
                 <article class="resource-bank__tile resource-bank__tile--favor" [matTooltip]="'Executive Favor: ' + startedGame.bank.executiveFavor" aria-label="Executive Favor">
                   <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
                   <strong>{{ startedGame.bank.executiveFavor }}</strong>

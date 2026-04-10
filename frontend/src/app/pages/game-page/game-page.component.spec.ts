@@ -327,18 +327,27 @@ describe('GamePageComponent', () => {
     expect(labels).toEqual(['Hair', 'Face', 'Body']);
   });
 
-  it('renders resource displays as compact icon chips with accessible labels', () => {
+  it('renders the compact bank row and stacked player economy bars', () => {
     localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
 
     const fixture = TestBed.createComponent(GamePageComponent);
     fixture.detectChanges();
 
+    const resourceBankTiles = fixture.nativeElement.querySelectorAll('.resource-bank__tile');
     const resourceBankTile = fixture.nativeElement.querySelector('.resource-bank__tile--selectable');
+    const firstPlayerPanel = fixture.nativeElement.querySelector('.player-panel');
+    const economyBars = firstPlayerPanel?.querySelectorAll('.player-resource-bar') ?? [];
+    const favorChip = firstPlayerPanel?.querySelector('.player-favor-chip');
     const resourceCost = fixture.nativeElement.querySelector('.resource-cost');
 
+    expect(resourceBankTiles.length).toBe(6);
     expect(resourceBankTile?.getAttribute('aria-label')).toContain('Coffee');
     expect(resourceBankTile?.textContent?.replace(/\s+/g, '')).toBe('4');
     expect(resourceBankTile?.querySelector('img.resource-icon')).not.toBeNull();
+    expect(economyBars.length).toBe(5);
+    expect(economyBars[0]?.getAttribute('aria-label')).toContain('Coffee');
+    expect(economyBars[0]?.querySelector('.player-resource-bar__frame')).not.toBeNull();
+    expect(favorChip?.textContent?.replace(/\s+/g, '')).toBe('0');
     expect(resourceCost?.getAttribute('aria-label')).toContain('Coffee');
     expect(resourceCost?.textContent?.replace(/\s+/g, '')).toBe('2');
   });

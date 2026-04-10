@@ -103,31 +103,131 @@ select {
     cursor: help;
   }
 
-  .player-panel__metrics {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.35rem;
-  }
-
-  .player-panel__metrics + .player-panel__metrics {
-    margin-top: 0.45rem;
-  }
-
-  .metric-chip {
-    display: inline-flex;
+  .resource-bank--compact {
+    grid-template-columns: repeat(7, minmax(0, 1fr));
     align-items: center;
-    gap: 0.28rem;
+    gap: 0.5rem;
+  }
+
+  .resource-bank__divider {
+    align-self: stretch;
+    width: 1px;
+    justify-self: center;
+    background: linear-gradient(180deg, transparent, rgba(52, 76, 115, 0.4), transparent);
+  }
+
+  .resource-bank__tile--selectable,
+  .resource-bank__tile--favor {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    min-height: 3.55rem;
     min-width: 0;
-    padding: 0.3rem 0.42rem;
+    padding: 0.45rem 0.35rem;
   }
 
-  .metric-chip span {
-    margin-bottom: 0;
+  .resource-bank__tile .resource-icon {
+    width: 1.5rem;
+    height: 1.5rem;
   }
 
-  .metric-chip .resource-icon {
-    width: 1.25rem;
-    height: 1.25rem;
+  .resource-bank__tile strong {
+    position: relative;
+    z-index: 1;
+    font-size: 0.84rem;
+  }
+
+  .player-panel__economy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.85rem;
+    align-items: end;
+    margin-top: 0.65rem;
+  }
+
+  .player-resource-bars {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 0.45rem;
+  }
+
+  .player-resource-bar {
+    display: grid;
+    gap: 0.3rem;
+    padding: 0.35rem 0.4rem 0.45rem;
+    border: 1px solid rgba(47, 61, 87, 0.18);
+    background: linear-gradient(180deg, rgba(247, 250, 255, 0.96), rgba(236, 242, 249, 0.95));
+  }
+
+  .player-resource-bar__topline,
+  .player-resource-bar__legend {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem;
+  }
+
+  .player-resource-bar__topline .resource-icon {
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .player-resource-bar__topline strong {
+    font-size: 0.82rem;
+    color: var(--wc-ink-strong);
+  }
+
+  .player-resource-bar__frame {
+    display: flex;
+    flex-direction: column-reverse;
+    justify-content: flex-start;
+    gap: 0.1rem;
+    min-height: 3.45rem;
+    padding: 0.2rem;
+    border: 1px solid rgba(52, 76, 115, 0.16);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(236, 241, 248, 0.95));
+  }
+
+  .player-resource-bar__segment {
+    display: block;
+    min-height: 0;
+  }
+
+  .player-resource-bar__segment--resource {
+    height: calc(var(--resource-count, 0) * 0.44rem);
+    background: linear-gradient(180deg, rgba(96, 124, 168, 0.92), rgba(67, 96, 141, 0.98));
+  }
+
+  .player-resource-bar__segment--discount {
+    height: calc(var(--discount-count, 0) * 0.44rem);
+    background: linear-gradient(180deg, rgba(125, 173, 136, 0.92), rgba(78, 132, 91, 0.98));
+  }
+
+  .player-resource-bar__legend {
+    color: var(--wc-accent-warm);
+    font-size: 0.66rem;
+    font-weight: 700;
+  }
+
+  .player-favor-chip {
+    display: grid;
+    justify-items: center;
+    gap: 0.2rem;
+    min-width: 3.6rem;
+    padding: 0.45rem 0.4rem 0.55rem;
+    border-left: 1px solid rgba(52, 76, 115, 0.22);
+  }
+
+  .player-favor-chip .resource-icon {
+    width: 1.2rem;
+    height: 1.2rem;
+  }
+
+  .player-favor-chip strong {
+    font-size: 0.82rem;
+    color: var(--wc-ink-strong);
   }
 
   .executive-grid {
@@ -258,5 +358,29 @@ select {
   .game-page .shell-grid {
     grid-template-columns: minmax(15.5rem, 17rem) minmax(19rem, 22rem) minmax(0, 1fr);
     align-items: start;
+  }
+}
+
+@media (max-width: 1080px) {
+  .game-page .resource-bank--compact {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .game-page .resource-bank__divider {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .game-page .player-panel__economy {
+    grid-template-columns: 1fr;
+  }
+
+  .game-page .player-favor-chip {
+    justify-self: start;
+    border-left: 0;
+    border-top: 1px solid rgba(52, 76, 115, 0.22);
+    padding-left: 0;
+    padding-top: 0.55rem;
   }
 }

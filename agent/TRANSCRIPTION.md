@@ -739,3 +739,10 @@ Resource bank is so much closer, just a few more tweaks.
 
 Assistant:
 I updated the bank help copy, made the resource buttons read as true stacked badges with bold centered counts, switched the selected summary to repeated 2em icons instead of text labels, and added a dedicated submit-button style so the active state reads like a real call-to-action while preserving the disabled treatment.
+
+#### Entry 113
+User:
+I am still seeing the button issue, here is a screenshot showing that the button and the background are blending together
+
+Assistant:
+I traced that to the supply action still rendering without the Angular Material `primary` color hook, added `color="primary"` so the dedicated submit-button styling could actually apply, and revalidated the frontend test suite and production build.

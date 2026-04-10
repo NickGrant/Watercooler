@@ -511,6 +511,7 @@
                   mat-flat-button
                   type="button"
                   class="supply-console__submit"
+                  color="primary"
                   [disabled]="actionPending() || !isCurrentPlayersTurn() || selectedTakeResources().length === 0"
                   (click)="submitTakeResources()"
                 >

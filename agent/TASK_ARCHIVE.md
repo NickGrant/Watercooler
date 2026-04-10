@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-071
+
+- Name: Add adaptive polling intervals and visibility-aware refresh policy
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Tune gameplay and lobby polling behavior so the client refreshes aggressively enough for a 4-to-6-player game while reducing unnecessary request volume when the tab is hidden or the room is idle.
+
 ### TASK-070
 
 - Name: Replace websocket gameplay sync with smart polling

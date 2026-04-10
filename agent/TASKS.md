@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-071
+### TASK-072
 
-- Name: Add adaptive polling intervals and visibility-aware refresh policy
-- Priority: High
+- Name: Remove standalone realtime-service deployment dependency
+- Priority: Medium
 - Blocked By: None
 - Blocks: None
-- Description: Tune gameplay and lobby polling behavior so the client refreshes aggressively enough for a 4-to-6-player game while reducing unnecessary request volume when the tab is hidden or the room is idle.
+- Description: Update deployment-oriented code and docs so the app no longer assumes a separately hosted websocket process, including configuration, local-development guidance, and any no-longer-needed realtime transport plumbing.
 
 ## Task Management Rules
 

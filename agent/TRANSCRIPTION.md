@@ -1002,3 +1002,7 @@ I restored the pending websocket-client files, synced the transcript, and commit
 #### Entry 148
 Assistant:
 I completed `TASK-070` by removing the browser-facing realtime connection service, stripping the websocket-specific game-page integration and tests back to the HTTP-driven state path, rerunning the Angular test suite and production build successfully, and updating the task tracker so `TASK-071` became the active next slice under `FEATURE-013`.
+
+#### Entry 149
+Assistant:
+I completed `TASK-071` by replacing the fixed passive-refresh interval with a smart rescheduled polling loop, adding lobby-versus-active and hidden-tab cadence changes plus an immediate visibility-return refresh, extending the Angular tests to cover the new behavior, and updating the task tracker so `TASK-072` became the remaining active slice.

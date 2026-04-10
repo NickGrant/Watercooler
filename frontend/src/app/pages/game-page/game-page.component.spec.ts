@@ -12,9 +12,14 @@ import { GamePageComponent } from './game-page.component';
 describe('GamePageComponent', () => {
   let gamesApi: jasmine.SpyObj<GamesApiService>;
   let router: jasmine.SpyObj<Router>;
+  let originalVisibilityStateDescriptor: PropertyDescriptor | undefined;
+  let originalHiddenDescriptor: PropertyDescriptor | undefined;
 
   beforeEach(async () => {
     localStorage.clear();
+    originalVisibilityStateDescriptor = Object.getOwnPropertyDescriptor(document, 'visibilityState');
+    originalHiddenDescriptor = Object.getOwnPropertyDescriptor(document, 'hidden');
+    setDocumentVisibility(false);
     gamesApi = jasmine.createSpyObj<GamesApiService>('GamesApiService', [
       'createGame',
       'getGame',
@@ -295,6 +300,11 @@ describe('GamePageComponent', () => {
         }
       ]
     }).compileComponents();
+  });
+
+  afterEach(() => {
+    restoreDocumentProperty('visibilityState', originalVisibilityStateDescriptor);
+    restoreDocumentProperty('hidden', originalHiddenDescriptor);
   });
 
   it('loads the route slug into the shared session service', () => {
@@ -628,6 +638,49 @@ describe('GamePageComponent', () => {
     );
     expect(fixture.componentInstance.startedGame()?.players[0].purchasedCardCount).toBe(1);
     expect(fixture.componentInstance.latestToastMessage()).toBe('Pam acquired Budget Sign-off.');
+  }));
+
+  it('uses a slower polling interval while the tab is hidden', fakeAsync(() => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    gamesApi.getGameState.calls.reset();
+
+    setDocumentVisibility(true);
+    document.dispatchEvent(new Event('visibilitychange'));
+    tick(3000);
+    fixture.detectChanges();
+
+    expect(gamesApi.getGameState).not.toHaveBeenCalled();
+
+    tick(9000);
+    fixture.detectChanges();
+
+    expect(gamesApi.getGameState).toHaveBeenCalledOnceWith(
+      'synergy-report-telemetry',
+      'temporary-session-token'
+    );
+  }));
+
+  it('refreshes immediately when the tab becomes visible again', fakeAsync(() => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    gamesApi.getGameState.calls.reset();
+
+    setDocumentVisibility(true);
+    document.dispatchEvent(new Event('visibilitychange'));
+    gamesApi.getGameState.calls.reset();
+
+    setDocumentVisibility(false);
+    document.dispatchEvent(new Event('visibilitychange'));
+    tick();
+    fixture.detectChanges();
+
+    expect(gamesApi.getGameState).toHaveBeenCalledOnceWith(
+      'synergy-report-telemetry',
+      'temporary-session-token'
+    );
   }));
 
   it('restores an active game from the authenticated state endpoint when a session token exists', () => {
@@ -1197,4 +1250,27 @@ function createCompletedState(): ActiveGameState {
       ]
     })
   };
+}
+
+function setDocumentVisibility(hidden: boolean): void {
+  Object.defineProperty(document, 'visibilityState', {
+    configurable: true,
+    value: hidden ? 'hidden' : 'visible'
+  });
+  Object.defineProperty(document, 'hidden', {
+    configurable: true,
+    value: hidden
+  });
+}
+
+function restoreDocumentProperty(
+  propertyName: 'visibilityState' | 'hidden',
+  descriptor: PropertyDescriptor | undefined
+): void {
+  if (descriptor === undefined) {
+    delete (document as unknown as Record<string, unknown>)[propertyName];
+    return;
+  }
+
+  Object.defineProperty(document, propertyName, descriptor);
 }

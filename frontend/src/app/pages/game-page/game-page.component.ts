@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, DestroyRef, inject, signal, ViewEncapsulation } from '@angular/core';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -10,7 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
-import { interval, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import {
   ActiveGameCard,
@@ -66,13 +65,27 @@ interface AvatarOptionDefinition {
   encapsulation: ViewEncapsulation.None
 })
 export class GamePageComponent {
-  private static readonly STATE_REFRESH_INTERVAL_MS = 2500;
+  private static readonly LOBBY_REFRESH_INTERVAL_MS = 3000;
+  private static readonly ACTIVE_TURN_REFRESH_INTERVAL_MS = 1500;
+  private static readonly ACTIVE_WAIT_REFRESH_INTERVAL_MS = 2500;
+  private static readonly HIDDEN_REFRESH_INTERVAL_MS = 12000;
+  private static readonly COMPLETED_REFRESH_INTERVAL_MS = 15000;
 
   private readonly route = inject(ActivatedRoute);
   private readonly router = inject(Router);
   private readonly gamesApi = inject(GamesApiService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly snackBar = inject(MatSnackBar);
+  private passiveRefreshTimeoutId: ReturnType<typeof setTimeout> | null = null;
+  private passiveRefreshPending = false;
+  private readonly handleVisibilityChange = (): void => {
+    if (this.isDocumentHidden()) {
+      this.scheduleNextPassiveRefresh();
+      return;
+    }
+
+    this.runPassiveRefreshCycle(0);
+  };
 
   readonly session = inject(GameSessionService);
   readonly game = signal<GameSummary | null>(null);
@@ -193,14 +206,28 @@ export class GamePageComponent {
   }
 
   private startStateRefreshLoop(): void {
-    interval(GamePageComponent.STATE_REFRESH_INTERVAL_MS)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => {
-        this.refreshPassiveState();
-      });
+    globalThis.document?.addEventListener('visibilitychange', this.handleVisibilityChange);
+    this.destroyRef.onDestroy(() => {
+      if (this.passiveRefreshTimeoutId !== null) {
+        clearTimeout(this.passiveRefreshTimeoutId);
+      }
+
+      globalThis.document?.removeEventListener('visibilitychange', this.handleVisibilityChange);
+    });
+    this.scheduleNextPassiveRefresh();
   }
 
-  private refreshPassiveState(): void {
+  private runPassiveRefreshCycle(delayMs = this.currentRefreshIntervalMs()): void {
+    if (this.passiveRefreshPending) {
+      this.scheduleNextPassiveRefresh(delayMs);
+      return;
+    }
+
+    if (delayMs > 0) {
+      this.scheduleNextPassiveRefresh(delayMs);
+      return;
+    }
+
     const slug = this.session.slug();
     const sessionToken = this.session.sessionToken();
 
@@ -212,20 +239,64 @@ export class GamePageComponent {
       this.startPending() ||
       this.actionPending()
     ) {
+      this.scheduleNextPassiveRefresh();
       return;
     }
 
+    this.passiveRefreshPending = true;
     this.gamesApi.getGameState(slug, sessionToken).subscribe({
       next: (result) => {
+        this.passiveRefreshPending = false;
         this.applyGameStateResult(result, 'passive');
+        this.scheduleNextPassiveRefresh();
       },
       error: (error: unknown) => {
+        this.passiveRefreshPending = false;
         if (this.getStatus(error) === 401) {
           this.session.clearStoredSessionToken(slug);
           this.joinError.set('Your temporary access badge expired. Please identify yourself again.');
         }
+
+        this.scheduleNextPassiveRefresh();
       }
     });
+  }
+
+  private scheduleNextPassiveRefresh(delayMs = this.currentRefreshIntervalMs()): void {
+    if (this.passiveRefreshTimeoutId !== null) {
+      clearTimeout(this.passiveRefreshTimeoutId);
+    }
+
+    this.passiveRefreshTimeoutId = setTimeout(() => {
+      this.passiveRefreshTimeoutId = null;
+      this.runPassiveRefreshCycle(0);
+    }, delayMs);
+  }
+
+  private currentRefreshIntervalMs(): number {
+    if (this.isDocumentHidden()) {
+      return GamePageComponent.HIDDEN_REFRESH_INTERVAL_MS;
+    }
+
+    if (this.isCompletedGame()) {
+      return GamePageComponent.COMPLETED_REFRESH_INTERVAL_MS;
+    }
+
+    if (this.session.stage() === 'lobby') {
+      return GamePageComponent.LOBBY_REFRESH_INTERVAL_MS;
+    }
+
+    if (this.session.stage() === 'in-game') {
+      return this.isCurrentPlayersTurn()
+        ? GamePageComponent.ACTIVE_TURN_REFRESH_INTERVAL_MS
+        : GamePageComponent.ACTIVE_WAIT_REFRESH_INTERVAL_MS;
+    }
+
+    return GamePageComponent.LOBBY_REFRESH_INTERVAL_MS;
+  }
+
+  private isDocumentHidden(): boolean {
+    return globalThis.document?.visibilityState === 'hidden';
   }
 
   updatePlayerName(name: string): void {
@@ -400,6 +471,7 @@ export class GamePageComponent {
     this.session.applyGameState(result);
     this.game.set(result.game);
     this.joinError.set(null);
+    this.scheduleNextPassiveRefresh();
   }
 
   private applyStartedGameState(
@@ -412,6 +484,7 @@ export class GamePageComponent {
     this.startedGame.set(state);
     this.session.applyStartedGameState(state);
     this.game.set(game);
+    this.scheduleNextPassiveRefresh();
 
     const toastMessage = options.toastMessage ?? stateChangeSummary;
     if (toastMessage !== undefined && toastMessage !== null) {
@@ -436,6 +509,7 @@ export class GamePageComponent {
         this.game.set(result.game);
         this.startMessage.set(null);
         this.joinPending.set(false);
+        this.scheduleNextPassiveRefresh();
       },
       error: (error: unknown) => {
         if ('sessionToken' in payload) {

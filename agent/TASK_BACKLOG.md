@@ -14,15 +14,15 @@ This file tracks outstanding work that matters to the project but does not need 
 - Blocks: None
 - Description: Replace the current scaffolded/polling-based active-game refresh path with a real websocket transport that pushes authoritative gameplay state changes to every connected client.
 
-### TASK-059
+### TASK-066
 
 - Name: Tighten project cards and increase per-row density
 - Priority: High
-- Blocked By: TASK-058
+- Blocked By: TASK-065
 - Blocks: None
 - Description: Make project cards narrower and denser so more backlog items can fit on a single row without sacrificing readability.
 
-### TASK-060
+### TASK-067
 
 - Name: Remove border from take-selected-resources button
 - Priority: Medium
@@ -30,15 +30,15 @@ This file tracks outstanding work that matters to the project but does not need 
 - Blocks: None
 - Description: Update the take-selected-resources control styling so it matches the other primary actions instead of reading as a bordered special case.
 
-### TASK-061
+### TASK-068
 
 - Name: Split resource bank into resources and Executive Favor columns
 - Priority: High
-- Blocked By: TASK-058
+- Blocked By: TASK-065
 - Blocks: None
 - Description: Rework the resource-bank layout so the main resource acquisition flow lives in one column while Executive Favor is separated into its own clearer column.
 
-### TASK-062
+### TASK-069
 
 - Name: Redesign executive cards from mock reference
 - Priority: High

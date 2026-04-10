@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-064
+
+- Name: Create screenshot skill for game-screen visual capture
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Create a shared agent skill that can trigger a game-screen screenshot through an npm-driven Playwright workflow so UI reviews can be repeated consistently during UAT.
+
 ### TASK-054
 
 - Name: Tighten game-page layout and contextual help

@@ -6,7 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-056
+### TASK-063
 
 - Name: Rename projects to be more expressive
 - Priority: Medium
@@ -14,20 +14,12 @@ This file keeps the active working set small enough to remain in normal agent co
 - Blocks: None
 - Description: Rewrite the seeded project names so backlog and completed-project content feels more expressive and thematic during play without changing gameplay balance.
 
-### TASK-057
-
-- Name: Create screenshot skill for game-screen visual capture
-- Priority: Medium
-- Blocked By: None
-- Blocks: None
-- Description: Create an agent skill that can trigger a game-screen screenshot through the npm testing stack so UI reviews can be repeated consistently during UAT.
-
-### TASK-058
+### TASK-065
 
 - Name: Build reusable resource icon component
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-059, TASK-061
+- Blocks: TASK-066, TASK-068
 - Description: Create a shared resource icon component with regular and small variants using square icon art and a superscript value badge with a solid background so resource display logic is centralized before further board-density cleanup.
 
 ## Task Management Rules

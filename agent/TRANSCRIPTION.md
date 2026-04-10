@@ -794,3 +794,17 @@ Can you try and restart my frontend docker image after you get done making chang
 
 Assistant:
 I checked the Docker service names in `docker-compose.yml`, rebuilt and restarted the `frontend` service with `docker compose up -d --build frontend`, confirmed that both the `frontend` and `api` containers came back up successfully, and agreed to handle that refresh step as part of future UI passes when helpful.
+
+#### Entry 120
+User:
+Go ahead and commit what we have
+
+Assistant:
+I updated the transcript with the latest UI and Docker-refresh work, then committed the active-board layout pass while intentionally leaving the separate local changes in `docker-compose.yml` and `frontend/package-lock.json` out of that commit so they could be reviewed or committed independently afterward.
+
+#### Entry 121
+User:
+go ahead and commit those two other files too
+
+Assistant:
+I reviewed the remaining local changes, confirmed they were the Docker reliability updates and the corresponding npm lockfile normalization, then prepared them as their own follow-up commit so the environment changes stayed separated from the UI layout work.

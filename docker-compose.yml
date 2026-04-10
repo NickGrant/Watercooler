@@ -12,7 +12,8 @@ services:
       - ./frontend:/app
       - frontend_node_modules:/app/node_modules
     depends_on:
-      - api
+      api:
+        condition: service_started
 
   api:
     build:
@@ -34,7 +35,8 @@ services:
       - ./backend/api:/app
       - api_vendor:/app/vendor
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   realtime:
     build:
@@ -48,24 +50,36 @@ services:
       APP_DEBUG: "1"
       REALTIME_HOST: 0.0.0.0
       REALTIME_PORT: 8090
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_NAME: watercooler
+      DB_USER: watercooler
+      DB_PASSWORD: watercooler
     volumes:
       - ./backend/realtime:/app
       - realtime_vendor:/app/vendor
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   db:
     image: mariadb:10.11
     ports:
-      - "3306:3306"
+      - "3307:3306"
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: watercooler
       MYSQL_USER: watercooler
       MYSQL_PASSWORD: watercooler
+    healthcheck:
+      test: ["CMD", "mariadb-admin", "ping", "-h", "localhost", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
     volumes:
       - db_data:/var/lib/mysql
       - ./database/migrations/001_initial_schema.sql:/docker-entrypoint-initdb.d/001_initial_schema.sql:ro
+      - ./database/migrations/002_seed_cards_and_executives.sql:/docker-entrypoint-initdb.d/002_seed_cards_and_executives.sql:ro
 
 volumes:
   frontend_node_modules:

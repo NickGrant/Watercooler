@@ -755,3 +755,42 @@ I want to at least break out the player card from the player panel, resource ban
 
 Assistant:
 I refactored the game route into focused standalone Angular components for the player card, resource bank, visible market, executive row, project card, and executive card, rewired the page to act as the stateful orchestrator, switched the game page stylesheet to `ViewEncapsulation.None` so the extracted board classes kept their current visual system, and added unit tests for each new component plus the existing page-level validation pass.
+
+#### Entry 115
+User:
+What is the difference between game.status and game.phase for a player? we show both but I feel like game.phase probably conveys all the information we need
+
+Assistant:
+I explained that `status` is the coarse lifecycle bucket while `phase` is the finer player-facing state inside it, recommended not showing both raw values in the player UI, and suggested either using just a friendly phase label or letting the existing status card carry that meaning instead.
+
+#### Entry 116
+User:
+lets go ahead and remove both from the subhead then and let the status-card be the way we communicate that
+
+Assistant:
+I removed both `status` and `phase` from the game-page subhead so the header now only shows the checked-in player count while the status card remains the single state indicator, then revalidated the frontend tests and production build.
+
+#### Entry 117
+User:
+Can we move the "Current Turn" indicator in the Turn Command Desk to be up and inline with Current Room State in the header. It should be on the righthand side.
+
+Assistant:
+I moved the `Current Turn` indicator into the right-hand side of the board header beside `Current Room State`, removed the duplicate turn tile from the Turn Command Desk, updated the highlight behavior to apply to the header card instead, and revalidated the frontend tests and production build.
+
+#### Entry 118
+User:
+Things are getting much closer to a usable UI, with moving that button out, I think we can get rid of the Turn Command Desk column entirely.
+lets instead shift to a layout that is:
+- lefmost column (skinny) - Player card, underneath that a section entitled Coworkers that lists the player cards for the rest of the players, this replaces the existing Player Panels column
+- central column (wide) - Resource Bank & Visible Market
+- right column (skinny) - executive cards
+
+Assistant:
+I reshaped the active-game screen into a three-rail layout with the current player card and `Coworkers` list on the left, the resource bank and visible market in the center, and the executive row on the right, kept the lobby and check-in flows stable behind a separate branch, moved a few layout selectors into the global stylesheet to stay under the component CSS error budget, and updated the frontend tests to match the new structure.
+
+#### Entry 119
+User:
+Can you try and restart my frontend docker image after you get done making changes. It is required for me to see them and I have to do it manually, but if you could handle it or some other way trigger a rebuild of the frontend that would be great
+
+Assistant:
+I checked the Docker service names in `docker-compose.yml`, rebuilt and restarted the `frontend` service with `docker compose up -d --build frontend`, confirmed that both the `frontend` and `api` containers came back up successfully, and agreed to handle that refresh step as part of future UI passes when helpful.

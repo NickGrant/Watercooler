@@ -5,17 +5,26 @@
       <h1>{{ formattedRoomName() }}</h1>
       <p class="subhead">
         @if (game(); as game) {
-          {{ game.playerCount }} employees checked in | {{ game.status }} status | {{ game.phase }}
+          {{ game.playerCount }} employees checked in
         } @else {
           Fetching room dossier from the Recreation Division...
         }
       </p>
     </div>
 
-    <mat-card appearance="outlined" class="status-card">
-      <p class="status-card__label">Current Room State</p>
-      <strong>{{ session.stageLabel() }}</strong>
-    </mat-card>
+    <div class="board-header__status">
+      <mat-card appearance="outlined" class="status-card">
+        <p class="status-card__label">Current Room State</p>
+        <strong>{{ session.stageLabel() }}</strong>
+      </mat-card>
+
+      @if (session.stage() === 'in-game' && !isCompletedGame()) {
+        <mat-card appearance="outlined" class="status-card status-card--turn" [class.status-card--turn-active]="isCurrentPlayersTurn()">
+          <p class="status-card__label">Current Turn</p>
+          <strong>{{ currentTurnPlayer()?.displayName ?? 'Awaiting state' }}</strong>
+        </mat-card>
+      }
+    </div>
   </header>
 
   @if (loadError(); as loadError) {
@@ -24,8 +33,175 @@
     </section>
   }
 
-  <section class="shell-grid">
-    <mat-card appearance="outlined" class="shell-panel shell-panel--desk">
+  @if (session.stage() === 'in-game' && !isCompletedGame() && startedGame(); as startedGame) {
+    <section class="shell-grid shell-grid--active">
+      <mat-card appearance="outlined" class="shell-panel shell-panel--sidebar">
+        <div class="section-heading">
+          <h2>Your Desk</h2>
+          <button
+            type="button"
+            class="heading-help"
+            [matTooltip]="'Your player card tracks your resources, discounts, reserved projects, and claimed executives.'"
+            aria-label="Your desk help"
+          >
+            ?
+          </button>
+        </div>
+
+        @if (currentUserPlayer(); as currentPlayer) {
+          <app-player-card
+            [player]="currentPlayer"
+            [resourceTypes]="resourceTypes"
+            [isCompletedGame]="false"
+            [isActiveTurn]="currentPlayer.gamePlayerId === startedGame.currentTurnGamePlayerId"
+            [isWinner]="false"
+            [placementLabel]="null"
+            [actionPending]="actionPending()"
+            [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+            [isCurrentUserCard]="true"
+            [resourceLabel]="resourceLabel.bind(this)"
+            [resourceIconPath]="resourceIconPath.bind(this)"
+            [canPurchaseReservedCard]="canAffordCard.bind(this, currentPlayer)"
+            (purchaseReservedCard)="purchaseReservedCard($event)"
+          />
+        } @else {
+          <p class="panel-copy">Your player card will appear once the live state finishes loading.</p>
+        }
+
+        <mat-divider />
+
+        <div class="section-heading">
+          <h3>Coworkers</h3>
+          <button
+            type="button"
+            class="heading-help"
+            [matTooltip]="'Everyone else in the room appears here so you can scan turn order, resources, and purchases without leaving the main board.'"
+            aria-label="Coworkers help"
+          >
+            ?
+          </button>
+        </div>
+
+        <div class="roster roster--coworkers">
+          @for (player of orderedPlayers(); track player.gamePlayerId) {
+            @if (player.gamePlayerId !== currentUserPlayer()?.gamePlayerId) {
+              <app-player-card
+                [player]="player"
+                [resourceTypes]="resourceTypes"
+                [isCompletedGame]="false"
+                [isActiveTurn]="player.gamePlayerId === startedGame.currentTurnGamePlayerId"
+                [isWinner]="false"
+                [placementLabel]="null"
+                [actionPending]="actionPending()"
+                [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+                [isCurrentUserCard]="false"
+                [resourceLabel]="resourceLabel.bind(this)"
+                [resourceIconPath]="resourceIconPath.bind(this)"
+                [canPurchaseReservedCard]="canAffordCard.bind(this, currentUserPlayer())"
+                (purchaseReservedCard)="purchaseReservedCard($event)"
+              />
+            }
+          } @empty {
+            <p class="panel-copy">No coworkers are visible in the room state yet.</p>
+          }
+        </div>
+      </mat-card>
+
+      <mat-card appearance="outlined" class="board-panel board-panel--market">
+        <div class="section-heading section-heading--board">
+          <h2>Main Board</h2>
+          <button
+            type="button"
+            class="heading-help"
+            [matTooltip]="'Claim from the market, purchase when affordable, and watch the executive row for automatic awards.'"
+            aria-label="Board help"
+          >
+            ?
+          </button>
+        </div>
+
+        <mat-divider />
+
+        <div class="board-layout board-layout--market">
+          <section class="board-section board-section--supply">
+            <div class="section-heading">
+              <h3>Resource Bank</h3>
+              <button
+                type="button"
+                class="heading-help"
+                [matTooltip]="'On your turn, select three different resources, or two of the same if there are four or more of that kind available.'"
+                aria-label="Resource bank help"
+              >
+                ?
+              </button>
+            </div>
+            <app-resource-bank
+              [resourceTypes]="resourceTypes"
+              [bank]="startedGame.bank"
+              [selectedResources]="selectedTakeResources()"
+              [actionPending]="actionPending()"
+              [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+              [resourceLabel]="resourceLabel.bind(this)"
+              [resourceIconPath]="resourceIconPath.bind(this)"
+              (toggleResource)="toggleTakeResource($event)"
+              (submitSelection)="submitTakeResources()"
+            />
+          </section>
+
+          <section class="board-section">
+            <div class="section-heading">
+              <h3>Visible Market</h3>
+              <button
+                type="button"
+                class="heading-help"
+                [matTooltip]="'Purchase or claim market cards from here. Hover resource icons for labels and costs.'"
+                aria-label="Visible market help"
+              >
+                ?
+              </button>
+            </div>
+            <app-visible-market
+              [market]="startedGame.market"
+              [isCompletedGame]="false"
+              [actionPending]="actionPending()"
+              [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+              [canPurchaseCard]="canAffordCard.bind(this, currentUserPlayer())"
+              [resourceLabel]="resourceLabel.bind(this)"
+              [resourceIconPath]="resourceIconPath.bind(this)"
+              (claimCard)="claimMarketCard($event)"
+              (purchaseCard)="purchaseMarketCard($event)"
+            />
+          </section>
+        </div>
+
+        @if (actionError(); as actionError) {
+          <p class="inline-error" role="alert">{{ actionError }}</p>
+        }
+      </mat-card>
+
+      <mat-card appearance="outlined" class="shell-panel shell-panel--executives">
+        <div class="section-heading">
+          <h2>Executive Row</h2>
+          <button
+            type="button"
+            class="heading-help"
+            [matTooltip]="'Executives are awarded automatically when a player satisfies the requirement profile shown on the card.'"
+            aria-label="Executive row help"
+          >
+            ?
+          </button>
+        </div>
+
+        <app-executive-row
+          [executives]="startedGame.executives"
+          [resourceLabel]="resourceLabel.bind(this)"
+          [resourceIconPath]="resourceIconPath.bind(this)"
+        />
+      </mat-card>
+    </section>
+  } @else {
+    <section class="shell-grid">
+      <mat-card appearance="outlined" class="shell-panel shell-panel--desk">
       @if (!session.hasJoined()) {
         <h2>Employee Check-In</h2>
         <p class="panel-copy">
@@ -157,10 +333,6 @@
           </div>
 
           <div class="turn-summary">
-            <div class="turn-summary__tile" [class.turn-summary__tile--current-player]="isCurrentPlayersTurn()">
-              <span>Current Turn</span>
-              <strong>{{ currentTurnPlayer()?.displayName ?? 'Awaiting state' }}</strong>
-            </div>
             <div class="turn-summary__tile">
               <span>Your Seat</span>
               <strong>#{{ currentUserPlayer()?.seatOrder ?? '-' }}</strong>
@@ -334,7 +506,7 @@
       </section>
     </mat-card>
 
-    <mat-card appearance="outlined" class="board-panel">
+      <mat-card appearance="outlined" class="board-panel">
       <div class="section-heading section-heading--board">
         <h2>{{ session.stage() === 'in-game' ? (isCompletedGame() ? 'Completed Board Snapshot' : 'Main Board') : 'Room Snapshot' }}</h2>
         @if (session.stage() === 'in-game' && !isCompletedGame()) {
@@ -439,7 +611,8 @@
           </div>
         </div>
       }
-    </mat-card>
-  </section>
+      </mat-card>
+    </section>
+  }
 </main>
 

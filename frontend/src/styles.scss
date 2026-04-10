@@ -78,6 +78,30 @@ select {
 }
 
 .game-page {
+  .shell-grid--active {
+    grid-template-columns: minmax(16rem, 19rem) minmax(0, 1fr) minmax(16rem, 19rem);
+    align-items: start;
+  }
+
+  .shell-panel--sidebar,
+  .shell-panel--executives,
+  .board-panel--market {
+    min-width: 0;
+  }
+
+  .roster--coworkers {
+    margin-top: 1rem;
+  }
+
+  .board-layout--market {
+    gap: 1.2rem;
+  }
+
+  .shell-panel--executives app-executive-row {
+    display: block;
+    margin-top: 1rem;
+  }
+
   .section-heading {
     display: flex;
     align-items: center;
@@ -412,6 +436,10 @@ select {
 }
 
 @media (max-width: 1080px) {
+  .game-page .shell-grid--active {
+    grid-template-columns: 1fr;
+  }
+
   .game-page .resource-bank--compact {
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }

@@ -358,11 +358,11 @@ describe('GamePageComponent', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
     fixture.detectChanges();
 
-    const highlightedTile = fixture.nativeElement.querySelector('.turn-summary__tile--current-player');
+    const highlightedTile = fixture.nativeElement.querySelector('.status-card--turn-active');
 
     expect(highlightedTile?.textContent).toContain('Current Turn');
     expect(fixture.nativeElement.textContent).not.toContain('Your Turn');
-    expect(fixture.nativeElement.querySelectorAll('.turn-summary__tile').length).toBe(3);
+    expect(fixture.nativeElement.textContent).not.toContain('Turn Command Desk');
   });
 
   it('cycles avatar selections through the image carousel controls', () => {

@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-074
-
-- Name: Expand automated coverage for major gameplay and UI flows
-- Priority: High
-- Blocked By: None
-- Blocks: None
-- Description: Audit the current frontend and backend tests against major user-facing and rules-critical flows, then add or strengthen coverage so the main game, lobby, session recovery, and authoritative gameplay behaviors are exercised automatically.
-
 ### TASK-075
 
 - Name: Improve inline code documentation and API comments

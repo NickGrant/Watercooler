@@ -1028,3 +1028,7 @@ yes, please start this work, I will check back in shortly
 
 Assistant:
 I completed `TASK-073` by extracting the game-page's pure presentation and state-summary logic into a dedicated frontend utility module with its own tests, splitting active-game state projection out of `PdoTakeResourcesRepository` into a dedicated `PdoActiveGameStateLoader` on the backend, rerunning the frontend test/build and backend PHPUnit suites successfully, and moving the cleanup feature forward to the coverage task.
+
+#### Entry 153
+Assistant:
+I completed `TASK-074` by adding direct PHPUnit coverage for the new PDO-backed active-game state loader, exercising player projections, bank state, market cards, reserved cards, purchased cards, and executives from database rows, then reran the backend and frontend test suites successfully and promoted the cleanup feature to the inline-documentation task next.

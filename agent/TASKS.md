@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-074
+### TASK-075
 
-- Name: Expand automated coverage for major gameplay and UI flows
-- Priority: High
+- Name: Improve inline code documentation and API comments
+- Priority: Medium
 - Blocked By: None
 - Blocks: None
-- Description: Audit the current frontend and backend tests against major user-facing and rules-critical flows, then add or strengthen coverage so the main game, lobby, session recovery, and authoritative gameplay behaviors are exercised automatically.
+- Description: Add or tighten targeted comments, JSDoc, and PHPDoc in areas where intent, contracts, or non-obvious behavior are hard to infer, while avoiding noisy commentary on self-explanatory code.
 
 ## Task Management Rules
 

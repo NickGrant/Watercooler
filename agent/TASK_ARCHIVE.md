@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-074
+
+- Name: Expand automated coverage for major gameplay and UI flows
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Audit the current frontend and backend tests against major user-facing and rules-critical flows, then add or strengthen coverage so the main game, lobby, session recovery, and authoritative gameplay behaviors are exercised automatically.
+
 ### TASK-073
 
 - Name: Refactor frontend and backend hotspots for cleaner boundaries

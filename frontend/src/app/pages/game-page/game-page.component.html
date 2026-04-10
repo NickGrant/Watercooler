@@ -459,7 +459,7 @@
               <button
                 type="button"
                 class="heading-help"
-                [matTooltip]="'Choose resources directly from the live bank. The server still validates token limits and forced two-color edge cases.'"
+                [matTooltip]="'On your turn, select three different resources, or two of the same if there are four or more of that kind available.'"
                 aria-label="Resource bank help"
               >
                 ?
@@ -490,17 +490,27 @@
               </div>
 
               <div class="supply-console__footer">
-                <p class="selection-copy">
-                  Selected:
-                  @if (selectedTakeResources().length > 0) {
-                    {{ selectedResourceSummary() }}
-                  } @else {
-                    None
-                  }
-                </p>
+                <div class="selection-copy" aria-label="Selected resources">
+                  <span class="selection-copy__label">Selected</span>
+                  <div class="selection-copy__icons">
+                    @if (selectedTakeResources().length > 0) {
+                      @for (resource of selectedTakeResources(); track $index) {
+                        <img
+                          class="selection-copy__icon"
+                          [src]="resourceIconPath(resource)"
+                          [alt]="resourceLabel(resource)"
+                          [matTooltip]="resourceLabel(resource)"
+                        />
+                      }
+                    } @else {
+                      <span class="selection-copy__empty">None</span>
+                    }
+                  </div>
+                </div>
                 <button
                   mat-flat-button
                   type="button"
+                  class="supply-console__submit"
                   [disabled]="actionPending() || !isCurrentPlayersTurn() || selectedTakeResources().length === 0"
                   (click)="submitTakeResources()"
                 >

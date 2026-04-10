@@ -137,6 +137,56 @@ select {
     position: relative;
     z-index: 1;
     font-size: 0.84rem;
+    font-weight: 800;
+    text-align: center;
+  }
+
+  .selection-copy {
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .selection-copy__label {
+    color: var(--wc-accent-warm);
+    font-size: 0.74rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .selection-copy__icons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+    min-height: 2.2rem;
+    align-items: center;
+  }
+
+  .selection-copy__icon {
+    width: 2em;
+    height: 2em;
+    object-fit: contain;
+  }
+
+  .selection-copy__empty {
+    color: var(--wc-ink);
+    font-size: 0.82rem;
+  }
+
+  .supply-console__submit.mat-mdc-unelevated-button.mat-primary {
+    --mdc-filled-button-container-color: #35537f;
+    --mdc-filled-button-label-text-color: #ffffff;
+    min-height: 2.6rem;
+    padding-inline: 1rem;
+    border: 1px solid rgba(27, 49, 82, 0.3);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.22),
+      0 8px 18px rgba(27, 49, 82, 0.18);
+  }
+
+  .supply-console__submit.mat-mdc-button-disabled {
+    border-color: rgba(47, 61, 87, 0.16);
+    box-shadow: none;
   }
 
   .player-panel__economy {

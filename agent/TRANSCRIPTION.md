@@ -728,3 +728,14 @@ additionally, the resource bank buttons on the main board need some work. Curren
 
 Assistant:
 I kept this pass dependency-free by replacing the player resource and discount chips with compact stacked economy bars, separated Executive Favor into its own slimmer badge, tightened the bank controls into a single six-item row with a divider before Executive Favor, moved the heavier styles into the global game-page stylesheet to stay under the component CSS budget error threshold, and revalidated the frontend test suite and production build.
+
+#### Entry 112
+User:
+Resource bank is so much closer, just a few more tweaks.
+- resource buttons should have a stacked appearance with the remaining amount in bold and centered underneath icon, matching executive favor
+- Selected should just show icons, if a resource is selected twice it should two of those icons, they should be approximately 2em in size
+- Take Selected Resources button needs a different class applied to it, currently you can tell it is a button in its disabled state, but when it is not disabled it just looks like text
+- Update helped text to be something like "On your turn, select three different resources, or two of the same if there are four or more of that kind available"
+
+Assistant:
+I updated the bank help copy, made the resource buttons read as true stacked badges with bold centered counts, switched the selected summary to repeated 2em icons instead of text labels, and added a dedicated submit-button style so the active state reads like a real call-to-action while preserving the disabled treatment.

@@ -245,6 +245,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
                 ge.owner_game_player_id,
                 e.code,
                 e.name,
+                e.portrait_asset,
                 e.office_prestige,
                 e.required_coffee,
                 e.required_spreadsheets,
@@ -322,6 +323,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
             SELECT
                 e.code,
                 e.name,
+                e.portrait_asset,
                 e.office_prestige,
                 e.required_coffee,
                 e.required_spreadsheets,
@@ -393,6 +395,7 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
             static fn(array $row): ExecutiveSeedDefinition => new ExecutiveSeedDefinition(
                 code: (string) $row['code'],
                 name: (string) $row['name'],
+                portraitAsset: isset($row['portrait_asset']) ? (string) $row['portrait_asset'] : null,
                 officePrestige: (int) $row['office_prestige'],
                 requirements: [
                     'coffee' => (int) $row['required_coffee'],

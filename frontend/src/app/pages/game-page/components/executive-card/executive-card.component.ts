@@ -14,6 +14,10 @@ export class ExecutiveCardComponent {
   readonly resourceLabel = input.required<(resource: string) => string>();
   readonly resourceIconPath = input.required<(resource: string) => string>();
 
+  portraitPath(): string {
+    return `/executives/${this.executive().portraitAsset ?? 'executive-1.png'}`;
+  }
+
   resourceEntries(): Array<[string, number]> {
     return Object.entries(this.executive().requirements).filter(([, amount]) => amount > 0);
   }

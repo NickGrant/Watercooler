@@ -105,21 +105,22 @@ ON DUPLICATE KEY UPDATE
     sort_order = VALUES(sort_order);
 
 INSERT INTO executives (
-    code, name, office_prestige,
+    code, name, portrait_asset, office_prestige,
     required_coffee, required_spreadsheets, required_budget, required_connections, required_time
 ) VALUES
-    ('vp-of-synergy', 'VP of Synergy', 3, 3, 0, 3, 3, 0),
-    ('director-of-strategic-alignment', 'Director of Strategic Alignment', 3, 3, 0, 3, 0, 3),
-    ('chief-efficiency-officer', 'Chief Efficiency Officer', 3, 0, 3, 3, 3, 0),
-    ('founders-nephew', 'Founder''s Nephew', 3, 0, 3, 0, 3, 3),
-    ('executive-steering-committee', 'Executive Steering Committee', 3, 0, 3, 3, 0, 3),
-    ('head-of-cross-functional-excellence', 'Head of Corporate Enablement', 3, 4, 0, 0, 0, 4),
-    ('senior-calendar-strategist', 'Senior Vice President of Transformation', 3, 0, 4, 0, 0, 4),
-    ('budget-governance-lead', 'Regional Operations Lead', 3, 0, 0, 4, 4, 0),
-    ('director-of-relationship-capital', 'VP of Special Projects', 3, 4, 0, 0, 4, 0),
-    ('principal-workflow-evangelist', 'Chief of Staff', 3, 0, 4, 4, 0, 0)
+    ('vp-of-synergy', 'VP of Synergy', 'executive-1.png', 3, 3, 0, 3, 3, 0),
+    ('director-of-strategic-alignment', 'Director of Strategic Alignment', 'executive-2.png', 3, 3, 0, 3, 0, 3),
+    ('chief-efficiency-officer', 'Chief Efficiency Officer', 'executive-3.png', 3, 0, 3, 3, 3, 0),
+    ('founders-nephew', 'Founder''s Nephew', 'executive-4.png', 3, 0, 3, 0, 3, 3),
+    ('executive-steering-committee', 'Executive Steering Committee', 'executive-5.png', 3, 0, 3, 3, 0, 3),
+    ('head-of-cross-functional-excellence', 'Head of Crocc Functional Excellence', 'executive-6.png', 3, 4, 0, 0, 0, 4),
+    ('senior-calendar-strategist', 'Senior Calendar Strategist', 'executive-7.png', 3, 0, 4, 0, 0, 4),
+    ('budget-governance-lead', 'Budget Governance Lead', 'executive-8.png', 3, 0, 0, 4, 4, 0),
+    ('director-of-relationship-capital', 'Director of Relationship Capital', 'executive-9.png', 3, 4, 0, 0, 4, 0),
+    ('principal-workflow-evangelist', 'Principal Workflow Evangelist', 'executive-10.png', 3, 0, 4, 4, 0, 0)
 ON DUPLICATE KEY UPDATE
     name = VALUES(name),
+    portrait_asset = VALUES(portrait_asset),
     office_prestige = VALUES(office_prestige),
     required_coffee = VALUES(required_coffee),
     required_spreadsheets = VALUES(required_spreadsheets),

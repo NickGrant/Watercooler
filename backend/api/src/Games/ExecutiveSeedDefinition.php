@@ -14,6 +14,7 @@ final class ExecutiveSeedDefinition
         public readonly string $name,
         public readonly int $officePrestige,
         public readonly array $requirements,
+        public readonly ?string $portraitAsset = null,
     ) {
     }
 
@@ -25,6 +26,7 @@ final class ExecutiveSeedDefinition
         return [
             'code' => $this->code,
             'name' => $this->name,
+            'portraitAsset' => $this->portraitAsset,
             'officePrestige' => $this->officePrestige,
             'requirements' => $this->requirements,
             'slotOrder' => $slotOrder,

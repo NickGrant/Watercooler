@@ -30,11 +30,12 @@ export interface ActivePlayerCard {
 }
 
 export interface ActiveExecutive {
-  code: string;
-  name: string;
-  officePrestige: number;
-  requirements: Record<string, number>;
-  slotOrder?: number;
+    code: string;
+    name: string;
+    portraitAsset?: string | null;
+    officePrestige: number;
+    requirements: Record<string, number>;
+    slotOrder?: number;
 }
 
 export interface ActiveGamePlayer {

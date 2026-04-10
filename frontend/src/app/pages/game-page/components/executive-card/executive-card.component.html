@@ -1,6 +1,7 @@
 @if (variant() === 'board') {
   <article class="executive-card">
     <div class="executive-card__portrait">
+      <img class="executive-card__portrait-image" [src]="portraitPath()" [alt]="executive().name + ' portrait'" />
       <span>Executive Portrait</span>
       <strong>{{ executive().name }}</strong>
       <p>Prestige {{ executive().officePrestige }}</p>

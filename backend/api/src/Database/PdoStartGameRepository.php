@@ -155,11 +155,12 @@ final class PdoStartGameRepository implements StartGameRepository
     {
         $statement = $this->connection()->query(
             <<<'SQL'
-            SELECT
-                code,
-                name,
-                office_prestige,
-                required_coffee,
+              SELECT
+                  code,
+                  name,
+                  portrait_asset,
+                  office_prestige,
+                  required_coffee,
                 required_spreadsheets,
                 required_budget,
                 required_connections,
@@ -173,10 +174,11 @@ final class PdoStartGameRepository implements StartGameRepository
         $rows = $statement->fetchAll(PDO::FETCH_ASSOC);
 
         return array_map(
-            static fn(array $row): ExecutiveSeedDefinition => new ExecutiveSeedDefinition(
-                code: (string) $row['code'],
-                name: (string) $row['name'],
-                officePrestige: (int) $row['office_prestige'],
+              static fn(array $row): ExecutiveSeedDefinition => new ExecutiveSeedDefinition(
+                  code: (string) $row['code'],
+                  name: (string) $row['name'],
+                  portraitAsset: isset($row['portrait_asset']) ? (string) $row['portrait_asset'] : null,
+                  officePrestige: (int) $row['office_prestige'],
                 requirements: [
                     'coffee' => (int) $row['required_coffee'],
                     'spreadsheets' => (int) $row['required_spreadsheets'],

@@ -25,6 +25,14 @@ Clients must not connect to the WebSocket service on page load. Connection happe
 - database persistence must remain sufficient for recovery
 - state transitions should be serial and deterministic
 
+## Current Implementation Direction
+
+- the browser connects to the realtime service only after join-bootstrap or authenticated state restore succeeds
+- the realtime service validates the temporary session token against the database before binding the socket to a room
+- gameplay actions remain HTTP/API-driven and server-authoritative
+- the realtime service polls the authoritative API internally on a short interval and broadcasts fresh snapshots to websocket clients only when the payload changes
+- clients use websocket state-sync messages as the primary passive update path and fall back to HTTP refresh only when realtime is unavailable
+
 ## Event Categories
 
 Likely event groups:

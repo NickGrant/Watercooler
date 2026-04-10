@@ -14,6 +14,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 - Blocks: TASK-066, TASK-068
 - Description: Create a shared resource icon component with regular and small variants using square icon art and a superscript value badge with a solid background so resource display logic is centralized before further board-density cleanup.
 
+### TASK-055
+
+- Name: Implement true websocket gameplay transport
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Replace the current scaffolded/polling-based active-game refresh path with a real websocket transport that pushes authoritative gameplay state changes to every connected client.
+
 ### TASK-066
 
 - Name: Tighten project cards and increase per-row density

@@ -10,6 +10,7 @@ use Watercooler\Realtime\Database\PdoJoinRoomRepository;
 use Watercooler\Realtime\Lobby\RoomJoinService;
 use Watercooler\Realtime\Rooms\ActiveRoomRegistry;
 use Watercooler\Realtime\Server\RealtimeServer;
+use Watercooler\Realtime\State\ApiGameStateFetcher;
 use Watercooler\Realtime\Support\ConsoleLogger;
 
 final class Application
@@ -27,7 +28,8 @@ final class Application
         $roomRegistry = new ActiveRoomRegistry();
         $joinRoomRepository = new PdoJoinRoomRepository($config->database);
         $joinRoomService = new RoomJoinService($joinRoomRepository, $roomRegistry);
-        $server = new RealtimeServer($config, $logger, $roomRegistry, $joinRoomService);
+        $stateFetcher = new ApiGameStateFetcher($config, $logger);
+        $server = new RealtimeServer($config, $logger, $roomRegistry, $joinRoomService, $stateFetcher);
 
         return new self($config, $server);
     }

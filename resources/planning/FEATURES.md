@@ -76,7 +76,7 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Priority: High
 - Status: Complete
 - Description: Capture user-acceptance findings, fix defects, smooth rough edges, and harden the MVP experience before broader testing or release.
-- Tasks: TASK-038, TASK-039
+- Tasks: TASK-038, TASK-039, TASK-040, TASK-041, TASK-042, TASK-043, TASK-044, TASK-045, TASK-046, TASK-047, TASK-048, TASK-049, TASK-050, TASK-051, TASK-052, TASK-054, TASK-056, TASK-057
 
 ### FEATURE-010
 
@@ -93,3 +93,19 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Status: Complete
 - Description: Improve the thematic readability of project content and give agents a repeatable screenshot workflow for visual review during UAT.
 - Tasks: TASK-063, TASK-064
+
+### FEATURE-012
+
+- Name: Realtime Gameplay Transport
+- Priority: High
+- Status: Complete
+- Description: Transition the active game from polling-based state refresh toward a true websocket transport that pushes authoritative gameplay updates to connected clients.
+- Tasks: TASK-053, TASK-055
+
+### FEATURE-013
+
+- Name: Shared-Hosting Smart Polling Compatibility
+- Priority: High
+- Status: Not Started
+- Description: Rework passive game synchronization so Watercooler remains responsive for small rooms on simple shared PHP hosting without requiring a dedicated websocket service or extra exposed ports.
+- Tasks: TASK-070, TASK-071, TASK-072

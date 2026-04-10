@@ -39,8 +39,8 @@ final class PdoJoinRoomRepository implements JoinRoomRepository
             INNER JOIN player_avatars pa ON pa.player_id = gp.player_id
             WHERE g.slug = :slug
               AND gp.session_token_hash = :session_token_hash
-              AND g.status = 'lobby'
-              AND g.phase IN ('pre_join', 'lobby')
+              AND g.status IN ('lobby', 'active', 'completed')
+              AND g.phase IN ('pre_join', 'lobby', 'active', 'endgame', 'completed')
             LIMIT 1
             SQL
         );

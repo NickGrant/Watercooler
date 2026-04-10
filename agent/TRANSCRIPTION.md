@@ -934,3 +934,63 @@ lets go ahead and commit what we have
 
 Assistant:
 I updated the transcript first as required by the repo workflow so the completed parallel work, validations, and task-tracker changes would be captured before creating the next commit.
+
+#### Entry 138
+Assistant:
+I committed the completed gameplay polish and seed-content work as `2d1b093` with message `Finish gameplay polish and expressive seed content` and confirmed the working tree was clean afterward.
+
+#### Entry 139
+User:
+I believe that completes our features, do we have any orphan tasks that still need taken care of
+
+Assistant:
+I reviewed the task and feature trackers, confirmed there was no obvious unfinished feature implementation left, and identified tracker-orphaned items, with `TASK-055` standing out as the only potentially real remaining scope.
+
+#### Entry 140
+User:
+please go ahead with getting this resolved
+
+Assistant:
+I reconciled the task map by attaching the previously orphaned archived cleanup tasks to `FEATURE-009`, created `FEATURE-012` for realtime gameplay transport, mapped `TASK-053` and `TASK-055` to it, and verified that the tracker no longer had unmapped task IDs.
+
+#### Entry 141
+User:
+lets go ahead and work through any remaining work to e done
+
+Assistant:
+I completed the remaining realtime transport work by adding a real websocket path in the PHP realtime service, wiring authoritative state sync through a frontend realtime connection service, validating the affected backend and frontend test suites and builds, and leaving the resulting changes uncommitted in the working tree.
+
+#### Entry 142
+User:
+I need to think about hosting options for this, I use a simple PHP host that does not allow me to spin up applications on different ports. How hard would it be to migrate this to a setup that used subdomains or something similar when i am forced to consistently use the same ports
+
+Assistant:
+I explained that subdomains alone would not solve the hosting constraint because the current realtime architecture depends on a separate long-running websocket service, then outlined the tradeoffs between keeping websocket transport on a separate host, moving to more capable hosting, or refactoring back to polling or SSE for shared-PHP compatibility.
+
+#### Entry 143
+User:
+What implications should I consider when thinking about switching away from websockets to polling
+
+Assistant:
+I summarized the core tradeoff as deployment simplicity versus update responsiveness, described the expected latency, request-volume, and conflict-handling implications for this specific 4-to-6-player game, and recommended smart polling as a reasonable compromise for the expected scale.
+
+#### Entry 144
+User:
+Go ahead and create a feature and tasks to switch to a smart polling system for now, assuming that you think this game, which handles 4-6 players max and will at most have a couple hundred concurrent users will be acceptable for my shared PHP hosting
+
+Assistant:
+I added `FEATURE-013` for shared-hosting smart polling compatibility plus `TASK-070`, `TASK-071`, and `TASK-072` to the backlog, and noted that smart polling should be acceptable for the stated room sizes and user volume if the refresh policy stays disciplined.
+
+#### Entry 145
+User:
+lets go ahead and implement that feature. Commit after each task and let me know when you are done
+
+Assistant:
+I prepared to implement `FEATURE-013` task by task, planned to start with removing the browser websocket dependency as the critical first step, and identified the already-dirty realtime transport work that needed to be handled carefully while keeping each commit clean.
+
+#### Entry 146
+User:
+please commit any changes we already have too
+
+Assistant:
+I decided to snapshot the already-pending realtime transport work in its own commit before continuing with the smart-polling refactor so the repository history would preserve both the websocket implementation and the subsequent shared-hosting rollback cleanly.

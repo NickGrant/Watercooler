@@ -11,6 +11,8 @@ final class AppConfig
         public readonly bool $debug,
         public readonly string $host,
         public readonly int $port,
+        public readonly string $apiBaseUrl,
+        public readonly int $syncIntervalMs,
         public readonly DatabaseConfig $database,
     ) {
     }
@@ -22,6 +24,8 @@ final class AppConfig
             debug: $env->getBool('APP_DEBUG', true),
             host: $env->get('REALTIME_HOST', '0.0.0.0'),
             port: $env->getInt('REALTIME_PORT', 8090),
+            apiBaseUrl: rtrim($env->get('API_BASE_URL', 'http://api:8080'), '/'),
+            syncIntervalMs: $env->getInt('REALTIME_SYNC_INTERVAL_MS', 1000),
             database: DatabaseConfig::fromEnv($env),
         );
     }

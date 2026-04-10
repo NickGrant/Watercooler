@@ -50,6 +50,8 @@ services:
       APP_DEBUG: "1"
       REALTIME_HOST: 0.0.0.0
       REALTIME_PORT: 8090
+      API_BASE_URL: http://api:8080
+      REALTIME_SYNC_INTERVAL_MS: 1000
       DB_HOST: db
       DB_PORT: 3306
       DB_NAME: watercooler

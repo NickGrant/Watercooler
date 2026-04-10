@@ -238,123 +238,21 @@
       <div class="roster">
         @if (session.stage() === 'in-game' && startedGame(); as startedGame) {
           @for (player of (isCompletedGame() ? finalStandings() : orderedPlayers()); track player.gamePlayerId) {
-            <div class="player-panel" [class.player-panel--active]="!isCompletedGame() && player.gamePlayerId === startedGame.currentTurnGamePlayerId">
-              <div class="player-panel__header">
-                <div>
-                  <strong>{{ player.displayName }}</strong>
-                  <p>
-                    @if (isCompletedGame()) {
-                      {{ finalPlacementLabel($index) }} place | Prestige {{ player.officePrestige }} |
-                      Purchased {{ player.purchasedCardCount }}
-                    } @else {
-                      Seat {{ player.seatOrder }} | Prestige {{ player.officePrestige }} | Tokens
-                      {{ totalVisibleResources(player.resources) }}
-                    }
-                  </p>
-                </div>
-                <span class="roster-badge" [class.roster-badge--winner]="isCompletedGame() && $index === 0">
-                  {{
-                    isCompletedGame()
-                      ? ($index === 0 ? 'Winner' : 'Finalist')
-                      : (
-                          player.gamePlayerId === startedGame.currentTurnGamePlayerId
-                            ? 'Current Turn'
-                            : (player.isHost ? 'Host' : player.joinStatus)
-                        )
-                  }}
-                </span>
-              </div>
-
-              <div class="player-panel__economy">
-                <div class="player-resource-bars">
-                  @for (resource of resourceTypes; track resource) {
-                    <article
-                      class="player-resource-bar"
-                      [matTooltip]="resourceLabel(resource) + ': ' + player.resources[resource] + ' tokens, ' + player.permanentDiscounts[resource] + ' discount, total ' + (player.resources[resource] + player.permanentDiscounts[resource])"
-                      [attr.aria-label]="resourceLabel(resource) + ': ' + player.resources[resource] + ' tokens, ' + player.permanentDiscounts[resource] + ' discount'"
-                      [style.--resource-count]="player.resources[resource]"
-                      [style.--discount-count]="player.permanentDiscounts[resource]"
-                    >
-                      <div class="player-resource-bar__topline">
-                        <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
-                        <strong>{{ player.resources[resource] + player.permanentDiscounts[resource] }}</strong>
-                      </div>
-                      <div class="player-resource-bar__frame">
-                        <span class="player-resource-bar__segment player-resource-bar__segment--resource"></span>
-                        <span class="player-resource-bar__segment player-resource-bar__segment--discount"></span>
-                      </div>
-                      <div class="player-resource-bar__legend">
-                        <span>{{ player.resources[resource] }}</span>
-                        <span>{{ player.permanentDiscounts[resource] }}</span>
-                      </div>
-                    </article>
-                  }
-                </div>
-
-                <div
-                  class="player-favor-chip"
-                  [matTooltip]="'Executive Favor: ' + player.resources.executiveFavor"
-                  aria-label="Executive Favor"
-                >
-                  <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
-                  <strong>{{ player.resources.executiveFavor }}</strong>
-                </div>
-              </div>
-
-              <div class="player-panel__collections">
-                <section>
-                  <h3>Purchased Advantages</h3>
-                  <p>{{ player.purchasedCardCount }} total</p>
-                </section>
-
-                <section>
-                  <h3>Claimed Projects</h3>
-                  @if (player.reservedCards.length > 0) {
-                    <div class="card-stack">
-                      @for (card of player.reservedCards; track trackByCardCode($index, card)) {
-                        <article class="mini-card">
-                          <strong>{{ card.name }}</strong>
-                          <p
-                            class="resource-reference"
-                            [matTooltip]="resourceLabel(card.resourceDiscount) + ' discount'"
-                            [attr.aria-label]="resourceLabel(card.resourceDiscount) + ' discount'"
-                          >
-                            <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
-                          </p>
-                          <p>Prestige {{ card.officePrestige }}</p>
-                          <button
-                            mat-button
-                            type="button"
-                            [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn() || currentUserPlayer()?.gamePlayerId !== player.gamePlayerId || !canAffordCard(currentUserPlayer(), card)"
-                            (click)="purchaseReservedCard(card)"
-                          >
-                            Purchase From Tray
-                          </button>
-                        </article>
-                      }
-                    </div>
-                  } @else {
-                    <p>No claimed projects waiting in this tray.</p>
-                  }
-                </section>
-
-                <section>
-                  <h3>Executives</h3>
-                  @if (player.claimedExecutives.length > 0) {
-                    <div class="card-stack">
-                      @for (executive of player.claimedExecutives; track executive.code) {
-                        <article class="mini-card mini-card--executive">
-                          <strong>{{ executive.name }}</strong>
-                          <p>Prestige {{ executive.officePrestige }}</p>
-                        </article>
-                      }
-                    </div>
-                  } @else {
-                    <p>No executives claimed yet.</p>
-                  }
-                </section>
-              </div>
-            </div>
+            <app-player-card
+              [player]="player"
+              [resourceTypes]="resourceTypes"
+              [isCompletedGame]="isCompletedGame()"
+              [isActiveTurn]="player.gamePlayerId === startedGame.currentTurnGamePlayerId"
+              [isWinner]="$index === 0"
+              [placementLabel]="isCompletedGame() ? finalPlacementLabel($index) : null"
+              [actionPending]="actionPending()"
+              [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+              [isCurrentUserCard]="currentUserPlayer()?.gamePlayerId === player.gamePlayerId"
+              [resourceLabel]="resourceLabel.bind(this)"
+              [resourceIconPath]="resourceIconPath.bind(this)"
+              [canPurchaseReservedCard]="canAffordCard.bind(this, currentUserPlayer())"
+              (purchaseReservedCard)="purchaseReservedCard($event)"
+            />
           } @empty {
             <p class="panel-copy">
               The room state did not return any players.
@@ -465,60 +363,17 @@
                 ?
               </button>
             </div>
-            <div class="supply-console">
-              <div class="resource-bank resource-bank--compact">
-                @for (resource of resourceTypes; track resource) {
-                  <button
-                    mat-stroked-button
-                    class="resource-bank__tile resource-bank__tile--selectable"
-                    type="button"
-                    [matTooltip]="resourceLabel(resource) + ': ' + startedGame.bank[resource] + ' available in the bank'"
-                    [attr.aria-label]="'Take ' + resourceLabel(resource) + ' from the bank. ' + startedGame.bank[resource] + ' remain available.'"
-                    [disabled]="actionPending() || !isCurrentPlayersTurn()"
-                    [class.resource-pick--selected]="selectedTakeResources().includes(resource)"
-                    (click)="toggleTakeResource(resource)"
-                  >
-                    <img class="resource-icon" [src]="resourceIconPath(resource)" alt="" aria-hidden="true" />
-                    <strong>{{ startedGame.bank[resource] }}</strong>
-                  </button>
-                }
-                <article class="resource-bank__divider" aria-hidden="true"></article>
-                <article class="resource-bank__tile resource-bank__tile--favor" [matTooltip]="'Executive Favor: ' + startedGame.bank.executiveFavor" aria-label="Executive Favor">
-                  <img class="resource-icon" [src]="resourceIconPath('executiveFavor')" alt="" aria-hidden="true" />
-                  <strong>{{ startedGame.bank.executiveFavor }}</strong>
-                </article>
-              </div>
-
-              <div class="supply-console__footer">
-                <div class="selection-copy" aria-label="Selected resources">
-                  <span class="selection-copy__label">Selected</span>
-                  <div class="selection-copy__icons">
-                    @if (selectedTakeResources().length > 0) {
-                      @for (resource of selectedTakeResources(); track $index) {
-                        <img
-                          class="selection-copy__icon"
-                          [src]="resourceIconPath(resource)"
-                          [alt]="resourceLabel(resource)"
-                          [matTooltip]="resourceLabel(resource)"
-                        />
-                      }
-                    } @else {
-                      <span class="selection-copy__empty">None</span>
-                    }
-                  </div>
-                </div>
-                <button
-                  mat-flat-button
-                  type="button"
-                  class="supply-console__submit"
-                  color="primary"
-                  [disabled]="actionPending() || !isCurrentPlayersTurn() || selectedTakeResources().length === 0"
-                  (click)="submitTakeResources()"
-                >
-                  {{ actionPending() ? 'Submitting...' : 'Take Selected Resources' }}
-                </button>
-              </div>
-            </div>
+            <app-resource-bank
+              [resourceTypes]="resourceTypes"
+              [bank]="startedGame.bank"
+              [selectedResources]="selectedTakeResources()"
+              [actionPending]="actionPending()"
+              [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+              [resourceLabel]="resourceLabel.bind(this)"
+              [resourceIconPath]="resourceIconPath.bind(this)"
+              (toggleResource)="toggleTakeResource($event)"
+              (submitSelection)="submitTakeResources()"
+            />
           </section>
 
           <section class="board-section">
@@ -533,178 +388,17 @@
                 ?
               </button>
             </div>
-            <div class="market-grid">
-              <section class="market-tier">
-                <header>
-                  <strong>Tier 1</strong>
-                  <span>{{ startedGame.market.tier1.length }} cards</span>
-                </header>
-                <div class="market-tier__cards">
-                  @for (card of startedGame.market.tier1; track trackByCardCode($index, card)) {
-                    <article class="market-card">
-                      <div class="market-card__meta">
-                        <span
-                          class="resource-reference"
-                          [matTooltip]="'Discount: ' + resourceLabel(card.resourceDiscount)"
-                          [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)"
-                        >
-                          <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
-                        </span>
-                        <strong>Prestige {{ card.officePrestige }}</strong>
-                      </div>
-                      <h4>{{ card.name }}</h4>
-                      <p>Market slot {{ card.marketSlot }}</p>
-                      <div class="cost-row">
-                        @for (entry of resourceEntries(card.cost); track entry[0]) {
-                          <span
-                            class="resource-cost"
-                            [matTooltip]="resourceLabel(entry[0]) + ': ' + entry[1]"
-                            [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]"
-                          >
-                            <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
-                            <strong>{{ entry[1] }}</strong>
-                          </span>
-                        }
-                      </div>
-                      <div class="market-card__actions">
-                        <button
-                          mat-button
-                          type="button"
-                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn()"
-                          (click)="claimMarketCard(card)"
-                        >
-                          Claim Project
-                        </button>
-                        <button
-                          mat-flat-button
-                          type="button"
-                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
-                          (click)="purchaseMarketCard(card)"
-                        >
-                          Purchase
-                        </button>
-                      </div>
-                    </article>
-                  } @empty {
-                    <p>No tier 1 cards remain in the visible market.</p>
-                  }
-                </div>
-              </section>
-
-              <section class="market-tier">
-                <header>
-                  <strong>Tier 2</strong>
-                  <span>{{ startedGame.market.tier2.length }} cards</span>
-                </header>
-                <div class="market-tier__cards">
-                  @for (card of startedGame.market.tier2; track trackByCardCode($index, card)) {
-                    <article class="market-card">
-                      <div class="market-card__meta">
-                        <span
-                          class="resource-reference"
-                          [matTooltip]="'Discount: ' + resourceLabel(card.resourceDiscount)"
-                          [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)"
-                        >
-                          <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
-                        </span>
-                        <strong>Prestige {{ card.officePrestige }}</strong>
-                      </div>
-                      <h4>{{ card.name }}</h4>
-                      <p>Market slot {{ card.marketSlot }}</p>
-                      <div class="cost-row">
-                        @for (entry of resourceEntries(card.cost); track entry[0]) {
-                          <span
-                            class="resource-cost"
-                            [matTooltip]="resourceLabel(entry[0]) + ': ' + entry[1]"
-                            [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]"
-                          >
-                            <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
-                            <strong>{{ entry[1] }}</strong>
-                          </span>
-                        }
-                      </div>
-                      <div class="market-card__actions">
-                        <button
-                          mat-button
-                          type="button"
-                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn()"
-                          (click)="claimMarketCard(card)"
-                        >
-                          Claim Project
-                        </button>
-                        <button
-                          mat-flat-button
-                          type="button"
-                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
-                          (click)="purchaseMarketCard(card)"
-                        >
-                          Purchase
-                        </button>
-                      </div>
-                    </article>
-                  } @empty {
-                    <p>No tier 2 cards remain in the visible market.</p>
-                  }
-                </div>
-              </section>
-
-              <section class="market-tier">
-                <header>
-                  <strong>Tier 3</strong>
-                  <span>{{ startedGame.market.tier3.length }} cards</span>
-                </header>
-                <div class="market-tier__cards">
-                  @for (card of startedGame.market.tier3; track trackByCardCode($index, card)) {
-                    <article class="market-card">
-                      <div class="market-card__meta">
-                        <span
-                          class="resource-reference"
-                          [matTooltip]="'Discount: ' + resourceLabel(card.resourceDiscount)"
-                          [attr.aria-label]="'Discount: ' + resourceLabel(card.resourceDiscount)"
-                        >
-                          <img class="resource-icon" [src]="resourceIconPath(card.resourceDiscount)" alt="" aria-hidden="true" />
-                        </span>
-                        <strong>Prestige {{ card.officePrestige }}</strong>
-                      </div>
-                      <h4>{{ card.name }}</h4>
-                      <p>Market slot {{ card.marketSlot }}</p>
-                      <div class="cost-row">
-                        @for (entry of resourceEntries(card.cost); track entry[0]) {
-                          <span
-                            class="resource-cost"
-                            [matTooltip]="resourceLabel(entry[0]) + ': ' + entry[1]"
-                            [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]"
-                          >
-                            <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
-                            <strong>{{ entry[1] }}</strong>
-                          </span>
-                        }
-                      </div>
-                      <div class="market-card__actions">
-                        <button
-                          mat-button
-                          type="button"
-                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn()"
-                          (click)="claimMarketCard(card)"
-                        >
-                          Claim Project
-                        </button>
-                        <button
-                          mat-flat-button
-                          type="button"
-                          [disabled]="isCompletedGame() || actionPending() || !isCurrentPlayersTurn() || !canAffordCard(currentUserPlayer(), card)"
-                          (click)="purchaseMarketCard(card)"
-                        >
-                          Purchase
-                        </button>
-                      </div>
-                    </article>
-                  } @empty {
-                    <p>No tier 3 cards remain in the visible market.</p>
-                  }
-                </div>
-              </section>
-            </div>
+            <app-visible-market
+              [market]="startedGame.market"
+              [isCompletedGame]="isCompletedGame()"
+              [actionPending]="actionPending()"
+              [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+              [canPurchaseCard]="canAffordCard.bind(this, currentUserPlayer())"
+              [resourceLabel]="resourceLabel.bind(this)"
+              [resourceIconPath]="resourceIconPath.bind(this)"
+              (claimCard)="claimMarketCard($event)"
+              (purchaseCard)="purchaseMarketCard($event)"
+            />
           </section>
 
           <section class="board-section board-section--executives">
@@ -719,34 +413,11 @@
                 ?
               </button>
             </div>
-            <div class="executive-grid">
-              @for (executive of startedGame.executives; track executive.code) {
-                <article class="executive-card">
-                  <div class="executive-card__portrait">
-                    <span>Executive Portrait</span>
-                    <strong>{{ executive.name }}</strong>
-                    <p>Prestige {{ executive.officePrestige }}</p>
-                  </div>
-                  <div class="executive-card__details">
-                    <span class="executive-card__label">Requirement Profile</span>
-                    <div class="cost-row">
-                      @for (entry of resourceEntries(executive.requirements); track entry[0]) {
-                        <span
-                          class="resource-cost"
-                          [matTooltip]="resourceLabel(entry[0]) + ': ' + entry[1]"
-                          [attr.aria-label]="resourceLabel(entry[0]) + ' ' + entry[1]"
-                        >
-                          <img class="resource-icon" [src]="resourceIconPath(entry[0])" alt="" aria-hidden="true" />
-                          <strong>{{ entry[1] }}</strong>
-                        </span>
-                      }
-                    </div>
-                  </div>
-                </article>
-              } @empty {
-                <p>All executives have already been claimed.</p>
-              }
-            </div>
+            <app-executive-row
+              [executives]="startedGame.executives"
+              [resourceLabel]="resourceLabel.bind(this)"
+              [resourceIconPath]="resourceIconPath.bind(this)"
+            />
           </section>
         </div>
 

@@ -1,0 +1,29 @@
+@if (variant() === 'board') {
+  <article class="executive-card">
+    <div class="executive-card__portrait">
+      <span>Executive Portrait</span>
+      <strong>{{ executive().name }}</strong>
+      <p>Prestige {{ executive().officePrestige }}</p>
+    </div>
+    <div class="executive-card__details">
+      <span class="executive-card__label">Requirement Profile</span>
+      <div class="cost-row">
+        @for (entry of resourceEntries(); track entry[0]) {
+          <span
+            class="resource-cost"
+            [matTooltip]="resourceLabel()(entry[0]) + ': ' + entry[1]"
+            [attr.aria-label]="resourceLabel()(entry[0]) + ' ' + entry[1]"
+          >
+            <img class="resource-icon" [src]="resourceIconPath()(entry[0])" alt="" aria-hidden="true" />
+            <strong>{{ entry[1] }}</strong>
+          </span>
+        }
+      </div>
+    </div>
+  </article>
+} @else {
+  <article class="mini-card mini-card--executive">
+    <strong>{{ executive().name }}</strong>
+    <p>Prestige {{ executive().officePrestige }}</p>
+  </article>
+}

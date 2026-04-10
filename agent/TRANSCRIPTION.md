@@ -746,3 +746,12 @@ I am still seeing the button issue, here is a screenshot showing that the button
 
 Assistant:
 I traced that to the supply action still rendering without the Angular Material `primary` color hook, added `color="primary"` so the dedicated submit-button styling could actually apply, and revalidated the frontend test suite and production build.
+
+#### Entry 114
+User:
+Okay, that is looking good. before we move forward though, I want to break up this application into more than just the two components.
+
+I want to at least break out the player card from the player panel, resource bank, visible market, executive row, project card, executive card
+
+Assistant:
+I refactored the game route into focused standalone Angular components for the player card, resource bank, visible market, executive row, project card, and executive card, rewired the page to act as the stateful orchestrator, switched the game page stylesheet to `ViewEncapsulation.None` so the extracted board classes kept their current visual system, and added unit tests for each new component plus the existing page-level validation pass.

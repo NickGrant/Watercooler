@@ -1,0 +1,28 @@
+<div class="market-grid">
+  @for (tier of tiers; track tier.key) {
+    <section class="market-tier">
+      <header>
+        <strong>{{ tier.label }}</strong>
+        <span>{{ market()[tier.key].length }} cards</span>
+      </header>
+      <div class="market-tier__cards">
+        @for (card of market()[tier.key]; track card.code) {
+          <app-project-card
+            [card]="card"
+            variant="market"
+            [isCompletedGame]="isCompletedGame()"
+            [actionPending]="actionPending()"
+            [canAct]="isCurrentPlayersTurn()"
+            [canPurchase]="canPurchaseCard()(card)"
+            [resourceLabel]="resourceLabel()"
+            [resourceIconPath]="resourceIconPath()"
+            (claimCard)="claimCard.emit($event)"
+            (purchaseCard)="purchaseCard.emit($any($event))"
+          />
+        } @empty {
+          <p>No {{ tier.label.toLowerCase() }} cards remain in the visible market.</p>
+        }
+      </div>
+    </section>
+  }
+</div>

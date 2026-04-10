@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Component, computed, DestroyRef, inject, signal } from '@angular/core';
+import { Component, computed, DestroyRef, inject, signal, ViewEncapsulation } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,6 +26,10 @@ import { GameStateResponse } from '../../core/models/game-state-response.model';
 import { GamesApiService } from '../../core/services/games-api.service';
 import { GameSessionService } from '../../core/services/game-session.service';
 import { StartedGameResponse } from '../../core/models/started-game-response.model';
+import { ExecutiveRowComponent } from './components/executive-row/executive-row.component';
+import { PlayerCardComponent } from './components/player-card/player-card.component';
+import { ResourceBankComponent } from './components/resource-bank/resource-bank.component';
+import { VisibleMarketComponent } from './components/visible-market/visible-market.component';
 
 interface ActionRecoveryPayload {
   shouldResync?: boolean;
@@ -51,10 +55,15 @@ interface AvatarOptionDefinition {
     MatFormFieldModule,
     MatInputModule,
     MatSnackBarModule,
-    MatTooltipModule
+    MatTooltipModule,
+    PlayerCardComponent,
+    ResourceBankComponent,
+    VisibleMarketComponent,
+    ExecutiveRowComponent
   ],
   templateUrl: './game-page.component.html',
-  styleUrl: './game-page.component.scss'
+  styleUrl: './game-page.component.scss',
+  encapsulation: ViewEncapsulation.None
 })
 export class GamePageComponent {
   private static readonly STATE_REFRESH_INTERVAL_MS = 2500;
@@ -553,10 +562,6 @@ export class GamePageComponent {
 
   resourceEntries(resources: Record<string, number>): Array<[string, number]> {
     return Object.entries(resources).filter(([, amount]) => amount > 0);
-  }
-
-  selectedResourceSummary(): string {
-    return this.selectedTakeResources().map((resource) => this.resourceLabel(resource)).join(', ');
   }
 
   totalVisibleResources(resources: ResourceLedger): number {

@@ -1,0 +1,54 @@
+<div class="supply-console">
+  <div class="resource-bank resource-bank--compact">
+    @for (resource of resourceTypes(); track resource) {
+      <button
+        mat-stroked-button
+        class="resource-bank__tile resource-bank__tile--selectable"
+        type="button"
+        [matTooltip]="resourceLabel()(resource) + ': ' + bank()[resource] + ' available in the bank'"
+        [attr.aria-label]="'Take ' + resourceLabel()(resource) + ' from the bank. ' + bank()[resource] + ' remain available.'"
+        [disabled]="actionPending() || !isCurrentPlayersTurn()"
+        [class.resource-pick--selected]="selectedResources().includes(resource)"
+        (click)="onToggle(resource)"
+      >
+        <img class="resource-icon" [src]="resourceIconPath()(resource)" alt="" aria-hidden="true" />
+        <strong>{{ bank()[resource] }}</strong>
+      </button>
+    }
+    <article class="resource-bank__divider" aria-hidden="true"></article>
+    <article class="resource-bank__tile resource-bank__tile--favor" [matTooltip]="'Executive Favor: ' + bank().executiveFavor" aria-label="Executive Favor">
+      <img class="resource-icon" [src]="resourceIconPath()('executiveFavor')" alt="" aria-hidden="true" />
+      <strong>{{ bank().executiveFavor }}</strong>
+    </article>
+  </div>
+
+  <div class="supply-console__footer">
+    <div class="selection-copy" aria-label="Selected resources">
+      <span class="selection-copy__label">Selected</span>
+      <div class="selection-copy__icons">
+        @if (selectedResources().length > 0) {
+          @for (resource of selectedResources(); track $index) {
+            <img
+              class="selection-copy__icon"
+              [src]="resourceIconPath()(resource)"
+              [alt]="resourceLabel()(resource)"
+              [matTooltip]="resourceLabel()(resource)"
+            />
+          }
+        } @else {
+          <span class="selection-copy__empty">None</span>
+        }
+      </div>
+    </div>
+    <button
+      mat-flat-button
+      type="button"
+      class="supply-console__submit"
+      color="primary"
+      [disabled]="actionPending() || !isCurrentPlayersTurn() || selectedResources().length === 0"
+      (click)="onSubmit()"
+    >
+      {{ actionPending() ? 'Submitting...' : 'Take Selected Resources' }}
+    </button>
+  </div>
+</div>

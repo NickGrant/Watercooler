@@ -1,0 +1,66 @@
+@if (variant() === 'market') {
+  <article class="market-card">
+    <div class="market-card__meta">
+      <span
+        class="resource-reference"
+        [matTooltip]="'Discount: ' + resourceLabel()(card().resourceDiscount)"
+        [attr.aria-label]="'Discount: ' + resourceLabel()(card().resourceDiscount)"
+      >
+        <img class="resource-icon" [src]="resourceIconPath()(card().resourceDiscount)" alt="" aria-hidden="true" />
+      </span>
+      <strong>Prestige {{ card().officePrestige }}</strong>
+    </div>
+    <h4>{{ card().name }}</h4>
+    <p>Market slot {{ $any(card()).marketSlot }}</p>
+    <div class="cost-row">
+      @for (entry of resourceEntries(); track entry[0]) {
+        <span
+          class="resource-cost"
+          [matTooltip]="resourceLabel()(entry[0]) + ': ' + entry[1]"
+          [attr.aria-label]="resourceLabel()(entry[0]) + ' ' + entry[1]"
+        >
+          <img class="resource-icon" [src]="resourceIconPath()(entry[0])" alt="" aria-hidden="true" />
+          <strong>{{ entry[1] }}</strong>
+        </span>
+      }
+    </div>
+    <div class="market-card__actions">
+      <button
+        mat-button
+        type="button"
+        [disabled]="isCompletedGame() || actionPending() || !canAct()"
+        (click)="onClaim()"
+      >
+        Claim Project
+      </button>
+      <button
+        mat-flat-button
+        type="button"
+        [disabled]="isCompletedGame() || actionPending() || !canAct() || !canPurchase()"
+        (click)="onPurchase()"
+      >
+        Purchase
+      </button>
+    </div>
+  </article>
+} @else {
+  <article class="mini-card">
+    <strong>{{ card().name }}</strong>
+    <p
+      class="resource-reference"
+      [matTooltip]="resourceLabel()(card().resourceDiscount) + ' discount'"
+      [attr.aria-label]="resourceLabel()(card().resourceDiscount) + ' discount'"
+    >
+      <img class="resource-icon" [src]="resourceIconPath()(card().resourceDiscount)" alt="" aria-hidden="true" />
+    </p>
+    <p>Prestige {{ card().officePrestige }}</p>
+    <button
+      mat-button
+      type="button"
+      [disabled]="isCompletedGame() || actionPending() || !canAct() || !canPurchase()"
+      (click)="onPurchase()"
+    >
+      Purchase From Tray
+    </button>
+  </article>
+}

@@ -1,0 +1,12 @@
+<div class="executive-grid">
+  @for (executive of executives(); track executive.code) {
+    <app-executive-card
+      [executive]="executive"
+      variant="board"
+      [resourceLabel]="resourceLabel()"
+      [resourceIconPath]="resourceIconPath()"
+    />
+  } @empty {
+    <p>All executives have already been claimed.</p>
+  }
+</div>

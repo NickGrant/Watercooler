@@ -77,3 +77,19 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Status: Complete
 - Description: Capture user-acceptance findings, fix defects, smooth rough edges, and harden the MVP experience before broader testing or release.
 - Tasks: TASK-038, TASK-039
+
+### FEATURE-010
+
+- Name: Gameplay UI Density And Interaction Polish
+- Priority: High
+- Status: Not Started
+- Description: Tighten the active-game interface so the board, player economy, and resource-taking flow fit more clearly and more densely without losing usability.
+- Tasks: TASK-058, TASK-059, TASK-060, TASK-061, TASK-062
+
+### FEATURE-011
+
+- Name: Content Naming And Visual QA Tooling
+- Priority: Medium
+- Status: Not Started
+- Description: Improve the thematic readability of project content and give agents a repeatable screenshot workflow for visual review during UAT.
+- Tasks: TASK-056, TASK-057

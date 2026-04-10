@@ -865,3 +865,44 @@ lets go ahead and commit all of our changes we have now, after that I want to wo
 
 Assistant:
 I prepared the remaining PNG icon migration and SVG cleanup as its own commit so the repo would be clean before starting the next phase of skillset work together.
+
+#### Entry 129
+User:
+I have added png images under [resources](resources) that I want to use as our resource icons, replacing the existing svg ones. Once they are phased out, remove the svg files. Once you do this, restart the frontend for me so I can review sizing with the new icons
+
+Assistant:
+I switched the frontend to use the PNG resource icons from `frontend/public/resources`, updated the relevant unit specs to expect PNG paths, removed the obsolete SVG icon files from `frontend/public/resource-icons`, reran the frontend tests and production build, and rebuilt the frontend Docker service so the new icons were live for sizing review.
+
+#### Entry 130
+User:
+lets go ahead and commit all of our changes we have now, after that I want to work with you to expand your skillset
+
+Assistant:
+I prepared the PNG icon migration as its own final commit so the repository would be clean before moving on to skillset expansion work.
+
+#### Entry 131
+User:
+alright, the following are UAT tasks related to gameplay I want to clean up, sort these into any number of features as needed. I want to organize these tasks in the most efficient way to allow us to work these in parallel:
+- update names of cards to be more expressive
+- create a skill to allow the agent to take a screenshot of the game screen using an npm testing framework
+- create a resource icon component that has both a regular and small variant. Now that the icons are square, lets move to a layout that is the icon image with a superscript value overlapping the top right with a solid color background
+- update project card to be tighter horizontally and display more than one in a row
+- remove border from "take selected resources" button so it matches the other buttons
+- better separate resource bank into two columns, one column is "resources and resource acquisition flow" and the other column is "executive favor"
+
+Assistant:
+I grouped the new UAT cleanup work into two features so the tasks could be parallelized cleanly: one feature for gameplay UI density and interaction polish, and another for content naming and visual QA tooling. I activated the three tasks with the lowest overlap and moved the dependent board-polish follow-ups into the backlog with explicit blockers.
+
+#### Entry 132
+User:
+I have another task to add before we move forward. I have added a new image that is the mock for the executive card.
+
+Assistant:
+I added the new executive-card mock as a distinct backlog task under the gameplay UI polish feature, since it belongs with the active-board presentation work but would overlap heavily with the same executive-card files and therefore should be sequenced rather than bundled blindly with unrelated board changes.
+
+#### Entry 133
+User:
+lets go ahead and execute our work
+
+Assistant:
+I prepared to start the first active block by taking the shared resource-icon-component lane as the local critical path and planning to run the screenshot-skill and expressive-project-naming work in parallel, but the immediate follow-up from you shifted into committing the current repo state first.

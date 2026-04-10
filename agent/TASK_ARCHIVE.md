@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-075
+
+- Name: Improve inline code documentation and API comments
+- Priority: Medium
+- Blocked By: TASK-073
+- Blocks: None
+- Description: Add or tighten targeted comments, JSDoc, and PHPDoc in areas where intent, contracts, or non-obvious behavior are hard to infer, while avoiding noisy commentary on self-explanatory code.
+
 ### TASK-074
 
 - Name: Expand automated coverage for major gameplay and UI flows

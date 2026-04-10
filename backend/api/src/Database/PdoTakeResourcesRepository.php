@@ -727,6 +727,11 @@ final class PdoTakeResourcesRepository implements TakeResourcesRepository, Claim
         return $phase;
     }
 
+    /**
+     * Applies the post-turn endgame transition. First the game moves into endgame when a
+     * qualifying prestige threshold is reached, then it is marked completed only after the
+     * round returns to the last seat so every player gets an equal number of turns.
+     */
     private function applyPostTurnGameProgression(
         PDO $connection,
         int $gameId,

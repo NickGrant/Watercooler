@@ -1032,3 +1032,14 @@ I completed `TASK-073` by extracting the game-page's pure presentation and state
 #### Entry 153
 Assistant:
 I completed `TASK-074` by adding direct PHPUnit coverage for the new PDO-backed active-game state loader, exercising player projections, bank state, market cards, reserved cards, purchased cards, and executives from database rows, then reran the backend and frontend test suites successfully and promoted the cleanup feature to the inline-documentation task next.
+
+#### Entry 154
+User:
+in the future, please execute all tasks. I will check in during features
+
+Assistant:
+I acknowledged the clarification, committed to continuing through entire features without pausing for checkpoints unless explicitly asked, and proceeded with the remaining cleanup tasks.
+
+#### Entry 155
+Assistant:
+I completed `TASK-075` by adding targeted PHPDoc and JSDoc comments around the extracted game-page state helpers, active-game projection loader, and post-turn endgame progression flow, then reran the backend PHPUnit suite and frontend Angular tests successfully before promoting the shared CSS-token cleanup as the final remaining task in `FEATURE-014`.

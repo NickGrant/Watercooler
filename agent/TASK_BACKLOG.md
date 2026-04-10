@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-075
-
-- Name: Improve inline code documentation and API comments
-- Priority: Medium
-- Blocked By: TASK-073
-- Blocks: None
-- Description: Add or tighten targeted comments, JSDoc, and PHPDoc in areas where intent, contracts, or non-obvious behavior are hard to infer, while avoiding noisy commentary on self-explanatory code.
-
 ### TASK-076
 
 - Name: Centralize reusable visual tokens and shared CSS values

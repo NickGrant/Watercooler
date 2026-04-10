@@ -7,6 +7,10 @@ import {
   ResourceType
 } from '../../core/models/active-game-state.model';
 
+/**
+ * Mirrors backend winner ordering so client-side standings and tie-break messaging
+ * never drift from the authoritative endgame rules.
+ */
 export function sortPlayersByFinalStanding(players: ActiveGamePlayer[]): ActiveGamePlayer[] {
   return [...players].sort((left, right) => {
     const prestigeComparison = right.officePrestige - left.officePrestige;
@@ -23,6 +27,10 @@ export function sortPlayersByFinalStanding(players: ActiveGamePlayer[]): ActiveG
   });
 }
 
+/**
+ * Condenses the most relevant passive-update differences into a short toast message.
+ * The UI intentionally caps this at two events to keep refresh notifications readable.
+ */
 export function describeStateChanges(
   previous: ActiveGameState | null,
   next: ActiveGameState,
@@ -133,6 +141,10 @@ export function isExecutiveRequirementMet(
   return (player.permanentDiscounts[resource as ResourceType] ?? 0) >= amount;
 }
 
+/**
+ * Resolves whether a player can pay for a card after applying permanent discounts,
+ * then spends Executive Favor only on any remaining shortfall.
+ */
 export function canAffordCard(
   player: ActiveGamePlayer | null,
   card: ActivePlayerCard | ActiveGameCard
@@ -171,6 +183,10 @@ export function finalPlacementLabel(index: number): string {
   return ['1st', '2nd', '3rd', '4th'][index] ?? `${index + 1}th`;
 }
 
+/**
+ * Converts the final ordered standings into the same tie-break explanation the results
+ * screen shows players after the last round completes.
+ */
 export function buildFinalTieBreakSummary(standings: ActiveGamePlayer[]): string {
   const winner = standings[0] ?? null;
 

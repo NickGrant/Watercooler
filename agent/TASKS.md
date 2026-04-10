@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-075
+### TASK-076
 
-- Name: Improve inline code documentation and API comments
+- Name: Centralize reusable visual tokens and shared CSS values
 - Priority: Medium
 - Blocked By: None
 - Blocks: None
-- Description: Add or tighten targeted comments, JSDoc, and PHPDoc in areas where intent, contracts, or non-obvious behavior are hard to infer, while avoiding noisy commentary on self-explanatory code.
+- Description: Audit frontend styling for repeated colors and other shared visual constants, move them into global CSS variables where appropriate, and update component styles to reuse those tokens consistently.
 
 ## Task Management Rules
 

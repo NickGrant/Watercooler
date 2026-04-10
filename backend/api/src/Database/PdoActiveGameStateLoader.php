@@ -16,6 +16,10 @@ use Watercooler\Api\Games\PlayerResourceSet;
 
 final class PdoActiveGameStateLoader
 {
+    /**
+     * Rebuilds the board projection from normalized relational tables so read-model
+     * mapping stays separate from the repositories that mutate turn state.
+     */
     public function load(PDO $connection, int $gameId): ActiveGameState
     {
         $gameStatement = $connection->prepare(
@@ -209,6 +213,9 @@ final class PdoActiveGameStateLoader
     }
 
     /**
+     * Groups reserved or purchased cards by owner so player mapping can stay focused on
+     * assembling the final projection shape rather than repeating query logic inline.
+     *
      * @return array<int, list<PlayerCardView>>
      */
     private function loadPlayerCardsByLocation(
@@ -270,6 +277,8 @@ final class PdoActiveGameStateLoader
     }
 
     /**
+     * Builds the claimed-executive slice in the same per-player shape the frontend expects.
+     *
      * @return array<int, list<PlayerExecutiveView>>
      */
     private function loadClaimedExecutivesByPlayer(PDO $connection, int $gameId): array

@@ -6,13 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-### STEP-101
-
-- Name: Refine executive card portrait and requirement hierarchy
-- Priority: High
-- Blocked By: None
-- Blocks: None
-- Description: Increase executive portrait height, move larger requirement icons into the top-left corner without a title label, and restyle the nameplate with overlap, z-index, and translucent backing for a stronger card hierarchy.
+No active steps right now. Promote the next item from `agent/STEP_BACKLOG.md` when the next lane begins.
 
 ## Step Management Rules
 

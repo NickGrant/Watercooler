@@ -7,8 +7,8 @@
 .executive-card {
   position: relative;
   display: grid;
-  grid-template-rows: minmax(0, 1fr) auto auto;
-  min-height: 21rem;
+  grid-template-rows: minmax(0, 1fr) auto;
+  min-height: 23rem;
   overflow: hidden;
   padding: 0;
   border: 1px solid rgba(47, 61, 87, 0.2);
@@ -49,7 +49,7 @@
 
 .executive-card__portrait {
   position: relative;
-  min-height: 13.5rem;
+  min-height: 23rem;
   padding: 1rem 1rem 0.85rem;
   overflow: hidden;
   border-bottom: 1px solid rgba(47, 61, 87, 0.18);
@@ -123,14 +123,17 @@
 .executive-card__nameplate {
   display: grid;
   gap: 0.28rem;
-  padding: 0.75rem 1rem 0.85rem;
-  border-top: 1px solid rgba(255, 255, 255, 0.35);
-  border-bottom: 1px solid rgba(47, 61, 87, 0.16);
-  background: linear-gradient(180deg, var(--wc-blue-top), var(--wc-blue-bottom));
+  margin: -1.75rem 1rem 1rem;
+  padding: 0.85rem 1rem 0.95rem;
+  border: 1px solid rgba(47, 61, 87, 0.18);
+  background: linear-gradient(180deg, rgba(247, 250, 255, 0.88), rgba(232, 239, 249, 0.8));
+  box-shadow:
+    0 14px 28px rgba(30, 46, 67, 0.18),
+    0 1px 0 rgba(255, 255, 255, 0.72) inset;
+  z-index: 3;
 }
 
-.executive-card__nameplate span,
-.executive-card__label {
+.executive-card__nameplate span {
   color: var(--wc-accent-warm);
   font-size: 0.72rem;
   font-weight: 700;
@@ -144,24 +147,27 @@
   color: var(--wc-ink-strong);
 }
 
-.executive-card__details {
-  display: grid;
-  gap: 0.7rem;
-  padding: 0.9rem 1rem 1rem;
-  background: linear-gradient(180deg, var(--wc-paper-top), rgba(240, 244, 250, 0.96));
+.executive-card__requirements {
+  position: absolute;
+  left: 0.95rem;
+  top: 0.95rem;
+  z-index: 2;
+  max-width: calc(100% - 6.6rem);
+  padding: 0.5rem;
+  border: 1px solid rgba(31, 45, 66, 0.2);
+  background: linear-gradient(180deg, rgba(249, 252, 255, 0.9), rgba(235, 241, 248, 0.82));
+  box-shadow:
+    0 10px 22px rgba(29, 43, 61, 0.16),
+    0 1px 0 rgba(255, 255, 255, 0.7) inset;
 }
 
-.executive-card__details .cost-row {
+.executive-card__requirements .cost-row {
   margin: 0;
-}
-
-.executive-card__label {
-  color: var(--wc-accent-strong);
 }
 
 .cost-row {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(2rem, max-content));
+  grid-template-columns: repeat(auto-fit, minmax(2.8rem, max-content));
   justify-content: start;
   gap: 0.45rem;
 }
@@ -169,6 +175,7 @@
 .resource-cost {
   @include shared.resource-cost;
   @include shared.resource-cost-pill;
+  padding: 0.2rem;
 }
 
 .resource-cost--met {

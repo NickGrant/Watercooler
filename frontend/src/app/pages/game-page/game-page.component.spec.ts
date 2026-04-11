@@ -490,10 +490,10 @@ describe('GamePageComponent', () => {
 
     expect(executiveCards.length).toBe(1);
     expect(executiveCards[0].querySelector('.executive-card__portrait')).not.toBeNull();
-    expect(executiveCards[0].querySelector('.executive-card__details')).not.toBeNull();
+    expect(executiveCards[0].querySelector('.executive-card__requirements')).not.toBeNull();
     expect(executiveCards[0].querySelector('.executive-card__nameplate')).not.toBeNull();
     expect(executiveCards[0].querySelector('.executive-card__prestige')).not.toBeNull();
-    expect(executiveCards[0].textContent).toContain('Requirement Profile');
+    expect(executiveCards[0].querySelector('.executive-card__portrait .resource-icon-badge--medium')).not.toBeNull();
   });
 
   it('does not show development-oriented board copy on the route shell', () => {

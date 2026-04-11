@@ -32,9 +32,15 @@ describe('ExecutiveCardComponent', () => {
 
     expect(fixture.nativeElement.querySelector('.executive-card')).not.toBeNull();
     expect(fixture.nativeElement.textContent).toContain('VP of Synergy');
-    expect(fixture.nativeElement.textContent).toContain('Requirement Profile');
     expect(fixture.nativeElement.textContent).toContain('Prestige');
+    expect(fixture.nativeElement.textContent).not.toContain('Requirement Profile');
     expect(fixture.nativeElement.querySelectorAll('.resource-cost--met').length).toBe(3);
+    expect(
+      fixture.nativeElement.querySelector('.executive-card__portrait .executive-card__requirements')
+    ).not.toBeNull();
+    expect(
+      fixture.nativeElement.querySelector('.executive-card__requirements .resource-icon-badge--medium')
+    ).not.toBeNull();
     expect(fixture.nativeElement.querySelector('.executive-card__portrait-image')?.getAttribute('src')).toContain('/executives/executive-1.png');
   });
 

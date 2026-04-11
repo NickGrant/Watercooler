@@ -1,6 +1,26 @@
 @if (variant() === 'board') {
   <article class="executive-card">
     <div class="executive-card__portrait">
+      <div class="executive-card__requirements">
+        <div class="cost-row">
+          @for (entry of resourceEntries(); track entry[0]) {
+            <span
+              class="resource-cost"
+              [class.resource-cost--met]="requirementMet()(entry[0], entry[1])"
+              [matTooltip]="resourceLabel()(entry[0]) + ': ' + entry[1]"
+              [attr.aria-label]="resourceLabel()(entry[0]) + ' ' + entry[1]"
+            >
+              <app-resource-icon
+                [src]="resourceIconPath()(entry[0])"
+                [label]="resourceLabel()(entry[0])"
+                [value]="entry[1]"
+                variant="medium"
+                [decorative]="true"
+              />
+            </span>
+          }
+        </div>
+      </div>
       <img class="executive-card__portrait-image" [src]="portraitPath()" [alt]="executive().name + ' portrait'" />
       <div class="executive-card__prestige">
         <span>Prestige</span>
@@ -10,27 +30,6 @@
     <div class="executive-card__nameplate">
       <span>Executive</span>
       <strong>{{ executive().name }}</strong>
-    </div>
-    <div class="executive-card__details">
-      <span class="executive-card__label">Requirement Profile</span>
-      <div class="cost-row">
-        @for (entry of resourceEntries(); track entry[0]) {
-          <span
-            class="resource-cost"
-            [class.resource-cost--met]="requirementMet()(entry[0], entry[1])"
-            [matTooltip]="resourceLabel()(entry[0]) + ': ' + entry[1]"
-            [attr.aria-label]="resourceLabel()(entry[0]) + ' ' + entry[1]"
-          >
-            <app-resource-icon
-              [src]="resourceIconPath()(entry[0])"
-              [label]="resourceLabel()(entry[0])"
-              [value]="entry[1]"
-              variant="small"
-              [decorative]="true"
-            />
-          </span>
-        }
-      </div>
     </div>
   </article>
 } @else {

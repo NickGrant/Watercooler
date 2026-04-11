@@ -112,8 +112,19 @@ I started `JOB-019` by evaluating parallelism, decided the safe sequence was to 
 
 ---
 
+#### Entry 185
+**User:**
+
+lets move to the next feature and work through that
+
+**Assistant:**
+
+I completed `STEP-094` by adding a shared `step-job-sync` skill under `agent/skills/step-job-sync/`, adding thin `.codex` and `.github/copilot` adapter pointers for it, updating `AGENTS.md`, `agent/AGENT_WORKFLOW.md`, and `agent/LLM_CONTEXT.md` so they point to the skill as the procedural home for tracker maintenance, archiving `STEP-094`, and marking `JOB-019` complete.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `184`
+- Latest recorded entry: `185`
 

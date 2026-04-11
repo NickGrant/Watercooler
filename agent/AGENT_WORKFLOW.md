@@ -10,19 +10,16 @@ This file defines repository workflow behavior that should stay shared across ag
 
 When step status changes:
 
-- update `agent/STEPS.md` for the active working set
-- move future work to `agent/STEP_BACKLOG.md` when it does not need to stay in normal context
-- move completed work to `agent/STEP_ARCHIVE.md`
-- update `resources/planning/JOBS.md` when job-to-step mapping changes
-- mark a job as `Complete` in `resources/planning/JOBS.md` when all of its steps are complete
+- use the shared `step-job-sync` skill to keep the tracked-work files aligned
+- keep `agent/STEPS.md`, `agent/STEP_BACKLOG.md`, `agent/STEP_ARCHIVE.md`, and `resources/planning/JOBS.md` consistent with one another
 - keep job statuses accurate as work moves from not started to in progress to complete
 
 ### Job Execution
 
 For multi-step job work:
 
+- use the shared `step-job-sync` skill when creating, moving, or closing tracked work
 - evaluate the job for independent parallel work before starting implementation
-- run independent step lanes in parallel when they do not create avoidable overlap or merge risk
 - commit each step separately once that step's scope is complete and validated
 - notify the user when the full job is complete, then wait for more instructions
 - stop and ask for information whenever required context is missing or a risky assumption would otherwise be necessary

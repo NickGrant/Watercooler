@@ -1,0 +1,4 @@
+interface:
+  display_name: "Step Job Sync"
+  short_description: "Keep Watercooler's step and job trackers aligned"
+  default_prompt: "Update the Watercooler step and job tracker files so active, backlog, archive, and job status state all agree."

@@ -154,7 +154,7 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: Portable Step And Job Workflow
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Rename the repo's tracker workflow into step and job terminology and package the maintenance behavior into portable shared skills rather than keeping it only in repo-local doc wording.
 - Steps: STEP-093, STEP-094
 

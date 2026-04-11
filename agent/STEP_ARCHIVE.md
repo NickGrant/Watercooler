@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-094
+
+- Name: Encapsulate step and job workflow into portable skills
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Package the repo's step and job maintenance workflow into portable shared skill definitions so the operating pattern is less tied to one specific agent adapter or one-off doc wording.
+
 ### STEP-093
 
 - Name: Rename tracker workflow to STEP and JOB

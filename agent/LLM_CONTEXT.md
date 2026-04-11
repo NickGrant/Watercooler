@@ -37,8 +37,12 @@ This file tells agents what should stay in normal working context, what should b
   Original broad project brief.
 - `agent/skills/`
   Shared, system-agnostic skill definitions and their shared references.
+- `.github/copilot/skills/step-job-sync/`
+  Copilot step/job-tracking pointer and any required tool-specific metadata.
 - `.github/copilot/skills/transcription-sync/`
   Copilot transcript-maintenance pointer and any required tool-specific metadata.
+- `.codex/skills/step-job-sync/`
+  Codex step/job-tracking pointer and any required tool-specific metadata.
 - `.codex/skills/transcription-sync/`
   Codex transcript-maintenance pointer and any required tool-specific metadata.
 

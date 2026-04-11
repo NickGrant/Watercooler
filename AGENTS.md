@@ -44,7 +44,7 @@ If sources conflict, prefer the narrower planning or workflow file over the broa
 - Keep docs updated when implementation decisions materially change the plan.
 - Treat unit tests as required for all new code and behavior changes unless there is a documented technical reason they cannot be added yet.
 - When adding or changing code, update or add tests in the same step rather than deferring them.
-- Use the shared skill definitions under `agent/skills/` when a workflow is captured as a repo skill.
+- Use the shared skill definitions under `agent/skills/` when a workflow is captured as a repo skill, such as `transcription-sync` or `step-job-sync`.
 - Treat system-specific adapter directories as discovery shims only; shared behavior should live in `AGENTS.md`, `agent/AGENT_WORKFLOW.md`, `agent/LLM_CONTEXT.md`, or `agent/skills/`.
 - Follow `agent/AGENT_WORKFLOW.md` for step tracking, transcript maintenance, and job-execution procedure.
 - Follow `agent/LLM_CONTEXT.md` for context-loading and documentation-routing rules.

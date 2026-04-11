@@ -6,13 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-### STEP-094
-
-- Name: Encapsulate step and job workflow into portable skills
-- Priority: Medium
-- Blocked By: None
-- Blocks: None
-- Description: Package the repo's step and job maintenance workflow into portable shared skill definitions so the operating pattern is less tied to one specific agent adapter or one-off doc wording.
+None.
 
 ## Step Management Rules
 

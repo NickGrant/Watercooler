@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-081
+
+- Name: Build floating in-game bug report panel
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-082
+- Description: Add a right-edge floating bug-report tab on the game page that expands into a compact form with optional reply email, required message field, submission feedback, and only the minimum additional client context needed for debugging.
+
 ### STEP-080
 
 - Name: Implement bug report submission API flow

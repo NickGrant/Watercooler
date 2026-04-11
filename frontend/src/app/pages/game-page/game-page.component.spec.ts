@@ -28,7 +28,8 @@ describe('GamePageComponent', () => {
       'startGame',
       'takeResources',
       'claimProject',
-      'purchaseAdvantage'
+      'purchaseAdvantage',
+      'submitBugReport'
     ]);
     gamesApi.getGame.and.returnValue(
       of({
@@ -282,6 +283,13 @@ describe('GamePageComponent', () => {
         })
       })
     );
+    gamesApi.submitBugReport.and.returnValue(
+      of({
+        id: 7,
+        status: 'unread',
+        createdAt: '2026-04-10 23:45:00'
+      })
+    );
     router = jasmine.createSpyObj<Router>('Router', ['navigate']);
     router.navigate.and.returnValue(Promise.resolve(true));
     await TestBed.configureTestingModule({
@@ -415,6 +423,44 @@ describe('GamePageComponent', () => {
     expect(fixture.nativeElement.querySelector('.board-panel')).toBeNull();
     expect(fixture.nativeElement.textContent).toContain('Employee Check-In');
     expect(fixture.nativeElement.textContent).toContain('Waiting Room');
+  });
+
+  it('opens the floating bug-report panel from the right-edge tab', () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.showBugReportPanel()).toBeFalse();
+    expect(fixture.nativeElement.querySelector('#bug-report-panel')).toBeNull();
+
+    fixture.componentInstance.toggleBugReportPanel();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.showBugReportPanel()).toBeTrue();
+    expect(fixture.nativeElement.querySelector('#bug-report-panel')).not.toBeNull();
+    expect(fixture.nativeElement.textContent).toContain('Report A Bug');
+  });
+
+  it('submits a bug report for the current room session', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    fixture.componentInstance.updateBugReportReplyEmail('pam@example.com');
+    fixture.componentInstance.updateBugReportMessage(
+      'The waiting room briefly showed the wrong player count.'
+    );
+    fixture.componentInstance.submitBugReport();
+    fixture.detectChanges();
+
+    expect(gamesApi.submitBugReport).toHaveBeenCalledWith('synergy-report-telemetry', {
+      sessionToken: 'temporary-session-token',
+      replyEmail: 'pam@example.com',
+      message: 'The waiting room briefly showed the wrong player count.'
+    });
+    expect(fixture.componentInstance.bugReportMessage()).toBe('');
+    expect(fixture.componentInstance.bugReportReplyEmail()).toBe('');
+    expect(fixture.componentInstance.bugReportSuccess()).toContain('Bug report submitted');
   });
 
   it('renders executive portrait cards with a portrait-and-profile layout', () => {

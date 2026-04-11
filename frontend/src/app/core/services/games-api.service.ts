@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
 
 import { AvatarDraft } from '../models/avatar-draft.model';
+import { BugReportResponse } from '../models/bug-report-response.model';
 import { GameResponse } from '../models/game-response.model';
 import { GameStateResponse } from '../models/game-state-response.model';
 import { GameSummary } from '../models/game-summary.model';
@@ -76,6 +77,16 @@ export class GamesApiService {
   ): Observable<StartedGameResponse> {
     return this.http.post<StartedGameResponse>(
       `/api/games/${encodeURIComponent(slug)}/purchase-advantage`,
+      payload
+    );
+  }
+
+  submitBugReport(
+    slug: string,
+    payload: { sessionToken: string; message: string; replyEmail?: string }
+  ): Observable<BugReportResponse> {
+    return this.http.post<BugReportResponse>(
+      `/api/games/${encodeURIComponent(slug)}/bug-reports`,
       payload
     );
   }

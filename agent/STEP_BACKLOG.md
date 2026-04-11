@@ -26,6 +26,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Cover bug report flow with automated tests and docs
 - Priority: Medium
-- Blocked By: STEP-079, STEP-080, STEP-081
+- Blocked By: None
 - Blocks: None
 - Description: Add backend and frontend coverage for bug report submission behavior and update any planning or setup docs needed to reflect the new persistence path and operating assumptions.

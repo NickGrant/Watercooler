@@ -606,5 +606,72 @@
       }
     </section>
   }
+
+  <aside
+    class="bug-report-dock"
+    [class.bug-report-dock--open]="showBugReportPanel()"
+    aria-label="Bug report panel"
+  >
+    <button
+      type="button"
+      class="bug-report-dock__tab"
+      (click)="toggleBugReportPanel()"
+      [attr.aria-expanded]="showBugReportPanel()"
+      aria-controls="bug-report-panel"
+    >
+      {{ showBugReportPanel() ? 'Close Report' : 'Report A Bug' }}
+    </button>
+
+    @if (showBugReportPanel()) {
+      <section id="bug-report-panel" class="bug-report-dock__panel">
+        <h2>Report A Bug</h2>
+        <p class="panel-copy">
+          We will attach your checked-in player name and room slug automatically. Add a reply email
+          only if you want follow-up.
+        </p>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Reply Email (Optional)</mat-label>
+          <input
+            matInput
+            type="email"
+            [ngModel]="bugReportReplyEmail()"
+            (ngModelChange)="updateBugReportReplyEmail($event)"
+            placeholder="you@example.com"
+          />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>What went wrong?</mat-label>
+          <textarea
+            matInput
+            rows="5"
+            [ngModel]="bugReportMessage()"
+            (ngModelChange)="updateBugReportMessage($event)"
+            placeholder="Tell us what you saw and what you expected instead."
+          ></textarea>
+        </mat-form-field>
+
+        <div class="bug-report-dock__actions">
+          <button
+            mat-flat-button
+            type="button"
+            [disabled]="bugReportPending()"
+            (click)="submitBugReport()"
+          >
+            {{ bugReportPending() ? 'Submitting...' : 'Submit Report' }}
+          </button>
+        </div>
+
+        @if (bugReportError(); as bugReportError) {
+          <p class="inline-error" role="alert">{{ bugReportError }}</p>
+        }
+
+        @if (bugReportSuccess(); as bugReportSuccess) {
+          <p class="bug-report-dock__success">{{ bugReportSuccess }}</p>
+        }
+      </section>
+    }
+  </aside>
 </main>
 

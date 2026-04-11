@@ -113,6 +113,12 @@ export class GamePageComponent {
   readonly latestToastMessage = signal<string | null>(null);
   readonly createNextGamePending = signal(false);
   readonly showRulesHelp = signal(false);
+  readonly showBugReportPanel = signal(false);
+  readonly bugReportPending = signal(false);
+  readonly bugReportError = signal<string | null>(null);
+  readonly bugReportSuccess = signal<string | null>(null);
+  readonly bugReportReplyEmail = signal('');
+  readonly bugReportMessage = signal('');
   readonly startedGame = signal<ActiveGameState | null>(null);
   readonly selectedTakeResources = signal<ResourceType[]>([]);
   readonly avatarOptions: Record<AvatarPart, AvatarOptionDefinition[]> = {
@@ -327,6 +333,61 @@ export class GamePageComponent {
 
   toggleRulesHelp(): void {
     this.showRulesHelp.set(!this.showRulesHelp());
+  }
+
+  toggleBugReportPanel(): void {
+    this.showBugReportPanel.update((currentValue) => !currentValue);
+    this.bugReportError.set(null);
+    this.bugReportSuccess.set(null);
+  }
+
+  updateBugReportReplyEmail(value: string): void {
+    this.bugReportReplyEmail.set(value);
+  }
+
+  updateBugReportMessage(value: string): void {
+    this.bugReportMessage.set(value);
+  }
+
+  submitBugReport(): void {
+    const slug = this.session.slug();
+    const sessionToken = this.session.sessionToken();
+
+    if (slug === null || sessionToken === null) {
+      this.bugReportError.set('Check in to the room before submitting a linked bug report.');
+      return;
+    }
+
+    if (this.bugReportPending()) {
+      return;
+    }
+
+    this.bugReportPending.set(true);
+    this.bugReportError.set(null);
+    this.bugReportSuccess.set(null);
+
+    const replyEmail = this.bugReportReplyEmail().trim();
+
+    this.gamesApi
+      .submitBugReport(slug, {
+        sessionToken,
+        message: this.bugReportMessage(),
+        ...(replyEmail !== '' ? { replyEmail } : {})
+      })
+      .subscribe({
+        next: () => {
+          this.bugReportPending.set(false);
+          this.bugReportMessage.set('');
+          this.bugReportReplyEmail.set('');
+          this.bugReportSuccess.set(
+            'Bug report submitted. The Recreation Division logged it for review.'
+          );
+        },
+        error: (error: unknown) => {
+          this.bugReportPending.set(false);
+          this.bugReportError.set(this.getBugReportErrorMessage(error));
+        }
+      });
   }
 
   submitJoin(): void {
@@ -818,6 +879,20 @@ export class GamePageComponent {
     }
 
     return 'The office action could not be completed. Please resync and try again.';
+  }
+
+  private getBugReportErrorMessage(error: unknown): string {
+    const apiMessage = this.getApiMessage(error);
+
+    if (typeof apiMessage === 'string') {
+      return apiMessage;
+    }
+
+    if (this.getStatus(error) === 401) {
+      return 'Your temporary access badge expired. Please identify yourself again.';
+    }
+
+    return 'The bug report could not be submitted right now.';
   }
 
   private extractActionRecovery(error: unknown): ActionRecoveryPayload | null {

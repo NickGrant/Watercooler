@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-### STEP-081
+### STEP-082
 
-- Name: Build floating in-game bug report panel
-- Priority: High
+- Name: Cover bug report flow with automated tests and docs
+- Priority: Medium
 - Blocked By: None
-- Blocks: STEP-082
-- Description: Add a right-edge floating bug-report tab on the game page that expands into a compact form with optional reply email, required message field, submission feedback, and only the minimum additional client context needed for debugging.
+- Blocks: None
+- Description: Add backend and frontend coverage for bug report submission behavior and update any planning or setup docs needed to reflect the new persistence path and operating assumptions.
 
 ## Step Management Rules
 

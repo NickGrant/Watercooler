@@ -6,7 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-None.
+### TASK-091
+
+- Name: Implement transcript memory-management workflow
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-092, TASK-093
+- Description: Add a low-token transcript maintenance strategy, likely based on helper scripts and/or transcript partitioning, so agents can identify the correct append target and update transcript state without repeatedly loading the full conversation history.
 
 ## Task Management Rules
 

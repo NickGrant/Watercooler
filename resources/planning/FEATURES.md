@@ -141,3 +141,27 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Status: Complete
 - Description: Review the agent-facing operating docs for missing coverage, duplication, contradictions, and low-value content, then consolidate the guidance so responsibilities and cross-file references stay maintainable as the repo evolves.
 - Tasks: TASK-083, TASK-084, TASK-085, TASK-086, TASK-087, TASK-088
+
+### FEATURE-018
+
+- Name: Transcript Portability And Memory Management
+- Priority: High
+- Status: In Progress
+- Description: Reduce the token and maintenance cost of transcript updates by moving more transcription behavior into the shared skill, improving portability, introducing a lower-cost append workflow, and using a temporary continuation transcript while the migration is underway.
+- Tasks: TASK-089, TASK-090, TASK-091, TASK-092
+
+### FEATURE-019
+
+- Name: Portable Step And Job Workflow
+- Priority: High
+- Status: Not Started
+- Description: Rename the repo's task and feature workflow into step and job terminology and package the maintenance behavior into portable shared skills rather than keeping it only in repo-local doc wording.
+- Tasks: TASK-093, TASK-094
+
+### FEATURE-020
+
+- Name: Frontend Entry And Waiting Room Cleanup
+- Priority: High
+- Status: Not Started
+- Description: Simplify the landing and pre-game UI by removing the preview route shortcut, adding an upfront rules surface, and reshaping the game waiting-room shell into a cleaner two-column check-in and roster layout.
+- Tasks: TASK-095, TASK-096, TASK-097

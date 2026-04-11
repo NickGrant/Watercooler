@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-089
+
+- Name: Start temporary transcript continuation and optimization lane
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-090, TASK-091, TASK-092
+- Description: Create a temporary continuation transcript so new conversation stops growing `agent/TRANSCRIPTION.md`, define the transcription-optimization task breakdown, and establish the repo transition path for lower-token transcript maintenance work.
+
 ### TASK-088
 
 - Name: Align transcript workflow with shared transcription skill

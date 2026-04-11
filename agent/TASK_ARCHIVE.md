@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-078
+
+- Name: Audit CSS ownership and move styles to their closest appropriate home
+- Priority: High
+- Blocked By: TASK-077
+- Blocks: None
+- Description: Review the existing frontend SCSS files and fix ownership issues by moving duplicated cross-cutting rules upward for reuse and moving page- or component-specific rules downward into the closest logical stylesheet.
+
 ### TASK-077
 
 - Name: Document stylesheet ownership and styling-boundary rules

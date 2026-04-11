@@ -1068,3 +1068,7 @@ go ahead and get started
 
 Assistant:
 I completed `TASK-077` by formalizing the new stylesheet ownership rule in `agent/AGENT_WORKFLOW.md`, then moved `TASK-078` into the active working set so the SCSS audit could proceed with the updated guidance as its source of truth.
+
+#### Entry 160
+Assistant:
+I completed `TASK-078` by moving game-page-only rules out of the global stylesheet into the game page and its child components, adding dedicated component SCSS files plus a local shared partial for the few repeated game-card patterns, updating the home-page error banner to reuse the shared danger tokens, and validating the frontend tests, build, and diff check before closing `FEATURE-015`.

@@ -7,7 +7,8 @@ import { ResourceIconComponent } from '../resource-icon/resource-icon.component'
 @Component({
   selector: 'app-executive-card',
   imports: [MatTooltipModule, ResourceIconComponent],
-  templateUrl: './executive-card.component.html'
+  templateUrl: './executive-card.component.html',
+  styleUrl: './executive-card.component.scss'
 })
 export class ExecutiveCardComponent {
   readonly executive = input.required<ActiveExecutive>();

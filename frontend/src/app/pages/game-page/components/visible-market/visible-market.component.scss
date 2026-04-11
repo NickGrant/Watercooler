@@ -1,0 +1,39 @@
+:host {
+  display: block;
+}
+
+.market-grid {
+  display: grid;
+  gap: 0.8rem;
+}
+
+.market-tier {
+  position: relative;
+  overflow: hidden;
+  padding: 0.85rem;
+  border: 1px solid var(--wc-border-subtle);
+  background: linear-gradient(180deg, rgba(246, 248, 252, 0.96), rgba(236, 241, 248, 0.94));
+}
+
+.market-tier::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 40%);
+  opacity: 0.6;
+}
+
+.market-tier > header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.market-tier__cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(12.75rem, 1fr));
+  gap: 0.6rem;
+}

@@ -1,0 +1,61 @@
+@mixin roster-badge {
+  padding: 0.2rem 0.55rem;
+  border: 1px solid var(--wc-border-strong);
+  background: linear-gradient(180deg, var(--wc-text-inverse), var(--wc-panel-alt));
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@mixin roster-badge-winner {
+  border-color: var(--wc-winner-border);
+  background: linear-gradient(180deg, var(--wc-winner-top), var(--wc-winner-bottom));
+  color: var(--wc-winner-ink);
+}
+
+@mixin cost-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0.55rem 0;
+}
+
+@mixin resource-reference {
+  display: inline-flex;
+  align-items: center;
+}
+
+@mixin resource-cost {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.2rem 0.35rem;
+}
+
+@mixin resource-cost-pill {
+  padding: 0.2rem 0.42rem;
+  border: 1px solid rgba(52, 76, 115, 0.16);
+  background: linear-gradient(180deg, var(--wc-text-inverse), var(--wc-panel-alt));
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+@mixin mini-card-base {
+  position: relative;
+  display: grid;
+  gap: 0.5rem;
+  overflow: hidden;
+  padding: 0.75rem 0.8rem;
+  border: 1px solid rgba(47, 61, 87, 0.18);
+  background: linear-gradient(180deg, rgba(250, 252, 255, 0.96), rgba(240, 244, 250, 0.95));
+}
+
+@mixin surface-sheen {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 40%);
+  opacity: 0.6;
+}

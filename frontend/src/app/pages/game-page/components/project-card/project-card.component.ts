@@ -8,7 +8,8 @@ import { ResourceIconComponent } from '../resource-icon/resource-icon.component'
 @Component({
   selector: 'app-project-card',
   imports: [MatButtonModule, MatTooltipModule, ResourceIconComponent],
-  templateUrl: './project-card.component.html'
+  templateUrl: './project-card.component.html',
+  styleUrl: './project-card.component.scss'
 })
 export class ProjectCardComponent {
   readonly card = input.required<ActiveGameCard | ActivePlayerCard>();

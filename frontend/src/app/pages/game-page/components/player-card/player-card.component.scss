@@ -1,0 +1,143 @@
+@use '../../shared-game-page' as shared;
+
+:host {
+  display: block;
+}
+
+.player-panel {
+  position: relative;
+  overflow: hidden;
+  padding: 1rem;
+  border: 1px solid rgba(47, 61, 87, 0.18);
+  background: linear-gradient(180deg, rgba(250, 252, 255, 0.96), rgba(240, 244, 250, 0.95));
+}
+
+.player-panel::after {
+  @include shared.surface-sheen;
+}
+
+.player-panel--active {
+  border-color: rgba(52, 76, 115, 0.45);
+  box-shadow:
+    inset 0 0 0 1px rgba(52, 76, 115, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.player-panel__header {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.roster-badge {
+  @include shared.roster-badge;
+}
+
+.roster-badge--winner {
+  @include shared.roster-badge-winner;
+}
+
+.player-panel__economy {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.85rem;
+  align-items: end;
+  margin-top: 0.65rem;
+}
+
+.player-resource-bars {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0.45rem;
+}
+
+.player-resource-bar {
+  display: grid;
+  gap: 0.3rem;
+  padding: 0.35rem 0.4rem 0.45rem;
+  border: 1px solid rgba(47, 61, 87, 0.18);
+  background: linear-gradient(180deg, var(--wc-card-top), var(--wc-card-bottom));
+}
+
+.player-resource-bar__topline,
+.player-resource-bar__legend {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+}
+
+.player-resource-bar__topline app-resource-icon {
+  flex: 0 0 auto;
+}
+
+.player-resource-bar__frame {
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: flex-start;
+  gap: 0.1rem;
+  min-height: 3.45rem;
+  padding: 0.2rem;
+  border: 1px solid rgba(52, 76, 115, 0.16);
+  background: linear-gradient(180deg, var(--wc-bar-frame-top), var(--wc-bar-frame-bottom));
+}
+
+.player-resource-bar__segment {
+  display: block;
+  min-height: 0;
+}
+
+.player-resource-bar__segment--resource {
+  height: calc(var(--resource-count, 0) * 0.44rem);
+  background: linear-gradient(180deg, var(--wc-resource-top), var(--wc-resource-bottom));
+}
+
+.player-resource-bar__segment--discount {
+  height: calc(var(--discount-count, 0) * 0.44rem);
+  background: linear-gradient(180deg, var(--wc-discount-top), var(--wc-discount-bottom));
+}
+
+.player-resource-bar__legend {
+  color: var(--wc-accent-warm);
+  font-size: 0.66rem;
+  font-weight: 700;
+}
+
+.player-favor-chip {
+  display: grid;
+  justify-items: center;
+  min-width: 3.6rem;
+  padding: 0.45rem 0.4rem 0.55rem;
+  border-left: 1px solid rgba(52, 76, 115, 0.22);
+}
+
+.player-panel__collections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: 0.75rem;
+  margin-top: 0.75rem;
+}
+
+.card-stack {
+  display: grid;
+  gap: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .player-panel__header {
+    flex-direction: column;
+  }
+
+  .player-panel__economy {
+    grid-template-columns: 1fr;
+  }
+
+  .player-favor-chip {
+    justify-self: start;
+    border-left: 0;
+    border-top: 1px solid rgba(52, 76, 115, 0.22);
+    padding-left: 0;
+    padding-top: 0.55rem;
+  }
+}

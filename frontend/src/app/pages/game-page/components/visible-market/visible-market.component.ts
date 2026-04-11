@@ -6,7 +6,8 @@ import { ProjectCardComponent } from '../project-card/project-card.component';
 @Component({
   selector: 'app-visible-market',
   imports: [ProjectCardComponent],
-  templateUrl: './visible-market.component.html'
+  templateUrl: './visible-market.component.html',
+  styleUrl: './visible-market.component.scss'
 })
 export class VisibleMarketComponent {
   readonly market = input.required<{

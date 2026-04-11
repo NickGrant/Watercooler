@@ -1,0 +1,188 @@
+@use '../../shared-game-page' as shared;
+
+:host {
+  display: block;
+}
+
+.executive-card {
+  position: relative;
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto auto;
+  min-height: 21rem;
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid rgba(47, 61, 87, 0.2);
+  background: linear-gradient(180deg, var(--wc-paper-top), var(--wc-paper-bottom));
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 18px 32px var(--wc-paper-shadow);
+}
+
+.executive-card::after,
+.mini-card::after {
+  @include shared.surface-sheen;
+}
+
+:host(:nth-child(4n + 1)) .executive-card {
+  --executive-portrait-top: #d9e6f5;
+  --executive-portrait-bottom: #b5c9df;
+  --executive-portrait-accent: #516a8d;
+}
+
+:host(:nth-child(4n + 2)) .executive-card {
+  --executive-portrait-top: #e7dfcf;
+  --executive-portrait-bottom: #d0c0a7;
+  --executive-portrait-accent: #85623b;
+}
+
+:host(:nth-child(4n + 3)) .executive-card {
+  --executive-portrait-top: #dce8de;
+  --executive-portrait-bottom: #b7c8b7;
+  --executive-portrait-accent: #4d6a55;
+}
+
+:host(:nth-child(4n + 4)) .executive-card {
+  --executive-portrait-top: #e4d7e7;
+  --executive-portrait-bottom: #c5b2cb;
+  --executive-portrait-accent: #74537a;
+}
+
+.executive-card__portrait {
+  position: relative;
+  min-height: 13.5rem;
+  padding: 1rem 1rem 0.85rem;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(47, 61, 87, 0.18);
+  background: linear-gradient(180deg, var(--executive-portrait-top), var(--executive-portrait-bottom));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.65);
+}
+
+.executive-card__portrait-image {
+  position: absolute;
+  inset: 1.1rem 1.1rem 0.9rem;
+  width: calc(100% - 2.2rem);
+  height: calc(100% - 2rem);
+  object-fit: cover;
+  filter: saturate(0.95) contrast(1.03);
+}
+
+.executive-card__portrait::before {
+  content: '';
+  position: absolute;
+  inset: 0.65rem 0.65rem 0.55rem;
+  border: 2px solid rgba(29, 44, 66, 0.35);
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(16, 26, 40, 0.02)),
+    radial-gradient(circle at 50% 25%, rgba(255, 255, 255, 0.16), transparent 58%);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.4);
+}
+
+.executive-card__portrait::after {
+  content: '';
+  position: absolute;
+  inset: auto 1rem 0.9rem;
+  height: 0.4rem;
+  background: linear-gradient(90deg, transparent, var(--executive-portrait-accent), transparent);
+  opacity: 0.85;
+}
+
+.executive-card__prestige {
+  position: absolute;
+  right: 0.85rem;
+  top: 0.85rem;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  gap: 0.18rem;
+  min-width: 4.2rem;
+  padding: 0.5rem 0.55rem 0.6rem;
+  border: 1px solid rgba(31, 45, 66, 0.4);
+  background: linear-gradient(180deg, rgba(34, 52, 79, 0.94), rgba(24, 38, 58, 0.98));
+  color: var(--wc-text-inverse);
+  box-shadow:
+    0 0 0 1px rgba(255, 255, 255, 0.2) inset,
+    0 8px 18px rgba(20, 32, 49, 0.22);
+}
+
+.executive-card__prestige span {
+  color: rgba(235, 240, 248, 0.88);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.executive-card__prestige strong {
+  font-size: 1.6rem;
+  line-height: 1;
+  letter-spacing: 0.03em;
+}
+
+.executive-card__nameplate {
+  display: grid;
+  gap: 0.28rem;
+  padding: 0.75rem 1rem 0.85rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.35);
+  border-bottom: 1px solid rgba(47, 61, 87, 0.16);
+  background: linear-gradient(180deg, var(--wc-blue-top), var(--wc-blue-bottom));
+}
+
+.executive-card__nameplate span,
+.executive-card__label {
+  color: var(--wc-accent-warm);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.executive-card__nameplate strong {
+  font-size: 1.05rem;
+  letter-spacing: 0.03em;
+  color: var(--wc-ink-strong);
+}
+
+.executive-card__details {
+  display: grid;
+  gap: 0.7rem;
+  padding: 0.9rem 1rem 1rem;
+  background: linear-gradient(180deg, var(--wc-paper-top), rgba(240, 244, 250, 0.96));
+}
+
+.executive-card__details .cost-row {
+  margin: 0;
+}
+
+.executive-card__label {
+  color: var(--wc-accent-strong);
+}
+
+.cost-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(2rem, max-content));
+  justify-content: start;
+  gap: 0.45rem;
+}
+
+.resource-cost {
+  @include shared.resource-cost;
+  @include shared.resource-cost-pill;
+}
+
+.resource-cost--met {
+  border-color: rgba(76, 128, 87, 0.32);
+  background: linear-gradient(180deg, rgba(232, 247, 234, 0.98), rgba(214, 238, 218, 0.95));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.38),
+    0 0 0 1px rgba(88, 136, 98, 0.08);
+}
+
+.mini-card {
+  @include shared.mini-card-base;
+}
+
+.mini-card--executive {
+  background: linear-gradient(180deg, var(--wc-cream-top), rgba(244, 232, 194, 0.95));
+}

@@ -8,7 +8,8 @@ import { ResourceIconComponent } from '../resource-icon/resource-icon.component'
 @Component({
   selector: 'app-resource-bank',
   imports: [MatButtonModule, MatTooltipModule, ResourceIconComponent],
-  templateUrl: './resource-bank.component.html'
+  templateUrl: './resource-bank.component.html',
+  styleUrl: './resource-bank.component.scss'
 })
 export class ResourceBankComponent {
   readonly resourceTypes = input.required<ResourceType[]>();

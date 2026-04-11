@@ -6,7 +6,8 @@ import { ExecutiveCardComponent } from '../executive-card/executive-card.compone
 @Component({
   selector: 'app-executive-row',
   imports: [ExecutiveCardComponent],
-  templateUrl: './executive-row.component.html'
+  templateUrl: './executive-row.component.html',
+  styleUrl: './executive-row.component.scss'
 })
 export class ExecutiveRowComponent {
   readonly executives = input.required<ActiveExecutive[]>();

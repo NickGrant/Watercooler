@@ -92,6 +92,38 @@ h1 {
   margin: 0 auto;
 }
 
+.shell-grid--active {
+  grid-template-columns: minmax(18rem, 1fr) minmax(0, 2.8fr) minmax(18rem, 1.05fr);
+  align-items: start;
+}
+
+.shell-column {
+  display: grid;
+  gap: 1rem;
+  min-width: 0;
+  align-content: start;
+}
+
+.shell-panel--sidebar,
+.shell-panel--coworkers,
+.board-panel--supply,
+.board-panel--market,
+.shell-panel--executives {
+  min-width: 0;
+}
+
+.shell-column--sidebar {
+  grid-column: 1;
+}
+
+.shell-column--market {
+  grid-column: 2;
+}
+
+.shell-column--executives {
+  grid-column: 3;
+}
+
 mat-card {
   border-radius: 0;
   border: 1px solid var(--wc-border-soft);
@@ -118,6 +150,31 @@ h2,
 h3,
 p {
   margin-top: 0;
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  margin-bottom: 0.75rem;
+}
+
+.section-heading > h2,
+.section-heading > h3 {
+  margin-bottom: 0;
+}
+
+.heading-help {
+  width: 1.55rem;
+  height: 1.55rem;
+  border: 1px solid var(--wc-border-strong);
+  background: linear-gradient(180deg, var(--wc-text-inverse), var(--wc-panel-alt));
+  color: var(--wc-accent-strong);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1;
+  cursor: help;
 }
 
 .avatar-grid {
@@ -178,9 +235,7 @@ p {
 }
 
 .turn-summary,
-.resource-bank,
-.future-columns,
-.supply-console {
+.future-columns {
   display: grid;
   gap: 1rem;
 }
@@ -190,18 +245,12 @@ p {
 }
 
 .turn-summary__tile,
-.action-panel,
-.player-panel,
-.resource-bank__tile,
-.market-card,
-.executive-card,
-.mini-card {
+.action-panel {
   border: 1px solid rgba(47, 61, 87, 0.18);
   background: linear-gradient(180deg, rgba(250, 252, 255, 0.96), rgba(240, 244, 250, 0.95));
 }
 
-.turn-summary__tile,
-.resource-bank__tile {
+.turn-summary__tile {
   padding: 0.85rem 1rem;
 }
 
@@ -221,10 +270,6 @@ p {
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
-}
-
-.resource-bank__tile--favor {
-  background: linear-gradient(180deg, var(--wc-gold-top), var(--wc-gold-bottom));
 }
 
 .action-panel {
@@ -258,11 +303,6 @@ p {
   padding-left: 1.1rem;
   color: var(--wc-ink);
   line-height: 1.6;
-}
-
-.resource-pick--selected {
-  border-color: rgba(52, 76, 115, 0.7);
-  background: linear-gradient(180deg, rgba(228, 235, 247, 0.98), rgba(210, 222, 239, 0.98));
 }
 
 .roster {
@@ -313,48 +353,6 @@ p {
   text-transform: uppercase;
 }
 
-.roster-badge--winner {
-  border-color: var(--wc-winner-border);
-  background: linear-gradient(180deg, var(--wc-winner-top), var(--wc-winner-bottom));
-  color: var(--wc-winner-ink);
-}
-
-.player-panel {
-  padding: 1rem;
-}
-
-.player-panel--active {
-  border-color: rgba(52, 76, 115, 0.45);
-  box-shadow:
-    inset 0 0 0 1px rgba(52, 76, 115, 0.2),
-    0 0 0 1px rgba(255, 255, 255, 0.45);
-}
-
-.player-panel__header {
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.player-panel__collections {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
-  gap: 0.75rem;
-  margin-top: 0.75rem;
-}
-
-.card-stack,
-.market-tier__cards,
-.executive-grid {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.mini-card--executive {
-  background: linear-gradient(180deg, var(--wc-cream-top), rgba(244, 232, 194, 0.95));
-}
-
 .start-controls {
   display: flex;
   flex-wrap: wrap;
@@ -382,83 +380,20 @@ p {
   padding: 0.35rem;
 }
 
-.supply-console__footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
-.market-grid {
-  display: grid;
-  gap: 1rem;
-}
-
-.market-tier {
-  padding: 0.85rem;
-  border: 1px solid var(--wc-border-subtle);
-  background: linear-gradient(180deg, rgba(246, 248, 252, 0.96), rgba(236, 241, 248, 0.94));
-}
-
-.market-tier > header,
-.market-card__meta,
-.market-card__actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 0.75rem;
-}
-
-.market-tier > header {
-  align-items: baseline;
-  margin-bottom: 0.75rem;
-}
-
-.market-card h4 {
-  margin: 0 0 0.4rem;
-}
-
-.cost-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.35rem;
-  margin: 0.55rem 0;
-}
-
-.cost-row span {
-  padding: 0.2rem 0.42rem;
-  border: 1px solid rgba(52, 76, 115, 0.16);
-  background: linear-gradient(180deg, var(--wc-text-inverse), var(--wc-panel-alt));
-  font-size: 0.76rem;
-  font-weight: 600;
-}
-
 .results-hero,
 .action-panel,
-.market-tier,
-.player-panel,
 .status-card,
 .turn-summary__tile,
-.lobby-status__metric,
-.resource-bank__tile,
-.mini-card,
-.market-card,
-.executive-card {
+.lobby-status__metric {
   position: relative;
   overflow: hidden;
 }
 
 .results-hero::after,
 .action-panel::after,
-.market-tier::after,
-.player-panel::after,
 .status-card::after,
 .turn-summary__tile::after,
-.lobby-status__metric::after,
-.resource-bank__tile::after,
-.mini-card::after,
-.market-card::after,
-.executive-card::after {
+.lobby-status__metric::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -466,6 +401,34 @@ p {
   background:
     linear-gradient(180deg, rgba(255, 255, 255, 0.24), transparent 40%);
   opacity: 0.6;
+}
+
+app-player-card,
+app-resource-bank,
+app-visible-market,
+app-executive-row {
+  display: block;
+}
+
+.status-card--turn {
+  min-width: 14rem;
+}
+
+.status-card--turn-active {
+  border-color: rgba(52, 76, 115, 0.42);
+  background: linear-gradient(180deg, var(--wc-blue-top), var(--wc-blue-bottom));
+}
+
+.board-section--supply,
+.board-section--executives {
+  padding-top: 0;
+}
+
+@media (min-width: 1180px) {
+  .shell-grid:not(.shell-grid--active) {
+    grid-template-columns: minmax(15.5rem, 17rem) minmax(19rem, 22rem) minmax(0, 1fr);
+    align-items: start;
+  }
 }
 
 @media (max-width: 640px) {
@@ -487,12 +450,6 @@ p {
     flex-direction: column;
   }
 
-  .player-panel__header,
-  .market-card__meta,
-  .market-card__actions {
-    flex-direction: column;
-  }
-
   .results-hero {
     grid-template-columns: 1fr;
   }
@@ -508,6 +465,16 @@ p {
 }
 
 @media (max-width: 1080px) {
+  .shell-grid--active {
+    grid-template-columns: 1fr;
+  }
+
+  .shell-column--sidebar,
+  .shell-column--market,
+  .shell-column--executives {
+    grid-column: auto;
+  }
+
   .shell-grid {
     grid-template-columns: 1fr;
   }

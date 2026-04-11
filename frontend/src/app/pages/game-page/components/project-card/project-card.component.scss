@@ -1,0 +1,86 @@
+@use '../../shared-game-page' as shared;
+
+:host {
+  display: block;
+}
+
+.market-card {
+  position: relative;
+  display: grid;
+  gap: 0.55rem;
+  overflow: hidden;
+  padding: 0.75rem 0.8rem;
+  border: 1px solid rgba(47, 61, 87, 0.18);
+  background: linear-gradient(180deg, rgba(250, 252, 255, 0.96), rgba(240, 244, 250, 0.95));
+}
+
+.market-card::after,
+.mini-card::after {
+  @include shared.surface-sheen;
+}
+
+.market-card__meta,
+.market-card__actions,
+.mini-card__header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+}
+
+.market-card__meta {
+  align-items: center;
+}
+
+.market-card h4 {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.25;
+}
+
+.market-card > p,
+.mini-card p {
+  margin: 0;
+  color: var(--wc-accent);
+  font-size: 0.78rem;
+}
+
+.market-card__actions {
+  margin-top: auto;
+}
+
+.market-card__actions .mat-mdc-button-base {
+  min-width: 0;
+  padding-inline: 0.6rem;
+}
+
+.mini-card {
+  @include shared.mini-card-base;
+}
+
+.mini-card__header {
+  align-items: start;
+}
+
+.cost-row {
+  @include shared.cost-row;
+}
+
+.cost-row--mini {
+  margin-block: 0;
+}
+
+.resource-reference {
+  @include shared.resource-reference;
+}
+
+.resource-cost {
+  @include shared.resource-cost;
+  @include shared.resource-cost-pill;
+}
+
+@media (max-width: 640px) {
+  .market-card__meta,
+  .market-card__actions {
+    flex-direction: column;
+  }
+}

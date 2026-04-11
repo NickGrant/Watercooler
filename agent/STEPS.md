@@ -6,6 +6,14 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
+### STEP-107
+
+- Name: Render layered PNG avatars in the frontend
+- Priority: High
+- Blocked By: STEP-106
+- Blocks: STEP-108
+- Description: Replace the old single-layer SVG avatar setup with a reusable layered PNG avatar component in the join flow and lobby surfaces so avatars compose and scale predictably.
+
 
 ## Step Management Rules
 

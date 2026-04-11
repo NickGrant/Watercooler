@@ -213,3 +213,11 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 - Status: Complete
 - Description: Remove obsolete websocket-era architecture references and cleanup leftover deployment surface so the repo's docs, structure, and guidance reflect the current polling-first shared-hosting path.
 - Steps: STEP-103, STEP-104, STEP-105
+
+### JOB-027
+
+- Name: PNG Avatar Normalization And Layered Rendering
+- Priority: High
+- Status: In Progress
+- Description: Replace the old avatar SVG assumptions with a shared-canvas PNG workflow and layered frontend rendering so player avatars can be composed, cycled, and resized without per-option positioning logic.
+- Steps: STEP-106, STEP-107, STEP-108

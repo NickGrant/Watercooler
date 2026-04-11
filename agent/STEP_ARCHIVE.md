@@ -764,3 +764,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: STEP-104
 - Blocks: None
 - Description: Review remaining API/frontend naming such as `realtime` transport metadata and update docs or contracts where needed so deployment and maintenance guidance matches the simplified polling-based architecture without misleading future cleanup or hosting decisions.
+
+### STEP-106
+
+- Name: Normalize PNG avatar layers onto a shared composite canvas
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-107, STEP-108
+- Description: Add a repeatable asset-processing script and generate shared-canvas body, face, and hair PNGs so avatar layers can stack cleanly with one placement rule per layer type.

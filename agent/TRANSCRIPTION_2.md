@@ -321,8 +321,19 @@ I completed STEP-105 by renaming the API and frontend sync metadata from `realti
 
 ---
 
+#### Entry 204
+**User:**
+
+If you can handle this image manipulation that would be great, I would much rather have you do it than me sit in photoshop for hours getting these sized correctly
+
+**Assistant:**
+
+I started JOB-027 by normalizing the new avatar PNG set into a shared transparent `512x640` canvas for every body, face, and hair layer so the frontend can stack them with one placement rule per type instead of per-option offsets. I added a reusable script at `frontend/scripts/normalize_avatar_pngs.py`, generated the processed outputs under `frontend/public/avatar-options/normalized/`, and wrote `metadata.json` there so future avatar additions can be reprocessed in one command instead of being manually nudged in an editor.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `203`
+- Latest recorded entry: `204`
 

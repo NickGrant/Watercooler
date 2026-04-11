@@ -114,11 +114,14 @@
             [resourceTypes]="resourceTypes"
             [bank]="startedGame.bank"
             [selectedResources]="selectedTakeResources()"
+            [canAddResource]="canAddSelectedResource.bind(this)"
+            [selectedResourceCount]="selectedResourceCount.bind(this)"
             [actionPending]="actionPending()"
             [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
             [resourceLabel]="resourceLabel.bind(this)"
             [resourceIconPath]="resourceIconPath.bind(this)"
             (toggleResource)="toggleTakeResource($event)"
+            (removeResource)="removeSelectedResource($event)"
             (submitSelection)="submitTakeResources()"
           />
         </mat-card>
@@ -549,11 +552,14 @@
               [resourceTypes]="resourceTypes"
               [bank]="startedGame.bank"
               [selectedResources]="selectedTakeResources()"
+              [canAddResource]="canAddSelectedResource.bind(this)"
+              [selectedResourceCount]="selectedResourceCount.bind(this)"
               [actionPending]="actionPending()"
               [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
               [resourceLabel]="resourceLabel.bind(this)"
               [resourceIconPath]="resourceIconPath.bind(this)"
               (toggleResource)="toggleTakeResource($event)"
+              (removeResource)="removeSelectedResource($event)"
               (submitSelection)="submitTakeResources()"
             />
           </section>

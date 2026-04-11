@@ -362,8 +362,129 @@ I closed JOB-027 by adding focused coverage for the new `app-avatar-composite` c
 
 ---
 
+#### Entry 207
+**User:**
+
+Lets move forward with our jobs
+
+**Assistant:**
+
+I completed JOB-021 by refining the active player display hierarchy and density, including the lighter self panel and improved card summary treatment, and committed that work as `cf06456`.
+
+---
+
+#### Entry 208
+**User:**
+
+that is looking much better, lets move forward
+
+**Assistant:**
+
+I completed JOB-022 with oversized icon-led resource bank controls, committed it as `1784435`, and kept the trackers and transcript aligned.
+
+---
+
+#### Entry 209
+**User:**
+
+quick UAT thing before we move forward, player-panel_collections is changing to a 2x2 grid after a certain width, this should never happen, it should always be a single column
+
+**Assistant:**
+
+I fixed the player collections layout so it always stays a single-column stack and committed that correction as `210a51f`.
+
+---
+
+#### Entry 210
+**User:**
+
+can we also remove the "resources" headline from the resources bank and the line of text beneath that. Lets make the select resource icons larger too
+
+**Assistant:**
+
+I removed the extra resource-bank header copy, increased the selectable icon size, and committed the change as `1f0d527`.
+
+---
+
+#### Entry 211
+**User:**
+
+The icons are a good size now. Now we need up the size of the "Selected" area icons to at least double the current size
+
+**Assistant:**
+
+I enlarged the selected-resource strip icons with a new medium resource-icon variant and committed that adjustment as `cc9cdd2`.
+
+---
+
+#### Entry 212
+**User:**
+
+finish any remaining work, no need to check in after features until this current workload is complete. Also, I am getting a 500 error from the backend when trying to submit any game actions
+
+**Assistant:**
+
+I fixed the backend action 500 by adding the missing executive portrait compatibility migration, repairing the PDO runtime mismatch, validating live action requests end to end, then completed the remaining UI jobs for backlog layout and executive card presentation in separate commits.
+
+---
+
+#### Entry 213
+**User:**
+
+I noticed that we still have a realtime server in docker, do we still need that architecture if we are using polling? I want to make sure we have simplified as much as we can for deployment later this afternoon
+
+**Assistant:**
+
+I confirmed the app no longer needed a separate realtime runtime for the polling deployment path and recommended a cleanup pass to remove the obsolete websocket-era repo surface.
+
+---
+
+#### Entry 214
+**User:**
+
+Go ahead and create a job and tasks for a cleanup pass to remove all references to the old architecture and generally make sure our main documents (AGENTS, README, etc...) are up to date
+
+**Assistant:**
+
+I created JOB-026 with polling-architecture cleanup steps, completed it by removing the obsolete realtime service scaffold and renaming the remaining transport metadata, and updated the main docs to match the shared-hosting polling-first architecture.
+
+---
+
+#### Entry 215
+**User:**
+
+I have added a large number of png files, these are to replace the avatar svg files...
+
+**Assistant:**
+
+I reviewed the new PNG avatar set, recommended solving alignment through a shared transparent master canvas rather than per-layer positioning logic, and laid out the asset-processing approach needed for clean layered avatar composition and downscaling.
+
+---
+
+#### Entry 216
+**User:**
+
+If you can handle this image manipulation that would be great, I would much rather have you do it than me sit in photoshop for hours getting these sized correctly
+
+**Assistant:**
+
+I normalized the avatar PNG assets onto a shared canvas, migrated the frontend to a reusable layered avatar component, updated the join and waiting-room views to use it, and documented and tested the new avatar pipeline across JOB-027.
+
+---
+
+#### Entry 217
+**User:**
+
+A couple things I noticed while playtesting: lets add a wrapper around the game screen...
+
+**Assistant:**
+
+I opened JOB-028 for the playtest findings, implemented the first step to support duplicate resource picks, clickable removal from the selected strip, Executive Favor purchase confirmation, and recoverable stale-action messaging that surfaces the backend message instead of trapping players in the generic resync loop. I also fixed the remaining focused spec around expired session handling so the STEP-109 test suite is now green.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `206`
+- Latest recorded entry: `217`
 

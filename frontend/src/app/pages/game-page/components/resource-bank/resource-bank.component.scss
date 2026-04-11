@@ -129,6 +129,19 @@
   text-transform: uppercase;
 }
 
+.resource-bank__tile-count {
+  position: absolute;
+  top: 0.45rem;
+  right: 0.45rem;
+  padding: 0.15rem 0.35rem;
+  border: 1px solid rgba(52, 76, 115, 0.35);
+  background: rgba(255, 255, 255, 0.86);
+  color: var(--wc-accent-strong);
+  font-size: 0.72rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
 .resource-bank__tile-label--favor {
   color: var(--wc-accent-strong);
 }
@@ -154,17 +167,21 @@
   display: inline-flex;
 }
 
+.selection-copy__remove {
+  display: inline-flex;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.selection-copy__remove:disabled {
+  cursor: default;
+}
+
 .selection-copy__empty {
   color: var(--wc-ink);
   font-size: 0.82rem;
-}
-
-.resource-pick--selected {
-  border-color: rgba(52, 76, 115, 0.7);
-  background: linear-gradient(180deg, rgba(228, 235, 247, 0.98), rgba(210, 222, 239, 0.98));
-  box-shadow:
-    inset 0 0 0 1px rgba(52, 76, 115, 0.28),
-    0 12px 24px rgba(38, 56, 85, 0.16);
 }
 
 .supply-console__footer {

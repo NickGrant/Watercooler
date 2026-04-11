@@ -1,8 +1,10 @@
 import { ActiveGameState } from '../../core/models/active-game-state.model';
 import {
   buildFinalTieBreakSummary,
+  canAddResourceToSelection,
   canAffordCard,
   describeStateChanges,
+  executiveFavorRequired,
   formatRoomName,
   sortPlayersByFinalStanding
 } from './game-page-state.utils';
@@ -95,6 +97,62 @@ describe('game-page-state utils', () => {
         }
       })
     ).toBeTrue();
+  });
+
+  it('reports how much executive favor a purchase will spend', () => {
+    const player = {
+      ...createState().players[0],
+      resources: {
+        coffee: 0,
+        spreadsheets: 1,
+        budget: 0,
+        connections: 0,
+        time: 0,
+        executiveFavor: 2,
+        totalTokens: 3
+      },
+      permanentDiscounts: {
+        coffee: 1,
+        spreadsheets: 0,
+        budget: 0,
+        connections: 0,
+        time: 0
+      }
+    };
+
+    expect(
+      executiveFavorRequired(player, {
+        code: 'budget-buffer',
+        tier: 1,
+        name: 'Budget Buffer',
+        resourceDiscount: 'coffee',
+        officePrestige: 1,
+        cost: {
+          coffee: 2,
+          spreadsheets: 1,
+          budget: 1,
+          connections: 0,
+          time: 0
+        }
+      })
+    ).toBe(2);
+  });
+
+  it('allows adding a second matching resource only when the bank supports a double take', () => {
+    expect(canAddResourceToSelection(['coffee'], 'coffee', createState().bank)).toBeTrue();
+    expect(
+      canAddResourceToSelection(['coffee'], 'coffee', {
+        ...createState().bank,
+        coffee: 3
+      })
+    ).toBeFalse();
+  });
+
+  it('supports building toward a three-distinct selection one click at a time', () => {
+    expect(canAddResourceToSelection([], 'coffee', createState().bank)).toBeTrue();
+    expect(canAddResourceToSelection(['coffee'], 'budget', createState().bank)).toBeTrue();
+    expect(canAddResourceToSelection(['coffee', 'budget'], 'time', createState().bank)).toBeTrue();
+    expect(canAddResourceToSelection(['coffee', 'budget'], 'coffee', createState().bank)).toBeFalse();
   });
 });
 

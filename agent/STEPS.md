@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-### STEP-109
+### STEP-110
 
-- Name: Fix resource selection UX and recoverable action messaging
-- Priority: High
+- Name: Refine market copy and host indicators
+- Priority: Medium
 - Blocked By: None
-- Blocks: STEP-110, STEP-111
-- Description: Rework take-resource selection to support duplicate picks cleanly, surface recoverable conflicts as actionable errors instead of generic resync loops, and add Executive Favor spend confirmation before purchases.
+- Blocks: None
+- Description: Remove leftover market copy that adds noise, move host indication into a lightweight inline marker near player names, and keep current-turn indicators visually distinct.
 
 
 ## Step Management Rules

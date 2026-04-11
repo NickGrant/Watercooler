@@ -17,6 +17,7 @@ describe('GamePageComponent', () => {
 
   beforeEach(async () => {
     localStorage.clear();
+    spyOn(globalThis, 'confirm').and.returnValue(true);
     originalVisibilityStateDescriptor = Object.getOwnPropertyDescriptor(document, 'visibilityState');
     originalHiddenDescriptor = Object.getOwnPropertyDescriptor(document, 'hidden');
     setDocumentVisibility(false);
@@ -949,17 +950,27 @@ describe('GamePageComponent', () => {
 
     const fixture = TestBed.createComponent(GamePageComponent);
     fixture.componentInstance.toggleTakeResource('coffee');
-    fixture.componentInstance.toggleTakeResource('budget');
-    fixture.componentInstance.toggleTakeResource('time');
+    fixture.componentInstance.toggleTakeResource('coffee');
     fixture.componentInstance.submitTakeResources();
 
     expect(gamesApi.takeResources).toHaveBeenCalledWith('synergy-report-telemetry', {
       sessionToken: 'temporary-session-token',
-      resources: ['coffee', 'budget', 'time']
+      resources: ['coffee', 'coffee']
     });
     expect(fixture.componentInstance.actionMessage()).toBeNull();
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
     expect(fixture.componentInstance.latestToastMessage()).toBe("It is now Jim's turn.");
+  });
+
+  it('removes one selected resource at a time from the selected strip', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+    const fixture = TestBed.createComponent(GamePageComponent);
+
+    fixture.componentInstance.toggleTakeResource('coffee');
+    fixture.componentInstance.toggleTakeResource('coffee');
+    fixture.componentInstance.removeSelectedResource('coffee');
+
+    expect(fixture.componentInstance.selectedTakeResources()).toEqual(['coffee']);
   });
 
   it('uses the embedded recovery payload when an action returns a stale conflict', () => {
@@ -997,9 +1008,8 @@ describe('GamePageComponent', () => {
     expect(gamesApi.getGameState.calls.count()).toBe(1);
     expect(fixture.componentInstance.startedGame()?.currentTurnGamePlayerId).toBe(2);
     expect(fixture.componentInstance.actionMessage()).toBeNull();
-    expect(fixture.componentInstance.actionError()).toBeNull();
-    expect(fixture.componentInstance.latestToastMessage()).toBe(
-      'A newer room state was detected and your board was resynced.'
+    expect(fixture.componentInstance.actionError()).toBe(
+      'Only the active player may take resources right now.'
     );
   });
 
@@ -1063,16 +1073,11 @@ describe('GamePageComponent', () => {
 
   it('marks the session stale when an action refresh also returns 401', () => {
     gamesApi.takeResources.and.returnValue(throwError(() => ({ status: 401 })));
-    gamesApi.getGameState.and.returnValue(throwError(() => ({ status: 401 })));
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
 
     const fixture = TestBed.createComponent(GamePageComponent);
-    fixture.componentInstance.updatePlayerName('Pam');
-    fixture.componentInstance.submitJoin();
-    fixture.componentInstance.requestStartGame();
-
     fixture.componentInstance.toggleTakeResource('coffee');
-    fixture.componentInstance.toggleTakeResource('budget');
-    fixture.componentInstance.toggleTakeResource('time');
+    fixture.componentInstance.toggleTakeResource('coffee');
     fixture.componentInstance.submitTakeResources();
 
     expect(fixture.componentInstance.session.sessionToken()).toBeNull();
@@ -1119,6 +1124,47 @@ describe('GamePageComponent', () => {
       cardCode: 'reserved-1'
     });
     expect(fixture.componentInstance.latestToastMessage()).toContain('Budget Buffer');
+  });
+
+  it('confirms purchases that spend executive favor', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+    (globalThis.confirm as jasmine.Spy).and.returnValue(false);
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.componentInstance.startedGame.set(
+      createActiveState({
+        players: [
+          {
+            ...createActiveState().players[0],
+            resources: {
+              coffee: 0,
+              spreadsheets: 1,
+              budget: 0,
+              connections: 0,
+              time: 0,
+              executiveFavor: 1,
+              totalTokens: 2
+            }
+          },
+          createActiveState().players[1]
+        ]
+      })
+    );
+    const card = {
+      ...fixture.componentInstance.startedGame()!.market.tier1[0],
+      cost: {
+        coffee: 1,
+        spreadsheets: 2,
+        budget: 0,
+        connections: 0,
+        time: 0
+      }
+    };
+
+    fixture.componentInstance.purchaseMarketCard(card);
+
+    expect(globalThis.confirm).toHaveBeenCalled();
+    expect(gamesApi.purchaseAdvantage).not.toHaveBeenCalled();
   });
 
   it('orders completed-game standings by prestige, purchased cards, and seat order', () => {

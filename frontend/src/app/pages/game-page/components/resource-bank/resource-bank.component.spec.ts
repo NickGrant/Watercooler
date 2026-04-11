@@ -21,6 +21,10 @@ describe('ResourceBankComponent', () => {
       executiveFavor: 5
     });
     fixture.componentRef.setInput('selectedResources', ['coffee', 'budget']);
+    fixture.componentRef.setInput('canAddResource', () => true);
+    fixture.componentRef.setInput('selectedResourceCount', (resource: string) =>
+      resource === 'coffee' || resource === 'budget' ? 1 : 0
+    );
     fixture.componentRef.setInput('isCurrentPlayersTurn', true);
     fixture.componentRef.setInput('resourceLabel', (resource: string) => resource);
     fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.png`);
@@ -35,6 +39,7 @@ describe('ResourceBankComponent', () => {
     expect(fixture.nativeElement.querySelector('.resource-bank__tile-label')?.textContent).toContain('coffee');
     expect(fixture.nativeElement.querySelector('.resource-bank__tile .resource-icon-badge--large')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('.selection-copy__icon .resource-icon-badge--medium')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('.resource-bank__tile-count')?.textContent).toContain('x1');
     expect(
       fixture.nativeElement.querySelector('.resource-bank__column--resources .resource-bank__column-header')
     ).toBeNull();
@@ -48,5 +53,15 @@ describe('ResourceBankComponent', () => {
     (fixture.nativeElement.querySelector('.resource-bank__tile--selectable') as HTMLButtonElement).click();
 
     expect(toggleSpy).toHaveBeenCalledWith('coffee');
+  });
+
+  it('emits removal requests from the selected strip', () => {
+    const removeSpy = jasmine.createSpy('remove');
+    fixture.componentRef.instance.removeResource.subscribe(removeSpy);
+    fixture.detectChanges();
+
+    (fixture.nativeElement.querySelector('.selection-copy__remove') as HTMLButtonElement).click();
+
+    expect(removeSpy).toHaveBeenCalledWith('coffee');
   });
 });

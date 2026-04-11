@@ -8,8 +8,7 @@
             type="button"
             [matTooltip]="resourceLabel()(resource) + ': ' + bank()[resource] + ' available in the bank'"
             [attr.aria-label]="'Take ' + resourceLabel()(resource) + ' from the bank. ' + bank()[resource] + ' remain available.'"
-            [disabled]="actionPending() || !isCurrentPlayersTurn()"
-            [class.resource-pick--selected]="selectedResources().includes(resource)"
+            [disabled]="actionPending() || !isCurrentPlayersTurn() || !canAddResource()(resource)"
             (click)="onToggle(resource)"
           >
             <app-resource-icon
@@ -20,6 +19,9 @@
               [decorative]="true"
             />
             <span class="resource-bank__tile-label">{{ resourceLabel()(resource) }}</span>
+            @if (selectedResourceCount()(resource) > 0) {
+              <span class="resource-bank__tile-count">x{{ selectedResourceCount()(resource) }}</span>
+            }
           </button>
         }
       </div>
@@ -30,7 +32,13 @@
           <div class="selection-copy__icons">
             @if (selectedResources().length > 0) {
               @for (resource of selectedResources(); track $index) {
-                <span [matTooltip]="resourceLabel()(resource)">
+                <button
+                  type="button"
+                  class="selection-copy__remove"
+                  [matTooltip]="'Remove ' + resourceLabel()(resource) + ' from the current selection'"
+                  [attr.aria-label]="'Remove ' + resourceLabel()(resource) + ' from the current selection'"
+                  (click)="onRemove(resource)"
+                >
                   <app-resource-icon
                     class="selection-copy__icon"
                     [src]="resourceIconPath()(resource)"
@@ -38,7 +46,7 @@
                     variant="medium"
                     [decorative]="true"
                   />
-                </span>
+                </button>
               }
             } @else {
               <span class="selection-copy__empty">None</span>

@@ -15,16 +15,23 @@ export class ResourceBankComponent {
   readonly resourceTypes = input.required<ResourceType[]>();
   readonly bank = input.required<ResourceLedger>();
   readonly selectedResources = input.required<ResourceType[]>();
+  readonly canAddResource = input.required<(resource: ResourceType) => boolean>();
+  readonly selectedResourceCount = input.required<(resource: ResourceType) => number>();
   readonly actionPending = input(false);
   readonly isCurrentPlayersTurn = input(false);
   readonly resourceLabel = input.required<(resource: string) => string>();
   readonly resourceIconPath = input.required<(resource: string) => string>();
 
   readonly toggleResource = output<ResourceType>();
+  readonly removeResource = output<ResourceType>();
   readonly submitSelection = output<void>();
 
   onToggle(resource: ResourceType): void {
     this.toggleResource.emit(resource);
+  }
+
+  onRemove(resource: ResourceType): void {
+    this.removeResource.emit(resource);
   }
 
   onSubmit(): void {

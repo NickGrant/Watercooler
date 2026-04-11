@@ -179,6 +179,78 @@ export function canAffordCard(
   });
 }
 
+export function executiveFavorRequired(
+  player: ActiveGamePlayer | null,
+  card: ActivePlayerCard | ActiveGameCard
+): number {
+  if (player === null) {
+    return 0;
+  }
+
+  let remainingExecutiveFavor = player.resources.executiveFavor;
+  let requiredExecutiveFavor = 0;
+
+  resourceEntries(card.cost).forEach(([resource, amount]) => {
+    const permanentDiscount = player.permanentDiscounts[resource as ResourceType] ?? 0;
+    const discountedCost = Math.max(0, amount - permanentDiscount);
+    const available = player.resources[resource as keyof ResourceLedger];
+
+    if (typeof available !== 'number' || available >= discountedCost) {
+      return;
+    }
+
+    const shortfall = Math.min(discountedCost - available, remainingExecutiveFavor);
+    requiredExecutiveFavor += shortfall;
+    remainingExecutiveFavor -= shortfall;
+  });
+
+  return requiredExecutiveFavor;
+}
+
+export function canAddResourceToSelection(
+  selectedResources: ResourceType[],
+  resource: ResourceType,
+  bank: ResourceLedger
+): boolean {
+  if ((bank[resource] ?? 0) < 1 || selectedResources.length >= 3) {
+    return false;
+  }
+
+  const nextSelection = [...selectedResources, resource];
+  const resourceCounts = new Map<ResourceType, number>();
+
+  nextSelection.forEach((selectedResource) => {
+    resourceCounts.set(selectedResource, (resourceCounts.get(selectedResource) ?? 0) + 1);
+  });
+
+  const counts = [...resourceCounts.values()];
+  const distinctAvailableResources = ([
+    'coffee',
+    'spreadsheets',
+    'budget',
+    'connections',
+    'time'
+  ] as ResourceType[]).filter((resourceType) => (bank[resourceType] ?? 0) > 0).length;
+
+  if (counts.some((count) => count > 2)) {
+    return false;
+  }
+
+  if (nextSelection.length === 1) {
+    return true;
+  }
+
+  if (nextSelection.length === 2) {
+    if (resourceCounts.size === 1) {
+      return (bank[resource] ?? 0) >= 4;
+    }
+
+    return resourceCounts.size === 2 && (distinctAvailableResources <= 2 || selectedResources.length === 1);
+  }
+
+  return resourceCounts.size === 3;
+}
+
 export function finalPlacementLabel(index: number): string {
   return ['1st', '2nd', '3rd', '4th'][index] ?? `${index + 1}th`;
 }

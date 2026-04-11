@@ -34,8 +34,10 @@ import { StartedGameResponse } from '../../core/models/started-game-response.mod
 import { AvatarCompositeComponent } from '../../shared/components/avatar-composite/avatar-composite.component';
 import {
   buildFinalTieBreakSummary as buildFinalTieBreakSummaryText,
+  canAddResourceToSelection,
   canAffordCard as canAffordCardWithResources,
   describeStateChanges as describeGameStateChanges,
+  executiveFavorRequired as calculateExecutiveFavorRequired,
   finalPlacementLabel as formatFinalPlacementLabel,
   formatRoomName as formatGameRoomName,
   isExecutiveRequirementMet as isExecutiveRequirementSatisfied,
@@ -579,21 +581,37 @@ export class GamePageComponent {
   }
 
   toggleTakeResource(resource: ResourceType): void {
+    if (!this.canAddSelectedResource(resource)) {
+      return;
+    }
+
+    this.selectedTakeResources.update((current) => [...current, resource]);
+  }
+
+  removeSelectedResource(resource: ResourceType): void {
     const current = [...this.selectedTakeResources()];
     const existingIndex = current.indexOf(resource);
 
-    if (existingIndex >= 0) {
-      current.splice(existingIndex, 1);
-      this.selectedTakeResources.set(current);
+    if (existingIndex < 0) {
       return;
     }
 
-    if (current.length >= 3) {
-      return;
-    }
-
-    current.push(resource);
+    current.splice(existingIndex, 1);
     this.selectedTakeResources.set(current);
+  }
+
+  canAddSelectedResource(resource: ResourceType): boolean {
+    const state = this.startedGame();
+
+    if (state === null) {
+      return false;
+    }
+
+    return canAddResourceToSelection(this.selectedTakeResources(), resource, state.bank);
+  }
+
+  selectedResourceCount(resource: ResourceType): number {
+    return this.selectedTakeResources().filter((selectedResource) => selectedResource === resource).length;
   }
 
   submitTakeResources(): void {
@@ -636,7 +654,7 @@ export class GamePageComponent {
     const sessionToken = this.session.sessionToken();
     const slug = this.session.slug();
 
-    if (sessionToken === null || slug === null) {
+    if (sessionToken === null || slug === null || !this.confirmExecutiveFavorSpend(card)) {
       return;
     }
 
@@ -655,7 +673,7 @@ export class GamePageComponent {
     const sessionToken = this.session.sessionToken();
     const slug = this.session.slug();
 
-    if (sessionToken === null || slug === null) {
+    if (sessionToken === null || slug === null || !this.confirmExecutiveFavorSpend(card)) {
       return;
     }
 
@@ -691,6 +709,18 @@ export class GamePageComponent {
 
   canAffordCard(player: ActiveGamePlayer | null, card: ActivePlayerCard | ActiveGameCard): boolean {
     return canAffordCardWithResources(player, card);
+  }
+
+  private confirmExecutiveFavorSpend(card: ActivePlayerCard | ActiveGameCard): boolean {
+    const executiveFavorRequired = calculateExecutiveFavorRequired(this.currentUserPlayer(), card);
+
+    if (executiveFavorRequired <= 0) {
+      return true;
+    }
+
+    return globalThis.confirm?.(
+      `This purchase will spend ${executiveFavorRequired} Executive Favor. Continue?`
+    ) ?? true;
   }
 
   trackByCardCode(_index: number, card: ActiveGameCard | ActivePlayerCard): string {
@@ -735,7 +765,7 @@ export class GamePageComponent {
         const recovery = this.extractActionRecovery(error);
 
         if (recovery !== null) {
-          this.applyActionRecovery(recovery);
+          this.applyActionRecovery(recovery, this.getApiMessage(error));
           return;
         }
 
@@ -771,7 +801,7 @@ export class GamePageComponent {
     });
   }
 
-  private applyActionRecovery(recovery: ActionRecoveryPayload): void {
+  private applyActionRecovery(recovery: ActionRecoveryPayload, message: string | null): void {
     if (recovery.state !== undefined) {
       this.startedGame.set(recovery.state);
       this.session.applyStartedGameState(recovery.state);
@@ -783,6 +813,12 @@ export class GamePageComponent {
 
     this.selectedTakeResources.set([]);
     this.actionMessage.set(null);
+
+    if (message !== null) {
+      this.actionError.set(message);
+      return;
+    }
+
     this.actionError.set(null);
     this.openStateToast('A newer room state was detected and your board was resynced.');
   }

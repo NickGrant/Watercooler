@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-109
+
+- Name: Fix resource selection UX and recoverable action messaging
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-110, STEP-111
+- Description: Rework take-resource selection to support duplicate picks cleanly, surface recoverable conflicts as actionable errors instead of generic resync loops, and add Executive Favor spend confirmation before purchases.
+
 ### STEP-082
 
 - Name: Cover bug report flow with automated tests and docs

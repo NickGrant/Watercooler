@@ -6,6 +6,14 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
+### TASK-088
+
+- Name: Align transcript workflow with shared transcription skill
+- Priority: High
+- Blocked By: TASK-087
+- Blocks: None
+- Description: Make the repository transcript workflow fully consistent with the shared `transcription-sync` skill, including any missing structural elements such as sync notes, and document any formatting limits or safe improvements for transcript readability.
+
 
 ### TASK-079
 

@@ -1138,3 +1138,25 @@ I completed `TASK-084` by consolidating duplicated agent-doc guidance so `AGENTS
 #### Entry 169
 Assistant:
 I completed `TASK-085` by adding an explicit feature-execution section to `agent/AGENT_WORKFLOW.md` that requires up-front parallelism evaluation, parallel task lanes when safe, a separate commit per completed task, end-of-feature user notification, and a pause whenever required information is missing, then marked `FEATURE-017` complete.
+
+#### Entry 170
+User:
+for my clarity, do we still need the AGENT_DOC_AUDIT file for operations? or was it just for the changes you just completed and now exists for reference only?
+
+Assistant:
+I explained that `agent/AGENT_DOC_AUDIT.md` was now reference-only rather than an operational dependency, and that removing it later would be reasonable if the repo should stay lean once the findings had been absorbed into the main operating docs.
+
+#### Entry 171
+User:
+I have more tasks for that last feature, reopen it and add these tasks to it, then execute them and close it again.
+
+- remove AGENT_DOC_AUDIT.md
+- add to the commit rule we already have going to also update README.md, AGENTS.md, and LLM_CONTEXT.md if any changes need to occur so that these documents are continually be reviewed and kept up to date.
+-  make sure the transcription flow is leveraging the transcription skill correctly. Also, if possible, can we adjust the markdown generated so that the user messages are right aligned and/or have some kind of background color to make quick scanning easier
+
+Assistant:
+I reopened `FEATURE-017`, added follow-up tasks for removing the temporary audit artifact, expanding the pre-commit doc-maintenance rule, and aligning the transcript workflow with the shared transcription skill, then began the follow-up pass using the `transcription-sync` skill as the reference for the transcript-related changes.
+
+#### Entry 172
+Assistant:
+I completed `TASK-086` by removing `agent/AGENT_DOC_AUDIT.md` after confirming it was only a temporary audit artifact, then promoted the pre-commit doc-maintenance update as the next active follow-up task under the reopened feature.

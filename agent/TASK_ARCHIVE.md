@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-086
+
+- Name: Remove temporary agent-doc audit artifact
+- Priority: Medium
+- Blocked By: None
+- Blocks: TASK-087, TASK-088
+- Description: Remove `agent/AGENT_DOC_AUDIT.md` now that its findings have been folded into the standing operating docs and no longer provide day-to-day operating value.
+
 ### TASK-085
 
 - Name: Codify standard feature execution workflow

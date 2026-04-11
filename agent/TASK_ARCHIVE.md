@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-076
+
+- Name: Centralize reusable visual tokens and shared CSS values
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Audit frontend styling for repeated colors and other shared visual constants, move them into global CSS variables where appropriate, and update component styles to reuse those tokens consistently.
+
 ### TASK-075
 
 - Name: Improve inline code documentation and API comments

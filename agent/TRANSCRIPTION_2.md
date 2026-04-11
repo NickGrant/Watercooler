@@ -266,8 +266,41 @@ I treated the runtime 500 as the critical blocker before the remaining UI jobs, 
 
 ---
 
+#### Entry 199
+**User:**
+
+I noticed that we still have a realtime server in docker, do we still need that architecture if we are using polling? I want to make sure we have simplified as much as we can for deployment later this afternoon
+
+**Assistant:**
+
+I verified that the active Docker setup already runs only `frontend`, `api`, and `db`, so the repo no longer needs a deployed standalone realtime service for the current polling-based path. I also confirmed there were still stale websocket-era references in docs and leftover repo surface such as `backend/realtime`, which is why I recommended a dedicated cleanup job rather than assuming the architecture had already been fully simplified.
+
+---
+
+#### Entry 200
+**User:**
+
+Go ahead and create a job and tasks for a cleanup pass to remove all references to the old architecture and generally make sure our main documents (AGENTS, README, etc...) are up to date
+
+**Assistant:**
+
+I created JOB-026 with three steps: one to refresh the main docs for the polling-first architecture, one to remove obsolete realtime deployment surface, and one to reconcile remaining transport naming and deployment guidance.
+
+---
+
+#### Entry 201
+**User:**
+
+Go ahead and work this feature
+
+**Assistant:**
+
+I completed STEP-103 by updating the main source-of-truth docs and planning files so they stop presenting a separate websocket service as the current default architecture. That pass refreshed `README.md`, `AGENTS.md`, `resources/planning/architecture.md`, `resources/planning/project-structure.md`, and the transport-specific sections of `resources/INITIAL_PROMPT.md` to describe the shared-hosting-friendly smart-polling path instead.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `198`
+- Latest recorded entry: `201`
 

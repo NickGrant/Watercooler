@@ -11,7 +11,6 @@ Current repo state includes:
 - planning docs under `resources/`
 - Angular frontend work in `frontend/`
 - PHP HTTP API work in `backend/api/`
-- PHP realtime service work in `backend/realtime/`
 - MySQL schema and migration assets in `database/`
 - Docker-based local setup in `docker-compose.yml`
 
@@ -20,16 +19,17 @@ Recent implementation work includes:
 - game creation and slug generation
 - frontend create-game and pre-join flow
 - join-bootstrap API and temporary player sessions
-- realtime room join and lobby presence primitives
-- waiting-room lobby UI
+- smart polling-based lobby and game-state refresh
+- waiting-room and in-game board UI
+- in-game bug-report capture
 
 ## Stack
 
 - Angular frontend
 - PHP HTTP API
-- PHP realtime service
 - MySQL persistence
 - Angular Material as the current UI base
+- polling-first synchronization tuned for small shared-hosting rooms
 
 ## Repository Layout
 
@@ -41,7 +41,6 @@ Recent implementation work includes:
 - `database/`: schema and migration files
 - `frontend/`: Angular app
 - `backend/api/`: HTTP API
-- `backend/realtime/`: realtime service
 
 ## Documentation
 
@@ -53,4 +52,5 @@ Recent implementation work includes:
 
 - Gameplay should remain mechanically faithful to Splendor.
 - The project is session-based and should avoid account-system complexity.
+- The default deployment path is shared-hosting friendly and does not require a separate realtime process.
 - Theme changes should improve clarity and flavor, not alter core mechanics.

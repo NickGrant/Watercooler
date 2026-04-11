@@ -740,3 +740,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: None
 - Description: Increase executive portrait height, move larger requirement icons into the top-left corner without a title label, and restyle the nameplate with overlap, z-index, and translucent backing for a stronger card hierarchy.
+
+### STEP-103
+
+- Name: Audit and update main docs for polling-first architecture
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-104, STEP-105
+- Description: Review `README.md`, `AGENTS.md`, `agent/LLM_CONTEXT.md`, `agent/AGENT_WORKFLOW.md`, and the main planning docs to remove outdated websocket-first guidance and make the current polling-first/shared-hosting architecture the documented default.

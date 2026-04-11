@@ -13,7 +13,7 @@ This document fixes the intended implementation layout before service scaffoldin
 - `backend/realtime/`
   Optional PHP realtime transport experiments and related service scaffolding. This is no longer required for the default shared-hosting deployment path.
 - `backend/shared/`
-  Shared PHP domain code that can be used by both API and realtime services without duplicating rules logic.
+  Shared PHP domain code that can be used by multiple backend runtimes without duplicating rules logic.
 - `database/`
   Migrations, seeds, schema notes, and local database bootstrap assets.
 - `resources/`
@@ -40,9 +40,9 @@ This document fixes the intended implementation layout before service scaffoldin
 
 ### `backend/realtime/`
 
-- optional transport experiments for future push-based synchronization
-- room membership and connection lifecycle prototypes
-- realtime state-broadcast orchestration prototypes
+- optional or legacy push-transport experiments
+- not required for the current polling-first shared-hosting deployment path
+- candidate for removal once no remaining docs or tooling depend on it
 
 ### `backend/shared/`
 
@@ -61,7 +61,7 @@ This document fixes the intended implementation layout before service scaffoldin
 ## Dependency Direction
 
 - `frontend/` depends on API contracts, but not on backend implementation details.
-- `backend/api/` and `backend/realtime/` may depend on `backend/shared/`.
+- `backend/api/` and any future optional transport service may depend on `backend/shared/`.
 - `backend/shared/` must not depend on transport-specific code from API or realtime layers.
 - `database/` is consumed by backend services, but should not contain service-specific business logic.
 

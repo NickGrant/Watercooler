@@ -14,7 +14,7 @@ The repository currently includes:
 - agent operating files under `agent/`
 - Angular frontend work in `frontend/`
 - PHP HTTP API work in `backend/api/`
-- PHP realtime service work in `backend/realtime/`
+- optional archived/experimental realtime transport work under `backend/realtime/`
 - MySQL schema and migration assets in `database/`
 - Docker-based local setup in `docker-compose.yml` and service Dockerfiles
 
@@ -23,7 +23,7 @@ The repository currently includes:
 - Preserve Splendor-equivalent gameplay rules.
 - Maintain server-authoritative multiplayer architecture.
 - Do not add account systems, monetization, or unrelated platform features unless explicitly requested.
-- Do not connect clients to WebSockets before the join flow succeeds.
+- Treat smart polling over the HTTP API as the default live-sync transport unless a step explicitly reintroduces push transport work.
 - Keep rules logic, theme content, persistence, and transport layers separated.
 
 ## Source Of Truth

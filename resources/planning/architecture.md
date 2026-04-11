@@ -2,12 +2,13 @@
 
 ## System Shape
 
-Watercooler is planned as a four-part system:
+Watercooler currently operates as a three-part system for the default deployment path:
 
 1. Angular frontend
 2. PHP HTTP API
-3. PHP WebSocket service
-4. MySQL database
+3. MySQL database
+
+Optional future work may reintroduce a separate push-transport service, but that is not part of the current shared-hosting-first architecture.
 
 ## Core Architectural Principles
 
@@ -24,7 +25,7 @@ Watercooler is planned as a four-part system:
 - render screens and game state
 - collect player intent
 - manage local join/session state
-- connect to WebSocket only after successful join
+- refresh authoritative state through smart polling after successful join
 - present legal actions clearly without acting as final authority
 
 ### HTTP API
@@ -33,15 +34,8 @@ Watercooler is planned as a four-part system:
 - generate and validate unique slugs
 - return game bootstrap data
 - validate join prerequisites
-- expose non-realtime reads or bootstrap endpoints
-
-### WebSocket Service
-
-- manage active room connections
-- coordinate lobby presence
-- receive and validate player actions
-- broadcast updated authoritative state
-- handle disconnect and reconnect flows
+- handle authoritative gameplay actions
+- expose polling-friendly state reads and recovery endpoints
 
 ### Database
 
@@ -53,14 +47,14 @@ Watercooler is planned as a four-part system:
 
 - gameplay rules should be reusable apart from UI theme text
 - content names and humorous copy should not be hard-wired into validation logic
-- realtime transport should not be tightly coupled to UI components
+- synchronization transport should not be tightly coupled to UI components
 - persistence shape should support recovery without relying on in-memory room state alone
 
 ## Suggested Codebase Areas For Future Work
 
 - `frontend/`: Angular app
 - `backend/api/`: PHP HTTP API
-- `backend/realtime/`: PHP WebSocket service
+- `backend/realtime/`: optional archived or experimental push-transport code, not part of the default runtime
 - `backend/shared/`: shared rules and domain logic if a clean PHP boundary emerges
 - `database/`: migrations, seeds, and schema docs
 - `resources/planning/`: living design docs

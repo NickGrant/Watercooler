@@ -11,12 +11,12 @@ This should be a **working multiplayer web application** built with the followin
 - **Frontend:** Angular
 - **Backend API:** PHP
 - **Database:** MySQL
-- **Realtime Multiplayer:** WebSockets, implemented as a separate PHP long-running service
+- **Realtime Multiplayer:** smart polling over the PHP API, with any future push transport treated as optional follow-up work
 - **UI Framework:** Angular Material
 - **Visual Skin:** retro intranet / Windows-98-inspired corporate portal
 - **Avatar Style:** flat vector corporate satire
 
-This is a **party-game-style** application, not an account platform. Users join a game by URL, choose a name and avatar, and play in realtime.
+This is a **party-game-style** application, not an account platform. Users join a game by URL, choose a name and avatar, and play in a shared live room.
 
 The gameplay should remain **mechanically equivalent to Splendor**, but the theme, terminology, art direction, and UI presentation should be fully adapted to the Watercooler setting.
 
@@ -31,7 +31,7 @@ The finished project should:
 - support multiplayer play through a shared game URL
 - allow users to create a game and immediately join it
 - let users pick a name and simple generated avatar before joining
-- use server-authoritative realtime gameplay
+- use server-authoritative live gameplay
 - feel polished enough to serve as an MVP and a foundation for future expansion
 
 ---
@@ -298,7 +298,7 @@ When the user clicks **Join**:
 
 - their name and avatar selection are validated
 - they are associated with the game
-- only then does the frontend connect to the WebSocket service
+- only then does the frontend begin live room synchronization
 - the player joins the multiplayer room for that game
 
 ### 5. Lobby
@@ -570,7 +570,7 @@ Requirements:
 ## 2. Join / Pre-Lobby Screen
 
 Purpose:
-- gather player identity before joining websocket room
+- gather player identity before entering the live synchronized room
 
 Requirements:
 - show game slug
@@ -647,7 +647,7 @@ Use Angular for:
 - game board UI
 - player state display
 - rules modal
-- websocket client integration
+- live-sync client integration
 - local state management
 
 ## Suggested Component Structure
@@ -704,23 +704,19 @@ You may add more endpoints as needed for management or bootstrapping, but keep t
 
 ## Realtime Architecture Requirements
 
-This project requires realtime multiplayer, so use a **separate PHP WebSocket service**.
+This project requires multiplayer synchronization, but the current default architecture is **smart polling over the PHP API** so the app can run on simpler shared hosting.
 
-Do **not** assume ordinary PHP request/response handling alone is sufficient for persistent realtime socket communication.
+Do **not** assume a separate long-running transport service is required unless a step explicitly restores that architecture.
 
-## Realtime Responsibilities
+## Synchronization Responsibilities
 
-The WebSocket service should handle:
+The default polling-based synchronization flow should handle:
 
-- player socket connections
-- room membership by game slug
-- lobby presence
-- start-game event
-- player turn actions
-- validation dispatch or orchestration
-- broadcasting updated authoritative state
-- disconnect handling
-- optional reconnect handling
+- join-then-sync session activation
+- lobby roster refresh
+- authoritative game-state refresh after actions
+- stale-state recovery
+- reconnect-friendly state reloads
 
 ## Architectural Model
 
@@ -728,15 +724,15 @@ Use this shape:
 
 - Angular frontend
 - PHP HTTP API
-- PHP WebSocket service
+- polling-first live synchronization through the HTTP API
 - MySQL persistence
 - server-authoritative game rules
 
-The WebSocket layer may keep some active room state in memory for responsiveness, but the game must still be backed by persisted data so sessions are recoverable.
+The live-sync layer should remain lightweight, and the game must still be backed by persisted data so sessions are recoverable.
 
 ## Realtime Constraint
 
-Only connect the client websocket **after** the user clicks **Join** and the join is accepted.
+Only begin live room synchronization **after** the user clicks **Join** and the join is accepted.
 
 This should be part of the join flow, not something that happens immediately on page load.
 
@@ -971,7 +967,7 @@ Gracefully handle:
 - joining a full game
 - joining a game in an invalid state
 - illegal action attempts
-- websocket disconnects
+- live-sync interruptions
 - stale client actions
 - missing bootstrap data
 - reconnect failure
@@ -986,7 +982,7 @@ The project should include:
 
 1. Angular frontend
 2. PHP backend API
-3. PHP WebSocket service
+3. polling-first live synchronization over the HTTP API
 4. MySQL schema and migrations
 5. Seed data for workplace advantages and executives
 6. Basic README with local setup instructions
@@ -1019,9 +1015,9 @@ Implement in phases.
 - player list
 - host assignment
 - start-game flow
-- websocket connection after join
+- polling loop activation after join
 - room membership by slug
-- basic lobby broadcasts
+- basic lobby refresh flow
 
 ## Phase 3 — Core Gameplay
 - initialize decks and market
@@ -1071,4 +1067,4 @@ When uncertain:
 
 Favor a server-authoritative implementation with a simple, testable state model.
 
-The goal is a playable, themed, multiplayer Watercooler MVP that is mechanically faithful to Splendor and built on PHP, MySQL, Angular, and a PHP WebSocket service.
+The goal is a playable, themed, multiplayer Watercooler MVP that is mechanically faithful to Splendor and built on PHP, MySQL, Angular, and a polling-first shared-hosting-friendly architecture.

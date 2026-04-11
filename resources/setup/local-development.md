@@ -42,6 +42,22 @@ npm.cmd test -- --watch=false --browsers=ChromeHeadless
 npm.cmd run start -- --host 0.0.0.0 --port 4200
 ```
 
+To normalize a new batch of avatar PNG layers onto the shared composite canvas, run from the repository root:
+
+```powershell
+python frontend/scripts/normalize_avatar_pngs.py
+```
+
+That script reads raw PNGs from:
+
+- `frontend/public/avatar-options/body/`
+- `frontend/public/avatar-options/face/`
+- `frontend/public/avatar-options/hair/`
+
+and regenerates the stack-ready outputs plus placement metadata in:
+
+- `frontend/public/avatar-options/normalized/`
+
 ### API
 
 Run from `backend/api/`:

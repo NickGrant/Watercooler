@@ -780,3 +780,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: STEP-106
 - Blocks: STEP-108
 - Description: Replace the old single-layer SVG avatar setup with a reusable layered PNG avatar component in the join flow and lobby surfaces so avatars compose and scale predictably.
+
+### STEP-108
+
+- Name: Document and verify the PNG avatar pipeline
+- Priority: Medium
+- Blocked By: STEP-107
+- Blocks: None
+- Description: Add focused test coverage and maintenance notes for the normalized avatar asset workflow so future additions can be processed without manual guesswork.

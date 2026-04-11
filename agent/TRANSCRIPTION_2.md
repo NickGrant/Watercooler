@@ -343,8 +343,27 @@ I completed the frontend migration to the new PNG avatar system by centralizing 
 
 ---
 
+#### Entry 206
+**User:**
+
+A couple things I noticed while playtesting:
+- lets add a wrapper around the game screen that has a max-widthof 1400 pixels to land very large screens
+- cannot currently select two of the same resource type due to how UX works. lets change it so that clicking a large icon adds it to your selected but does not highlight the resource, clicking it again attempts to add another, or the button gets disabled if that is not a valid action. To remove an already selected resource, the player should click the selected icon of the resource they want to remove
+- I have got stuck in a state where the UI keeps telling me "A newer room state was detected and your board was resynced." and not allowing me to complete my turn
+- we should warn players with a confirmation dialog when there purchase involves spending executive favor
+- project cards do not need the "backlog slot x" line
+- project card tiers do not need the "x cards" text
+- change the host indicator to be a superscript H in a circle after the username so it doesn't get confused with the current turn indicator
+- update scss budgets so we quit hitting warnings and limits. We will optimize later
+
+**Assistant:**
+
+I closed JOB-027 by adding focused coverage for the new `app-avatar-composite` component and documenting the one-command PNG normalization workflow in `resources/setup/local-development.md`, then I opened JOB-028 for the new playtest fixes. I grouped the new work into an action-flow lane for resource selection, recoverable conflict messaging, and Executive Favor purchase confirmation, plus a presentation/build lane for layout capping, host-label cleanup, market copy cleanup, and temporary SCSS budget relief.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `205`
+- Latest recorded entry: `206`
 

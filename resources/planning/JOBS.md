@@ -218,6 +218,14 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: PNG Avatar Normalization And Layered Rendering
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Replace the old avatar SVG assumptions with a shared-canvas PNG workflow and layered frontend rendering so player avatars can be composed, cycled, and resized without per-option positioning logic.
 - Steps: STEP-106, STEP-107, STEP-108
+
+### JOB-028
+
+- Name: Active Playtest UX Fixes
+- Priority: High
+- Status: In Progress
+- Description: Resolve active-play issues found during playtesting across resource selection, recoverable-action messaging, purchase confirmation, market copy, host labeling, widescreen layout, and temporary build budgets.
+- Steps: STEP-109, STEP-110, STEP-111

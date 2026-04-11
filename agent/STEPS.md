@@ -6,13 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-### STEP-082
-
-- Name: Cover bug report flow with automated tests and docs
-- Priority: Medium
-- Blocked By: None
-- Blocks: None
-- Description: Add backend and frontend coverage for bug report submission behavior and update any planning or setup docs needed to reflect the new persistence path and operating assumptions.
+None.
 
 ## Step Management Rules
 

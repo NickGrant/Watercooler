@@ -59,13 +59,16 @@ The API scaffold currently exposes:
 - `POST /api/games`
 - `GET /api/games/{slug}`
 - `POST /api/games/{slug}/join-bootstrap`
-- planned state endpoint returning a scaffold response
+- `GET /api/games/{slug}/state`
+- `POST /api/games/{slug}/bug-reports`
 
 ### Database
 
-The initial schema lives in:
+The current schema and follow-up migrations live in:
 
 - `database/migrations/001_initial_schema.sql`
+- `database/migrations/002_seed_cards_and_executives.sql`
+- `database/migrations/003_bug_report_capture.sql`
 
 One local validation path used during bootstrap was:
 

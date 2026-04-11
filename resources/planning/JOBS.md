@@ -130,7 +130,7 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: In-Game Bug Report Capture
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Let players file bug reports directly from the game page through a lightweight floating form that stores unread reports for later DB-side triage, along with the minimum context needed to understand what state they were in when the issue occurred.
 - Steps: STEP-079, STEP-080, STEP-081, STEP-082
 

@@ -12,6 +12,7 @@ The Angular frontend should present the Watercooler theme clearly while remainin
 4. Main game board
 5. Rules/help modal
 6. Endgame/results modal
+7. In-game bug report dock
 
 ## Route Direction
 
@@ -48,6 +49,7 @@ The game route can switch between sub-states based on server and local session s
 - retro intranet and faux enterprise portal styling
 - readable information hierarchy over novelty
 - humor through copy and framing, not obscured controls
+- keep secondary support tools, such as bug reporting, available without displacing core gameplay
 
 ## Frontend-Specific Risks
 

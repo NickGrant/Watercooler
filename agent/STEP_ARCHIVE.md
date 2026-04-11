@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-082
+
+- Name: Cover bug report flow with automated tests and docs
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Add backend and frontend coverage for bug report submission behavior and update any planning or setup docs needed to reflect the new persistence path and operating assumptions.
+
 ### STEP-081
 
 - Name: Build floating in-game bug report panel

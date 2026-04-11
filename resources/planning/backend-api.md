@@ -2,7 +2,7 @@
 
 ## Purpose
 
-The PHP HTTP API handles game creation, lookup, join preparation, and non-realtime bootstrap behavior.
+The PHP HTTP API handles game creation, lookup, join preparation, non-realtime gameplay actions, and lightweight operational workflows such as in-room bug reporting.
 
 ## Main Responsibilities
 
@@ -11,6 +11,7 @@ The PHP HTTP API handles game creation, lookup, join preparation, and non-realti
 - fetch game metadata by slug
 - validate join attempts before realtime connection
 - return bootstrap data needed by the frontend
+- accept authenticated in-room bug reports for later triage
 
 ## Suggested Endpoints
 
@@ -18,6 +19,7 @@ The PHP HTTP API handles game creation, lookup, join preparation, and non-realti
 - `GET /api/games/{slug}`
 - `POST /api/games/{slug}/join-bootstrap`
 - `GET /api/games/{slug}/state`
+- `POST /api/games/{slug}/bug-reports`
 
 Additional endpoints are acceptable if they keep responsibilities clear and avoid turning the HTTP API into a duplicate realtime transport.
 

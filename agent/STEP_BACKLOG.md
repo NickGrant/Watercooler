@@ -5,27 +5,3 @@
 This file tracks outstanding work that matters to the project but does not need to stay in the default context window.
 
 ## Backlog Steps
-
-### STEP-080
-
-- Name: Implement bug report submission API flow
-- Priority: High
-- Blocked By: None
-- Blocks: STEP-081, STEP-082
-- Description: Add a server-side submission endpoint and service that validates required message content, accepts an optional reply email, resolves the active player and room context, and persists the report in unread state for later DB-side review.
-
-### STEP-081
-
-- Name: Build floating in-game bug report panel
-- Priority: High
-- Blocked By: None
-- Blocks: STEP-082
-- Description: Add a right-edge floating bug-report tab on the game page that expands into a compact form with optional reply email, required message field, submission feedback, and only the minimum additional client context needed for debugging.
-
-### STEP-082
-
-- Name: Cover bug report flow with automated tests and docs
-- Priority: Medium
-- Blocked By: None
-- Blocks: None
-- Description: Add backend and frontend coverage for bug report submission behavior and update any planning or setup docs needed to reflect the new persistence path and operating assumptions.

@@ -299,8 +299,19 @@ I completed STEP-103 by updating the main source-of-truth docs and planning file
 
 ---
 
+#### Entry 202
+**User:**
+
+Go ahead and work this feature
+
+**Assistant:**
+
+I completed STEP-104 by deleting the obsolete `backend/realtime` module and removing the remaining structure docs that still treated it as part of the active repo layout. That cleanup updated `AGENTS.md`, `resources/planning/project-structure.md`, `resources/planning/index.md`, `resources/planning/lobby-and-sessions.md`, `resources/planning/roadmap.md`, and `resources/planning/JOBS.md`, deleted `resources/planning/realtime.md`, and advanced the tracker so STEP-105 became the active final pass for transport naming and deployment guidance.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `201`
+- Latest recorded entry: `202`
 

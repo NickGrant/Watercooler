@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-### STEP-104
+### STEP-105
 
-- Name: Remove obsolete realtime deployment surface
-- Priority: High
-- Blocked By: STEP-103
+- Name: Reconcile transport naming and deployment guidance
+- Priority: Medium
+- Blocked By: STEP-104
 - Blocks: None
-- Description: Remove or archive repo assets that imply a required standalone realtime service when they are no longer part of the active deployment path, including stale docker/runtime references and now-unused backend realtime scaffolding if nothing live depends on it.
+- Description: Review remaining API/frontend naming such as `realtime` transport metadata and update docs or contracts where needed so deployment and maintenance guidance matches the simplified polling-based architecture without misleading future cleanup or hosting decisions.
 
 ## Step Management Rules
 

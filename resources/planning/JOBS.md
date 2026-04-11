@@ -19,7 +19,7 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 - Name: Platform Scaffolding
 - Priority: High
 - Status: Complete
-- Description: Establish the frontend, API, realtime service, database structure, and containerized local development setup required to begin implementation safely.
+- Description: Establish the frontend, API, database structure, and containerized local development setup required to begin implementation safely.
 - Steps: STEP-010, STEP-011, STEP-012, STEP-013, STEP-014, STEP-036, STEP-035
 
 ### JOB-003

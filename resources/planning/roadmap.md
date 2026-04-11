@@ -18,7 +18,6 @@ Foundation work:
 - project scaffolding
 - Angular app shell
 - PHP API skeleton
-- PHP WebSocket service skeleton
 - MySQL schema and migration setup
 - game creation endpoint
 - slug generation

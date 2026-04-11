@@ -11,7 +11,6 @@ This folder breaks the Watercooler project into smaller planning documents so im
 - `frontend.md`: Angular routes, screens, components, and client-state expectations
 - `backend-api.md`: HTTP API scope, endpoint plan, and server responsibilities
 - `database-strategy.md`: MySQL migration and schema direction
-- `realtime.md`: WebSocket service responsibilities and state synchronization
 - `data-model.md`: MySQL persistence direction and entity breakdown
 - `lobby-and-sessions.md`: join flow, host rules, reconnect approach, and player lifecycle
 - `content-and-theme.md`: naming, visual direction, tone, and avatar system

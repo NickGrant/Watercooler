@@ -14,7 +14,6 @@ The repository currently includes:
 - agent operating files under `agent/`
 - Angular frontend work in `frontend/`
 - PHP HTTP API work in `backend/api/`
-- optional archived/experimental realtime transport work under `backend/realtime/`
 - MySQL schema and migration assets in `database/`
 - Docker-based local setup in `docker-compose.yml` and service Dockerfiles
 

@@ -2,14 +2,14 @@
 
 ## Join Flow
 
-Before entering realtime play, a user must:
+Before entering live play, a user must:
 
 1. open a game URL
 2. enter a display name
 3. choose avatar parts
 4. submit join
 5. receive join acceptance
-6. connect to the WebSocket service
+6. begin authenticated state sync through the API
 
 ## Player Rules
 
@@ -29,7 +29,7 @@ Before entering realtime play, a user must:
 - show current players and avatars
 - identify the host
 - show readiness to start based on player count and state
-- keep waiting players synchronized through realtime updates
+- keep waiting players synchronized through smart polling and immediate post-action refreshes
 
 ## Session Direction
 
@@ -42,5 +42,5 @@ Reconnect support is recommended through a temporary player session token stored
 - joining a full game
 - joining a game in an invalid phase
 - expired or invalid reconnect token
-- socket disconnect before game start
+- interrupted polling or stale state before game start
 - stale client after reconnect

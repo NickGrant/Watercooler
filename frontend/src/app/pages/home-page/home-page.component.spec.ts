@@ -17,17 +17,13 @@ describe('HomePageComponent', () => {
     }).compileComponents();
   });
 
-  it('exposes the preview slug used by the route shell button', () => {
-    const fixture = TestBed.createComponent(HomePageComponent);
-    expect(fixture.componentInstance.sampleSlug).toBe('synergy-report-telemetry');
-  });
-
-  it('renders the route preview button', () => {
+  it('renders the create-game call to action without a route preview shortcut', () => {
     const fixture = TestBed.createComponent(HomePageComponent);
     fixture.detectChanges();
 
-    const link = fixture.nativeElement.querySelector('a[mat-flat-button]');
-    expect(link?.textContent).toContain('Preview Game Route Shell');
+    const createButton = fixture.nativeElement.querySelector('button[mat-flat-button]');
+    expect(createButton?.textContent).toContain('Create New Game');
+    expect(fixture.nativeElement.textContent).not.toContain('Preview Game Route Shell');
   });
 
   it('does not render the landing-page status grid during UAT cleanup', () => {

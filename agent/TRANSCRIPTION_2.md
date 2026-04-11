@@ -123,8 +123,19 @@ I completed `STEP-094` by adding a shared `step-job-sync` skill under `agent/ski
 
 ---
 
+#### Entry 186
+**User:**
+
+lets go ahead and move on to our next job then
+
+**Assistant:**
+
+I started JOB-020, evaluated the work as two light home-page steps plus one heavier waiting-room layout refactor, made STEP-095 active, removed the preview-route shortcut from the home page, deleted the unused preview slug and router-link dependency, updated the home-page spec to assert the real create-game entry flow, and then promoted STEP-096 as the next active step after the focused frontend test passed.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `185`
+- Latest recorded entry: `186`
 

@@ -14,9 +14,8 @@
       </p>
 
       <div class="actions">
-        <a mat-flat-button [routerLink]="['/game', sampleSlug]">Preview Game Route Shell</a>
         <button
-          mat-stroked-button
+          mat-flat-button
           type="button"
           [disabled]="createGamePending()"
           (click)="createGame()"

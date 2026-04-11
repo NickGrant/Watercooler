@@ -6,7 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-None.
+### STEP-096
+
+- Name: Add collapsible rules section to the home page
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Add a collapsible rules/help surface on the front page so players can review the basic gameplay loop before entering a room.
 
 ## Step Management Rules
 

@@ -6,19 +6,11 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Steps
 
-### STEP-095
-
-- Name: Remove preview game route entry from home page
-- Priority: Medium
-- Blocked By: None
-- Blocks: STEP-096, STEP-097
-- Description: Remove the preview-game-route shortcut from the landing page so the create-game path remains the primary entry into the app.
-
 ### STEP-096
 
 - Name: Add collapsible rules section to the home page
 - Priority: Medium
-- Blocked By: STEP-095
+- Blocked By: None
 - Blocks: None
 - Description: Add a collapsible rules/help surface on the front page so players can review the basic gameplay loop before entering a room.
 

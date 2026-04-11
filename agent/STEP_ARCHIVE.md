@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-095
+
+- Name: Remove preview game route entry from home page
+- Priority: Medium
+- Blocked By: None
+- Blocks: STEP-096, STEP-097
+- Description: Remove the preview-game-route shortcut from the landing page so the create-game path remains the primary entry into the app.
+
 ### STEP-094
 
 - Name: Encapsulate step and job workflow into portable skills

@@ -2,13 +2,13 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Component, inject, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 import { GamesApiService } from '../../core/services/games-api.service';
 
 @Component({
   selector: 'app-home-page',
-  imports: [MatButtonModule, MatCardModule, RouterLink],
+  imports: [MatButtonModule, MatCardModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
@@ -16,7 +16,6 @@ export class HomePageComponent {
   private readonly router = inject(Router);
   private readonly gamesApi = inject(GamesApiService);
 
-  readonly sampleSlug = 'synergy-report-telemetry';
   readonly createGamePending = signal(false);
   readonly createGameError = signal<string | null>(null);
 

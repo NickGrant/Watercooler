@@ -1,40 +1,41 @@
 <main class="game-page">
-  <header class="board-header">
-    <div>
-      <p class="eyebrow">Watercooler Room</p>
-      <h1>{{ formattedRoomName() }}</h1>
-      <p class="subhead">
-        @if (game(); as game) {
-          {{ game.playerCount }} employees checked in
-        } @else {
-          Fetching room dossier from the Recreation Division...
-        }
-      </p>
-    </div>
+  <div class="game-page__frame">
+    <header class="board-header">
+      <div>
+        <p class="eyebrow">Watercooler Room</p>
+        <h1>{{ formattedRoomName() }}</h1>
+        <p class="subhead">
+          @if (game(); as game) {
+            {{ game.playerCount }} employees checked in
+          } @else {
+            Fetching room dossier from the Recreation Division...
+          }
+        </p>
+      </div>
 
-    <div class="board-header__status">
-      <mat-card appearance="outlined" class="status-card">
-        <p class="status-card__label">Current Room State</p>
-        <strong>{{ session.stageLabel() }}</strong>
-      </mat-card>
-
-      @if (session.stage() === 'in-game' && !isCompletedGame()) {
-        <mat-card appearance="outlined" class="status-card status-card--turn" [class.status-card--turn-active]="isCurrentPlayersTurn()">
-          <p class="status-card__label">Current Turn</p>
-          <strong>{{ currentTurnPlayer()?.displayName ?? 'Awaiting state' }}</strong>
+      <div class="board-header__status">
+        <mat-card appearance="outlined" class="status-card">
+          <p class="status-card__label">Current Room State</p>
+          <strong>{{ session.stageLabel() }}</strong>
         </mat-card>
-      }
-    </div>
-  </header>
 
-  @if (loadError(); as loadError) {
-    <section class="load-banner" role="alert">
-      {{ loadError }}
-    </section>
-  }
+        @if (session.stage() === 'in-game' && !isCompletedGame()) {
+          <mat-card appearance="outlined" class="status-card status-card--turn" [class.status-card--turn-active]="isCurrentPlayersTurn()">
+            <p class="status-card__label">Current Turn</p>
+            <strong>{{ currentTurnPlayer()?.displayName ?? 'Awaiting state' }}</strong>
+          </mat-card>
+        }
+      </div>
+    </header>
 
-  @if (session.stage() === 'in-game' && !isCompletedGame() && startedGame(); as startedGame) {
-    <section class="shell-grid shell-grid--active">
+    @if (loadError(); as loadError) {
+      <section class="load-banner" role="alert">
+        {{ loadError }}
+      </section>
+    }
+
+    @if (session.stage() === 'in-game' && !isCompletedGame() && startedGame(); as startedGame) {
+      <section class="shell-grid shell-grid--active">
       <div class="shell-column shell-column--sidebar">
         @if (currentUserPlayer(); as currentPlayer) {
           <app-player-card
@@ -178,27 +179,27 @@
           />
         </mat-card>
       </div>
-    </section>
-  } @else {
-    <section class="shell-grid" [class.shell-grid--lobby]="session.stage() !== 'in-game'">
-      <mat-card appearance="outlined" class="shell-panel shell-panel--desk shell-panel--check-in">
-      @if (!session.hasJoined()) {
-        <h2>Employee Check-In</h2>
-        <p class="panel-copy">
-          Enter your display name, assemble your avatar badge, and request clearance to join this
-          room.
-        </p>
+      </section>
+    } @else {
+      <section class="shell-grid" [class.shell-grid--lobby]="session.stage() !== 'in-game'">
+        <mat-card appearance="outlined" class="shell-panel shell-panel--desk shell-panel--check-in">
+        @if (!session.hasJoined()) {
+          <h2>Employee Check-In</h2>
+          <p class="panel-copy">
+            Enter your display name, assemble your avatar badge, and request clearance to join this
+            room.
+          </p>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Display Name</mat-label>
-          <input
-            matInput
-            [ngModel]="session.playerName()"
-            (ngModelChange)="updatePlayerName($event)"
-            maxlength="64"
-            placeholder="Pam, Jim, Angela..."
-          />
-        </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Display Name</mat-label>
+            <input
+              matInput
+              [ngModel]="session.playerName()"
+              (ngModelChange)="updatePlayerName($event)"
+              maxlength="64"
+              placeholder="Pam, Jim, Angela..."
+            />
+          </mat-form-field>
 
         <div class="avatar-builder">
           <section class="avatar-preview-panel">
@@ -632,11 +633,12 @@
             <p>The backlog, executives, and player panels will appear once the match begins.</p>
           </div>
         </div>
-      }
-      </mat-card>
-      }
-    </section>
-  }
+        }
+        </mat-card>
+        }
+      </section>
+    }
+  </div>
 
   <aside
     class="bug-report-dock"

@@ -494,8 +494,19 @@ I completed the presentation cleanup pass by removing the backlog slot line and 
 
 ---
 
+#### Entry 219
+**User:**
+
+A couple things I noticed while playtesting: add a 1400px game wrapper and update the SCSS budgets so the current UI work stops tripping warnings for now.
+
+**Assistant:**
+
+I completed the final playtest-fix step by adding a bounded game-page frame for very large screens, raising the Angular initial and component-style budgets enough to fit the current UI, rerunning the focused game-page spec, and confirming the production frontend build now completes cleanly without the previous budget warnings.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `218`
+- Latest recorded entry: `219`
 

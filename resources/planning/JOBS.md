@@ -226,6 +226,6 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: Active Playtest UX Fixes
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Resolve active-play issues found during playtesting across resource selection, recoverable-action messaging, purchase confirmation, market copy, host labeling, widescreen layout, and temporary build budgets.
 - Steps: STEP-109, STEP-110, STEP-111

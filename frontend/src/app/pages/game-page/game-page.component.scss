@@ -2,7 +2,7 @@
 
 :host {
   display: block;
-  --game-shell-max-width: 92rem;
+  --game-shell-max-width: 87.5rem;
 }
 
 .game-page {
@@ -21,13 +21,17 @@
     );
 }
 
+.game-page__frame {
+  max-width: var(--game-shell-max-width);
+  margin: 0 auto;
+}
+
 .board-header {
   display: flex;
   justify-content: space-between;
   align-items: end;
   gap: 1rem;
-  max-width: var(--game-shell-max-width);
-  margin: 0 auto 1rem;
+  margin: 0 0 1rem;
   padding: 0.2rem 0.25rem;
 }
 
@@ -78,8 +82,7 @@ h1 {
 }
 
 .load-banner {
-  max-width: var(--game-shell-max-width);
-  margin: 0 auto 1rem;
+  margin: 0 0 1rem;
   padding: 0.85rem 1rem;
   border: 1px solid var(--wc-danger-border);
   background: var(--wc-danger-bg);
@@ -90,8 +93,7 @@ h1 {
 .shell-grid {
   display: grid;
   gap: 1rem;
-  max-width: var(--game-shell-max-width);
-  margin: 0 auto;
+  margin: 0;
 }
 
 .shell-grid--lobby {

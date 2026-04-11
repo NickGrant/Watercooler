@@ -435,6 +435,7 @@ describe('GamePageComponent', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
     fixture.detectChanges();
 
+    expect(fixture.nativeElement.querySelector('.game-page__frame')).not.toBeNull();
     expect(fixture.nativeElement.querySelectorAll('.shell-panel').length).toBe(2);
     expect(fixture.nativeElement.querySelector('.shell-grid--lobby')).not.toBeNull();
     expect(fixture.nativeElement.querySelector('.shell-panel--check-in')).not.toBeNull();

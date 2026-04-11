@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-111
+
+- Name: Cap widescreen layout and relax current SCSS budgets
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Add a stricter max-width for very large displays and raise the current Angular style budgets enough to stop blocking active UI work until a later optimization pass.
+
 ### STEP-110
 
 - Name: Refine market copy and host indicators

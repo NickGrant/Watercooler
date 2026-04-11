@@ -3,7 +3,6 @@
     <section class="market-tier">
       <header>
         <strong>{{ tier.label }}</strong>
-        <span>{{ market()[tier.key].length }} cards</span>
       </header>
       <div class="market-tier__cards market-tier__cards--structured">
         @for (card of market()[tier.key]; track card.code) {

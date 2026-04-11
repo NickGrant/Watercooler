@@ -441,7 +441,12 @@
                   [ariaLabel]="player.displayName + ' avatar'"
                 />
                 <div>
-                <strong>{{ player.displayName }}</strong>
+                  <strong class="roster-row__name">
+                    <span>{{ player.displayName }}</span>
+                    @if (player.isHost) {
+                      <span class="host-marker" aria-label="Host">H</span>
+                    }
+                  </strong>
                   <p>
                     {{ avatarOptionLabel('body', player.avatar.body) }} /
                     {{ avatarOptionLabel('face', player.avatar.face) }} /
@@ -449,7 +454,7 @@
                   </p>
                 </div>
               </div>
-              <span class="roster-badge">{{ player.isHost ? 'Host' : player.joinStatus }}</span>
+              <span class="roster-badge">{{ player.joinStatus }}</span>
             </div>
           } @empty {
             <p class="panel-copy">

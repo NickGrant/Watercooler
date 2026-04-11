@@ -483,8 +483,19 @@ I opened JOB-028 for the playtest findings, implemented the first step to suppor
 
 ---
 
+#### Entry 218
+**User:**
+
+A couple things I noticed while playtesting: remove the backlog slot copy, remove the tier card-count copy, and change the host indicator to a superscript circled H so it does not read like the turn badge.
+
+**Assistant:**
+
+I completed the presentation cleanup pass by removing the backlog slot line and tier card-count copy, replacing the old host badge with a lightweight inline H marker in both player cards and the waiting-room roster, and locking that behavior in with focused player-card, visible-market, and game-page specs.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `217`
+- Latest recorded entry: `218`
 

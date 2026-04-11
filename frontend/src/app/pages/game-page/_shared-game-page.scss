@@ -14,6 +14,23 @@
   color: var(--wc-winner-ink);
 }
 
+@mixin host-marker {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  margin-left: 0.35rem;
+  border: 1px solid var(--wc-border-strong);
+  border-radius: 999px;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(233, 239, 248, 0.94));
+  color: var(--wc-accent-strong);
+  font-size: 0.62rem;
+  font-weight: 800;
+  line-height: 1;
+  vertical-align: super;
+}
+
 @mixin cost-row {
   display: flex;
   flex-wrap: wrap;

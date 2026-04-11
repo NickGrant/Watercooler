@@ -38,6 +38,7 @@ describe('VisibleMarketComponent', () => {
 
     expect(fixture.nativeElement.textContent).toContain('Tier 1');
     expect(fixture.nativeElement.textContent).toContain('Budget Buffer');
+    expect(fixture.nativeElement.textContent).not.toContain('1 cards');
     expect(fixture.nativeElement.querySelector('.market-tier__cards--structured')).not.toBeNull();
   });
 });

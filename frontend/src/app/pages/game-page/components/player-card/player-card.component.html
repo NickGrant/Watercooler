@@ -1,7 +1,12 @@
 <div class="player-panel" [class.player-panel--active]="!isCompletedGame() && isActiveTurn()">
   <div class="player-panel__header">
     <div>
-      <strong>{{ player().displayName }}</strong>
+      <strong class="player-panel__name">
+        <span>{{ player().displayName }}</span>
+        @if (player().isHost) {
+          <span class="host-marker" aria-label="Host">H</span>
+        }
+      </strong>
       <p>
         @if (isCompletedGame()) {
           {{ placementLabel() }} place | Prestige {{ player().officePrestige }} |
@@ -15,7 +20,7 @@
       {{
         isCompletedGame()
           ? (isWinner() ? 'Winner' : 'Finalist')
-          : (isActiveTurn() ? 'Current Turn' : (player().isHost ? 'Host' : player().joinStatus))
+          : (isActiveTurn() ? 'Current Turn' : player().joinStatus)
       }}
     </span>
   </div>

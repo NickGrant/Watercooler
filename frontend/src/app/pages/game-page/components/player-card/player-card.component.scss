@@ -30,12 +30,22 @@
   gap: 1rem;
 }
 
+.player-panel__name {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 0;
+}
+
 .roster-badge {
   @include shared.roster-badge;
 }
 
 .roster-badge--winner {
   @include shared.roster-badge-winner;
+}
+
+.host-marker {
+  @include shared.host-marker;
 }
 
 .player-panel__economy {

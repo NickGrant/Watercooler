@@ -444,6 +444,19 @@ describe('GamePageComponent', () => {
     expect(fixture.nativeElement.textContent).toContain('Waiting Room');
   });
 
+  it('shows host status as an inline marker instead of a host badge in the waiting room', () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.componentInstance.updatePlayerName('Pam');
+    fixture.componentInstance.submitJoin();
+    fixture.detectChanges();
+
+    const rosterRow = fixture.nativeElement.querySelector('.roster-row');
+
+    expect(rosterRow?.querySelector('.host-marker')?.textContent?.trim()).toBe('H');
+    expect(rosterRow?.querySelector('.roster-badge')?.textContent).toContain('joined');
+    expect(rosterRow?.querySelector('.roster-badge')?.textContent).not.toContain('Host');
+  });
+
   it('opens the floating bug-report panel from the right-edge tab', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
     fixture.detectChanges();

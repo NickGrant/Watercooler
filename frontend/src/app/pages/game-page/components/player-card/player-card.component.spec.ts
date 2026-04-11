@@ -63,6 +63,7 @@ describe('PlayerCardComponent', () => {
     fixture.componentRef.setInput('resourceLabel', (resource: string) => resource);
     fixture.componentRef.setInput('resourceIconPath', (resource: string) => `/icons/${resource}.png`);
     fixture.componentRef.setInput('canPurchaseReservedCard', () => true);
+    fixture.componentRef.setInput('isActiveTurn', true);
     fixture.componentRef.setInput('isCurrentPlayersTurn', true);
     fixture.componentRef.setInput('isCurrentUserCard', true);
   });
@@ -77,6 +78,9 @@ describe('PlayerCardComponent', () => {
     expect(fixture.nativeElement.textContent).not.toContain('Tokens');
     expect(fixture.nativeElement.textContent).toContain('Completed Projects 0');
     expect(fixture.nativeElement.querySelector('.player-panel__favor-row')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('.host-marker')?.textContent?.trim()).toBe('H');
+    expect(fixture.nativeElement.querySelector('.roster-badge')?.textContent).toContain('Current Turn');
+    expect(fixture.nativeElement.querySelector('.roster-badge')?.textContent).not.toContain('Host');
   });
 
   it('emits purchases from reserved cards', () => {

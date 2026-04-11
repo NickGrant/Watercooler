@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-110
+
+- Name: Refine market copy and host indicators
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Remove leftover market copy that adds noise, move host indication into a lightweight inline marker near player names, and keep current-turn indicators visually distinct.
+
 ### STEP-109
 
 - Name: Fix resource selection UX and recoverable action messaging

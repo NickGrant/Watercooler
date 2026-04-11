@@ -6,6 +6,7 @@ namespace Watercooler\Api\Database;
 
 use PDO;
 use Watercooler\Api\Config\DatabaseConfig;
+use Watercooler\Api\Games\ActiveGamePlayer;
 use Watercooler\Api\Games\ActiveGameState;
 use Watercooler\Api\Games\ClaimProjectRepository;
 use Watercooler\Api\Games\EndgameResolver;

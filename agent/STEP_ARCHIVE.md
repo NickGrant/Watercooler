@@ -716,3 +716,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: None
 - Description: Rework the resource bank so the icon itself becomes the button surface, increase standard resource and executive-favor icon scale substantially, and rebalance the tile layout around the larger controls.
+
+### STEP-102
+
+- Name: Restore backend action writes against missing executive portrait schema
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Repair the live-action 500 by adding the missing `executives.portrait_asset` compatibility migration, validating start and action requests end to end against the real PDO path, and updating local setup guidance so deployed databases stay aligned with the runtime schema.

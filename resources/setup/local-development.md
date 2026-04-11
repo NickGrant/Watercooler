@@ -69,12 +69,15 @@ The current schema and follow-up migrations live in:
 - `database/migrations/001_initial_schema.sql`
 - `database/migrations/002_seed_cards_and_executives.sql`
 - `database/migrations/003_bug_report_capture.sql`
+- `database/migrations/004_executive_portrait_asset_compat.sql`
 
 One local validation path used during bootstrap was:
 
 ```powershell
-& C:\xampp\mysql\bin\mysql.exe -u root -e "DROP DATABASE IF EXISTS watercooler_bootstrap_check; CREATE DATABASE watercooler_bootstrap_check CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; USE watercooler_bootstrap_check; SOURCE C:/xampp/htdocs/watercooler/database/migrations/001_initial_schema.sql; SHOW TABLES; DROP DATABASE watercooler_bootstrap_check;"
+& C:\xampp\mysql\bin\mysql.exe -u root -e "DROP DATABASE IF EXISTS watercooler_bootstrap_check; CREATE DATABASE watercooler_bootstrap_check CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; USE watercooler_bootstrap_check; SOURCE C:/xampp/htdocs/watercooler/database/migrations/001_initial_schema.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/002_seed_cards_and_executives.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/003_bug_report_capture.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/004_executive_portrait_asset_compat.sql; SHOW TABLES; DROP DATABASE watercooler_bootstrap_check;"
 ```
+
+When updating an existing local or hosted database, apply every migration in order rather than assuming the initial schema file is sufficient. In particular, older databases that predate `004_executive_portrait_asset_compat.sql` can load lobby data successfully but will fail at runtime when start-game or active-state queries request `executives.portrait_asset`.
 
 ## Docker Workflow
 
@@ -107,6 +110,9 @@ docker compose down
 The database container initializes the current schema automatically from:
 
 - `database/migrations/001_initial_schema.sql`
+- `database/migrations/002_seed_cards_and_executives.sql`
+- `database/migrations/003_bug_report_capture.sql`
+- `database/migrations/004_executive_portrait_asset_compat.sql`
 
 ## Bootstrap Verification Already Completed
 

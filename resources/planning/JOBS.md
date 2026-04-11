@@ -197,3 +197,11 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 - Status: Not Started
 - Description: Strengthen executive card hierarchy through a taller portrait treatment, more prominent requirement placement, and a layered title treatment.
 - Steps: STEP-101
+
+### JOB-025
+
+- Name: Backend Action Runtime Stabilization
+- Priority: High
+- Status: Complete
+- Description: Resolve the runtime schema mismatch causing live start and game-action requests to fail under the real PDO-backed API environment.
+- Steps: STEP-102

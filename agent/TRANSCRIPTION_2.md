@@ -255,8 +255,19 @@ I added a shared `medium` resource-icon variant so the selected-resource strip c
 
 ---
 
+#### Entry 198
+**User:**
+
+finish any remaining work, no need to check in after features until this current workload is complete. Also, I am getting a 500 error from the backend when trying to submit any game actions
+
+**Assistant:**
+
+I treated the runtime 500 as the critical blocker before the remaining UI jobs, reproduced it end to end against the real PDO-backed API, and fixed two separate causes: an older live database was missing `executives.portrait_asset`, and the PDO action repository had a namespace-mismatched `ActiveGamePlayer` typehint in its turn-order callback. I added `database/migrations/004_executive_portrait_asset_compat.sql`, updated Docker/local setup guidance so all migrations are applied, added a focused `PdoTakeResourcesRepositoryTest`, applied the migration to the local database, and revalidated create, join, start, claim, and take-resource requests successfully.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `197`
+- Latest recorded entry: `198`
 

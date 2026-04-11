@@ -6,13 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-### STEP-097
-
-- Name: Rework check-in and waiting-room layout into two columns
-- Priority: High
-- Blocked By: None
-- Blocks: None
-- Description: Rebuild the pre-game game-page layout into a 50/50 two-column split with check-in on one side and the waiting room on the other, removing the room snapshot panel entirely.
+None.
 
 ## Step Management Rules
 

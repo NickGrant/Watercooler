@@ -145,8 +145,19 @@ I completed STEP-096 by adding a collapsible rules section to the home page, wir
 
 ---
 
+#### Entry 188
+**User:**
+
+lets go ahead and move on to our next job then
+
+**Assistant:**
+
+I completed STEP-097 by changing the pre-game game page to render a dedicated two-column lobby shell, assigning explicit check-in and waiting-room panel classes, removing the room snapshot panel outside in-game states, updating the related game-page spec to assert the new lobby structure, and then marked JOB-020 complete after the full game-page spec passed.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `187`
+- Latest recorded entry: `188`
 

@@ -162,6 +162,6 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: Frontend Entry And Waiting Room Cleanup
 - Priority: High
-- Status: Not Started
+- Status: Complete
 - Description: Simplify the landing and pre-game UI by removing the preview route shortcut, adding an upfront rules surface, and reshaping the game waiting-room shell into a cleaner two-column check-in and roster layout.
 - Steps: STEP-095, STEP-096, STEP-097

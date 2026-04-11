@@ -92,6 +92,11 @@ h1 {
   margin: 0 auto;
 }
 
+.shell-grid--lobby {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+}
+
 .shell-grid--active {
   grid-template-columns: minmax(18rem, 1fr) minmax(0, 2.8fr) minmax(18rem, 1.05fr);
   align-items: start;
@@ -425,7 +430,7 @@ app-executive-row {
 }
 
 @media (min-width: 1180px) {
-  .shell-grid:not(.shell-grid--active) {
+  .shell-grid:not(.shell-grid--active):not(.shell-grid--lobby) {
     grid-template-columns: minmax(15.5rem, 17rem) minmax(19rem, 22rem) minmax(0, 1fr);
     align-items: start;
   }

@@ -189,8 +189,8 @@
       </div>
     </section>
   } @else {
-    <section class="shell-grid">
-      <mat-card appearance="outlined" class="shell-panel shell-panel--desk">
+    <section class="shell-grid" [class.shell-grid--lobby]="session.stage() !== 'in-game'">
+      <mat-card appearance="outlined" class="shell-panel shell-panel--desk shell-panel--check-in">
       @if (!session.hasJoined()) {
         <h2>Employee Check-In</h2>
         <p class="panel-copy">
@@ -349,7 +349,7 @@
       }
     </mat-card>
 
-    <mat-card appearance="outlined" class="shell-panel shell-panel--roster">
+    <mat-card appearance="outlined" class="shell-panel shell-panel--roster shell-panel--waiting-room">
       @if (session.stage() !== 'in-game') {
         <h2>Waiting Room</h2>
       } @else if (isCompletedGame()) {
@@ -495,6 +495,7 @@
       </section>
     </mat-card>
 
+      @if (session.stage() === 'in-game') {
       <mat-card appearance="outlined" class="board-panel">
       <div class="section-heading section-heading--board">
         <h2>{{ session.stage() === 'in-game' ? (isCompletedGame() ? 'Completed Board Snapshot' : 'Main Board') : 'Room Snapshot' }}</h2>
@@ -602,6 +603,7 @@
         </div>
       }
       </mat-card>
+      }
     </section>
   }
 </main>

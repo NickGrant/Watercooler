@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-097
+
+- Name: Rework check-in and waiting-room layout into two columns
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Rebuild the pre-game game-page layout into a 50/50 two-column split with check-in on one side and the waiting room on the other, removing the room snapshot panel entirely.
+
 ### STEP-096
 
 - Name: Add collapsible rules section to the home page

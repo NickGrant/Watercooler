@@ -222,8 +222,19 @@ I completed STEP-099 by converting the resource bank into oversized icon-led con
 
 ---
 
+#### Entry 195
+**User:**
+
+quick UAT thing before we move forward, player-panel_collections is changing to a 2x2 grid after a certain width, this should never happen, it should always be a single column
+
+**Assistant:**
+
+I fixed the player-card collections layout so it now always renders as a single column by keeping `.player-panel__collections` at one grid column in the component stylesheet, then reran the focused player-card spec and `git diff --check` before preparing a small UAT follow-up commit.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `194`
+- Latest recorded entry: `195`
 

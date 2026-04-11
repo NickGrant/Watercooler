@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-079
+
+- Name: Add bug report persistence schema and storage contract
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-080, STEP-081, STEP-082
+- Description: Add the database table and backend repository contract for in-game bug reports, storing unread/read status, message content, optional reply email, created timestamp, reporter display name, room slug, and lightweight debugging snapshot fields that are not reliably recoverable later.
+
 ### STEP-097
 
 - Name: Rework check-in and waiting-room layout into two columns

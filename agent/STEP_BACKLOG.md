@@ -6,19 +6,11 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Steps
 
-### STEP-079
-
-- Name: Add bug report persistence schema and storage contract
-- Priority: High
-- Blocked By: None
-- Blocks: STEP-080, STEP-081, STEP-082
-- Description: Add the database table and backend repository contract for in-game bug reports, storing unread/read status, message content, optional reply email, created timestamp, reporter display name, room slug, and lightweight debugging snapshot fields that are not reliably recoverable later.
-
 ### STEP-080
 
 - Name: Implement bug report submission API flow
 - Priority: High
-- Blocked By: STEP-079
+- Blocked By: None
 - Blocks: STEP-081, STEP-082
 - Description: Add a server-side submission endpoint and service that validates required message content, accepts an optional reply email, resolves the active player and room context, and persists the report in unread state for later DB-side review.
 

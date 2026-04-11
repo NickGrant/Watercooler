@@ -156,8 +156,19 @@ I completed STEP-097 by changing the pre-game game page to render a dedicated tw
 
 ---
 
+#### Entry 189
+**User:**
+
+things are looking good, lets continue moving forward
+
+**Assistant:**
+
+I started JOB-016 by promoting STEP-079, inspected the existing migration and PDO-repository patterns, then completed the bug-report persistence contract: I added database/migrations/003_bug_report_capture.sql, introduced BugReportSubmission, BugReportReceipt, and BugReportRepository under ackend/api/src/BugReports/, implemented PdoBugReportRepository, added a focused database test proving unread report storage plus triage snapshot fields like reporter seat order, game status and phase, current turn player, and client user agent, and then promoted STEP-080 as the next active step after the backend tests passed.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `188`
+- Latest recorded entry: `189`
 

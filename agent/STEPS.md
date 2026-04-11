@@ -6,7 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-None.
+### STEP-080
+
+- Name: Implement bug report submission API flow
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-081, STEP-082
+- Description: Add a server-side submission endpoint and service that validates required message content, accepts an optional reply email, resolves the active player and room context, and persists the report in unread state for later DB-side review.
 
 ## Step Management Rules
 

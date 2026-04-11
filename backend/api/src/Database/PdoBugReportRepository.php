@@ -5,12 +5,14 @@ declare(strict_types=1);
 namespace Watercooler\Api\Database;
 
 use PDO;
+use Watercooler\Api\BugReports\BugReportContext;
+use Watercooler\Api\BugReports\BugReportContextRepository;
 use Watercooler\Api\BugReports\BugReportReceipt;
 use Watercooler\Api\BugReports\BugReportRepository;
 use Watercooler\Api\BugReports\BugReportSubmission;
 use Watercooler\Api\Config\DatabaseConfig;
 
-final class PdoBugReportRepository implements BugReportRepository
+final class PdoBugReportRepository implements BugReportRepository, BugReportContextRepository
 {
     private ?PDO $connection = null;
 
@@ -77,6 +79,42 @@ final class PdoBugReportRepository implements BugReportRepository
             id: $id,
             status: 'unread',
             createdAt: $createdAt,
+        );
+    }
+
+    public function findReporterContext(int $gameId, string $sessionTokenHash): ?BugReportContext
+    {
+        $statement = $this->connection()->prepare(
+            <<<'SQL'
+            SELECT
+                gp.id AS reporter_game_player_id,
+                gp.display_name,
+                gp.seat_order,
+                g.current_turn_game_player_id
+            FROM games g
+            INNER JOIN game_players gp ON gp.game_id = g.id
+            WHERE g.id = :game_id
+              AND gp.session_token_hash = :session_token_hash
+            LIMIT 1
+            SQL
+        );
+        $statement->execute([
+            'game_id' => $gameId,
+            'session_token_hash' => $sessionTokenHash,
+        ]);
+        $row = $statement->fetch(PDO::FETCH_ASSOC);
+
+        if ($row === false) {
+            return null;
+        }
+
+        return new BugReportContext(
+            reporterGamePlayerId: (int) $row['reporter_game_player_id'],
+            reporterDisplayName: (string) $row['display_name'],
+            reporterSeatOrder: $row['seat_order'] === null ? null : (int) $row['seat_order'],
+            currentTurnGamePlayerId: $row['current_turn_game_player_id'] === null
+                ? null
+                : (int) $row['current_turn_game_player_id'],
         );
     }
 

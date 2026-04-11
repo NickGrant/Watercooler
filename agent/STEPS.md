@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-### STEP-080
+### STEP-081
 
-- Name: Implement bug report submission API flow
+- Name: Build floating in-game bug report panel
 - Priority: High
 - Blocked By: None
-- Blocks: STEP-081, STEP-082
-- Description: Add a server-side submission endpoint and service that validates required message content, accepts an optional reply email, resolves the active player and room context, and persists the report in unread state for later DB-side review.
+- Blocks: STEP-082
+- Description: Add a right-edge floating bug-report tab on the game page that expands into a compact form with optional reply email, required message field, submission feedback, and only the minimum additional client context needed for debugging.
 
 ## Step Management Rules
 

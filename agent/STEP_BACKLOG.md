@@ -18,7 +18,7 @@ This file tracks outstanding work that matters to the project but does not need 
 
 - Name: Build floating in-game bug report panel
 - Priority: High
-- Blocked By: STEP-080
+- Blocked By: None
 - Blocks: STEP-082
 - Description: Add a right-edge floating bug-report tab on the game page that expands into a compact form with optional reply email, required message field, submission feedback, and only the minimum additional client context needed for debugging.
 

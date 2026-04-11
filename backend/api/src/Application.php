@@ -6,10 +6,12 @@ namespace Watercooler\Api;
 
 use Watercooler\Api\Config\AppConfig;
 use Watercooler\Api\Config\Env;
+use Watercooler\Api\Database\PdoBugReportRepository;
 use Watercooler\Api\Database\PdoGameRepository;
 use Watercooler\Api\Database\PdoJoinBootstrapRepository;
 use Watercooler\Api\Database\PdoStartGameRepository;
 use Watercooler\Api\Database\PdoTakeResourcesRepository;
+use Watercooler\Api\BugReports\BugReportService;
 use Watercooler\Api\Games\ClaimProjectService;
 use Watercooler\Api\Games\CreateGameService;
 use Watercooler\Api\Games\LoadGameStateService;
@@ -19,6 +21,7 @@ use Watercooler\Api\Games\RandomDeckShuffler;
 use Watercooler\Api\Games\StartGameService;
 use Watercooler\Api\Games\TakeResourcesService;
 use Watercooler\Api\Http\Handlers\CreateGameAction;
+use Watercooler\Api\Http\Handlers\SubmitBugReportAction;
 use Watercooler\Api\Http\Handlers\ClaimProjectAction;
 use Watercooler\Api\Http\Handlers\GameStateAction;
 use Watercooler\Api\Http\Handlers\GetGameAction;
@@ -53,7 +56,13 @@ final class Application
         $joinBootstrapRepository = new PdoJoinBootstrapRepository($config->database);
         $startGameRepository = new PdoStartGameRepository($config->database);
         $takeResourcesRepository = new PdoTakeResourcesRepository($config->database);
+        $bugReportRepository = new PdoBugReportRepository($config->database);
         $createGameService = new CreateGameService($gameRepository, new OfficeSlugGenerator());
+        $bugReportService = new BugReportService(
+            $gameRepository,
+            $bugReportRepository,
+            $bugReportRepository,
+        );
         $joinBootstrapService = new JoinBootstrapService(
             $joinBootstrapRepository,
             new AvatarCatalog(),
@@ -70,6 +79,7 @@ final class Application
 
         $healthCheckAction = new HealthCheckAction($config);
         $createGameAction = new CreateGameAction($createGameService);
+        $submitBugReportAction = new SubmitBugReportAction($bugReportService);
         $claimProjectAction = new ClaimProjectAction($claimProjectService);
         $getGameAction = new GetGameAction($gameRepository);
         $joinBootstrapAction = new JoinBootstrapAction($joinBootstrapService);
@@ -80,6 +90,7 @@ final class Application
 
         $router->get('/health', static fn(Request $request, RouteMatch $match): Response => $healthCheckAction($request, $match));
         $router->post('/api/games', static fn(Request $request, RouteMatch $match): Response => $createGameAction($request, $match));
+        $router->post('/api/games/{slug}/bug-reports', static fn(Request $request, RouteMatch $match): Response => $submitBugReportAction($request, $match));
         $router->get('/api/games/{slug}', static fn(Request $request, RouteMatch $match): Response => $getGameAction($request, $match));
         $router->post('/api/games/{slug}/claim-project', static fn(Request $request, RouteMatch $match): Response => $claimProjectAction($request, $match));
         $router->post('/api/games/{slug}/join-bootstrap', static fn(Request $request, RouteMatch $match): Response => $joinBootstrapAction($request, $match));

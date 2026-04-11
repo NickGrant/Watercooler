@@ -332,8 +332,19 @@ I started JOB-027 by normalizing the new avatar PNG set into a shared transparen
 
 ---
 
+#### Entry 205
+**User:**
+
+If you can handle this image manipulation that would be great, I would much rather have you do it than me sit in photoshop for hours getting these sized correctly
+
+**Assistant:**
+
+I completed the frontend migration to the new PNG avatar system by centralizing the avatar option catalog, adding a reusable `app-avatar-composite` layer-stacking component, switching the join flow to show a live composite preview alongside the part carousels, and rendering those same layered avatars in the waiting-room roster. I also updated the avatar defaults and focused frontend specs so the new `body-*`, `face-*`, and `hair-*` identifiers and layered preview behavior are covered before moving into the final docs and maintenance pass.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `204`
+- Latest recorded entry: `205`
 

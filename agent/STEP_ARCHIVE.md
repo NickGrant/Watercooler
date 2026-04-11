@@ -772,3 +772,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: STEP-107, STEP-108
 - Description: Add a repeatable asset-processing script and generate shared-canvas body, face, and hair PNGs so avatar layers can stack cleanly with one placement rule per layer type.
+
+### STEP-107
+
+- Name: Render layered PNG avatars in the frontend
+- Priority: High
+- Blocked By: STEP-106
+- Blocks: STEP-108
+- Description: Replace the old single-layer SVG avatar setup with a reusable layered PNG avatar component in the join flow and lobby surfaces so avatars compose and scale predictably.

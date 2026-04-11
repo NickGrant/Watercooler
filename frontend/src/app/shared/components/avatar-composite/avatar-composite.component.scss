@@ -1,0 +1,38 @@
+:host {
+  display: block;
+}
+
+.avatar-composite {
+  --avatar-composite-width: 5.5rem;
+
+  position: relative;
+  width: min(100%, var(--avatar-composite-width));
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+}
+
+.avatar-composite--small {
+  --avatar-composite-width: 4rem;
+}
+
+.avatar-composite--medium {
+  --avatar-composite-width: 5.5rem;
+}
+
+.avatar-composite--large {
+  --avatar-composite-width: 7.5rem;
+}
+
+.avatar-composite--xlarge {
+  --avatar-composite-width: 12rem;
+}
+
+.avatar-composite__layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}

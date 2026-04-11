@@ -342,6 +342,7 @@ describe('GamePageComponent', () => {
     );
 
     expect(labels).toEqual(['Hair', 'Face', 'Body']);
+    expect(fixture.nativeElement.querySelector('.avatar-preview-panel app-avatar-composite')).not.toBeNull();
   });
 
   it('renders the compact bank row and stacked player economy bars', () => {
@@ -408,9 +409,9 @@ describe('GamePageComponent', () => {
     fixture.componentInstance.cycleAvatarOption('body', 1);
 
     expect(session.avatarDraft()).toEqual({
-      hair: 'executive-swoop',
-      face: 'coffee-grin',
-      body: 'hoodie'
+      hair: 'hair-2',
+      face: 'face-2',
+      body: 'body-2'
     });
   });
 

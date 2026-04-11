@@ -174,6 +174,20 @@ p {
   cursor: help;
 }
 
+.avatar-builder {
+  display: grid;
+  gap: 1rem;
+}
+
+.avatar-preview-panel {
+  display: grid;
+  justify-items: center;
+  gap: 0.85rem;
+  padding: 1rem;
+  border: 1px solid var(--wc-border-subtle);
+  background: linear-gradient(180deg, rgba(248, 251, 255, 0.96), rgba(238, 244, 251, 0.94));
+}
+
 .avatar-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
@@ -229,6 +243,11 @@ p {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(12rem, 1fr));
   gap: 0.75rem;
+  align-items: center;
+}
+
+.badge-summary > app-avatar-composite {
+  justify-self: center;
 }
 
 .turn-summary,
@@ -340,6 +359,17 @@ p {
   background: linear-gradient(180deg, rgba(244, 247, 252, 0.92), rgba(233, 238, 247, 0.88));
 }
 
+.roster-row__identity {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  min-width: 0;
+}
+
+.roster-row__identity p {
+  margin-bottom: 0;
+}
+
 .roster-badge {
   padding: 0.2rem 0.55rem;
   border: 1px solid var(--wc-border-strong);
@@ -446,6 +476,11 @@ app-executive-row {
 }
 
 @media (min-width: 1180px) {
+  .avatar-builder {
+    grid-template-columns: minmax(12rem, 14rem) minmax(0, 1fr);
+    align-items: start;
+  }
+
   .shell-grid:not(.shell-grid--active):not(.shell-grid--lobby) {
     grid-template-columns: minmax(15.5rem, 17rem) minmax(19rem, 22rem) minmax(0, 1fr);
     align-items: start;

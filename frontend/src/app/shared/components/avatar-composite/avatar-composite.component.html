@@ -1,0 +1,28 @@
+<div
+  class="avatar-composite"
+  [class.avatar-composite--small]="size() === 'small'"
+  [class.avatar-composite--medium]="size() === 'medium'"
+  [class.avatar-composite--large]="size() === 'large'"
+  [class.avatar-composite--xlarge]="size() === 'xlarge'"
+  [attr.aria-label]="ariaLabel()"
+  role="img"
+>
+  <img
+    class="avatar-composite__layer"
+    [src]="'avatar-options/normalized/body/' + normalizedAvatar().body + '.png'"
+    alt=""
+    aria-hidden="true"
+  />
+  <img
+    class="avatar-composite__layer"
+    [src]="'avatar-options/normalized/face/' + normalizedAvatar().face + '.png'"
+    alt=""
+    aria-hidden="true"
+  />
+  <img
+    class="avatar-composite__layer"
+    [src]="'avatar-options/normalized/hair/' + normalizedAvatar().hair + '.png'"
+    alt=""
+    aria-hidden="true"
+  />
+</div>

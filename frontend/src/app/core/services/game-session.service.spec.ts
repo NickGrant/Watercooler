@@ -30,11 +30,11 @@ describe('GameSessionService', () => {
   });
 
   it('patches avatar data without discarding existing values', () => {
-    service.patchAvatarDraft({ hair: 'executive-swoop' });
+    service.patchAvatarDraft({ hair: 'hair-2' });
 
     expect(service.avatarDraft()).toEqual({
       ...DEFAULT_AVATAR_DRAFT,
-      hair: 'executive-swoop'
+      hair: 'hair-2'
     });
   });
 

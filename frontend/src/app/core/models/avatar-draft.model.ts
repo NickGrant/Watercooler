@@ -5,7 +5,7 @@ export interface AvatarDraft {
 }
 
 export const DEFAULT_AVATAR_DRAFT: AvatarDraft = {
-  body: 'blazer',
-  face: 'corporate-neutral',
-  hair: 'side-part'
+  body: 'body-1',
+  face: 'face-1',
+  hair: 'hair-1'
 };

@@ -19,12 +19,19 @@ import {
   ResourceLedger,
   ResourceType
 } from '../../core/models/active-game-state.model';
+import {
+  AVATAR_OPTIONS,
+  AvatarOptionDefinition,
+  AvatarPart,
+  resolveAvatarOption
+} from '../../core/avatar/avatar-options';
 import { AvatarDraft } from '../../core/models/avatar-draft.model';
 import { GameSummary } from '../../core/models/game-summary.model';
 import { GameStateResponse } from '../../core/models/game-state-response.model';
 import { GamesApiService } from '../../core/services/games-api.service';
 import { GameSessionService } from '../../core/services/game-session.service';
 import { StartedGameResponse } from '../../core/models/started-game-response.model';
+import { AvatarCompositeComponent } from '../../shared/components/avatar-composite/avatar-composite.component';
 import {
   buildFinalTieBreakSummary as buildFinalTieBreakSummaryText,
   canAffordCard as canAffordCardWithResources,
@@ -49,14 +56,6 @@ interface ActionRecoveryPayload {
   state?: ActiveGameState;
 }
 
-type AvatarPart = keyof AvatarDraft;
-
-interface AvatarOptionDefinition {
-  value: string;
-  label: string;
-  imagePath: string;
-}
-
 @Component({
   selector: 'app-game-page',
   imports: [
@@ -68,6 +67,7 @@ interface AvatarOptionDefinition {
     MatInputModule,
     MatSnackBarModule,
     MatTooltipModule,
+    AvatarCompositeComponent,
     PlayerCardComponent,
     ResourceBankComponent,
     VisibleMarketComponent,
@@ -121,29 +121,7 @@ export class GamePageComponent {
   readonly bugReportMessage = signal('');
   readonly startedGame = signal<ActiveGameState | null>(null);
   readonly selectedTakeResources = signal<ResourceType[]>([]);
-  readonly avatarOptions: Record<AvatarPart, AvatarOptionDefinition[]> = {
-    hair: [
-      { value: 'side-part', label: 'Side Part', imagePath: 'avatar-options/hair/side-part.svg' },
-      { value: 'executive-swoop', label: 'Executive Swoop', imagePath: 'avatar-options/hair/executive-swoop.svg' },
-      { value: 'startup-mess', label: 'Startup Mess', imagePath: 'avatar-options/hair/startup-mess.svg' },
-      { value: 'weekend-buzz', label: 'Weekend Buzz', imagePath: 'avatar-options/hair/weekend-buzz.svg' },
-      { value: 'presentation-curl', label: 'Presentation Curl', imagePath: 'avatar-options/hair/presentation-curl.svg' }
-    ],
-    face: [
-      { value: 'corporate-neutral', label: 'Corporate Neutral', imagePath: 'avatar-options/face/corporate-neutral.svg' },
-      { value: 'coffee-grin', label: 'Coffee Grin', imagePath: 'avatar-options/face/coffee-grin.svg' },
-      { value: 'meeting-fatigue', label: 'Meeting Fatigue', imagePath: 'avatar-options/face/meeting-fatigue.svg' },
-      { value: 'deadline-focus', label: 'Deadline Focus', imagePath: 'avatar-options/face/deadline-focus.svg' },
-      { value: 'visionary-smirk', label: 'Visionary Smirk', imagePath: 'avatar-options/face/visionary-smirk.svg' }
-    ],
-    body: [
-      { value: 'blazer', label: 'Blazer', imagePath: 'avatar-options/body/blazer.svg' },
-      { value: 'hoodie', label: 'Hoodie', imagePath: 'avatar-options/body/hoodie.svg' },
-      { value: 'cardigan', label: 'Cardigan', imagePath: 'avatar-options/body/cardigan.svg' },
-      { value: 'polo', label: 'Polo', imagePath: 'avatar-options/body/polo.svg' },
-      { value: 'power-suit', label: 'Power Suit', imagePath: 'avatar-options/body/power-suit.svg' }
-    ]
-  };
+  readonly avatarOptions: Record<AvatarPart, AvatarOptionDefinition[]> = AVATAR_OPTIONS;
   readonly resourceTypes: ResourceType[] = [
     'coffee',
     'spreadsheets',
@@ -325,10 +303,11 @@ export class GamePageComponent {
   }
 
   currentAvatarOption(part: AvatarPart): AvatarOptionDefinition {
-    return (
-      this.avatarOptions[part].find((option) => option.value === this.session.avatarDraft()[part]) ??
-      this.avatarOptions[part][0]
-    );
+    return resolveAvatarOption(part, this.session.avatarDraft()[part]);
+  }
+
+  avatarOptionLabel(part: AvatarPart, value: string): string {
+    return resolveAvatarOption(part, value).label;
   }
 
   toggleRulesHelp(): void {

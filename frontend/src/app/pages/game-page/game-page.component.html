@@ -197,66 +197,82 @@
           />
         </mat-form-field>
 
-        <div class="avatar-grid">
-          <section class="avatar-carousel">
-            <div class="avatar-carousel__header">
-              <span>Hair</span>
-              <strong>{{ currentAvatarOption('hair').label }}</strong>
-            </div>
-            <div class="avatar-carousel__frame">
-              <button mat-mini-fab type="button" aria-label="Previous hair option" (click)="cycleAvatarOption('hair', -1)">
-                &lsaquo;
-              </button>
-              <img
-                class="avatar-carousel__image"
-                [src]="currentAvatarOption('hair').imagePath"
-                [alt]="currentAvatarOption('hair').label"
-              />
-              <button mat-mini-fab type="button" aria-label="Next hair option" (click)="cycleAvatarOption('hair', 1)">
-                &rsaquo;
-              </button>
+        <div class="avatar-builder">
+          <section class="avatar-preview-panel">
+            <p class="eyebrow">Composite Preview</p>
+            <app-avatar-composite
+              [avatar]="session.avatarDraft()"
+              size="xlarge"
+              ariaLabel="Current avatar preview"
+            />
+            <div class="badge-summary">
+              <p><strong>Body:</strong> {{ currentAvatarOption('body').label }}</p>
+              <p><strong>Face:</strong> {{ currentAvatarOption('face').label }}</p>
+              <p><strong>Hair:</strong> {{ currentAvatarOption('hair').label }}</p>
             </div>
           </section>
 
-          <section class="avatar-carousel">
-            <div class="avatar-carousel__header">
-              <span>Face</span>
-              <strong>{{ currentAvatarOption('face').label }}</strong>
-            </div>
-            <div class="avatar-carousel__frame">
-              <button mat-mini-fab type="button" aria-label="Previous face option" (click)="cycleAvatarOption('face', -1)">
-                &lsaquo;
-              </button>
-              <img
-                class="avatar-carousel__image"
-                [src]="currentAvatarOption('face').imagePath"
-                [alt]="currentAvatarOption('face').label"
-              />
-              <button mat-mini-fab type="button" aria-label="Next face option" (click)="cycleAvatarOption('face', 1)">
-                &rsaquo;
-              </button>
-            </div>
-          </section>
+          <div class="avatar-grid">
+            <section class="avatar-carousel">
+              <div class="avatar-carousel__header">
+                <span>Hair</span>
+                <strong>{{ currentAvatarOption('hair').label }}</strong>
+              </div>
+              <div class="avatar-carousel__frame">
+                <button mat-mini-fab type="button" aria-label="Previous hair option" (click)="cycleAvatarOption('hair', -1)">
+                  &lsaquo;
+                </button>
+                <img
+                  class="avatar-carousel__image"
+                  [src]="currentAvatarOption('hair').previewPath"
+                  [alt]="currentAvatarOption('hair').label"
+                />
+                <button mat-mini-fab type="button" aria-label="Next hair option" (click)="cycleAvatarOption('hair', 1)">
+                  &rsaquo;
+                </button>
+              </div>
+            </section>
 
-          <section class="avatar-carousel">
-            <div class="avatar-carousel__header">
-              <span>Body</span>
-              <strong>{{ currentAvatarOption('body').label }}</strong>
-            </div>
-            <div class="avatar-carousel__frame">
-              <button mat-mini-fab type="button" aria-label="Previous body option" (click)="cycleAvatarOption('body', -1)">
-                &lsaquo;
-              </button>
-              <img
-                class="avatar-carousel__image"
-                [src]="currentAvatarOption('body').imagePath"
-                [alt]="currentAvatarOption('body').label"
-              />
-              <button mat-mini-fab type="button" aria-label="Next body option" (click)="cycleAvatarOption('body', 1)">
-                &rsaquo;
-              </button>
-            </div>
-          </section>
+            <section class="avatar-carousel">
+              <div class="avatar-carousel__header">
+                <span>Face</span>
+                <strong>{{ currentAvatarOption('face').label }}</strong>
+              </div>
+              <div class="avatar-carousel__frame">
+                <button mat-mini-fab type="button" aria-label="Previous face option" (click)="cycleAvatarOption('face', -1)">
+                  &lsaquo;
+                </button>
+                <img
+                  class="avatar-carousel__image"
+                  [src]="currentAvatarOption('face').previewPath"
+                  [alt]="currentAvatarOption('face').label"
+                />
+                <button mat-mini-fab type="button" aria-label="Next face option" (click)="cycleAvatarOption('face', 1)">
+                  &rsaquo;
+                </button>
+              </div>
+            </section>
+
+            <section class="avatar-carousel">
+              <div class="avatar-carousel__header">
+                <span>Body</span>
+                <strong>{{ currentAvatarOption('body').label }}</strong>
+              </div>
+              <div class="avatar-carousel__frame">
+                <button mat-mini-fab type="button" aria-label="Previous body option" (click)="cycleAvatarOption('body', -1)">
+                  &lsaquo;
+                </button>
+                <img
+                  class="avatar-carousel__image"
+                  [src]="currentAvatarOption('body').previewPath"
+                  [alt]="currentAvatarOption('body').label"
+                />
+                <button mat-mini-fab type="button" aria-label="Next body option" (click)="cycleAvatarOption('body', 1)">
+                  &rsaquo;
+                </button>
+              </div>
+            </section>
+          </div>
         </div>
 
         <button mat-flat-button type="button" [disabled]="joinPending()" (click)="submitJoin()">
@@ -328,11 +344,16 @@
         </p>
 
         <div class="badge-summary">
+          <app-avatar-composite
+            [avatar]="session.avatarDraft()"
+            size="large"
+            ariaLabel="Checked-in avatar"
+          />
           <p><strong>Host:</strong> {{ session.currentPlayer()?.isHost ? 'Yes' : 'No' }}</p>
           <p><strong>Lobby Size:</strong> {{ session.joinedPlayerCount() }} / {{ session.maximumLobbyPlayers() }}</p>
-          <p><strong>Body:</strong> {{ session.avatarDraft().body }}</p>
-          <p><strong>Face:</strong> {{ session.avatarDraft().face }}</p>
-          <p><strong>Hair:</strong> {{ session.avatarDraft().hair }}</p>
+          <p><strong>Body:</strong> {{ currentAvatarOption('body').label }}</p>
+          <p><strong>Face:</strong> {{ currentAvatarOption('face').label }}</p>
+          <p><strong>Hair:</strong> {{ currentAvatarOption('hair').label }}</p>
         </div>
       }
     </mat-card>
@@ -410,9 +431,20 @@
         } @else {
           @for (player of session.joinedPlayers(); track player.gamePlayerId) {
             <div class="roster-row">
-              <div>
+              <div class="roster-row__identity">
+                <app-avatar-composite
+                  [avatar]="player.avatar"
+                  size="medium"
+                  [ariaLabel]="player.displayName + ' avatar'"
+                />
+                <div>
                 <strong>{{ player.displayName }}</strong>
-                <p>{{ player.avatar.body }} / {{ player.avatar.face }} / {{ player.avatar.hair }}</p>
+                  <p>
+                    {{ avatarOptionLabel('body', player.avatar.body) }} /
+                    {{ avatarOptionLabel('face', player.avatar.face) }} /
+                    {{ avatarOptionLabel('hair', player.avatar.hair) }}
+                  </p>
+                </div>
               </div>
               <span class="roster-badge">{{ player.isHost ? 'Host' : player.joinStatus }}</span>
             </div>

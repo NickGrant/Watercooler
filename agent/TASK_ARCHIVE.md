@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-087
+
+- Name: Expand pre-commit doc maintenance rule
+- Priority: High
+- Blocked By: TASK-086
+- Blocks: None
+- Description: Update the commit workflow guidance so agents review and update `README.md`, `AGENTS.md`, and `agent/LLM_CONTEXT.md` whenever a change should affect those source-of-truth docs, keeping the core repo guidance continuously current instead of letting drift accumulate.
+
 ### TASK-086
 
 - Name: Remove temporary agent-doc audit artifact

@@ -1160,3 +1160,7 @@ I reopened `FEATURE-017`, added follow-up tasks for removing the temporary audit
 #### Entry 172
 Assistant:
 I completed `TASK-086` by removing `agent/AGENT_DOC_AUDIT.md` after confirming it was only a temporary audit artifact, then promoted the pre-commit doc-maintenance update as the next active follow-up task under the reopened feature.
+
+#### Entry 173
+Assistant:
+I completed `TASK-087` by extending the pre-commit workflow in `agent/AGENT_WORKFLOW.md` so commit preparation now explicitly includes reviewing `README.md`, `AGENTS.md`, and `agent/LLM_CONTEXT.md` for needed updates and using the shared `transcription-sync` skill workflow when updating the transcript.

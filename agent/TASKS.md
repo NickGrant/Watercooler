@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-087
+### TASK-088
 
-- Name: Expand pre-commit doc maintenance rule
+- Name: Align transcript workflow with shared transcription skill
 - Priority: High
 - Blocked By: None
 - Blocks: None
-- Description: Update the commit workflow guidance so agents review and update `README.md`, `AGENTS.md`, and `agent/LLM_CONTEXT.md` whenever a change should affect those source-of-truth docs, keeping the core repo guidance continuously current instead of letting drift accumulate.
+- Description: Make the repository transcript workflow fully consistent with the shared `transcription-sync` skill, including any missing structural elements such as sync notes, and document any formatting limits or safe improvements for transcript readability.
 
 ## Task Management Rules
 

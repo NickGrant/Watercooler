@@ -140,4 +140,4 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Priority: High
 - Status: Complete
 - Description: Review the agent-facing operating docs for missing coverage, duplication, contradictions, and low-value content, then consolidate the guidance so responsibilities and cross-file references stay maintainable as the repo evolves.
-- Tasks: TASK-083, TASK-084, TASK-085
+- Tasks: TASK-083, TASK-084, TASK-085, TASK-086, TASK-087, TASK-088

@@ -6,13 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-088
-
-- Name: Align transcript workflow with shared transcription skill
-- Priority: High
-- Blocked By: None
-- Blocks: None
-- Description: Make the repository transcript workflow fully consistent with the shared `transcription-sync` skill, including any missing structural elements such as sync notes, and document any formatting limits or safe improvements for transcript readability.
+None.
 
 ## Task Management Rules
 

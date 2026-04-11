@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-088
+
+- Name: Align transcript workflow with shared transcription skill
+- Priority: High
+- Blocked By: TASK-087
+- Blocks: None
+- Description: Make the repository transcript workflow fully consistent with the shared `transcription-sync` skill, including any missing structural elements such as sync notes, and document any formatting limits or safe improvements for transcript readability.
+
 ### TASK-087
 
 - Name: Expand pre-commit doc maintenance rule

@@ -11,6 +11,8 @@ This file records the user-assistant conversation for the Watercooler project so
 - Record visible conversation messages only.
 - Do not include tool outputs unless the user specifically asks for them to be transcribed.
 - Do not rewrite earlier entries unless correcting a clear transcription mistake.
+- Keep `## Sync Notes` updated with the latest recorded session and entry.
+- Keep the transcript in portable plain markdown; do not rely on HTML/CSS-only alignment or background styling for readability.
 
 ## Transcript
 
@@ -1164,3 +1166,12 @@ I completed `TASK-086` by removing `agent/AGENT_DOC_AUDIT.md` after confirming i
 #### Entry 173
 Assistant:
 I completed `TASK-087` by extending the pre-commit workflow in `agent/AGENT_WORKFLOW.md` so commit preparation now explicitly includes reviewing `README.md`, `AGENTS.md`, and `agent/LLM_CONTEXT.md` for needed updates and using the shared `transcription-sync` skill workflow when updating the transcript.
+
+#### Entry 174
+Assistant:
+I completed `TASK-088` by aligning `agent/TRANSCRIPTION.md` with the shared `transcription-sync` skill, adding the missing `## Sync Notes` contract, and explicitly documenting that right-aligned or background-colored user messages are not a good fit for the repo transcript because the file should remain append-only, portable plain markdown across viewers.
+
+## Sync Notes
+
+- Latest recorded session: `001`
+- Latest recorded entry: `174`

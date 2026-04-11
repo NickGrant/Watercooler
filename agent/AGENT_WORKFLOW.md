@@ -17,6 +17,16 @@ When task status changes:
 - mark a feature as `Complete` in `resources/planning/FEATURES.md` when all of its tasks are complete
 - keep feature statuses accurate as work moves from not started to in progress to complete
 
+### Feature Execution
+
+For multi-task feature work:
+
+- evaluate the feature for independent parallel work before starting implementation
+- run independent task lanes in parallel when they do not create avoidable overlap or merge risk
+- commit each task separately once that task's scope is complete and validated
+- notify the user when the full feature is complete, then wait for more instructions
+- stop and ask for information whenever required context is missing or a risky assumption would otherwise be necessary
+
 ### Transcript Maintenance
 
 Before creating a commit:

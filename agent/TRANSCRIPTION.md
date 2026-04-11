@@ -1134,3 +1134,7 @@ I completed `TASK-083` by reviewing `AGENTS.md` and the agent markdown files, ca
 #### Entry 168
 Assistant:
 I completed `TASK-084` by consolidating duplicated agent-doc guidance so `AGENTS.md` now points to `agent/AGENT_WORKFLOW.md` for operational procedure and to `agent/LLM_CONTEXT.md` for context-loading and documentation routing, while `agent/LLM_CONTEXT.md` more clearly owns the routing guidance without repeating the broader guardrail role of `AGENTS.md`.
+
+#### Entry 169
+Assistant:
+I completed `TASK-085` by adding an explicit feature-execution section to `agent/AGENT_WORKFLOW.md` that requires up-front parallelism evaluation, parallel task lanes when safe, a separate commit per completed task, end-of-feature user notification, and a pause whenever required information is missing, then marked `FEATURE-017` complete.

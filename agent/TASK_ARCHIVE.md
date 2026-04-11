@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-085
+
+- Name: Codify standard feature execution workflow
+- Priority: High
+- Blocked By: TASK-083
+- Blocks: None
+- Description: Update the agent operating docs so feature work explicitly defaults to evaluating parallelism up front, completing tasks with a commit per task, notifying the user when a feature is fully done, and pausing only when required information is missing.
+
 ### TASK-084
 
 - Name: Refactor agent docs for maintainability and clearer source-of-truth links

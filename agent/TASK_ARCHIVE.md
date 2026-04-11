@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-083
+
+- Name: Audit agent-facing docs for gaps, duplication, and low-value guidance
+- Priority: High
+- Blocked By: None
+- Blocks: TASK-084, TASK-085
+- Description: Review `AGENTS.md` and the agent-facing markdown files for missing workflow coverage, contradictory or duplicated guidance, weak source-of-truth boundaries, and sections that add little operational value.
+
 ### TASK-078
 
 - Name: Audit CSS ownership and move styles to their closest appropriate home

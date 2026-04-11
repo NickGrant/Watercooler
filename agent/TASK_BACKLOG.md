@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-084
-
-- Name: Refactor agent docs for maintainability and clearer source-of-truth links
-- Priority: High
-- Blocked By: TASK-083
-- Blocks: None
-- Description: Apply the audit findings by removing duplicate or low-value guidance, tightening contradictory language, and increasing maintainability through clearer cross-file references and narrower ownership of rules.
-
 ### TASK-085
 
 - Name: Codify standard feature execution workflow

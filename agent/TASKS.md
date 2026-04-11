@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-083
+### TASK-084
 
-- Name: Audit agent-facing docs for gaps, duplication, and low-value guidance
+- Name: Refactor agent docs for maintainability and clearer source-of-truth links
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-084, TASK-085
-- Description: Review `AGENTS.md` and the agent-facing markdown files for missing workflow coverage, contradictory or duplicated guidance, weak source-of-truth boundaries, and sections that add little operational value.
+- Blocks: None
+- Description: Apply the audit findings by removing duplicate or low-value guidance, tightening contradictory language, and increasing maintainability through clearer cross-file references and narrower ownership of rules.
 
 ## Task Management Rules
 

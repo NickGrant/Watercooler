@@ -23,6 +23,13 @@
   --resource-badge-offset: 0.2rem;
 }
 
+.resource-icon-badge--medium {
+  --resource-icon-size: 2.4rem;
+  --resource-badge-font-size: 0.78rem;
+  --resource-badge-padding-inline: 0.3rem;
+  --resource-badge-offset: 0.28rem;
+}
+
 .resource-icon-badge--large {
   --resource-icon-size: 3.2rem;
   --resource-badge-font-size: 0.92rem;

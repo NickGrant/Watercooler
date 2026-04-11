@@ -244,8 +244,19 @@ I removed the resource-column headline and supporting sentence from the resource
 
 ---
 
+#### Entry 197
+**User:**
+
+The icons are a good size now. Now we need up the size of the "Selected" area icons to at least double the current size
+
+**Assistant:**
+
+I added a shared `medium` resource-icon variant so the selected-resource strip could grow without affecting other surfaces, switched the selected icons in the resource bank to that new variant, updated the focused bank spec to assert the medium icon class, and reran the resource-bank component spec plus `git diff --check` before preparing the next small UAT commit.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `196`
+- Latest recorded entry: `197`
 

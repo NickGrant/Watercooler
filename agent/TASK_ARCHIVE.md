@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-077
+
+- Name: Document stylesheet ownership and styling-boundary rules
+- Priority: Medium
+- Blocked By: None
+- Blocks: TASK-078
+- Description: Update the workflow guidance so shared tokens and cross-cutting styles live globally while page- and component-specific styles remain in their closest owning stylesheet, even when style budgets are tight.
+
 ### TASK-076
 
 - Name: Centralize reusable visual tokens and shared CSS values

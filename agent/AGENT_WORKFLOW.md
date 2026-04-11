@@ -38,6 +38,12 @@ Before ending a session or clearing context:
 - keep shared skill definitions in `agent/skills/`
 - keep system-specific skill directories as thin pointers or metadata adapters back to `agent/skills/`
 
+### Styling Boundaries
+
+- keep component- or page-specific styles in the owning component or page stylesheet
+- use the global stylesheet for shared tokens, reset/base rules, and styles intentionally reused across multiple components or pages
+- do not move styles into the global stylesheet only to satisfy a component style budget; instead, reduce or reorganize the owning stylesheet while preserving logical ownership
+
 ## System Adapters
 
 - Shared skill source: `agent/skills/`

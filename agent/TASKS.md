@@ -6,7 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-None.
+### TASK-078
+
+- Name: Audit CSS ownership and move styles to their closest appropriate home
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Review the existing frontend SCSS files and fix ownership issues by moving duplicated cross-cutting rules upward for reuse and moving page- or component-specific rules downward into the closest logical stylesheet.
 
 ## Task Management Rules
 

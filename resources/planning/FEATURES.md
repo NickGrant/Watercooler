@@ -117,3 +117,11 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Status: Complete
 - Description: Improve code quality across the frontend and backend by tightening architectural boundaries, expanding meaningful automated coverage, documenting non-obvious behavior, and centralizing shared styling tokens.
 - Tasks: TASK-073, TASK-074, TASK-075, TASK-076
+
+### FEATURE-015
+
+- Name: Stylesheet Ownership And CSS Placement Audit
+- Priority: High
+- Status: In Progress
+- Description: Tighten stylesheet organization by documenting CSS placement rules and auditing the frontend styles so shared rules move upward only when genuinely reused while page- and component-specific rules stay in their closest logical home.
+- Tasks: TASK-077, TASK-078

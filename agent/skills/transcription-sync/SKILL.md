@@ -23,7 +23,7 @@ Use this skill to keep the active repository transcript current without rewritin
 
 ## Recording Rules
 
-- Label each block as `**User**` or `**Assistant**`.
+- Label each block as `**User:**` or `**Assistant:**` on their own line.
 - Record the message content in a readable form.
 - Preserve user intent accurately.
 - Preserve assistant outcomes accurately.

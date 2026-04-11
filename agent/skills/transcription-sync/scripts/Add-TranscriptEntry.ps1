@@ -33,7 +33,7 @@ if (-not (Test-Path $TargetPath)) {
         '## Format Rules',
         '',
         '- Append new entries in chronological order.',
-        '- Clearly label each speaker as `**User**` or `**Assistant**`.',
+        '- Clearly label each speaker as `**User:**` or `**Assistant:**` on their own line.',
         '- Record visible conversation messages only.',
         '- Do not include tool outputs unless the user specifically asks for them to be transcribed.',
         '- Do not rewrite earlier entries unless correcting a clear transcription mistake.',
@@ -60,13 +60,15 @@ $entryLines = @(
 )
 
 if (-not [string]::IsNullOrWhiteSpace($UserMessage)) {
-    $entryLines += '**User**'
+    $entryLines += '**User:**'
+    $entryLines += ''
     $entryLines += $UserMessage.TrimEnd()
     $entryLines += ''
 }
 
 if (-not [string]::IsNullOrWhiteSpace($AssistantMessage)) {
-    $entryLines += '**Assistant**'
+    $entryLines += '**Assistant:**'
+    $entryLines += ''
     $entryLines += $AssistantMessage.TrimEnd()
     $entryLines += ''
 }

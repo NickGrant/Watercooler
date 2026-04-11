@@ -12,8 +12,8 @@ Keep `agent/TRANSCRIPTION.md` append-only, readable, and easy to continue from t
 - `## Transcript`
 - one or more `### Session NNN` sections
 - one or more `#### Entry NNN` sections inside each session
-- `**User**` block
-- `**Assistant**` block
+- `**User:**` block
+- `**Assistant:**` block
 - `---` divider between entries
 - `## Sync Notes`
 
@@ -31,4 +31,4 @@ Keep `agent/TRANSCRIPTION.md` append-only, readable, and easy to continue from t
 - If a long assistant turn contained many progress updates, summarize those updates into the final practical outcome unless the transcript is specifically meant to preserve every intermediate message.
 - If uncertain whether a turn was already transcribed, compare the latest entry text before appending.
 - Keep the transcript portable across common markdown viewers; avoid transcript formatting that depends on custom CSS, right-aligned HTML layout, or colored message containers inside the markdown file itself.
-- Prefer bold speaker labels and simple markdown dividers over more fragile visual tricks.
+- Prefer standalone bold speaker labels with a trailing colon and simple markdown dividers over more fragile visual tricks.

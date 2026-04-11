@@ -7,7 +7,7 @@ This temporary transcript continuation captures new conversation while the repo 
 ## Format Rules
 
 - Append new entries in chronological order.
-- Clearly label each speaker as `**User**` or `**Assistant**`.
+- Clearly label each speaker as `**User:**` or `**Assistant:**` on their own line.
 - Record visible conversation messages only.
 - Do not include tool outputs unless the user specifically asks for them to be transcribed.
 - Do not rewrite earlier entries unless correcting a clear transcription mistake.
@@ -19,12 +19,14 @@ This temporary transcript continuation captures new conversation while the repo 
 ### Session 002
 
 #### Entry 175
-**User**
+**User:**
+
 Can we still add some formatting to help distinguish between people talking, possibly by making the name bold and including a divider like --- between speakers? Do you have any better suggestions to help make this more at-a-glance readable?
 ---
 
 #### Entry 176
-**User**
+**User:**
+
 Here are some issues I want to address, create features and tasks as appropriate:
 - Make [TRANSCRIPTION.md](agent/TRANSCRIPTION.md) more at-a-glance readable by visually distinguishing speakers in some way (bold names, divider between speakers, etc...)
 - the transcription-sync skill should be home for as many of our transcription rules as possible to make it more portable (currently relies on at least AGENT_WORKFLOW) 
@@ -37,27 +39,32 @@ Here are some issues I want to address, create features and tasks as appropriate
 
 until the work to optimize transcription is done, please write new entries to a temporary TRANSCRIPTION_2.md file, we can combine as necessary later. prioritize that and any other work that willl help optimize token consumption
 
-**Assistant**
+**Assistant:**
+
 I committed to prioritizing transcript optimization first, decided with high confidence to pursue a lower-token transcription strategy without pausing for a tie-breaker, and split the incoming work into three tracked features covering transcript optimization, portable step/job workflow changes, and frontend entry/waiting-room cleanup.
 ---
 
 #### Entry 177
-**Assistant**
+**Assistant:**
+
 I completed `TASK-089` by creating `agent/TRANSCRIPTION_2.md` as the temporary continuation file, breaking the incoming requests into new tracked features and tasks, and promoting the transcript memory-management implementation as the next active task because it offers the biggest immediate token-consumption win.
 ---
 
 #### Entry 178
-**Assistant**
+**Assistant:**
+
 I completed `TASK-091` by adding transcript helper scripts under `agent/skills/transcription-sync/scripts/` to report the active transcript target and append entries without reopening the full archive, documenting the low-token transcript strategy in `agent/skills/transcription-sync/references/transcript-memory-management.md`, and updating `agent/LLM_CONTEXT.md` so transcript work prefers those helpers and the temporary continuation file during the migration.
 ---
 
 #### Entry 179
-**Assistant**
+**Assistant:**
+
 I completed `TASK-090` by moving the detailed transcription workflow into `agent/skills/transcription-sync/SKILL.md`, reducing the amount of repo-local procedure it depended on, explicitly covering continuation targets and transcript creation when missing, and slimming `agent/AGENT_WORKFLOW.md` back to the higher-level timing rule for when the skill must be used.
 ---
 
 #### Entry 180
-**Assistant**
+**Assistant:**
+
 I completed `TASK-092` by improving the portable transcript format around bold speaker labels and simple entry dividers, wiring that format into the transcription skill references and append helper, and closing `FEATURE-018` once the low-token transcript workflow, skill portability improvements, and readability updates were all in place.
 ---
 

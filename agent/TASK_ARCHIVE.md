@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-092
+
+- Name: Improve transcript readability within portable markdown limits
+- Priority: Medium
+- Blocked By: TASK-089, TASK-090, TASK-091
+- Blocks: None
+- Description: Improve at-a-glance readability in the transcript format using portable markdown conventions such as stronger speaker labels and separators, while avoiding viewer-specific HTML or CSS dependencies.
+
 ### TASK-090
 
 - Name: Move transcription rules into the transcription skill and make transcript creation resilient

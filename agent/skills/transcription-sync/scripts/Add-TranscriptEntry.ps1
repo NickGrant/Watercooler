@@ -33,11 +33,12 @@ if (-not (Test-Path $TargetPath)) {
         '## Format Rules',
         '',
         '- Append new entries in chronological order.',
-        '- Clearly label each speaker as `User` or `Assistant`.',
+        '- Clearly label each speaker as `**User**` or `**Assistant**`.',
         '- Record visible conversation messages only.',
         '- Do not include tool outputs unless the user specifically asks for them to be transcribed.',
         '- Do not rewrite earlier entries unless correcting a clear transcription mistake.',
         '- Keep `## Sync Notes` updated with the latest recorded session and entry.',
+        '- Use a simple `---` divider between entries for easier scanning.',
         '',
         '## Transcript',
         '',
@@ -59,16 +60,18 @@ $entryLines = @(
 )
 
 if (-not [string]::IsNullOrWhiteSpace($UserMessage)) {
-    $entryLines += 'User:'
+    $entryLines += '**User**'
     $entryLines += $UserMessage.TrimEnd()
     $entryLines += ''
 }
 
 if (-not [string]::IsNullOrWhiteSpace($AssistantMessage)) {
-    $entryLines += 'Assistant:'
+    $entryLines += '**Assistant**'
     $entryLines += $AssistantMessage.TrimEnd()
     $entryLines += ''
 }
+
+$entryLines += '---'
 
 $entryBlock = ($entryLines -join "`r`n").TrimEnd()
 $body = $content -replace "(?ms)\r?\n## Sync Notes.*$", ''

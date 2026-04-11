@@ -23,7 +23,7 @@ Use this skill to keep the active repository transcript current without rewritin
 
 ## Recording Rules
 
-- Label each block as `User:` or `Assistant:`.
+- Label each block as `**User**` or `**Assistant**`.
 - Record the message content in a readable form.
 - Preserve user intent accurately.
 - Preserve assistant outcomes accurately.
@@ -31,6 +31,7 @@ Use this skill to keep the active repository transcript current without rewritin
 - Do not alter older entries unless fixing a clear transcription error.
 - If the latest assistant response has not been sent yet, do not invent it.
 - Keep the transcript portable plain markdown rather than relying on HTML/CSS-only presentation tricks.
+- Use a simple `---` divider between entries when appending new transcript content.
 
 ## Granularity Guidance
 

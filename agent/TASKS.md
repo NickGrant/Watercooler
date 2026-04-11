@@ -6,13 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-092
-
-- Name: Improve transcript readability within portable markdown limits
-- Priority: Medium
-- Blocked By: None
-- Blocks: None
-- Description: Improve at-a-glance readability in the transcript format using portable markdown conventions such as stronger speaker labels and separators, while avoiding viewer-specific HTML or CSS dependencies.
+None.
 
 ## Task Management Rules
 

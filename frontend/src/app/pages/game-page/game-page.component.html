@@ -34,6 +34,28 @@
       </section>
     }
 
+    @if (joinError() || startMessage() || actionError()) {
+      <section class="page-alert-stack" aria-label="Room alerts">
+        @if (joinError(); as joinError) {
+          <section class="page-alert page-alert--error" role="alert">
+            {{ joinError }}
+          </section>
+        }
+
+        @if (startMessage(); as startMessage) {
+          <section class="page-alert page-alert--info" role="status">
+            {{ startMessage }}
+          </section>
+        }
+
+        @if (actionError(); as actionError) {
+          <section class="page-alert page-alert--error" role="alert">
+            {{ actionError }}
+          </section>
+        }
+      </section>
+    }
+
     @if (session.stage() === 'in-game' && !isCompletedGame() && startedGame(); as startedGame) {
       <section class="shell-grid shell-grid--active">
       <div class="shell-column shell-column--sidebar">
@@ -150,10 +172,6 @@
             (claimCard)="claimMarketCard($event)"
             (purchaseCard)="purchaseMarketCard($event)"
           />
-
-          @if (actionError(); as actionError) {
-            <p class="inline-error" role="alert">{{ actionError }}</p>
-          }
         </mat-card>
       </div>
 
@@ -196,7 +214,7 @@
               matInput
               [ngModel]="session.playerName()"
               (ngModelChange)="updatePlayerName($event)"
-              maxlength="64"
+              maxlength="25"
               placeholder="Pam, Jim, Angela..."
             />
           </mat-form-field>
@@ -209,11 +227,6 @@
               size="xlarge"
               ariaLabel="Current avatar preview"
             />
-            <div class="badge-summary">
-              <p><strong>Body:</strong> {{ currentAvatarOption('body').label }}</p>
-              <p><strong>Face:</strong> {{ currentAvatarOption('face').label }}</p>
-              <p><strong>Hair:</strong> {{ currentAvatarOption('hair').label }}</p>
-            </div>
           </section>
 
           <div class="avatar-grid">
@@ -282,10 +295,6 @@
         <button mat-flat-button type="button" [disabled]="joinPending()" (click)="submitJoin()">
           {{ joinPending() ? 'Submitting Badge...' : 'Join Game' }}
         </button>
-
-        @if (joinError(); as joinError) {
-          <p class="inline-error" role="alert">{{ joinError }}</p>
-        }
       } @else if (session.stage() === 'in-game') {
         @if (isCompletedGame()) {
           <h2>Final Results Desk</h2>
@@ -355,9 +364,6 @@
           />
           <p><strong>Host:</strong> {{ session.currentPlayer()?.isHost ? 'Yes' : 'No' }}</p>
           <p><strong>Lobby Size:</strong> {{ session.joinedPlayerCount() }} / {{ session.maximumLobbyPlayers() }}</p>
-          <p><strong>Body:</strong> {{ currentAvatarOption('body').label }}</p>
-          <p><strong>Face:</strong> {{ currentAvatarOption('face').label }}</p>
-          <p><strong>Hair:</strong> {{ currentAvatarOption('hair').label }}</p>
         </div>
       }
     </mat-card>
@@ -615,10 +621,6 @@
             />
           </section>
         </div>
-
-        @if (actionError(); as actionError) {
-          <p class="inline-error" role="alert">{{ actionError }}</p>
-        }
       } @else {
         <p>The room board will appear here as soon as the live state is ready.</p>
         <mat-divider />
@@ -639,6 +641,67 @@
       </section>
     }
   </div>
+
+  @if (isCompletedGame() && startedGame()) {
+    <section class="results-modal-backdrop" aria-hidden="true"></section>
+    <section
+      class="results-modal-shell"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="final-results-title"
+    >
+      <article class="results-modal">
+        <p class="eyebrow">Match Complete</p>
+        <h2 id="final-results-title">Final Results</h2>
+        <p class="panel-copy">
+          The room is complete. Review the final standings and launch a new room when everyone is
+          ready to keep climbing the corporate ladder.
+        </p>
+
+        <section class="results-hero">
+          <div>
+            <p class="eyebrow">Winning Employee</p>
+            <h3>{{ winningPlayer()?.displayName }}</h3>
+            <p class="panel-copy">{{ finalTieBreakSummary() }}</p>
+          </div>
+
+          <div class="results-hero__actions">
+            <div class="turn-summary__tile">
+              <span>Winning Prestige</span>
+              <strong>{{ winningPlayer()?.officePrestige }}</strong>
+            </div>
+            <button
+              mat-flat-button
+              type="button"
+              [disabled]="createNextGamePending()"
+              (click)="createNextGame()"
+            >
+              {{ createNextGamePending() ? 'Opening New Room...' : 'Start A New Room' }}
+            </button>
+          </div>
+        </section>
+
+        <section class="results-modal__standings">
+          <h3>Final Standings</h3>
+          <div class="results-modal__rows">
+            @for (player of finalStandings(); track player.gamePlayerId) {
+              <div class="results-modal__row">
+                <div>
+                  <strong>{{ finalPlacementLabel($index) }} - {{ player.displayName }}</strong>
+                  <p>
+                    Prestige {{ player.officePrestige }} | Completed Projects {{ player.purchasedCardCount }}
+                  </p>
+                </div>
+                @if ($index === 0) {
+                  <span class="roster-badge roster-badge--winner">Winner</span>
+                }
+              </div>
+            }
+          </div>
+        </section>
+      </article>
+    </section>
+  }
 
   <aside
     class="bug-report-dock"

@@ -344,6 +344,9 @@ describe('GamePageComponent', () => {
 
     expect(labels).toEqual(['Hair', 'Face', 'Body']);
     expect(fixture.nativeElement.querySelector('.avatar-preview-panel app-avatar-composite')).not.toBeNull();
+    expect(fixture.nativeElement.textContent).not.toContain('Body:');
+    expect(fixture.nativeElement.textContent).not.toContain('Face:');
+    expect(fixture.nativeElement.textContent).not.toContain('Hair:');
   });
 
   it('renders the compact bank row and stacked player economy bars', () => {
@@ -870,6 +873,15 @@ describe('GamePageComponent', () => {
     expect(session.currentPlayer()?.displayName).toBe('Pam');
   });
 
+  it('caps the display name input at twenty-five characters', () => {
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    const input = fixture.nativeElement.querySelector('input[matinput]') as HTMLInputElement | null;
+
+    expect(input?.getAttribute('maxlength')).toBe('25');
+  });
+
   it('shows backend join errors to the player', () => {
     gamesApi.joinBootstrap.and.returnValue(
       throwError(() => ({
@@ -885,6 +897,10 @@ describe('GamePageComponent', () => {
     fixture.componentInstance.submitJoin();
 
     expect(fixture.componentInstance.joinError()).toBe(
+      'Display names must be unique within the game.'
+    );
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.page-alert-stack')?.textContent).toContain(
       'Display names must be unique within the game.'
     );
   });
@@ -1025,6 +1041,11 @@ describe('GamePageComponent', () => {
     expect(fixture.componentInstance.actionError()).toBe(
       'Only the active player may take resources right now.'
     );
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('.page-alert-stack')?.textContent).toContain(
+      'Only the active player may take resources right now.'
+    );
+    expect(fixture.nativeElement.querySelector('.board-panel--market .inline-error')).toBeNull();
   });
 
   it('refreshes the board from /state after a stale or network action failure', () => {
@@ -1217,11 +1238,17 @@ describe('GamePageComponent', () => {
 
     const fixture = TestBed.createComponent(GamePageComponent);
     const standings = fixture.componentInstance.finalStandings();
+    fixture.detectChanges();
 
     expect(fixture.componentInstance.isCompletedGame()).toBeTrue();
     expect(standings.map((player) => player.displayName)).toEqual(['Pam', 'Jim', 'Dwight']);
     expect(fixture.componentInstance.winningPlayer()?.displayName).toBe('Pam');
     expect(fixture.componentInstance.finalTieBreakSummary()).toContain('fewer completed projects');
+    expect(fixture.nativeElement.querySelector('.results-modal-shell')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('#final-results-title')?.textContent?.trim()).toBe(
+      'Final Results'
+    );
+    expect(fixture.nativeElement.textContent).toContain('Winning Employee');
   });
 
   it('creates a fresh room from the completed-game results desk', async () => {

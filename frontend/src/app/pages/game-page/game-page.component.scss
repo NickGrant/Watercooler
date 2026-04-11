@@ -2,10 +2,10 @@
 
 :host {
   display: block;
-  --game-shell-max-width: 87.5rem;
 }
 
 .game-page {
+  --game-shell-max-width: 1400px;
   min-height: 100dvh;
   padding: 1.5rem;
   background:
@@ -22,7 +22,7 @@
 }
 
 .game-page__frame {
-  max-width: var(--game-shell-max-width);
+  max-width: var(--game-shell-max-width, 1400px);
   margin: 0 auto;
 }
 
@@ -88,6 +88,33 @@ h1 {
   background: var(--wc-danger-bg);
   color: var(--wc-danger);
   font-weight: 600;
+}
+
+.page-alert-stack {
+  display: grid;
+  gap: 0.75rem;
+  margin: 0 0 1rem;
+}
+
+.page-alert {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--wc-border-soft);
+  font-weight: 600;
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.75) inset,
+    0 10px 24px rgba(33, 49, 73, 0.08);
+}
+
+.page-alert--error {
+  border-color: var(--wc-danger-border);
+  background: var(--wc-danger-bg);
+  color: var(--wc-danger);
+}
+
+.page-alert--info {
+  border-color: rgba(52, 76, 115, 0.24);
+  background: linear-gradient(180deg, rgba(247, 250, 255, 0.98), rgba(236, 242, 251, 0.96));
+  color: var(--wc-accent-strong);
 }
 
 .shell-grid {
@@ -422,6 +449,7 @@ app-executive-row {
   right: 0.85rem;
   display: flex;
   transform: translateY(-50%);
+  z-index: 20;
 }
 
 .bug-report-dock__tab {
@@ -438,6 +466,59 @@ app-executive-row {
   padding: 1rem;
   border: 1px solid var(--wc-border-strong);
   background: var(--wc-panel);
+}
+
+.results-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(20, 29, 43, 0.66);
+  backdrop-filter: blur(6px);
+  z-index: 40;
+}
+
+.results-modal-shell {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  z-index: 41;
+}
+
+.results-modal {
+  width: min(64rem, 100%);
+  max-height: calc(100dvh - 3rem);
+  overflow: auto;
+  padding: 1.5rem;
+  border: 1px solid var(--wc-border-strong);
+  background: linear-gradient(180deg, rgba(254, 255, 255, 0.98), rgba(241, 246, 252, 0.97));
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.85) inset,
+    0 32px 80px rgba(14, 22, 34, 0.35);
+}
+
+.results-modal__standings {
+  margin-top: 1.25rem;
+}
+
+.results-modal__rows {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.results-modal__row {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--wc-border-subtle);
+  background: linear-gradient(180deg, rgba(250, 252, 255, 0.96), rgba(240, 244, 250, 0.94));
+}
+
+.results-modal__row p {
+  margin: 0.35rem 0 0;
+  color: var(--wc-ink);
 }
 
 @media (min-width: 1180px) {
@@ -491,6 +572,14 @@ app-executive-row {
   .bug-report-dock__tab {
     writing-mode: initial;
     transform: none;
+  }
+
+  .results-modal-shell {
+    padding: 1rem;
+  }
+
+  .results-modal__row {
+    flex-direction: column;
   }
 }
 

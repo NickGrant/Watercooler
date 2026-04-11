@@ -7,6 +7,7 @@ namespace Watercooler\Api\Players;
 final class JoinBootstrapService
 {
     private const MAX_PLAYERS = 4;
+    private const MAX_DISPLAY_NAME_LENGTH = 25;
 
     public function __construct(
         private readonly JoinBootstrapRepository $repository,
@@ -57,6 +58,14 @@ final class JoinBootstrapService
                 422,
                 'display_name_required',
                 'Display name is required before joining a game.',
+            );
+        }
+
+        if (mb_strlen($displayName) > self::MAX_DISPLAY_NAME_LENGTH) {
+            throw new JoinBootstrapException(
+                422,
+                'display_name_too_long',
+                'Display names must be 25 characters or fewer.',
             );
         }
 

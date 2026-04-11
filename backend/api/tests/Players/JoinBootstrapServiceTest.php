@@ -28,9 +28,9 @@ final class JoinBootstrapServiceTest extends TestCase
         $result = $service->bootstrap('synergy-report-telemetry', [
             'displayName' => '  Pam  ',
             'avatar' => [
-                'body' => 'blazer',
-                'face' => 'corporate-neutral',
-                'hair' => 'side-part',
+                'body' => 'body-1',
+                'face' => 'face-1',
+                'hair' => 'hair-1',
             ],
         ]);
 
@@ -53,9 +53,9 @@ final class JoinBootstrapServiceTest extends TestCase
         $initial = $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                'body' => 'blazer',
-                'face' => 'corporate-neutral',
-                'hair' => 'side-part',
+                'body' => 'body-1',
+                'face' => 'face-1',
+                'hair' => 'hair-1',
             ],
         ]);
 
@@ -79,9 +79,9 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                'body' => 'blazer',
-                'face' => 'corporate-neutral',
-                'hair' => 'side-part',
+                'body' => 'body-1',
+                'face' => 'face-1',
+                'hair' => 'hair-1',
             ],
         ]);
 
@@ -91,9 +91,30 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                'body' => 'hoodie',
-                'face' => 'coffee-grin',
-                'hair' => 'startup-mess',
+                'body' => 'body-2',
+                'face' => 'face-2',
+                'hair' => 'hair-3',
+            ],
+        ]);
+    }
+
+    public function testItRejectsDisplayNamesLongerThanTwentyFiveCharacters(): void
+    {
+        $service = new JoinBootstrapService(
+            new InMemoryJoinBootstrapRepository(),
+            new AvatarCatalog(),
+            new PredictableSessionTokenGenerator('token'),
+        );
+
+        $this->expectException(JoinBootstrapException::class);
+        $this->expectExceptionMessage('Display names must be 25 characters or fewer.');
+
+        $service->bootstrap('synergy-report-telemetry', [
+            'displayName' => 'This Display Name Is Way Too Long',
+            'avatar' => [
+                'body' => 'body-1',
+                'face' => 'face-1',
+                'hair' => 'hair-1',
             ],
         ]);
     }
@@ -113,8 +134,8 @@ final class JoinBootstrapServiceTest extends TestCase
             'displayName' => 'Pam',
             'avatar' => [
                 'body' => 'unknown',
-                'face' => 'corporate-neutral',
-                'hair' => 'side-part',
+                'face' => 'face-1',
+                'hair' => 'hair-1',
             ],
         ]);
     }

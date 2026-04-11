@@ -12,6 +12,16 @@ final class AvatarCatalog
         'cardigan',
         'polo',
         'power-suit',
+        'body-1',
+        'body-2',
+        'body-3',
+        'body-4',
+        'body-5',
+        'body-6',
+        'body-7',
+        'body-8',
+        'body-9',
+        'body-10',
     ];
 
     private const FACE_OPTIONS = [
@@ -20,6 +30,15 @@ final class AvatarCatalog
         'meeting-fatigue',
         'deadline-focus',
         'visionary-smirk',
+        'face-1',
+        'face-2',
+        'face-3',
+        'face-4',
+        'face-5',
+        'face-6',
+        'face-7',
+        'face-8',
+        'face-9',
     ];
 
     private const HAIR_OPTIONS = [
@@ -28,6 +47,18 @@ final class AvatarCatalog
         'startup-mess',
         'weekend-buzz',
         'presentation-curl',
+        'hair-1',
+        'hair-2',
+        'hair-3',
+        'hair-4',
+        'hair-5',
+        'hair-6',
+        'hair-7',
+        'hair-8',
+        'hair-9',
+        'hair-10',
+        'hair-11',
+        'hair-12',
     ];
 
     public function isValid(AvatarSelection $selection): bool

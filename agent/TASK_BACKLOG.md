@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-091
-
-- Name: Implement transcript memory-management workflow
-- Priority: High
-- Blocked By: TASK-089
-- Blocks: TASK-092, TASK-093
-- Description: Add a low-token transcript maintenance strategy, likely based on helper scripts and/or transcript partitioning, so agents can identify the correct append target and update transcript state without repeatedly loading the full conversation history.
-
 ### TASK-092
 
 - Name: Improve transcript readability within portable markdown limits
@@ -29,6 +21,14 @@ This file tracks outstanding work that matters to the project but does not need 
 - Blocked By: TASK-089
 - Blocks: TASK-092
 - Description: Move as many transcription-maintenance rules as practical into the shared `transcription-sync` skill, reduce the skill's dependency on other repo docs where possible, and ensure the workflow can create the target transcript file if it is missing.
+
+### TASK-091
+
+- Name: Implement transcript memory-management workflow
+- Priority: High
+- Blocked By: TASK-089
+- Blocks: TASK-092, TASK-093
+- Description: Add a low-token transcript maintenance strategy, likely based on helper scripts and/or transcript partitioning, so agents can identify the correct append target and update transcript state without repeatedly loading the full conversation history.
 
 ### TASK-093
 

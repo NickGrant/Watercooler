@@ -42,7 +42,11 @@ I committed to prioritizing transcript optimization first, decided with high con
 Assistant:
 I completed `TASK-089` by creating `agent/TRANSCRIPTION_2.md` as the temporary continuation file, breaking the incoming requests into new tracked features and tasks, and promoting the transcript memory-management implementation as the next active task because it offers the biggest immediate token-consumption win.
 
+#### Entry 178
+Assistant:
+I completed `TASK-091` by adding transcript helper scripts under `agent/skills/transcription-sync/scripts/` to report the active transcript target and append entries without reopening the full archive, documenting the low-token transcript strategy in `agent/skills/transcription-sync/references/transcript-memory-management.md`, and updating `agent/LLM_CONTEXT.md` so transcript work prefers those helpers and the temporary continuation file during the migration.
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `177`
+- Latest recorded entry: `178`

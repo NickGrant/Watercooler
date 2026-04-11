@@ -25,6 +25,8 @@ This file tells agents what should stay in normal working context, what should b
   Completed task history.
 - `agent/TRANSCRIPTION.md`
   Conversation history. Load when updating the transcript, recovering prior decisions, or preparing a commit.
+- `agent/TRANSCRIPTION_2.md`
+  Temporary continuation transcript. Prefer this as the active transcript target while the transcription optimization migration is in progress.
 - `resources/planning/FEATURES.md`
   Feature-to-task map for broader planning context.
 - `resources/planning/`
@@ -74,3 +76,4 @@ This file tells agents what should stay in normal working context, what should b
 - Prefer the narrowest planning file that answers the current question.
 - Move files out of `Always Load` as soon as they stop being needed for most tasks.
 - Prefer shared workflow files over tool-specific adapters when both exist.
+- For transcript maintenance, prefer using the transcription helper scripts to identify the active target and latest recorded entry before loading transcript files directly.

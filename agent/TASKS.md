@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-091
+### TASK-090
 
-- Name: Implement transcript memory-management workflow
+- Name: Move transcription rules into the transcription skill and make transcript creation resilient
 - Priority: High
 - Blocked By: None
-- Blocks: TASK-092, TASK-093
-- Description: Add a low-token transcript maintenance strategy, likely based on helper scripts and/or transcript partitioning, so agents can identify the correct append target and update transcript state without repeatedly loading the full conversation history.
+- Blocks: TASK-092
+- Description: Move as many transcription-maintenance rules as practical into the shared `transcription-sync` skill, reduce the skill's dependency on other repo docs where possible, and ensure the workflow can create the target transcript file if it is missing.
 
 ## Task Management Rules
 

@@ -6,7 +6,7 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-None.
+No active steps right now. Promote the next item from `agent/STEP_BACKLOG.md` when the next lane begins.
 
 ## Step Management Rules
 

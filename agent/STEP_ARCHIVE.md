@@ -700,3 +700,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: None
 - Description: Remove the redundant `Your Turn` box, fold the resource bank and take-resource controls into one panel, and reorganize the board rail into nested rows so the page reads more cleanly during active play.
+
+### STEP-098
+
+- Name: Refine active player display hierarchy and density
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Tighten the active-player presentation by removing the extra surrounding shell chrome, simplifying the seat and prestige subtitle, giving executive favor its own line, improving completed-project summarization, fixing claimed-project stacking, and increasing the visual weight of resource icons.

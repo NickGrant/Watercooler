@@ -73,6 +73,10 @@ describe('PlayerCardComponent', () => {
     expect(fixture.nativeElement.querySelector('.player-panel')).not.toBeNull();
     expect(fixture.nativeElement.querySelectorAll('.player-resource-bar').length).toBe(5);
     expect(fixture.nativeElement.textContent).toContain('Pam');
+    expect(fixture.nativeElement.textContent).toContain('Seat 1 | Prestige 0');
+    expect(fixture.nativeElement.textContent).not.toContain('Tokens');
+    expect(fixture.nativeElement.textContent).toContain('Completed Projects 0');
+    expect(fixture.nativeElement.querySelector('.player-panel__favor-row')).not.toBeNull();
   });
 
   it('emits purchases from reserved cards', () => {

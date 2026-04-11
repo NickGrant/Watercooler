@@ -1,7 +1,7 @@
 import { Component, input, output } from '@angular/core';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
-import { ActiveExecutive, ActiveGamePlayer, ActivePlayerCard, ResourceLedger, ResourceType } from '../../../../core/models/active-game-state.model';
+import { ActiveExecutive, ActiveGamePlayer, ActivePlayerCard, ResourceType } from '../../../../core/models/active-game-state.model';
 import { ExecutiveCardComponent } from '../executive-card/executive-card.component';
 import { ProjectCardComponent } from '../project-card/project-card.component';
 import { ResourceIconComponent } from '../resource-icon/resource-icon.component';
@@ -27,10 +27,6 @@ export class PlayerCardComponent {
   readonly canPurchaseReservedCard = input.required<(card: ActivePlayerCard) => boolean>();
 
   readonly purchaseReservedCard = output<ActivePlayerCard>();
-
-  totalVisibleResources(resources: ResourceLedger): number {
-    return resources.totalTokens ?? resources.coffee + resources.spreadsheets + resources.budget + resources.connections + resources.time + resources.executiveFavor;
-  }
 
   onPurchaseReserved(card: ActivePlayerCard | ActiveExecutive): void {
     this.purchaseReservedCard.emit(card as ActivePlayerCard);

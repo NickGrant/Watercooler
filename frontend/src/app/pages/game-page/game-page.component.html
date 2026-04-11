@@ -36,39 +36,27 @@
   @if (session.stage() === 'in-game' && !isCompletedGame() && startedGame(); as startedGame) {
     <section class="shell-grid shell-grid--active">
       <div class="shell-column shell-column--sidebar">
-        <mat-card appearance="outlined" class="shell-panel shell-panel--sidebar">
-          <div class="section-heading">
-            <h2>Your Desk</h2>
-            <button
-              type="button"
-              class="heading-help"
-              [matTooltip]="'Your player card tracks your resources, discounts, claimed projects, completed projects, and executives.'"
-              aria-label="Your desk help"
-            >
-              ?
-            </button>
-          </div>
-
-          @if (currentUserPlayer(); as currentPlayer) {
-            <app-player-card
-              [player]="currentPlayer"
-              [resourceTypes]="resourceTypes"
-              [isCompletedGame]="false"
-              [isActiveTurn]="currentPlayer.gamePlayerId === startedGame.currentTurnGamePlayerId"
-              [isWinner]="false"
-              [placementLabel]="null"
-              [actionPending]="actionPending()"
-              [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
-              [isCurrentUserCard]="true"
-              [resourceLabel]="resourceLabel.bind(this)"
-              [resourceIconPath]="resourceIconPath.bind(this)"
-              [canPurchaseReservedCard]="canAffordCard.bind(this, currentPlayer)"
-              (purchaseReservedCard)="purchaseReservedCard($event)"
-            />
-          } @else {
+        @if (currentUserPlayer(); as currentPlayer) {
+          <app-player-card
+            [player]="currentPlayer"
+            [resourceTypes]="resourceTypes"
+            [isCompletedGame]="false"
+            [isActiveTurn]="currentPlayer.gamePlayerId === startedGame.currentTurnGamePlayerId"
+            [isWinner]="false"
+            [placementLabel]="null"
+            [actionPending]="actionPending()"
+            [isCurrentPlayersTurn]="isCurrentPlayersTurn()"
+            [isCurrentUserCard]="true"
+            [resourceLabel]="resourceLabel.bind(this)"
+            [resourceIconPath]="resourceIconPath.bind(this)"
+            [canPurchaseReservedCard]="canAffordCard.bind(this, currentPlayer)"
+            (purchaseReservedCard)="purchaseReservedCard($event)"
+          />
+        } @else {
+          <mat-card appearance="outlined" class="shell-panel shell-panel--sidebar-placeholder">
             <p class="panel-copy">Your player card will appear once the live state finishes loading.</p>
-          }
-        </mat-card>
+          </mat-card>
+        }
 
         <mat-card appearance="outlined" class="shell-panel shell-panel--coworkers">
           <div class="section-heading">

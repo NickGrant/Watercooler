@@ -364,9 +364,25 @@ describe('GamePageComponent', () => {
     expect(economyBars.length).toBe(5);
     expect(economyBars[0]?.getAttribute('aria-label')).toContain('Coffee');
     expect(economyBars[0]?.querySelector('.player-resource-bar__frame')).not.toBeNull();
-    expect(favorChip?.textContent?.replace(/\s+/g, '')).toBe('0');
+    expect(favorChip?.textContent?.replace(/\s+/g, '')).toContain('ExecutiveFavor0');
     expect(resourceCost?.getAttribute('aria-label')).toContain('Coffee');
     expect(resourceCost?.textContent?.replace(/\s+/g, '')).toBe('2');
+  });
+
+  it('renders the current player card without the extra desk wrapper chrome', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    const sidebarColumn = fixture.nativeElement.querySelector('.shell-column--sidebar');
+    const currentPlayerCard = sidebarColumn?.querySelector('app-player-card');
+
+    expect(fixture.nativeElement.textContent).not.toContain('Your Desk');
+    expect(fixture.nativeElement.querySelector('[aria-label="Your desk help"]')).toBeNull();
+    expect(sidebarColumn?.querySelector('.shell-panel--sidebar-placeholder')).toBeNull();
+    expect(currentPlayerCard).not.toBeNull();
+    expect(currentPlayerCard?.parentElement).toBe(sidebarColumn);
   });
 
   it('highlights the current-turn tile instead of rendering a separate your-turn box', () => {

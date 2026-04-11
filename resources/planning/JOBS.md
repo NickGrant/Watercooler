@@ -165,3 +165,35 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 - Status: Complete
 - Description: Simplify the landing and pre-game UI by removing the preview route shortcut, adding an upfront rules surface, and reshaping the game waiting-room shell into a cleaner two-column check-in and roster layout.
 - Steps: STEP-095, STEP-096, STEP-097
+
+### JOB-021
+
+- Name: Active Player Display Refinement
+- Priority: High
+- Status: Complete
+- Description: Refine the active player's presentation so the current user panel feels lighter, denser, and more intentional without losing key game information.
+- Steps: STEP-098
+
+### JOB-022
+
+- Name: Resource Bank Visual Refinement
+- Priority: High
+- Status: Not Started
+- Description: Rework the resource bank around larger icon-led controls so the supply area reads more like a tactile action surface than a row of small buttons.
+- Steps: STEP-099
+
+### JOB-023
+
+- Name: Backlog Lane Layout Refinement
+- Priority: Medium
+- Status: Not Started
+- Description: Tighten backlog card wrapping and lane composition so each tier reads as a deliberate grid instead of a broken row.
+- Steps: STEP-100
+
+### JOB-024
+
+- Name: Executive Card Presentation Refinement
+- Priority: High
+- Status: Not Started
+- Description: Strengthen executive card hierarchy through a taller portrait treatment, more prominent requirement placement, and a layered title treatment.
+- Steps: STEP-101

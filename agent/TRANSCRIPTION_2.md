@@ -200,8 +200,19 @@ I completed STEP-082 by updating the backend/frontend planning docs and local-de
 
 ---
 
+#### Entry 193
+**User:**
+
+Lets move forward with our jobs
+
+**Assistant:**
+
+I completed STEP-098 by removing the extra active-player wrapper chrome from the in-game sidebar, simplifying the player-card subtitle to seat and prestige only, moving executive favor onto its own row, collapsing completed projects into a single summary line, giving claimed projects a more stable tray grid, increasing player resource icon emphasis, and updating the focused player-card and game-page specs. I then archived STEP-098, cleared the active step list, and marked JOB-021 complete.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `192`
+- Latest recorded entry: `193`
 

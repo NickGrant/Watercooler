@@ -7,8 +7,7 @@
           {{ placementLabel() }} place | Prestige {{ player().officePrestige }} |
           Completed {{ player().purchasedCardCount }}
         } @else {
-          Seat {{ player().seatOrder }} | Prestige {{ player().officePrestige }} | Tokens
-          {{ totalVisibleResources(player().resources) }}
+          Seat {{ player().seatOrder }} | Prestige {{ player().officePrestige }}
         }
       </p>
     </div>
@@ -36,7 +35,6 @@
               [src]="resourceIconPath()(resource)"
               [label]="resourceLabel()(resource)"
               [value]="player().resources[resource] + player().permanentDiscounts[resource]"
-              variant="small"
               [decorative]="true"
             />
           </div>
@@ -51,12 +49,15 @@
         </article>
       }
     </div>
+  </div>
 
+  <div class="player-panel__favor-row">
     <div
       class="player-favor-chip"
       [matTooltip]="'Executive Favor: ' + player().resources.executiveFavor"
       aria-label="Executive Favor"
     >
+      <span class="player-favor-chip__label">Executive Favor</span>
       <app-resource-icon
         [src]="resourceIconPath()('executiveFavor')"
         [label]="resourceLabel()('executiveFavor')"
@@ -68,14 +69,13 @@
 
   <div class="player-panel__collections">
     <section>
-      <h3>Completed Projects</h3>
-      <p>{{ player().purchasedCardCount }} total</p>
+      <h3>Completed Projects {{ player().purchasedCardCount }}</h3>
     </section>
 
     <section>
       <h3>Claimed Projects</h3>
       @if (player().reservedCards.length > 0) {
-        <div class="card-stack">
+        <div class="card-stack card-stack--claimed-projects">
           @for (card of player().reservedCards; track card.code) {
             <app-project-card
               [card]="card"

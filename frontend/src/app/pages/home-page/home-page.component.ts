@@ -18,6 +18,7 @@ export class HomePageComponent {
 
   readonly createGamePending = signal(false);
   readonly createGameError = signal<string | null>(null);
+  readonly showRules = signal(false);
 
   createGame(): void {
     if (this.createGamePending()) {
@@ -37,6 +38,10 @@ export class HomePageComponent {
         this.createGameError.set(this.getErrorMessage(error));
       }
     });
+  }
+
+  toggleRules(): void {
+    this.showRules.update((currentValue) => !currentValue);
   }
 
   private getErrorMessage(error: unknown): string {

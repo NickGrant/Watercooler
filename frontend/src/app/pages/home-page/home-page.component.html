@@ -27,6 +27,45 @@
       @if (createGameError(); as createGameError) {
         <p class="error-banner" role="alert">{{ createGameError }}</p>
       }
+
+      <section class="rules-panel">
+        <div class="rules-panel__header">
+          <div>
+            <p class="eyebrow">New Here?</p>
+            <h2>Rules In One Minute</h2>
+          </div>
+
+          <button mat-stroked-button type="button" (click)="toggleRules()">
+            {{ showRules() ? 'Hide Rules' : 'Show Rules' }}
+          </button>
+        </div>
+
+        @if (showRules()) {
+          <div class="rules-panel__body">
+            <article class="rules-note">
+              <h3>Your Turn</h3>
+              <p>
+                Take resources, claim a project for later, or complete a project you can afford.
+              </p>
+            </article>
+
+            <article class="rules-note">
+              <h3>Build Momentum</h3>
+              <p>
+                Completed projects grant permanent discounts, making bigger plays cheaper over time.
+              </p>
+            </article>
+
+            <article class="rules-note">
+              <h3>Win The Office</h3>
+              <p>
+                Executives arrive automatically when you meet their requirements, and the first
+                player to trigger the prestige finish line starts the final round.
+              </p>
+            </article>
+          </div>
+        }
+      </section>
     </div>
   </section>
 </main>

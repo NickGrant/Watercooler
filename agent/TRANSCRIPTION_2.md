@@ -134,8 +134,19 @@ I started JOB-020, evaluated the work as two light home-page steps plus one heav
 
 ---
 
+#### Entry 187
+**User:**
+
+lets go ahead and move on to our next job then
+
+**Assistant:**
+
+I completed STEP-096 by adding a collapsible rules section to the home page, wiring it to a local showRules signal and toggle action, styling the revealed rules cards in the component stylesheet, expanding the home-page spec to cover the open-and-close behavior, and then promoting STEP-097 into the active tracker slot as the final step of JOB-020.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `186`
+- Latest recorded entry: `187`
 

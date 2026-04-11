@@ -33,6 +33,23 @@ describe('HomePageComponent', () => {
     expect(fixture.nativeElement.querySelector('.status-grid')).toBeNull();
   });
 
+  it('toggles the front-page rules panel open and closed', () => {
+    const fixture = TestBed.createComponent(HomePageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.showRules()).toBeFalse();
+    expect(fixture.nativeElement.textContent).toContain('Rules In One Minute');
+    expect(fixture.nativeElement.textContent).not.toContain('Build Momentum');
+
+    fixture.componentInstance.toggleRules();
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.showRules()).toBeTrue();
+    expect(fixture.nativeElement.textContent).toContain('Rules In One Minute');
+    expect(fixture.nativeElement.textContent).toContain('Build Momentum');
+    expect(fixture.nativeElement.textContent).toContain('Win The Office');
+  });
+
   it('creates a game and navigates to the game route', async () => {
     gamesApi.createGame.and.returnValue(
       of({

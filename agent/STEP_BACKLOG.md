@@ -6,19 +6,11 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Steps
 
-### STEP-096
-
-- Name: Add collapsible rules section to the home page
-- Priority: Medium
-- Blocked By: None
-- Blocks: None
-- Description: Add a collapsible rules/help surface on the front page so players can review the basic gameplay loop before entering a room.
-
 ### STEP-097
 
 - Name: Rework check-in and waiting-room layout into two columns
 - Priority: High
-- Blocked By: STEP-095
+- Blocked By: None
 - Blocks: None
 - Description: Rebuild the pre-game game-page layout into a 50/50 two-column split with check-in on one side and the waiting room on the other, removing the room snapshot panel entirely.
 

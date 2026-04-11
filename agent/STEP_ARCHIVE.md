@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-096
+
+- Name: Add collapsible rules section to the home page
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Add a collapsible rules/help surface on the front page so players can review the basic gameplay loop before entering a room.
+
 ### STEP-095
 
 - Name: Remove preview game route entry from home page

@@ -233,8 +233,19 @@ I fixed the player-card collections layout so it now always renders as a single 
 
 ---
 
+#### Entry 196
+**User:**
+
+can we also remove the "resources" headline from the resources bank and the line of text beneath that. Lets make the select resource icons larger too
+
+**Assistant:**
+
+I removed the resource-column headline and supporting sentence from the resource bank, increased the shared `large` resource-icon scale again so the selectable bank icons read bigger and bolder, adjusted the bank tile height to fit the new scale, updated the focused resource-bank spec to assert the header block stays gone, and reran the component spec plus `git diff --check` before preparing another small UAT commit.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `195`
+- Latest recorded entry: `196`
 

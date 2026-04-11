@@ -1,11 +1,6 @@
 <div class="supply-console">
   <div class="resource-bank__columns">
     <section class="resource-bank__column resource-bank__column--resources">
-      <header class="resource-bank__column-header">
-        <span class="resource-bank__eyebrow">Resources</span>
-        <p>Choose three different resources or two matching only when four remain in the bank.</p>
-      </header>
-
       <div class="resource-bank resource-bank--compact">
         @for (resource of resourceTypes(); track resource) {
           <button

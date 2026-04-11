@@ -328,7 +328,7 @@ During gameplay:
 - clients act through validated server-authoritative actions
 - all relevant game updates are broadcast to connected players
 - illegal actions are rejected by the server
-- UI updates in realtime across all players
+- UI updates across all players
 
 ---
 
@@ -610,7 +610,7 @@ Requirements:
 - reserved/claimed projects display
 - purchased advantages display
 - Office Prestige display
-- realtime updates for all players
+- live updates for all players
 
 ## 5. Rules / Help Modal
 
@@ -687,7 +687,7 @@ The backend should handle:
 - initial bootstrap data
 - join preparation / validation
 - persistent state storage
-- any non-realtime validation that belongs in the API layer
+- any API-side validation that belongs on the server
 
 ## Suggested HTTP Endpoints
 

@@ -54,7 +54,6 @@ Optional future work may reintroduce a separate push-transport service, but that
 
 - `frontend/`: Angular app
 - `backend/api/`: PHP HTTP API
-- `backend/realtime/`: optional archived or experimental push-transport code, not part of the default runtime
 - `backend/shared/`: shared rules and domain logic if a clean PHP boundary emerges
 - `database/`: migrations, seeds, and schema docs
 - `resources/planning/`: living design docs

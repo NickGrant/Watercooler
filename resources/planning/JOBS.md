@@ -210,6 +210,6 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: Polling Architecture Cleanup And Documentation Refresh
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Remove obsolete websocket-era architecture references and cleanup leftover deployment surface so the repo's docs, structure, and guidance reflect the current polling-first shared-hosting path.
 - Steps: STEP-103, STEP-104, STEP-105

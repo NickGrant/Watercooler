@@ -2,14 +2,14 @@
 
 ## Purpose
 
-The PHP HTTP API handles game creation, lookup, join preparation, non-realtime gameplay actions, and lightweight operational workflows such as in-room bug reporting.
+The PHP HTTP API handles game creation, lookup, join preparation, live-sync gameplay actions, polling-friendly state reads, and lightweight operational workflows such as in-room bug reporting.
 
 ## Main Responsibilities
 
 - create a new game record
 - generate unique office-jargon slugs
 - fetch game metadata by slug
-- validate join attempts before realtime connection
+- validate join attempts before live synchronization begins
 - return bootstrap data needed by the frontend
 - accept authenticated in-room bug reports for later triage
 
@@ -21,7 +21,7 @@ The PHP HTTP API handles game creation, lookup, join preparation, non-realtime g
 - `GET /api/games/{slug}/state`
 - `POST /api/games/{slug}/bug-reports`
 
-Additional endpoints are acceptable if they keep responsibilities clear and avoid turning the HTTP API into a duplicate realtime transport.
+Additional endpoints are acceptable if they keep responsibilities clear and avoid turning the HTTP API into a muddled transport abstraction.
 
 ## Join-Bootstrap Expectations
 
@@ -32,7 +32,7 @@ The join/bootstrap path should:
 - validate avatar selections
 - reject invalid game states such as full or already-finished games
 - create or return a temporary session token if reconnect support is enabled
-- return enough information for the client to open the WebSocket connection safely
+- return enough information for the client to start authenticated polling and state recovery safely
 
 ## Slug Requirements
 
@@ -45,5 +45,5 @@ The join/bootstrap path should:
 ## API Risks
 
 - letting the frontend infer state the API should return directly
-- mixing long-running realtime responsibilities into request-response handlers
+- mixing transport-specific orchestration into otherwise simple request-response handlers
 - failing to return enough bootstrap data for reconnect and lobby rendering

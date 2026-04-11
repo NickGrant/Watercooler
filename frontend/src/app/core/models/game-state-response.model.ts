@@ -9,7 +9,7 @@ export interface GameStateResponse {
     token: string;
     reconnectEnabled: boolean;
   };
-  realtime: {
+  transport: {
     transport: string;
     roomSlug: string;
     sessionToken: string;

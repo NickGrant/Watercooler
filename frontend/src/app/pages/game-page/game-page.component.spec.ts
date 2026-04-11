@@ -91,7 +91,7 @@ describe('GamePageComponent', () => {
             }
           ]
         },
-        realtime: {
+        transport: {
           transport: 'polling',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
@@ -121,7 +121,7 @@ describe('GamePageComponent', () => {
           token: 'temporary-session-token',
           reconnectEnabled: true
         },
-        realtime: {
+        transport: {
           transport: 'polling',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
@@ -561,7 +561,7 @@ describe('GamePageComponent', () => {
           }
         ]
       },
-      realtime: {
+      transport: {
         transport: 'polling',
         roomSlug: 'synergy-report-telemetry',
         sessionToken: 'temporary-session-token'
@@ -614,7 +614,7 @@ describe('GamePageComponent', () => {
             }
           ]
         },
-        realtime: {
+        transport: {
           transport: 'polling',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
@@ -688,7 +688,7 @@ describe('GamePageComponent', () => {
           token: 'temporary-session-token',
           reconnectEnabled: true
         },
-        realtime: {
+        transport: {
           transport: 'polling',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
@@ -791,7 +791,7 @@ describe('GamePageComponent', () => {
           token: 'temporary-session-token',
           reconnectEnabled: true
         },
-        realtime: {
+        transport: {
           transport: 'polling',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
@@ -920,7 +920,7 @@ describe('GamePageComponent', () => {
             }
           ]
         },
-        realtime: {
+        transport: {
           transport: 'polling',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
@@ -1041,7 +1041,7 @@ describe('GamePageComponent', () => {
           token: 'temporary-session-token',
           reconnectEnabled: true
         },
-        realtime: {
+        transport: {
           transport: 'polling',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'
@@ -1145,7 +1145,7 @@ describe('GamePageComponent', () => {
           token: 'temporary-session-token',
           reconnectEnabled: true
         },
-        realtime: {
+        transport: {
           transport: 'polling',
           roomSlug: 'synergy-report-telemetry',
           sessionToken: 'temporary-session-token'

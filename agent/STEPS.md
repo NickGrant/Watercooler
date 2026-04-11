@@ -6,13 +6,6 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-### STEP-105
-
-- Name: Reconcile transport naming and deployment guidance
-- Priority: Medium
-- Blocked By: STEP-104
-- Blocks: None
-- Description: Review remaining API/frontend naming such as `realtime` transport metadata and update docs or contracts where needed so deployment and maintenance guidance matches the simplified polling-based architecture without misleading future cleanup or hosting decisions.
 
 ## Step Management Rules
 

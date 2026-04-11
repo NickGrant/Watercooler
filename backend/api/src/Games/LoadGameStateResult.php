@@ -32,7 +32,7 @@ final class LoadGameStateResult
                 'token' => $this->sessionToken,
                 'reconnectEnabled' => true,
             ],
-            'realtime' => [
+            'transport' => [
                 'transport' => 'polling',
                 'roomSlug' => $this->game->slug,
                 'sessionToken' => $this->sessionToken,

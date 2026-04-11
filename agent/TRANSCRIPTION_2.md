@@ -310,8 +310,19 @@ I completed STEP-104 by deleting the obsolete `backend/realtime` module and remo
 
 ---
 
+#### Entry 203
+**User:**
+
+Go ahead and work this feature
+
+**Assistant:**
+
+I completed STEP-105 by renaming the API and frontend sync metadata from `realtime` to the more accurate `transport`, then aligning the planning docs and project brief around polling-first transport guidance instead of stale websocket-era wording. That pass updated the backend result payloads, the frontend response models and affected specs, refreshed `resources/planning/backend-api.md`, `resources/planning/architecture.md`, `README.md`, and `resources/INITIAL_PROMPT.md`, and validated the change with the backend PHPUnit suite plus focused frontend tests and a production build.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `202`
+- Latest recorded entry: `203`
 

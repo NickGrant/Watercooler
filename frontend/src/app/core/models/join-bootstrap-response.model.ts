@@ -14,7 +14,7 @@ export interface JoinBootstrapResponse {
     canStart: boolean;
     joinedPlayers: JoinedPlayer[];
   };
-  realtime: {
+  transport: {
     transport: string;
     roomSlug: string;
     sessionToken: string;

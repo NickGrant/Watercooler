@@ -104,7 +104,7 @@ describe('GamesApiService', () => {
         canStart: false,
         joinedPlayers: []
       },
-      realtime: {
+      transport: {
         transport: 'polling',
         roomSlug: 'synergy-report-telemetry',
         sessionToken: 'temporary-session-token'
@@ -140,7 +140,7 @@ describe('GamesApiService', () => {
         token: 'temporary-session-token',
         reconnectEnabled: true
       },
-      realtime: {
+      transport: {
         transport: 'polling',
         roomSlug: 'synergy-report-telemetry',
         sessionToken: 'temporary-session-token'

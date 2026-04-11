@@ -40,7 +40,7 @@ final class JoinBootstrapResult
                     $this->joinedPlayers,
                 ),
             ],
-            'realtime' => [
+            'transport' => [
                 'transport' => 'polling',
                 'roomSlug' => $this->game->slug,
                 'sessionToken' => $this->sessionToken,

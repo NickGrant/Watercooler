@@ -756,3 +756,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: STEP-103
 - Blocks: STEP-105
 - Description: Remove or archive repo assets that imply a required standalone realtime service when they are no longer part of the active deployment path, including stale docker/runtime references and now-unused backend realtime scaffolding if nothing live depends on it.
+
+### STEP-105
+
+- Name: Reconcile transport naming and deployment guidance
+- Priority: Medium
+- Blocked By: STEP-104
+- Blocks: None
+- Description: Review remaining API/frontend naming such as `realtime` transport metadata and update docs or contracts where needed so deployment and maintenance guidance matches the simplified polling-based architecture without misleading future cleanup or hosting decisions.

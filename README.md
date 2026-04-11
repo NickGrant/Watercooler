@@ -52,5 +52,5 @@ Recent implementation work includes:
 
 - Gameplay should remain mechanically faithful to Splendor.
 - The project is session-based and should avoid account-system complexity.
-- The default deployment path is shared-hosting friendly and does not require a separate realtime process.
+- The default deployment path is shared-hosting friendly and does not require a separate live-sync process.
 - Theme changes should improve clarity and flavor, not alter core mechanics.

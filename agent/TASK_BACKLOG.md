@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Tasks
 
-### TASK-092
-
-- Name: Improve transcript readability within portable markdown limits
-- Priority: Medium
-- Blocked By: TASK-089, TASK-090, TASK-091
-- Blocks: None
-- Description: Improve at-a-glance readability in the transcript format using portable markdown conventions such as stronger speaker labels and separators, while avoiding viewer-specific HTML or CSS dependencies.
-
 ### TASK-090
 
 - Name: Move transcription rules into the transcription skill and make transcript creation resilient
@@ -21,6 +13,14 @@ This file tracks outstanding work that matters to the project but does not need 
 - Blocked By: TASK-089
 - Blocks: TASK-092
 - Description: Move as many transcription-maintenance rules as practical into the shared `transcription-sync` skill, reduce the skill's dependency on other repo docs where possible, and ensure the workflow can create the target transcript file if it is missing.
+
+### TASK-092
+
+- Name: Improve transcript readability within portable markdown limits
+- Priority: Medium
+- Blocked By: TASK-089, TASK-090, TASK-091
+- Blocks: None
+- Description: Improve at-a-glance readability in the transcript format using portable markdown conventions such as stronger speaker labels and separators, while avoiding viewer-specific HTML or CSS dependencies.
 
 ### TASK-091
 

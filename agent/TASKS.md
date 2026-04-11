@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-090
+### TASK-092
 
-- Name: Move transcription rules into the transcription skill and make transcript creation resilient
-- Priority: High
+- Name: Improve transcript readability within portable markdown limits
+- Priority: Medium
 - Blocked By: None
-- Blocks: TASK-092
-- Description: Move as many transcription-maintenance rules as practical into the shared `transcription-sync` skill, reduce the skill's dependency on other repo docs where possible, and ensure the workflow can create the target transcript file if it is missing.
+- Blocks: None
+- Description: Improve at-a-glance readability in the transcript format using portable markdown conventions such as stronger speaker labels and separators, while avoiding viewer-specific HTML or CSS dependencies.
 
 ## Task Management Rules
 

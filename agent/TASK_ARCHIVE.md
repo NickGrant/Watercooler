@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-090
+
+- Name: Move transcription rules into the transcription skill and make transcript creation resilient
+- Priority: High
+- Blocked By: TASK-089
+- Blocks: TASK-092
+- Description: Move as many transcription-maintenance rules as practical into the shared `transcription-sync` skill, reduce the skill's dependency on other repo docs where possible, and ensure the workflow can create the target transcript file if it is missing.
+
 ### TASK-091
 
 - Name: Implement transcript memory-management workflow

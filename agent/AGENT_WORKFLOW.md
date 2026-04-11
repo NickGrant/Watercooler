@@ -33,14 +33,12 @@ Before creating a commit:
 
 - review whether `README.md`, `AGENTS.md`, and `agent/LLM_CONTEXT.md` need updates because of the work being committed
 - update any of those source-of-truth docs when the change affects their current guidance, repo description, or navigation expectations
-- update `agent/TRANSCRIPTION.md`
-- use the shared `transcription-sync` skill workflow when maintaining the repository transcript
-- record the latest visible user and assistant messages
-- follow the formatting rules already documented in `agent/TRANSCRIPTION.md`
+- use the shared `transcription-sync` skill to update the active repository transcript target
+- ensure the latest visible user and assistant messages are recorded before the commit is created
 
 Before ending a session or clearing context:
 
-- make a best-effort pass to append any still-missing visible conversation to `agent/TRANSCRIPTION.md`
+- make a best-effort pass to use the shared `transcription-sync` skill to append any still-missing visible conversation to the active repository transcript target
 
 ### Documentation Hygiene
 

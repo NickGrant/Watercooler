@@ -46,7 +46,11 @@ I completed `TASK-089` by creating `agent/TRANSCRIPTION_2.md` as the temporary c
 Assistant:
 I completed `TASK-091` by adding transcript helper scripts under `agent/skills/transcription-sync/scripts/` to report the active transcript target and append entries without reopening the full archive, documenting the low-token transcript strategy in `agent/skills/transcription-sync/references/transcript-memory-management.md`, and updating `agent/LLM_CONTEXT.md` so transcript work prefers those helpers and the temporary continuation file during the migration.
 
+#### Entry 179
+Assistant:
+I completed `TASK-090` by moving the detailed transcription workflow into `agent/skills/transcription-sync/SKILL.md`, reducing the amount of repo-local procedure it depended on, explicitly covering continuation targets and transcript creation when missing, and slimming `agent/AGENT_WORKFLOW.md` back to the higher-level timing rule for when the skill must be used.
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `178`
+- Latest recorded entry: `179`

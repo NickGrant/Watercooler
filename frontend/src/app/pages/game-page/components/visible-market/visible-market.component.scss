@@ -34,6 +34,21 @@
 
 .market-tier__cards {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(12.75rem, 1fr));
   gap: 0.6rem;
+}
+
+.market-tier__cards--structured {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (min-width: 1480px) {
+  .market-tier__cards--structured {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .market-tier__cards--structured {
+    grid-template-columns: 1fr;
+  }
 }

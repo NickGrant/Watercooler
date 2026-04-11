@@ -724,3 +724,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: None
 - Description: Repair the live-action 500 by adding the missing `executives.portrait_asset` compatibility migration, validating start and action requests end to end against the real PDO path, and updating local setup guidance so deployed databases stay aligned with the runtime schema.
+
+### STEP-100
+
+- Name: Normalize backlog lane card wrapping
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Rework backlog lane card layout so each tier presents in a more intentional 2x2 or 1x4 arrangement instead of the current awkward three-across wrapping.

@@ -186,7 +186,7 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: Backlog Lane Layout Refinement
 - Priority: Medium
-- Status: Not Started
+- Status: Complete
 - Description: Tighten backlog card wrapping and lane composition so each tier reads as a deliberate grid instead of a broken row.
 - Steps: STEP-100
 
@@ -194,7 +194,7 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: Executive Card Presentation Refinement
 - Priority: High
-- Status: Not Started
+- Status: In Progress
 - Description: Strengthen executive card hierarchy through a taller portrait treatment, more prominent requirement placement, and a layered title treatment.
 - Steps: STEP-101
 

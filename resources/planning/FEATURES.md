@@ -125,3 +125,19 @@ This file maps major product and repo-operating features to the tasks that deliv
 - Status: Complete
 - Description: Tighten stylesheet organization by documenting CSS placement rules and auditing the frontend styles so shared rules move upward only when genuinely reused while page- and component-specific rules stay in their closest logical home.
 - Tasks: TASK-077, TASK-078
+
+### FEATURE-016
+
+- Name: In-Game Bug Report Capture
+- Priority: High
+- Status: Not Started
+- Description: Let players file bug reports directly from the game page through a lightweight floating form that stores unread reports for later DB-side triage, along with the minimum context needed to understand what state they were in when the issue occurred.
+- Tasks: TASK-079, TASK-080, TASK-081, TASK-082
+
+### FEATURE-017
+
+- Name: Agent Documentation Audit And Consolidation
+- Priority: High
+- Status: In Progress
+- Description: Review the agent-facing operating docs for missing coverage, duplication, contradictions, and low-value content, then consolidate the guidance so responsibilities and cross-file references stay maintainable as the repo evolves.
+- Tasks: TASK-083, TASK-084, TASK-085

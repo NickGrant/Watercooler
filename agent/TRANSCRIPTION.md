@@ -1072,3 +1072,57 @@ I completed `TASK-077` by formalizing the new stylesheet ownership rule in `agen
 #### Entry 160
 Assistant:
 I completed `TASK-078` by moving game-page-only rules out of the global stylesheet into the game page and its child components, adding dedicated component SCSS files plus a local shared partial for the few repeated game-card patterns, updating the home-page error banner to reuse the shared danger tokens, and validating the frontend tests, build, and diff check before closing `FEATURE-015`.
+
+#### Entry 161
+User:
+Next thing, I want to create a feature to add an in-game bug reporting feature. I would like this to appear as a floating tab on the right hand of the screen during the game page. Clicking it should cause it to expand to a form that asks for an optional reply email, and a message box (required). The submitted messages get stored in the DB with a status of unread, the timestamp, the players name they have entered, and the slug for the game they are in. If there is other relevant information you think we should capture that cannot be extracted using the info we already are capturing, please include that and let me know what data it is.
+
+For now, reading and administraiton of these messages will be handled via direct DB access, later we will build at an admin interface for the game that will handle those in a more friendly manner
+
+Assistant:
+I created `FEATURE-016` for in-game bug reporting, added tasks for schema/persistence, API submission, the floating game-page form, and tests/docs, and recommended capturing a small debugging snapshot alongside the requested fields, specifically the reporter's `game_player_id`, seat order, current game phase/status, and browser user agent because those values are harder to reconstruct reliably after the game state changes.
+
+#### Entry 162
+User:
+I think I saw you looking inside backend/api/vendor, shouldn't that not be permitted by the rules in LLM_CONTEXT or are those rules not specific enough?
+
+Assistant:
+I explained that `agent/LLM_CONTEXT.md` already forbids loading `vendor/`, but that it operates as a context-loading policy rather than a search-execution rule, so adding an explicit workflow-level search-boundary rule would better prevent accidental exploration of dependency and generated directories during broad code searches.
+
+#### Entry 163
+User:
+That difference makes sense, lets go ahead and update AGENT_WORKFLOW as needed
+
+Assistant:
+I updated `agent/AGENT_WORKFLOW.md` to add explicit search-boundary rules requiring routine code exploration commands to exclude dependency, generated, and derived directories like `vendor/`, `node_modules/`, `dist/`, `build/`, `coverage/`, `tmp/`, `logs/`, and `.git/` unless the task explicitly requires them.
+
+#### Entry 164
+User:
+Would we lose any enforceability if instead of an explicit list we reference LLM_CONTEXT instead? that would reduce the number of places needed to update if a change was needed
+
+Assistant:
+I explained that the best balance is to keep `agent/LLM_CONTEXT.md` as the single source of truth for the `Never Load` directory list while keeping `agent/AGENT_WORKFLOW.md` focused on the execution behavior that searches must exclude those paths by default.
+
+#### Entry 165
+User:
+your suggestion was actually what I was asking about. Telling it to reference the list in the other file. Lets move forward with that
+
+Assistant:
+I revised the workflow rule so `agent/AGENT_WORKFLOW.md` now references the `Never Load` list in `agent/LLM_CONTEXT.md` as the canonical source of truth instead of duplicating the directory list locally.
+
+#### Entry 166
+User:
+Lets go ahead and create a feature and tasks to review our agent-focused files (AGENTS.md, agent/*.md except TRANSCRIPTION.md ) to see if we can identify:
+- gaps in rules coverage like the LLM_CONTEXT / AGENT_WORKFLOW issue we just solved
+- duplicate or contradictory information
+- areas where we can increase maintainability by having files reference each other (like AGENT_WORKFLOW referencing LLM_CONTEXT Never Load list)
+- areas that do not provide working value (e.x. "next steps" sections)
+
+Once that feature is created, commit any changes to our repo, then start working through task by task. Commit after each task and notify me when the feature is done. If it is not already capture this way, can you capture this flow as how we work features:
+- evaluate for parallel work
+- work tasks in parallel, committing after each task is done
+- notify user at end of feature and wait for more instructions
+- stop at any time if information is needed
+
+Assistant:
+I created `FEATURE-017` for an agent-doc audit and consolidation pass, added `TASK-083` through `TASK-085` to cover the audit, the resulting doc refactor, and explicit feature-execution workflow rules, and made the audit task active before committing the repo's pending documentation changes and proceeding task by task.

@@ -38,6 +38,12 @@ Before ending a session or clearing context:
 - keep shared skill definitions in `agent/skills/`
 - keep system-specific skill directories as thin pointers or metadata adapters back to `agent/skills/`
 
+### Search Boundaries
+
+- exclude directories listed under `Never Load` in `agent/LLM_CONTEXT.md` from routine search and code-exploration commands unless the task explicitly requires them
+- treat the `Never Load` list in `agent/LLM_CONTEXT.md` as the source of truth for opt-in investigation targets rather than duplicating that directory list here
+- when using broad search tools such as `rg`, prefer command patterns that proactively exclude those directories instead of relying on manual filtering after results appear
+
 ### Styling Boundaries
 
 - keep component- or page-specific styles in the owning component or page stylesheet

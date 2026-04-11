@@ -5,7 +5,7 @@ This folder breaks the Watercooler project into smaller planning documents so im
 ## Documents
 
 - `architecture.md`: top-level system design and responsibility boundaries
-- `FEATURES.md`: feature map linking application features to task IDs
+- `JOBS.md`: job map linking application workstreams to step IDs
 - `gameplay-rules.md`: rules fidelity, terminology mapping, and game constraints
 - `project-structure.md`: intended implementation layout and service boundaries
 - `frontend.md`: Angular routes, screens, components, and client-state expectations
@@ -19,6 +19,6 @@ This folder breaks the Watercooler project into smaller planning documents so im
 
 ## Usage Guidance
 
-- Start with the smallest document that fits the task.
+- Start with the smallest document that fits the step.
 - Use `architecture.md` plus one focused doc for most implementation work.
 - Return to `resources/INITIAL_PROMPT.md` only when broader context is needed.

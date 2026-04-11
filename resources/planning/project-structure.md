@@ -19,7 +19,7 @@ This document fixes the intended implementation layout before service scaffoldin
 - `resources/`
   Application-facing planning and documentation.
 - `agent/`
-  Agent-facing workflow, task, and context files.
+  Agent-facing workflow, step, and context files.
 
 ## Ownership Boundaries
 

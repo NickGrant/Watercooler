@@ -4,7 +4,7 @@
 
 Watercooler is a browser-based multiplayer board game adaptation of a Splendor-style ruleset with an absurd corporate satire theme.
 
-This repository is in active implementation. Planning documents still matter, but agents should assume code, tests, and docs are all part of normal work unless a task says otherwise.
+This repository is in active implementation. Planning documents still matter, but agents should assume code, tests, and docs are all part of normal work unless a step says otherwise.
 
 ## Current Phase
 
@@ -32,7 +32,7 @@ Use repository guidance in this order:
 
 1. `agent/LLM_CONTEXT.md`
 2. `agent/AGENT_WORKFLOW.md`
-3. `agent/TASKS.md`
+3. `agent/STEPS.md`
 4. focused planning docs in `resources/planning/`
 5. `resources/setup/local-development.md`
 6. `resources/INITIAL_PROMPT.md`
@@ -43,10 +43,10 @@ If sources conflict, prefer the narrower planning or workflow file over the broa
 
 - Keep docs updated when implementation decisions materially change the plan.
 - Treat unit tests as required for all new code and behavior changes unless there is a documented technical reason they cannot be added yet.
-- When adding or changing code, update or add tests in the same task rather than deferring them.
+- When adding or changing code, update or add tests in the same step rather than deferring them.
 - Use the shared skill definitions under `agent/skills/` when a workflow is captured as a repo skill.
 - Treat system-specific adapter directories as discovery shims only; shared behavior should live in `AGENTS.md`, `agent/AGENT_WORKFLOW.md`, `agent/LLM_CONTEXT.md`, or `agent/skills/`.
-- Follow `agent/AGENT_WORKFLOW.md` for task tracking, transcript maintenance, and feature-execution procedure.
+- Follow `agent/AGENT_WORKFLOW.md` for step tracking, transcript maintenance, and job-execution procedure.
 - Follow `agent/LLM_CONTEXT.md` for context-loading and documentation-routing rules.
 
 ## File Placement
@@ -56,7 +56,7 @@ If sources conflict, prefer the narrower planning or workflow file over the broa
 
 ## Definition Of Done
 
-A typical task should include:
+A typical step should include:
 
 - implementation changes
 - unit test coverage for changed behavior, or a documented reason tests could not be added yet

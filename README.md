@@ -34,7 +34,7 @@ Recent implementation work includes:
 ## Repository Layout
 
 - `AGENTS.md`: root guide for coding agents
-- `agent/`: agent workflow, context, tasks, and transcript files
+- `agent/`: agent workflow, context, steps, and transcript files
 - `resources/`: application docs and planning material
 - `resources/planning/`: focused planning docs
 - `resources/setup/local-development.md`: setup and validation commands

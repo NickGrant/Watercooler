@@ -49,6 +49,6 @@ The first migration creates tables for:
 
 ## Near-Term Follow-Ups
 
-- seed starter cards and executives in TASK-034
-- wire actual migration execution into Docker and local setup in TASK-036 and TASK-035
-- connect game creation and join-bootstrap flows to this schema in TASK-015 and TASK-019
+- seed starter cards and executives in STEP-034
+- wire actual migration execution into Docker and local setup in STEP-036 and STEP-035
+- connect game creation and join-bootstrap flows to this schema in STEP-015 and STEP-019

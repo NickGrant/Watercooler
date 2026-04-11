@@ -68,7 +68,52 @@ I completed `TASK-090` by moving the detailed transcription workflow into `agent
 I completed `TASK-092` by improving the portable transcript format around bold speaker labels and simple entry dividers, wiring that format into the transcription skill references and append helper, and closing `FEATURE-018` once the low-token transcript workflow, skill portability improvements, and readability updates were all in place.
 ---
 
+#### Entry 181
+**User:**
+
+there is a problem with your markdown syntax causing strange rendering
+
+**Assistant:**
+
+I corrected the transcript format to use standalone speaker lines like `**User:**` and `**Assistant:**` with blank lines after them, updated the transcription skill, format reference, append helper, and `agent/TRANSCRIPTION_2.md`, and noted that I could commit the formatting fix next before continuing to the next feature.
+
+---
+
+#### Entry 182
+**User:**
+
+This is looking good, What is your confidence that this will help reduce token consumption in a noticeable manner?
+
+**Assistant:**
+
+I said my confidence was about 90 percent because the main savings comes from the new helper-driven continuation workflow: it keeps new transcript growth out of the old archive, avoids rereading the full history for routine updates, and makes commit-prep and transcript-maintenance turns cheaper even though the repo still has older historical transcript content.
+
+---
+
+#### Entry 183
+**User:**
+
+alright, lets commit what we have and move forward
+
+**Assistant:**
+
+I committed the transcript-format fix as 5f86dbe with message docs: fix transcript speaker formatting, confirmed the working tree was clean, and prepared to move into the next tracked feature.
+
+---
+
+#### Entry 184
+**User:**
+
+lets move to the next feature and work through that
+
+**Assistant:**
+
+I started `JOB-019` by evaluating parallelism, decided the safe sequence was to land the repo-wide `STEP/JOB` rename before packaging the portable workflow skill, and then completed `STEP-093`: I renamed the tracker files to `agent/STEPS.md`, `agent/STEP_BACKLOG.md`, `agent/STEP_ARCHIVE.md`, and `resources/planning/JOBS.md`, updated repo references and tracker IDs from `TASK/FEATURE` to `STEP/JOB`, cleaned stale completed transcript steps out of the backlog, archived `STEP-093`, promoted `STEP-094` into the active working set, and marked `JOB-019` as in progress.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `180`
+- Latest recorded entry: `184`
+

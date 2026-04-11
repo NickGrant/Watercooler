@@ -6,25 +6,25 @@ This file defines repository workflow behavior that should stay shared across ag
 
 ## Workflow Rules
 
-### Task Tracking
+### Step Tracking
 
-When task status changes:
+When step status changes:
 
-- update `agent/TASKS.md` for the active working set
-- move future work to `agent/TASK_BACKLOG.md` when they no longer need to stay in normal context
-- move completed work to `agent/TASK_ARCHIVE.md`
-- update `resources/planning/FEATURES.md` when feature-to-task mapping changes
-- mark a feature as `Complete` in `resources/planning/FEATURES.md` when all of its tasks are complete
-- keep feature statuses accurate as work moves from not started to in progress to complete
+- update `agent/STEPS.md` for the active working set
+- move future work to `agent/STEP_BACKLOG.md` when it does not need to stay in normal context
+- move completed work to `agent/STEP_ARCHIVE.md`
+- update `resources/planning/JOBS.md` when job-to-step mapping changes
+- mark a job as `Complete` in `resources/planning/JOBS.md` when all of its steps are complete
+- keep job statuses accurate as work moves from not started to in progress to complete
 
-### Feature Execution
+### Job Execution
 
-For multi-task feature work:
+For multi-step job work:
 
-- evaluate the feature for independent parallel work before starting implementation
-- run independent task lanes in parallel when they do not create avoidable overlap or merge risk
-- commit each task separately once that task's scope is complete and validated
-- notify the user when the full feature is complete, then wait for more instructions
+- evaluate the job for independent parallel work before starting implementation
+- run independent step lanes in parallel when they do not create avoidable overlap or merge risk
+- commit each step separately once that step's scope is complete and validated
+- notify the user when the full job is complete, then wait for more instructions
 - stop and ask for information whenever required context is missing or a risky assumption would otherwise be necessary
 
 ### Transcript Maintenance
@@ -51,7 +51,7 @@ Before ending a session or clearing context:
 
 ### Search Boundaries
 
-- exclude directories listed under `Never Load` in `agent/LLM_CONTEXT.md` from routine search and code-exploration commands unless the task explicitly requires them
+- exclude directories listed under `Never Load` in `agent/LLM_CONTEXT.md` from routine search and code-exploration commands unless the step explicitly requires them
 - treat the `Never Load` list in `agent/LLM_CONTEXT.md` as the source of truth for opt-in investigation targets rather than duplicating that directory list here
 - when using broad search tools such as `rg`, prefer command patterns that proactively exclude those directories instead of relying on manual filtering after results appear
 

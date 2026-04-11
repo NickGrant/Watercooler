@@ -11,24 +11,24 @@ This file tells agents what should stay in normal working context, what should b
 - `agent/LLM_CONTEXT.md`
   Context-loading rules for the repository.
 - `agent/AGENT_WORKFLOW.md`
-  Shared workflow behavior for task tracking, transcript maintenance, and adapter precedence.
-- `agent/TASKS.md`
+  Shared workflow behavior for step tracking, transcript maintenance, and adapter precedence.
+- `agent/STEPS.md`
   Active working set.
 
 ## Load As Needed
 
 - `README.md`
   Human-oriented repo overview and current implementation status.
-- `agent/TASK_BACKLOG.md`
-  Longer-range outstanding tasks.
-- `agent/TASK_ARCHIVE.md`
-  Completed task history.
+- `agent/STEP_BACKLOG.md`
+  Longer-range outstanding steps.
+- `agent/STEP_ARCHIVE.md`
+  Completed step history.
 - `agent/TRANSCRIPTION.md`
   Conversation history. Load when updating the transcript, recovering prior decisions, or preparing a commit.
 - `agent/TRANSCRIPTION_2.md`
   Temporary continuation transcript. Prefer this as the active transcript target while the transcription optimization migration is in progress.
-- `resources/planning/FEATURES.md`
-  Feature-to-task map for broader planning context.
+- `resources/planning/JOBS.md`
+  Job-to-step map for broader planning context.
 - `resources/planning/`
   Focused planning docs for architecture, rules, frontend, backend, realtime, data model, sessions, theme, and roadmap.
 - `resources/setup/local-development.md`
@@ -74,6 +74,6 @@ This file tells agents what should stay in normal working context, what should b
 ## Working Notes
 
 - Prefer the narrowest planning file that answers the current question.
-- Move files out of `Always Load` as soon as they stop being needed for most tasks.
+- Move files out of `Always Load` as soon as they stop being needed for most steps.
 - Prefer shared workflow files over tool-specific adapters when both exist.
 - For transcript maintenance, prefer using the transcription helper scripts to identify the active target and latest recorded entry before loading transcript files directly.

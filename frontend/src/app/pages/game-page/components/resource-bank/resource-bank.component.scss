@@ -64,8 +64,11 @@
 
 .resource-bank__tile {
   position: relative;
+  display: grid;
+  justify-items: center;
+  gap: 0.5rem;
   overflow: hidden;
-  padding: 0.85rem 1rem;
+  padding: 1rem 0.8rem 0.85rem;
   border: 1px solid rgba(47, 61, 87, 0.18);
   background: linear-gradient(180deg, rgba(250, 252, 255, 0.96), rgba(240, 244, 250, 0.95));
 }
@@ -81,16 +84,53 @@
 
 .resource-bank__tile--selectable,
 .resource-bank__tile--favor {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 4rem;
+  min-height: 6.6rem;
   min-width: 0;
-  padding: 0.5rem 0.45rem;
 }
 
 .resource-bank__tile--favor {
   background: linear-gradient(180deg, var(--wc-gold-top), var(--wc-gold-bottom));
+}
+
+.resource-bank__tile--selectable {
+  appearance: none;
+  cursor: pointer;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.72),
+    0 10px 24px rgba(38, 56, 85, 0.14);
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    border-color 120ms ease,
+    background 120ms ease;
+}
+
+.resource-bank__tile--selectable:hover:not(:disabled),
+.resource-bank__tile--selectable:focus-visible {
+  transform: translateY(-1px);
+  border-color: rgba(52, 76, 115, 0.4);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.82),
+    0 12px 28px rgba(38, 56, 85, 0.18);
+}
+
+.resource-bank__tile--selectable:disabled {
+  cursor: default;
+  opacity: 0.72;
+}
+
+.resource-bank__tile-label {
+  color: var(--wc-accent-warm);
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.resource-bank__tile-label--favor {
+  color: var(--wc-accent-strong);
 }
 
 .selection-copy {
@@ -122,6 +162,9 @@
 .resource-pick--selected {
   border-color: rgba(52, 76, 115, 0.7);
   background: linear-gradient(180deg, rgba(228, 235, 247, 0.98), rgba(210, 222, 239, 0.98));
+  box-shadow:
+    inset 0 0 0 1px rgba(52, 76, 115, 0.28),
+    0 12px 24px rgba(38, 56, 85, 0.16);
 }
 
 .supply-console__footer {

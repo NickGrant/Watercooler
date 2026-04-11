@@ -178,7 +178,7 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: Resource Bank Visual Refinement
 - Priority: High
-- Status: Not Started
+- Status: Complete
 - Description: Rework the resource bank around larger icon-led controls so the supply area reads more like a tactile action surface than a row of small buttons.
 - Steps: STEP-099
 

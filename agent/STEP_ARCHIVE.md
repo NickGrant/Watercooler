@@ -708,3 +708,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: None
 - Description: Tighten the active-player presentation by removing the extra surrounding shell chrome, simplifying the seat and prestige subtitle, giving executive favor its own line, improving completed-project summarization, fixing claimed-project stacking, and increasing the visual weight of resource icons.
+
+### STEP-099
+
+- Name: Redesign resource bank controls around oversized icon buttons
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Rework the resource bank so the icon itself becomes the button surface, increase standard resource and executive-favor icon scale substantially, and rebalance the tile layout around the larger controls.

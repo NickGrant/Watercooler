@@ -359,8 +359,9 @@ describe('GamePageComponent', () => {
 
     expect(resourceBankTiles.length).toBe(6);
     expect(resourceBankTile?.getAttribute('aria-label')).toContain('Coffee');
-    expect(resourceBankTile?.textContent?.replace(/\s+/g, '')).toBe('4');
+    expect(resourceBankTile?.textContent?.replace(/\s+/g, '')).toContain('4Coffee');
     expect(resourceBankTile?.querySelector('app-resource-icon')).not.toBeNull();
+    expect(resourceBankTile?.querySelector('.resource-icon-badge--large')).not.toBeNull();
     expect(economyBars.length).toBe(5);
     expect(economyBars[0]?.getAttribute('aria-label')).toContain('Coffee');
     expect(economyBars[0]?.querySelector('.player-resource-bar__frame')).not.toBeNull();

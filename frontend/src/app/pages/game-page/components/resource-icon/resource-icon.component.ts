@@ -9,7 +9,7 @@ export class ResourceIconComponent {
   readonly src = input.required<string>();
   readonly label = input.required<string>();
   readonly value = input<number | string | null>(null);
-  readonly variant = input<'regular' | 'small'>('regular');
+  readonly variant = input<'regular' | 'small' | 'large'>('regular');
   readonly decorative = input(false);
 
   readonly accessibilityLabel = computed(() => {

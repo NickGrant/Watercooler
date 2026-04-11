@@ -211,8 +211,19 @@ I completed STEP-098 by removing the extra active-player wrapper chrome from the
 
 ---
 
+#### Entry 194
+**User:**
+
+that is looking much better, lets move forward
+
+**Assistant:**
+
+I completed STEP-099 by converting the resource bank into oversized icon-led controls, adding a large shared resource-icon variant so the bank and executive-favor supply can scale without affecting other surfaces, updating the bank labels and selection styling to make the icon itself feel like the button, and refreshing the focused resource-bank and game-page specs. I then archived STEP-099, cleared the active step list, and marked JOB-022 complete.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `193`
+- Latest recorded entry: `194`
 

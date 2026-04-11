@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Steps
 
-### STEP-099
-
-- Name: Redesign resource bank controls around oversized icon buttons
-- Priority: High
-- Blocked By: None
-- Blocks: None
-- Description: Rework the resource bank so the icon itself becomes the button surface, increase standard resource and executive-favor icon scale substantially, and rebalance the tile layout around the larger controls.
-
 ### STEP-100
 
 - Name: Normalize backlog lane card wrapping

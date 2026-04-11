@@ -32,6 +32,8 @@ describe('ResourceBankComponent', () => {
     expect(fixture.nativeElement.querySelectorAll('.resource-bank__tile').length).toBe(6);
     expect(fixture.nativeElement.querySelector('.resource-bank__columns')).not.toBeNull();
     expect(fixture.nativeElement.querySelectorAll('.selection-copy__icon').length).toBe(2);
+    expect(fixture.nativeElement.querySelector('.resource-bank__tile-label')?.textContent).toContain('coffee');
+    expect(fixture.nativeElement.querySelector('.resource-bank__tile .resource-icon-badge--large')).not.toBeNull();
   });
 
   it('emits resource selection changes', () => {

@@ -9,7 +9,6 @@
       <div class="resource-bank resource-bank--compact">
         @for (resource of resourceTypes(); track resource) {
           <button
-            mat-stroked-button
             class="resource-bank__tile resource-bank__tile--selectable"
             type="button"
             [matTooltip]="resourceLabel()(resource) + ': ' + bank()[resource] + ' available in the bank'"
@@ -22,8 +21,10 @@
               [src]="resourceIconPath()(resource)"
               [label]="resourceLabel()(resource)"
               [value]="bank()[resource]"
+              variant="large"
               [decorative]="true"
             />
+            <span class="resource-bank__tile-label">{{ resourceLabel()(resource) }}</span>
           </button>
         }
       </div>
@@ -77,8 +78,12 @@
           [src]="resourceIconPath()('executiveFavor')"
           [label]="resourceLabel()('executiveFavor')"
           [value]="bank().executiveFavor"
+          variant="large"
           [decorative]="true"
         />
+        <span class="resource-bank__tile-label resource-bank__tile-label--favor">
+          {{ resourceLabel()('executiveFavor') }}
+        </span>
       </article>
     </aside>
   </div>

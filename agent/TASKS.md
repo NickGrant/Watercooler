@@ -6,13 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Tasks
 
-### TASK-084
+### TASK-085
 
-- Name: Refactor agent docs for maintainability and clearer source-of-truth links
+- Name: Codify standard feature execution workflow
 - Priority: High
 - Blocked By: None
 - Blocks: None
-- Description: Apply the audit findings by removing duplicate or low-value guidance, tightening contradictory language, and increasing maintainability through clearer cross-file references and narrower ownership of rules.
+- Description: Update the agent operating docs so feature work explicitly defaults to evaluating parallelism up front, completing tasks with a commit per task, notifying the user when a feature is fully done, and pausing only when required information is missing.
 
 ## Task Management Rules
 

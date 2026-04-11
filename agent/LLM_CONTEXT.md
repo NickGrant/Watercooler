@@ -61,13 +61,13 @@ This file tells agents what should stay in normal working context, what should b
 
 ## Documentation Routing
 
-- Put root-level guardrails in `AGENTS.md`.
-- Put context-loading and documentation-location guidance in `agent/LLM_CONTEXT.md`.
-- Put workflow behavior in `agent/AGENT_WORKFLOW.md`.
-- Put shared skill definitions in `agent/skills/`.
-- Put human onboarding in `README.md`.
-- Put application planning in `resources/planning/`.
-- Put agent-operating records in `agent/`.
+- Keep root-level guardrails and the strict root-file constraint in `AGENTS.md`.
+- Keep context-loading and documentation-routing guidance in `agent/LLM_CONTEXT.md`.
+- Keep workflow behavior in `agent/AGENT_WORKFLOW.md`.
+- Keep shared skill definitions in `agent/skills/`.
+- Keep human onboarding in `README.md`.
+- Keep application planning in `resources/planning/`.
+- Keep agent-operating records in `agent/`.
 
 ## Working Notes
 

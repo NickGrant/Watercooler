@@ -1130,3 +1130,7 @@ I created `FEATURE-017` for an agent-doc audit and consolidation pass, added `TA
 #### Entry 167
 Assistant:
 I completed `TASK-083` by reviewing `AGENTS.md` and the agent markdown files, capturing the concrete findings in `agent/AGENT_DOC_AUDIT.md`, and identifying the main follow-up themes as duplicated ownership guidance, under-specified feature execution behavior, and opportunities to replace repeated wording with canonical cross-file references.
+
+#### Entry 168
+Assistant:
+I completed `TASK-084` by consolidating duplicated agent-doc guidance so `AGENTS.md` now points to `agent/AGENT_WORKFLOW.md` for operational procedure and to `agent/LLM_CONTEXT.md` for context-loading and documentation routing, while `agent/LLM_CONTEXT.md` more clearly owns the routing guidance without repeating the broader guardrail role of `AGENTS.md`.

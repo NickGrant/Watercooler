@@ -6,6 +6,14 @@ This file stores completed work so `agent/TASKS.md` can stay small and useful.
 
 ## Completed Tasks
 
+### TASK-084
+
+- Name: Refactor agent docs for maintainability and clearer source-of-truth links
+- Priority: High
+- Blocked By: TASK-083
+- Blocks: None
+- Description: Apply the audit findings by removing duplicate or low-value guidance, tightening contradictory language, and increasing maintainability through clearer cross-file references and narrower ownership of rules.
+
 ### TASK-083
 
 - Name: Audit agent-facing docs for gaps, duplication, and low-value guidance

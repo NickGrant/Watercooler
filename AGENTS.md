@@ -42,22 +42,17 @@ If sources conflict, prefer the narrower planning or workflow file over the broa
 ## Working Agreements
 
 - Keep docs updated when implementation decisions materially change the plan.
-- Update `agent/TRANSCRIPTION.md` before creating a commit.
-- Keep `agent/TASKS.md` small by moving future work to `agent/TASK_BACKLOG.md` and completed work to `agent/TASK_ARCHIVE.md`.
 - Treat unit tests as required for all new code and behavior changes unless there is a documented technical reason they cannot be added yet.
 - When adding or changing code, update or add tests in the same task rather than deferring them.
 - Use the shared skill definitions under `agent/skills/` when a workflow is captured as a repo skill.
 - Treat system-specific adapter directories as discovery shims only; shared behavior should live in `AGENTS.md`, `agent/AGENT_WORKFLOW.md`, `agent/LLM_CONTEXT.md`, or `agent/skills/`.
+- Follow `agent/AGENT_WORKFLOW.md` for task tracking, transcript maintenance, and feature-execution procedure.
+- Follow `agent/LLM_CONTEXT.md` for context-loading and documentation-routing rules.
 
 ## File Placement
 
 - Keep only `AGENTS.md` and `README.md` at the repository root unless there is a strong system-integration reason not to.
-- Put application-related documentation under `resources/`.
-- Put application planning breakdowns under `resources/planning/`.
-- Put agent-facing operating material under `agent/`.
-- Put shared, system-agnostic skill definitions under `agent/skills/<skill-name>/SKILL.md`.
-- Keep tool-specific skill directories thin and point them back to the shared `agent/skills/` version instead of duplicating the full skill body.
-- Keep system-specific integration files only where the tool requires them, such as `.github/` or `.codex/`.
+- Follow the documentation-routing rules in `agent/LLM_CONTEXT.md` for where agent, planning, and human-facing docs should live.
 
 ## Definition Of Done
 

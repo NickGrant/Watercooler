@@ -820,3 +820,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: STEP-116
 - Description: Add backend functionality that deletes games which have not been updated for more than 48 hours, along with the supporting tests and any required entrypoint or configuration glue.
+
+### STEP-116
+
+- Name: Document cron-based autopurge setup for shared hosting
+- Priority: Medium
+- Blocked By: None
+- Blocks: None
+- Description: Add deployment guidance for triggering the stale-game purge every 24 hours through cPanel cron, including the command shape, expected runtime behavior, and any validation or safety notes.

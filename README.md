@@ -27,6 +27,7 @@ Recent implementation work includes:
 - deployed shared-hosting release with live-player validation
 - layered PNG avatar pipeline and shared-canvas normalization
 - post-launch playtest fixes across action recovery, avatar validation, and endgame presentation
+- stale-session autopurge runtime for shared-hosting maintenance
 
 ## Collaboration Mode
 
@@ -66,4 +67,5 @@ The project is now developed through a mixed workflow:
 - Gameplay should remain mechanically faithful to Splendor.
 - The project is session-based and should avoid account-system complexity.
 - The default deployment path is shared-hosting friendly and does not require a separate live-sync process.
+- Scheduled maintenance can now purge games inactive for more than 48 hours through `backend/api/bin/purge-stale-games.php`.
 - Theme changes should improve clarity and flavor, not alter core mechanics.

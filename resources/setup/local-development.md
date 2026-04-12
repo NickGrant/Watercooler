@@ -67,6 +67,7 @@ composer install
 composer lint
 composer test
 composer serve
+composer purge-stale-games
 ```
 
 The API scaffold currently exposes:
@@ -77,6 +78,11 @@ The API scaffold currently exposes:
 - `POST /api/games/{slug}/join-bootstrap`
 - `GET /api/games/{slug}/state`
 - `POST /api/games/{slug}/bug-reports`
+
+The maintenance entrypoint currently provides:
+
+- `composer purge-stale-games`
+- `php backend/api/bin/purge-stale-games.php`
 
 ### Database
 
@@ -94,6 +100,29 @@ One local validation path used during bootstrap was:
 ```
 
 When updating an existing local or hosted database, apply every migration in order rather than assuming the initial schema file is sufficient. In particular, older databases that predate `004_executive_portrait_asset_compat.sql` can load lobby data successfully but will fail at runtime when start-game or active-state queries request `executives.portrait_asset`.
+
+## Shared-Hosting Cron Setup
+
+The stale-session purge removes games whose `games.updated_at` timestamp is more than 48 hours old. It is intended to run once every 24 hours.
+
+The purge command reads `backend/api/.env` when present, so the safest shared-hosting setup is:
+
+1. Upload or create `backend/api/.env` on the host with the same `APP_*` and `DB_*` values the web app uses.
+2. In cPanel, open **Cron Jobs**.
+3. Add a once-daily job such as `0 3 * * *`.
+4. Use a command shaped like:
+
+```bash
+/usr/local/bin/php /home/<cpanel-user>/<app-root>/backend/api/bin/purge-stale-games.php >> /home/<cpanel-user>/logs/watercooler-purge.log 2>&1
+```
+
+Adjust the PHP binary path and app root to match the host. If `php` is already on the cron PATH, `php /home/.../backend/api/bin/purge-stale-games.php` is also acceptable.
+
+After the first run, confirm that:
+
+- the log contains a line like `Purged 0 stale game(s)...` or `Purged N stale game(s)...`
+- no unexpected active room was removed
+- orphaned players tied only to purged rooms were cleaned up automatically
 
 ## Docker Workflow
 

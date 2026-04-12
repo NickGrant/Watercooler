@@ -242,6 +242,6 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 
 - Name: Game Session Autopurge
 - Priority: High
-- Status: In Progress
+- Status: Complete
 - Description: Automatically remove abandoned games that have been inactive for more than 48 hours and document how shared-hosting cron should trigger the purge every 24 hours.
 - Steps: STEP-115, STEP-116

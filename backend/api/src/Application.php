@@ -6,6 +6,7 @@ namespace Watercooler\Api;
 
 use Watercooler\Api\Config\AppConfig;
 use Watercooler\Api\Config\Env;
+use Watercooler\Api\Config\EnvFile;
 use Watercooler\Api\Database\PdoBugReportRepository;
 use Watercooler\Api\Database\PdoGameRepository;
 use Watercooler\Api\Database\PdoJoinBootstrapRepository;
@@ -50,6 +51,7 @@ final class Application
 
     public static function boot(string $basePath): self
     {
+        EnvFile::loadIfPresent($basePath . '/.env');
         $config = AppConfig::fromEnv(new Env());
         $router = new Router();
         $gameRepository = new PdoGameRepository($config->database);

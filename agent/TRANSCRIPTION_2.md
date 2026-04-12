@@ -559,8 +559,15 @@ I completed the avatar-generation step by adding a repeatable Python script that
 
 ---
 
+#### Entry 226
+**Assistant:**
+
+I completed the avatar audit step by adding a repeatable audit script, generating machine-readable metrics for body/face/hair geometry and face-hair occlusion, and writing a report that identifies the main repair targets: undersized body-6/body-7 and the high-occlusion hair cluster led by hair-11 and hair-3.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `225`
+- Latest recorded entry: `226`
 

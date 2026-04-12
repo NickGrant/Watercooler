@@ -836,3 +836,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: STEP-113, STEP-114
 - Description: Build a repeatable script that overlays the normalized hair, face, and body assets into full composite renders for every unique supported combination so the avatar library can be reviewed at scale.
+
+### STEP-113
+
+- Name: Audit avatar composites and write issue report
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-114
+- Description: Review the generated composite set and produce a report covering category-level avatar issues, individual asset offsets or anomalies, and bad body/face/hair combinations that need correction or manual follow-up.

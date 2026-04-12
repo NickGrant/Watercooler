@@ -33,6 +33,11 @@ Before creating a commit:
 - use the shared `transcription-sync` skill to update the active repository transcript target
 - ensure the latest visible user and assistant messages are recorded before the commit is created
 
+After creating a commit:
+
+- remove any `BEGIN AGENT CHANGE` / `END AGENT CHANGE` markers that were included for that working pass
+- keep the post-commit cleanup uncommitted so the next code-change pass starts from a clean marker state
+
 Before ending a session or clearing context:
 
 - make a best-effort pass to use the shared `transcription-sync` skill to append any still-missing visible conversation to the active repository transcript target
@@ -57,6 +62,14 @@ Before ending a session or clearing context:
 - keep component- or page-specific styles in the owning component or page stylesheet
 - use the global stylesheet for shared tokens, reset/base rules, and styles intentionally reused across multiple components or pages
 - do not move styles into the global stylesheet only to satisfy a component style budget; instead, reduce or reorganize the owning stylesheet while preserving logical ownership
+
+### Agent Change Markers
+
+- when editing a file type that supports inline comments, wrap each changed region in `BEGIN AGENT CHANGE` and `END AGENT CHANGE` comments using that file's native comment syntax
+- keep the markers tight around the changed region so they help the user quickly spot the agent-touched code
+- do not add these markers to file types that do not support safe inline comments, such as JSON or other syntax where the markers would break parsing
+- keep the markers in place through commit creation so the committed diff preserves what the agent changed in that pass
+- after the commit is created, remove all `BEGIN AGENT CHANGE` / `END AGENT CHANGE` markers so the next working pass only shows fresh markers from that pass
 
 ## System Adapters
 

@@ -573,8 +573,30 @@ I finished the automated avatar repair pass by adding normalization overrides an
 
 ---
 
+#### Entry 228
+**User:**
+
+alright, I will be working on these over time and let you know when they are ready. Until then I have a new workflow step I want you to understand and document: Whenever you make changes to a file that supports inline comments, I want you to wrap any area where you make changes in "BEGIN AGENT CHANGE" and "END AGENT CHANGE" comments. In addition, after commit i want you strip all the "* AGENT CHANGE" comments so that the next commit only has comments added in that commit
+
+**Assistant:**
+
+I documented the new workflow in `AGENT_WORKFLOW.md` and corrected it so the markers stay in through the commit, then get removed afterward as an uncommitted cleanup step for the next pass.
+
+---
+
+#### Entry 229
+**User:**
+
+We some extra unused assets in the public directory, can we clean that up
+
+**Assistant:**
+
+I audited `frontend/public`, confirmed the live avatar path is entirely PNG-based, removed the old unused SVG avatar assets and reference art, and re-ran the focused avatar composite spec to verify the cleanup did not break the active pipeline.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `227`
+- Latest recorded entry: `229`
 

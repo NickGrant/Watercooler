@@ -4,7 +4,7 @@
 
 Watercooler is a browser-based multiplayer board game adaptation of a Splendor-style ruleset with an absurd corporate satire theme.
 
-This repository is in active implementation. Planning documents still matter, but agents should assume code, tests, and docs are all part of normal work unless a step says otherwise.
+This repository is in active implementation. Planning documents still matter, but agents should assume code, tests, docs, refactors, and operational hardening are all part of normal work unless a step says otherwise.
 
 ## Current Phase
 
@@ -16,6 +16,7 @@ The repository currently includes:
 - PHP HTTP API work in `backend/api/`
 - MySQL schema and migration assets in `database/`
 - Docker-based local setup in `docker-compose.yml` and service Dockerfiles
+- a deployed shared-hosting release that has already supported real-player sessions
 
 ## Core Guardrails
 
@@ -43,6 +44,7 @@ If sources conflict, prefer the narrower planning or workflow file over the broa
 - Keep docs updated when implementation decisions materially change the plan.
 - Treat unit tests as required for all new code and behavior changes unless there is a documented technical reason they cannot be added yet.
 - When adding or changing code, update or add tests in the same step rather than deferring them.
+- Expect mixed authorship going forward: the user may manually edit, refactor, or harden code between agent turns, so preserve and work with those changes instead of assuming the agent is the only writer.
 - Use the shared skill definitions under `agent/skills/` when a workflow is captured as a repo skill, such as `transcription-sync` or `step-job-sync`.
 - Treat system-specific adapter directories as discovery shims only; shared behavior should live in `AGENTS.md`, `agent/AGENT_WORKFLOW.md`, `agent/LLM_CONTEXT.md`, or `agent/skills/`.
 - Follow `agent/AGENT_WORKFLOW.md` for step tracking, transcript maintenance, and job-execution procedure.

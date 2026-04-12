@@ -5,7 +5,7 @@
 }
 
 .game-page {
-  --game-shell-max-width: 1400px;
+  --game-shell-max-width: 1600px;
   min-height: 100dvh;
   padding: 1.5rem;
   background:
@@ -22,7 +22,7 @@
 }
 
 .game-page__frame {
-  max-width: var(--game-shell-max-width, 1400px);
+  max-width: var(--game-shell-max-width, 1600px);
   margin: 0 auto;
 }
 

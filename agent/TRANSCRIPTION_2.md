@@ -505,8 +505,41 @@ I completed the final playtest-fix step by adding a bounded game-page frame for 
 
 ---
 
+#### Entry 220
+**User:**
+
+alright, looks like we are ready to launch. I am going to have to do this manually via FTP so please provide me the steps I will need to get the application up on my host and the database seeded
+
+**Assistant:**
+
+I paused the deployment write-up when the follow-up milestone message superseded it, and shifted into launch-readiness cleanup so the repo state and docs would be accurate before the next phase of work.
+
+---
+
+#### Entry 221
+**User:**
+
+We have hit a major milestone! We have deployed and had real players... Once things are committed, the next two jobs I want you to work on are avatar consistency pass and game session autopurge.
+
+**Assistant:**
+
+I treated this as a repo-phase transition, refreshed the main docs to reflect the live deployment and mixed human-plus-agent development workflow, reviewed the pending repo changes for a clean baseline commit, and planned the next two jobs as parallel lanes: avatar consistency analysis and automation on one side, session autopurge on the other.
+
+---
+
+#### Entry 222
+**User:**
+
+That looks great... .game-page__frame still does not see the variable, starting a new game gives Avatar selections must use supported Watercooler avatar options, display name should be 25 chars, and remove the Body/Face/Hair text.
+
+**Assistant:**
+
+I fixed the remaining launch issues by moving the game-page width variable onto the page container with a direct fallback, updating the backend avatar catalog to accept the new layered PNG ids, enforcing a 25-character display-name limit in both frontend and backend validation, and removing the extra Body/Face/Hair preview summaries.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `219`
+- Latest recorded entry: `222`
 

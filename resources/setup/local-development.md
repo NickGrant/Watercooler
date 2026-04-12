@@ -144,11 +144,6 @@ These checks were completed during bootstrapping:
 - `docker compose config` succeeded
 - Docker image builds for `frontend` and `api` succeeded
 
-## Next Expected Work
+## Current Note
 
-After bootstrap, the next implementation-facing tasks are:
-
-- game creation and slug generation
-- home page create-game flow
-- join-bootstrap and session handling
-- lobby and smart-polling synchronization
+This guide now exists mainly as a local bootstrap and validation reference. Product planning, post-launch cleanup, and future roadmap work should be tracked in `resources/planning/` and the step/job files under `agent/` rather than appended here as a rolling "next work" list.

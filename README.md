@@ -4,7 +4,9 @@ Watercooler is a browser-based multiplayer board game inspired by Splendor and r
 
 ## Status
 
-The project is in active implementation.
+The project is deployed and has now been played by real external players.
+
+Watercooler is still in active implementation, but the repo has moved out of pure prototype mode and into a mixed delivery-and-hardening phase: new features are still landing, while code quality, refactoring, operational safety, and maintainability now matter much more than they did during initial scaffolding.
 
 Current repo state includes:
 
@@ -22,6 +24,17 @@ Recent implementation work includes:
 - smart polling-based lobby and game-state refresh
 - waiting-room and in-game board UI
 - in-game bug-report capture
+- deployed shared-hosting release with live-player validation
+- layered PNG avatar pipeline and shared-canvas normalization
+- post-launch playtest fixes across action recovery, avatar validation, and endgame presentation
+
+## Collaboration Mode
+
+The project is now developed through a mixed workflow:
+
+- the user may directly edit, refactor, or harden code by hand
+- agents may still implement features, write utilities, add tests, and prepare cleanup passes
+- repo guidance and transcript history should stay current enough to support future tooling that reconstructs project history from commits plus transcript entries
 
 ## Stack
 

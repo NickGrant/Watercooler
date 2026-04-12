@@ -19,6 +19,7 @@
     }
   },
   "scripts": {
+    "purge-stale-games": "@php bin/purge-stale-games.php",
     "serve": "php -S 127.0.0.1:8080 -t public public/index.php",
     "lint": [
       "@php -r \"foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator('src')) as $file) { if ($file->getExtension() === 'php') { passthru('php -l ' . escapeshellarg($file->getPathname()), $code); if ($code !== 0) { exit($code); } } }\"",

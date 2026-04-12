@@ -538,8 +538,15 @@ I fixed the remaining launch issues by moving the game-page width variable onto 
 
 ---
 
+#### Entry 223
+**Assistant:**
+
+I updated the main repo docs for the post-launch mixed human-plus-agent workflow, committed the dirty repo baseline as 181f3de (chore: checkpoint post-launch collaboration baseline), opened JOB-029 for avatar consistency and JOB-030 for game-session autopurge, and began the two lanes by validating the purge runtime path and characterizing the normalized avatar asset library for scripted review.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `222`
+- Latest recorded entry: `223`
 

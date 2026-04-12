@@ -6,7 +6,13 @@ This file keeps the active working set small enough to remain in normal agent co
 
 ## Active Steps
 
-- None right now.
+### STEP-112
+
+- Name: Generate full avatar composite review set
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-113, STEP-114
+- Description: Build a repeatable script that overlays the normalized hair, face, and body assets into full composite renders for every unique supported combination so the avatar library can be reviewed at scale.
 
 
 ## Step Management Rules

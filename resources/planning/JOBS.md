@@ -229,3 +229,19 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 - Status: Complete
 - Description: Resolve active-play issues found during playtesting across resource selection, recoverable-action messaging, purchase confirmation, market copy, host labeling, widescreen layout, and temporary build budgets.
 - Steps: STEP-109, STEP-110, STEP-111
+
+### JOB-029
+
+- Name: Avatar Consistency Audit And Repair
+- Priority: High
+- Status: In Progress
+- Description: Generate a full composite review set for all supported avatar combinations, audit the layered PNG library for alignment and combination issues, and automate any repeated fixes that can be safely resolved through script-driven asset adjustments.
+- Steps: STEP-112, STEP-113, STEP-114
+
+### JOB-030
+
+- Name: Game Session Autopurge
+- Priority: High
+- Status: In Progress
+- Description: Automatically remove abandoned games that have been inactive for more than 48 hours and document how shared-hosting cron should trigger the purge every 24 hours.
+- Steps: STEP-115, STEP-116

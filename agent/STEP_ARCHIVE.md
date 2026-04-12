@@ -812,3 +812,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: STEP-107
 - Blocks: None
 - Description: Add focused test coverage and maintenance notes for the normalized avatar asset workflow so future additions can be processed without manual guesswork.
+
+### STEP-115
+
+- Name: Implement stale game session autopurge runtime
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-116
+- Description: Add backend functionality that deletes games which have not been updated for more than 48 hours, along with the supporting tests and any required entrypoint or configuration glue.

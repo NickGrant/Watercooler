@@ -338,12 +338,14 @@ describe('GamePageComponent', () => {
     fixture.detectChanges();
 
     const labels = Array.from(
-      fixture.nativeElement.querySelectorAll('.avatar-carousel__header span'),
+      fixture.nativeElement.querySelectorAll('.avatar-carousel__label'),
       (element: Element) => element.textContent?.trim()
     );
 
-    expect(labels).toEqual(['Hair', 'Face', 'Body']);
-    expect(fixture.nativeElement.querySelector('.avatar-preview-panel app-avatar-composite')).not.toBeNull();
+    expect(labels).toEqual(['Hair 01', 'Face 01', 'Outfit 01']);
+    expect(fixture.nativeElement.querySelector('.check-in-builder')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('.avatar-preview-panel__surface app-avatar-composite')).not.toBeNull();
+    expect(fixture.nativeElement.querySelector('.check-in-builder__action button')?.textContent).toContain('Join Game');
     expect(fixture.nativeElement.textContent).not.toContain('Body:');
     expect(fixture.nativeElement.textContent).not.toContain('Face:');
     expect(fixture.nativeElement.textContent).not.toContain('Hair:');

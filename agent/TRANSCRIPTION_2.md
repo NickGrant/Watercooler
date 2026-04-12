@@ -595,8 +595,52 @@ I audited `frontend/public`, confirmed the live avatar path is entirely PNG-base
 
 ---
 
+#### Entry 230
+**User:**
+
+It looks like there is an issue with our normalization script... long hairstyles should be supported.
+
+**Assistant:**
+
+I compared the raw and normalized hair assets, confirmed the problem was the hair layer using contain-by-height normalization, changed the script so hair uses width-first normalization instead, regenerated the normalized hair outputs, and verified the updated behavior against the avatar composite spec.
+
+---
+
+#### Entry 231
+**User:**
+
+Can we adjust the Employee Check-in area to look more like this image...
+
+**Assistant:**
+
+I reworked the pre-join check-in layout to use stacked selectors on the left, a large centered composite preview stage in the middle, and a dedicated join-action column on the right, then iterated further to simplify the selectors into compact text-only controls and tune the preview panel alignment and styling.
+
+---
+
+#### Entry 232
+**User:**
+
+I have adjusted all the icon resource files to be 256x256, please check the code to see if we need to adjust anything to account for this
+
+**Assistant:**
+
+I reviewed the resource-icon rendering path and confirmed no code changes were needed because the component already constrains icon render size through CSS while using `object-fit: contain`; I also noted that `frontend/public/resources/star.png` appears unused.
+
+---
+
+#### Entry 233
+**User:**
+
+lets go ahead and commit our current changes
+
+**Assistant:**
+
+I prepared a full checkpoint commit of the current repo state, including the latest normalization, check-in layout, resource asset, and any user-side working-tree edits that were already present.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `229`
+- Latest recorded entry: `233`
 

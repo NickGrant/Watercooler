@@ -18,6 +18,13 @@ PLACEMENT_BOXES = {
     "face": (162, 138, 350, 310),
     "hair": (112, 16, 400, 248),
 }
+# BEGIN AGENT CHANGE
+NORMALIZATION_STRATEGIES = {
+    "body": "contain",
+    "face": "contain",
+    "hair": "fit_width",
+}
+# END AGENT CHANGE
 
 
 @dataclass(frozen=True)
@@ -40,13 +47,19 @@ def fit_to_box(
     image: Image.Image,
     box: tuple[int, int, int, int],
     *,
+    strategy: str = "contain",
     offset_x: int = 0,
     offset_y: int = 0,
 ) -> Image.Image:
     x0, y0, x1, y1 = box
     box_width = x1 - x0
     box_height = y1 - y0
-    scale = min(box_width / image.width, box_height / image.height)
+    # BEGIN AGENT CHANGE
+    if strategy == "fit_width":
+        scale = box_width / image.width
+    else:
+        scale = min(box_width / image.width, box_height / image.height)
+    # END AGENT CHANGE
     resized_width = max(1, round(image.width * scale))
     resized_height = max(1, round(image.height * scale))
     resized = image.resize((resized_width, resized_height), Image.LANCZOS)
@@ -66,13 +79,16 @@ def resolve_box(
     asset_type: str,
     asset_name: str,
     overrides: Dict[str, Dict[str, Dict[str, Any]]],
-) -> tuple[tuple[int, int, int, int], int, int]:
+) -> tuple[tuple[int, int, int, int], str, int, int]:
     override = overrides.get(asset_type, {}).get(asset_name, {})
     raw_box = override.get("box", PLACEMENT_BOXES[asset_type])
     box = (int(raw_box[0]), int(raw_box[1]), int(raw_box[2]), int(raw_box[3]))
+    # BEGIN AGENT CHANGE
+    strategy = str(override.get("strategy", NORMALIZATION_STRATEGIES[asset_type]))
+    # END AGENT CHANGE
     offset_x = int(override.get("offsetX", 0))
     offset_y = int(override.get("offsetY", 0))
-    return box, offset_x, offset_y
+    return box, strategy, offset_x, offset_y
 
 
 def normalize_asset(
@@ -82,8 +98,16 @@ def normalize_asset(
     overrides: Dict[str, Dict[str, Dict[str, Any]]],
 ) -> NormalizedAsset:
     image = Image.open(source_path).convert("RGBA")
-    box, offset_x, offset_y = resolve_box(asset_type, source_path.stem, overrides)
-    normalized = fit_to_box(image, box, offset_x=offset_x, offset_y=offset_y)
+    # BEGIN AGENT CHANGE
+    box, strategy, offset_x, offset_y = resolve_box(asset_type, source_path.stem, overrides)
+    normalized = fit_to_box(
+        image,
+        box,
+        strategy=strategy,
+        offset_x=offset_x,
+        offset_y=offset_y,
+    )
+    # END AGENT CHANGE
     output_path.parent.mkdir(parents=True, exist_ok=True)
     normalized.save(output_path)
 
@@ -118,6 +142,9 @@ def write_metadata(
             }
             for asset_type, box in PLACEMENT_BOXES.items()
         },
+        # BEGIN AGENT CHANGE
+        "normalizationStrategies": NORMALIZATION_STRATEGIES,
+        # END AGENT CHANGE
         "assetOverrides": overrides,
         "assets": grouped_assets,
     }

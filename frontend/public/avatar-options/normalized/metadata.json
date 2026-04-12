@@ -23,6 +23,11 @@
       "y1": 248
     }
   },
+  "normalizationStrategies": {
+    "body": "contain",
+    "face": "contain",
+    "hair": "fit_width"
+  },
   "assetOverrides": {
     "body": {
       "body-6": {

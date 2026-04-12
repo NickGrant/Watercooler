@@ -200,7 +200,7 @@
       </section>
     } @else {
       <section class="shell-grid" [class.shell-grid--lobby]="session.stage() !== 'in-game'">
-        <mat-card appearance="outlined" class="shell-panel shell-panel--desk shell-panel--check-in">
+      <mat-card appearance="outlined" class="shell-panel shell-panel--desk shell-panel--check-in">
         @if (!session.hasJoined()) {
           <h2>Employee Check-In</h2>
           <p class="panel-copy">
@@ -219,31 +219,17 @@
             />
           </mat-form-field>
 
-        <div class="avatar-builder">
-          <section class="avatar-preview-panel">
-            <p class="eyebrow">Composite Preview</p>
-            <app-avatar-composite
-              [avatar]="session.avatarDraft()"
-              size="xlarge"
-              ariaLabel="Current avatar preview"
-            />
-          </section>
-
-          <div class="avatar-grid">
+        <!-- BEGIN AGENT CHANGE -->
+        <section class="check-in-builder">
+          <div class="check-in-builder__selectors">
             <section class="avatar-carousel">
-              <div class="avatar-carousel__header">
-                <span>Hair</span>
-                <strong>{{ currentAvatarOption('hair').label }}</strong>
-              </div>
               <div class="avatar-carousel__frame">
                 <button mat-mini-fab type="button" aria-label="Previous hair option" (click)="cycleAvatarOption('hair', -1)">
                   &lsaquo;
                 </button>
-                <img
-                  class="avatar-carousel__image"
-                  [src]="currentAvatarOption('hair').previewPath"
-                  [alt]="currentAvatarOption('hair').label"
-                />
+                <div class="avatar-carousel__label" aria-live="polite">
+                  Hair {{ currentAvatarOption('hair').label.slice(-2) }}
+                </div>
                 <button mat-mini-fab type="button" aria-label="Next hair option" (click)="cycleAvatarOption('hair', 1)">
                   &rsaquo;
                 </button>
@@ -251,19 +237,13 @@
             </section>
 
             <section class="avatar-carousel">
-              <div class="avatar-carousel__header">
-                <span>Face</span>
-                <strong>{{ currentAvatarOption('face').label }}</strong>
-              </div>
               <div class="avatar-carousel__frame">
                 <button mat-mini-fab type="button" aria-label="Previous face option" (click)="cycleAvatarOption('face', -1)">
                   &lsaquo;
                 </button>
-                <img
-                  class="avatar-carousel__image"
-                  [src]="currentAvatarOption('face').previewPath"
-                  [alt]="currentAvatarOption('face').label"
-                />
+                <div class="avatar-carousel__label" aria-live="polite">
+                  Face {{ currentAvatarOption('face').label.slice(-2) }}
+                </div>
                 <button mat-mini-fab type="button" aria-label="Next face option" (click)="cycleAvatarOption('face', 1)">
                   &rsaquo;
                 </button>
@@ -271,30 +251,37 @@
             </section>
 
             <section class="avatar-carousel">
-              <div class="avatar-carousel__header">
-                <span>Body</span>
-                <strong>{{ currentAvatarOption('body').label }}</strong>
-              </div>
               <div class="avatar-carousel__frame">
                 <button mat-mini-fab type="button" aria-label="Previous body option" (click)="cycleAvatarOption('body', -1)">
                   &lsaquo;
                 </button>
-                <img
-                  class="avatar-carousel__image"
-                  [src]="currentAvatarOption('body').previewPath"
-                  [alt]="currentAvatarOption('body').label"
-                />
+                <div class="avatar-carousel__label" aria-live="polite">
+                  Outfit {{ currentAvatarOption('body').label.slice(-2) }}
+                </div>
                 <button mat-mini-fab type="button" aria-label="Next body option" (click)="cycleAvatarOption('body', 1)">
                   &rsaquo;
                 </button>
               </div>
             </section>
           </div>
-        </div>
 
-        <button mat-flat-button type="button" [disabled]="joinPending()" (click)="submitJoin()">
-          {{ joinPending() ? 'Submitting Badge...' : 'Join Game' }}
-        </button>
+          <section class="avatar-preview-panel avatar-preview-panel--hero">
+            <div class="avatar-preview-panel__surface">
+              <app-avatar-composite
+                [avatar]="session.avatarDraft()"
+                size="xlarge"
+                ariaLabel="Current avatar preview"
+              />
+            </div>
+          </section>
+
+          <div class="check-in-builder__action">
+            <button mat-flat-button type="button" [disabled]="joinPending()" (click)="submitJoin()">
+              {{ joinPending() ? 'Submitting Badge...' : 'Join Game' }}
+            </button>
+          </div>
+        </section>
+        <!-- END AGENT CHANGE -->
       } @else if (session.stage() === 'in-game') {
         @if (isCompletedGame()) {
           <h2>Final Results Desk</h2>

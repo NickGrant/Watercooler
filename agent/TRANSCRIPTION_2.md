@@ -566,8 +566,15 @@ I completed the avatar audit step by adding a repeatable audit script, generatin
 
 ---
 
+#### Entry 227
+**Assistant:**
+
+I finished the automated avatar repair pass by adding normalization overrides and a repair runner, iterating the fix set twice, keeping the successful body-6/body-7/hair-6/hair-11 changes, backing out the unsuccessful hair-3 adjustment, and documenting the final before-versus-after results in a dedicated fix report.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `226`
+- Latest recorded entry: `227`
 

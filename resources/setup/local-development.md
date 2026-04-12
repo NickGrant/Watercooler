@@ -68,6 +68,12 @@ That command writes review-sized composites, per-body contact sheets, and a mani
 
 - `frontend/tmp/avatar-review/`
 
+To apply the scripted avatar consistency fixes and regenerate the normalized assets, review set, and audit in one pass, run:
+
+```powershell
+python frontend/scripts/repair_avatar_layers.py
+```
+
 ### API
 
 Run from `backend/api/`:

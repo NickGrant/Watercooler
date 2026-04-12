@@ -828,3 +828,11 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 - Blocked By: None
 - Blocks: None
 - Description: Add deployment guidance for triggering the stale-game purge every 24 hours through cPanel cron, including the command shape, expected runtime behavior, and any validation or safety notes.
+
+### STEP-112
+
+- Name: Generate full avatar composite review set
+- Priority: High
+- Blocked By: None
+- Blocks: STEP-113, STEP-114
+- Description: Build a repeatable script that overlays the normalized hair, face, and body assets into full composite renders for every unique supported combination so the avatar library can be reviewed at scale.

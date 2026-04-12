@@ -552,8 +552,15 @@ I finished JOB-030 by documenting the shared-hosting cron setup, adding a lightw
 
 ---
 
+#### Entry 225
+**Assistant:**
+
+I completed the avatar-generation step by adding a repeatable Python script that composites every normalized body, face, and hair combination into review-sized images, writes per-body contact sheets plus a manifest under rontend/tmp/avatar-review/, and generated the full 1,080-image review set to drive the next audit pass.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `224`
+- Latest recorded entry: `225`
 

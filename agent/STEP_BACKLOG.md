@@ -6,14 +6,6 @@ This file tracks outstanding work that matters to the project but does not need 
 
 ## Backlog Steps
 
-### STEP-113
-
-- Name: Audit avatar composites and write issue report
-- Priority: High
-- Blocked By: STEP-112
-- Blocks: STEP-114
-- Description: Review the generated composite set and produce a report covering category-level avatar issues, individual asset offsets or anomalies, and bad body/face/hair combinations that need correction or manual follow-up.
-
 ### STEP-114
 
 - Name: Automate repeated avatar corrections and verify results

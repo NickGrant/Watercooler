@@ -58,6 +58,16 @@ and regenerates the stack-ready outputs plus placement metadata in:
 
 - `frontend/public/avatar-options/normalized/`
 
+To generate the full review set for every supported body/face/hair combination, run:
+
+```powershell
+python frontend/scripts/generate_avatar_composites.py --clean
+```
+
+That command writes review-sized composites, per-body contact sheets, and a manifest to:
+
+- `frontend/tmp/avatar-review/`
+
 ### API
 
 Run from `backend/api/`:

@@ -30,9 +30,7 @@ CREATE TABLE IF NOT EXISTS players (
 CREATE TABLE IF NOT EXISTS player_avatars (
     id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     player_id BIGINT UNSIGNED NOT NULL,
-    -- BEGIN AGENT CHANGE
     avatar_option VARCHAR(64) NOT NULL,
-    -- END AGENT CHANGE
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     UNIQUE KEY uq_player_avatars_player_id (player_id),
     CONSTRAINT fk_player_avatars_player

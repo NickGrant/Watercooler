@@ -6,7 +6,6 @@ export interface AvatarOptionDefinition {
   imagePath: string;
 }
 
-// BEGIN AGENT CHANGE
 const AVATAR_OPTION_COUNT = 15;
 
 function buildAvatarOptions(): AvatarOptionDefinition[] {
@@ -39,4 +38,3 @@ export function resolveAvatarDraft(avatar: AvatarDraft): AvatarDraft {
     id: resolveAvatarValue(avatar.id)
   };
 }
-// END AGENT CHANGE

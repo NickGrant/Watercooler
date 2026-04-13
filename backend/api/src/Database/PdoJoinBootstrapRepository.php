@@ -115,9 +115,7 @@ final class PdoJoinBootstrapRepository implements JoinBootstrapRepository
                 SQL
             )->execute([
                 'player_id' => $playerId,
-                // BEGIN AGENT CHANGE
                 'avatar_option' => $avatar->id,
-                // END AGENT CHANGE
             ]);
 
             $hostGamePlayerId = $this->findHostGamePlayerId($gameId);
@@ -203,9 +201,7 @@ final class PdoJoinBootstrapRepository implements JoinBootstrapRepository
             isHost: (bool) $row['is_host'],
             joinStatus: (string) $row['join_status'],
             avatar: new AvatarSelection(
-                // BEGIN AGENT CHANGE
                 id: (string) $row['avatar_option'],
-                // END AGENT CHANGE
             ),
         );
     }

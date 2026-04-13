@@ -1,4 +1,3 @@
--- BEGIN AGENT CHANGE
 SET @has_legacy_body_option = (
     SELECT COUNT(*)
     FROM INFORMATION_SCHEMA.COLUMNS
@@ -24,7 +23,6 @@ SET @single_avatar_option_sql = IF(
 PREPARE single_avatar_option_stmt FROM @single_avatar_option_sql;
 EXECUTE single_avatar_option_stmt;
 DEALLOCATE PREPARE single_avatar_option_stmt;
--- END AGENT CHANGE
 
 INSERT INTO schema_migrations (version, description)
 VALUES ('005_single_avatar_option', 'Collapse legacy avatar-part columns into a single avatar option id')

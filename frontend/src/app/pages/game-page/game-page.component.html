@@ -57,6 +57,38 @@
     }
 
     @if (session.stage() === 'in-game' && !isCompletedGame() && startedGame(); as startedGame) {
+      <!-- BEGIN AGENT CHANGE -->
+      @if (showStickyPlayerResources() && currentUserPlayer(); as stickyPlayer) {
+        <section class="game-page__sticky-player-resources" aria-label="Pinned current player resources">
+          @for (resource of resourceTypes; track resource) {
+            <div
+              class="game-page__sticky-player-resource"
+              [matTooltip]="resourceLabel(resource) + ': ' + (stickyPlayer.resources[resource] + stickyPlayer.permanentDiscounts[resource])"
+              [attr.aria-label]="resourceLabel(resource) + ' total ' + (stickyPlayer.resources[resource] + stickyPlayer.permanentDiscounts[resource])"
+            >
+              <app-resource-icon
+                [src]="resourceIconPath(resource)"
+                [label]="resourceLabel(resource)"
+                [value]="stickyPlayer.resources[resource] + stickyPlayer.permanentDiscounts[resource]"
+                [decorative]="true"
+              />
+            </div>
+          }
+          <div
+            class="game-page__sticky-player-resource"
+            [matTooltip]="resourceLabel('executiveFavor') + ': ' + stickyPlayer.resources.executiveFavor"
+            [attr.aria-label]="resourceLabel('executiveFavor') + ' total ' + stickyPlayer.resources.executiveFavor"
+          >
+            <app-resource-icon
+              [src]="resourceIconPath('executiveFavor')"
+              [label]="resourceLabel('executiveFavor')"
+              [value]="stickyPlayer.resources.executiveFavor"
+              [decorative]="true"
+            />
+          </div>
+        </section>
+      }
+      <!-- END AGENT CHANGE -->
       <section class="shell-grid shell-grid--active">
       <div class="shell-column shell-column--sidebar">
         @if (currentUserPlayer(); as currentPlayer) {
@@ -73,6 +105,7 @@
             [resourceLabel]="resourceLabel.bind(this)"
             [resourceIconPath]="resourceIconPath.bind(this)"
             [canPurchaseReservedCard]="canAffordCard.bind(this, currentPlayer)"
+            (stickyResourceVisibilityChange)="updateStickyPlayerResources($event)"
             (purchaseReservedCard)="purchaseReservedCard($event)"
           />
         } @else {
@@ -208,7 +241,6 @@
             room.
           </p>
 
-          <!-- BEGIN AGENT CHANGE -->
           <section class="employee-badge" aria-label="Employee badge check-in">
             <div class="employee-badge__header">
               <p class="employee-badge__eyebrow">Temporary Building Access</p>
@@ -268,7 +300,6 @@
               {{ joinPending() ? 'Badging In...' : 'Badge In' }}
             </button>
           </section>
-          <!-- END AGENT CHANGE -->
       } @else if (session.stage() === 'in-game') {
         @if (isCompletedGame()) {
           <h2>Final Results Desk</h2>
@@ -428,9 +459,7 @@
                       <span class="host-marker" aria-label="Host">H</span>
                     }
                   </strong>
-                  <!-- BEGIN AGENT CHANGE -->
                   <p>{{ avatarOptionLabel(player.avatar.id) }}</p>
-                  <!-- END AGENT CHANGE -->
                 </div>
               </div>
               <span class="roster-badge">{{ player.joinStatus }}</span>

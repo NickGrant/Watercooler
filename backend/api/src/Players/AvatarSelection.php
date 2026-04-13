@@ -7,9 +7,7 @@ namespace Watercooler\Api\Players;
 final class AvatarSelection
 {
     public function __construct(
-        // BEGIN AGENT CHANGE
         public readonly string $id,
-        // END AGENT CHANGE
     ) {
     }
 
@@ -19,9 +17,7 @@ final class AvatarSelection
     public function toArray(): array
     {
         return [
-            // BEGIN AGENT CHANGE
             'id' => $this->id,
-            // END AGENT CHANGE
         ];
     }
 }

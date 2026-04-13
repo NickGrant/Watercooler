@@ -30,14 +30,12 @@ describe('GameSessionService', () => {
   });
 
   it('patches avatar data without discarding existing values', () => {
-    // BEGIN AGENT CHANGE
     service.patchAvatarDraft({ id: 'avatar-2' });
 
     expect(service.avatarDraft()).toEqual({
       ...DEFAULT_AVATAR_DRAFT,
       id: 'avatar-2'
     });
-    // END AGENT CHANGE
   });
 
   it('applies accepted join bootstrap state and persists the session token', () => {

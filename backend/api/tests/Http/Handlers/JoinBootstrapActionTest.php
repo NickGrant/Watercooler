@@ -34,14 +34,12 @@ final class JoinBootstrapActionTest extends TestCase
                 '/api/games/synergy-report-telemetry/join-bootstrap',
                 [],
                 [],
-                // BEGIN AGENT CHANGE
                 [
                     'displayName' => 'Pam',
                     'avatar' => [
                         'id' => 'avatar-1',
                     ],
                 ],
-                // END AGENT CHANGE
             ),
             new RouteMatch(static fn() => null, ['slug' => 'synergy-report-telemetry']),
         );
@@ -67,14 +65,12 @@ final class JoinBootstrapActionTest extends TestCase
                 '/api/games/synergy-report-telemetry/join-bootstrap',
                 [],
                 [],
-                // BEGIN AGENT CHANGE
                 [
                     'displayName' => '   ',
                     'avatar' => [
                         'id' => 'avatar-1',
                     ],
                 ],
-                // END AGENT CHANGE
             ),
             new RouteMatch(static fn() => null, ['slug' => 'synergy-report-telemetry']),
         );

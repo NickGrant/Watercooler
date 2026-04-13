@@ -375,6 +375,24 @@ describe('GamePageComponent', () => {
     expect(resourceCost?.textContent?.replace(/\s+/g, '')).toBe('2');
   });
 
+  it('shows the viewport-level sticky player resources only when requested', () => {
+    localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
+
+    const fixture = TestBed.createComponent(GamePageComponent);
+    fixture.detectChanges();
+
+    expect(fixture.nativeElement.querySelector('.game-page__sticky-player-resources')).toBeNull();
+
+    fixture.componentInstance.updateStickyPlayerResources(true);
+    fixture.detectChanges();
+
+    const stickyStrip = fixture.nativeElement.querySelector('.game-page__sticky-player-resources');
+
+    expect(stickyStrip).not.toBeNull();
+    expect(stickyStrip.querySelectorAll('.game-page__sticky-player-resource').length).toBe(6);
+    expect(stickyStrip.textContent).toContain('0');
+  });
+
   it('renders the current player card without the extra desk wrapper chrome', () => {
     localStorage.setItem('watercooler.session.synergy-report-telemetry', 'temporary-session-token');
 

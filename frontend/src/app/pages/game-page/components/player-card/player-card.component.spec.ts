@@ -83,6 +83,16 @@ describe('PlayerCardComponent', () => {
     expect(fixture.nativeElement.querySelector('.roster-badge')?.textContent).not.toContain('Host');
   });
 
+  it('emits sticky-summary visibility when the observed strip leaves view', () => {
+    const visibilitySpy = jasmine.createSpy('visibility');
+    fixture.componentRef.instance.stickyResourceVisibilityChange.subscribe(visibilitySpy);
+
+    fixture.detectChanges();
+    fixture.componentRef.instance.stickyResourceVisibilityChange.emit(true);
+
+    expect(visibilitySpy).toHaveBeenCalledWith(true);
+  });
+
   it('emits purchases from reserved cards', () => {
     const purchaseSpy = jasmine.createSpy('purchase');
     fixture.componentRef.instance.purchaseReservedCard.subscribe(purchaseSpy);

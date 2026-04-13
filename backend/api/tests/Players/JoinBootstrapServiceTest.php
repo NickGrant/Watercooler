@@ -28,9 +28,7 @@ final class JoinBootstrapServiceTest extends TestCase
         $result = $service->bootstrap('synergy-report-telemetry', [
             'displayName' => '  Pam  ',
             'avatar' => [
-                // BEGIN AGENT CHANGE
                 'id' => 'avatar-1',
-                // END AGENT CHANGE
             ],
         ]);
 
@@ -53,9 +51,7 @@ final class JoinBootstrapServiceTest extends TestCase
         $initial = $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                // BEGIN AGENT CHANGE
                 'id' => 'avatar-1',
-                // END AGENT CHANGE
             ],
         ]);
 
@@ -79,9 +75,7 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                // BEGIN AGENT CHANGE
                 'id' => 'avatar-1',
-                // END AGENT CHANGE
             ],
         ]);
 
@@ -91,9 +85,7 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                // BEGIN AGENT CHANGE
                 'id' => 'avatar-2',
-                // END AGENT CHANGE
             ],
         ]);
     }
@@ -112,9 +104,7 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'This Display Name Is Way Too Long',
             'avatar' => [
-                // BEGIN AGENT CHANGE
                 'id' => 'avatar-1',
-                // END AGENT CHANGE
             ],
         ]);
     }
@@ -133,9 +123,7 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                // BEGIN AGENT CHANGE
                 'id' => 'unknown',
-                // END AGENT CHANGE
             ],
         ]);
     }

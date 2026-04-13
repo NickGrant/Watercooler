@@ -1,4 +1,3 @@
--- BEGIN AGENT CHANGE
 SET @has_executive_portrait_asset = (
     SELECT COUNT(*)
     FROM INFORMATION_SCHEMA.COLUMNS
@@ -16,7 +15,6 @@ SET @portrait_asset_sql = IF(
 PREPARE portrait_asset_stmt FROM @portrait_asset_sql;
 EXECUTE portrait_asset_stmt;
 DEALLOCATE PREPARE portrait_asset_stmt;
--- END AGENT CHANGE
 
 INSERT INTO schema_migrations (version, description)
 VALUES ('004_executive_portrait_asset_compat', 'Backfill executive portrait asset support for older databases')

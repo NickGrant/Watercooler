@@ -675,8 +675,19 @@ I checked the running Docker MariaDB container, found it was missing migrations 
 
 ---
 
+#### Entry 237
+**User:**
+
+That is good, let's go ahead and add executive favor to the pinned par and commit it
+
+**Assistant:**
+
+I finished the sticky current-player resource strip by moving it to the page shell so it pins to the viewport, added Executive Favor to that pinned summary, and verified the focused game-page and player-card specs before preparing the commit.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `236`
+- Latest recorded entry: `237`
 

@@ -49,6 +49,7 @@ import {
 import { ExecutiveRowComponent } from './components/executive-row/executive-row.component';
 import { PlayerCardComponent } from './components/player-card/player-card.component';
 import { ResourceBankComponent } from './components/resource-bank/resource-bank.component';
+import { ResourceIconComponent } from './components/resource-icon/resource-icon.component';
 import { VisibleMarketComponent } from './components/visible-market/visible-market.component';
 
 interface ActionRecoveryPayload {
@@ -71,6 +72,7 @@ interface ActionRecoveryPayload {
     AvatarCompositeComponent,
     PlayerCardComponent,
     ResourceBankComponent,
+    ResourceIconComponent,
     VisibleMarketComponent,
     ExecutiveRowComponent
   ],
@@ -112,6 +114,7 @@ export class GamePageComponent {
   readonly actionMessage = signal<string | null>(null);
   readonly actionError = signal<string | null>(null);
   readonly latestToastMessage = signal<string | null>(null);
+  readonly showStickyPlayerResources = signal(false);
   readonly createNextGamePending = signal(false);
   readonly showRulesHelp = signal(false);
   readonly showBugReportPanel = signal(false);
@@ -122,9 +125,7 @@ export class GamePageComponent {
   readonly bugReportMessage = signal('');
   readonly startedGame = signal<ActiveGameState | null>(null);
   readonly selectedTakeResources = signal<ResourceType[]>([]);
-  // BEGIN AGENT CHANGE
   readonly avatarOptions: AvatarOptionDefinition[] = AVATAR_OPTIONS;
-  // END AGENT CHANGE
   readonly resourceTypes: ResourceType[] = [
     'coffee',
     'spreadsheets',
@@ -289,7 +290,6 @@ export class GamePageComponent {
     this.session.setPlayerName(name);
   }
 
-  // BEGIN AGENT CHANGE
   updateAvatar(value: string): void {
     this.session.patchAvatarDraft({ id: value });
   }
@@ -313,7 +313,6 @@ export class GamePageComponent {
   avatarOptionLabel(value: string): string {
     return resolveAvatarOption(value).label;
   }
-  // END AGENT CHANGE
 
   toggleRulesHelp(): void {
     this.showRulesHelp.set(!this.showRulesHelp());
@@ -589,6 +588,10 @@ export class GamePageComponent {
     }
 
     this.selectedTakeResources.update((current) => [...current, resource]);
+  }
+
+  updateStickyPlayerResources(shouldShow: boolean): void {
+    this.showStickyPlayerResources.set(shouldShow);
   }
 
   removeSelectedResource(resource: ResourceType): void {

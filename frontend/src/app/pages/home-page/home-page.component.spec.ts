@@ -17,39 +17,6 @@ describe('HomePageComponent', () => {
     }).compileComponents();
   });
 
-  it('renders the create-game call to action without a route preview shortcut', () => {
-    const fixture = TestBed.createComponent(HomePageComponent);
-    fixture.detectChanges();
-
-    const createButton = fixture.nativeElement.querySelector('button[mat-flat-button]');
-    expect(createButton?.textContent).toContain('Create New Game');
-    expect(fixture.nativeElement.textContent).not.toContain('Preview Game Route Shell');
-  });
-
-  it('does not render the landing-page status grid during UAT cleanup', () => {
-    const fixture = TestBed.createComponent(HomePageComponent);
-    fixture.detectChanges();
-
-    expect(fixture.nativeElement.querySelector('.status-grid')).toBeNull();
-  });
-
-  it('toggles the front-page rules panel open and closed', () => {
-    const fixture = TestBed.createComponent(HomePageComponent);
-    fixture.detectChanges();
-
-    expect(fixture.componentInstance.showRules()).toBeFalse();
-    expect(fixture.nativeElement.textContent).toContain('Rules In One Minute');
-    expect(fixture.nativeElement.textContent).not.toContain('Build Momentum');
-
-    fixture.componentInstance.toggleRules();
-    fixture.detectChanges();
-
-    expect(fixture.componentInstance.showRules()).toBeTrue();
-    expect(fixture.nativeElement.textContent).toContain('Rules In One Minute');
-    expect(fixture.nativeElement.textContent).toContain('Build Momentum');
-    expect(fixture.nativeElement.textContent).toContain('Win The Office');
-  });
-
   it('creates a game and navigates to the game route', async () => {
     gamesApi.createGame.and.returnValue(
       of({

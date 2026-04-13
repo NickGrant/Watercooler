@@ -18,7 +18,6 @@ export class HomePageComponent {
 
   readonly createGamePending = signal(false);
   readonly createGameError = signal<string | null>(null);
-  readonly showRules = signal(false);
 
   createGame(): void {
     if (this.createGamePending()) {
@@ -35,20 +34,8 @@ export class HomePageComponent {
       },
       error: (error: unknown) => {
         this.createGamePending.set(false);
-        this.createGameError.set(this.getErrorMessage(error));
+        this.createGameError.set('Unable to open a new Watercooler room right now.');
       }
     });
-  }
-
-  toggleRules(): void {
-    this.showRules.update((currentValue) => !currentValue);
-  }
-
-  private getErrorMessage(error: unknown): string {
-    if (error instanceof HttpErrorResponse && error.status >= 500) {
-      return 'The Recreation Division dropped your paperwork. Try creating a room again.';
-    }
-
-    return 'Unable to open a new Watercooler room right now.';
   }
 }

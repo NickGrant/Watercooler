@@ -2,6 +2,12 @@
   display: block;
 }
 
+.tight {
+  font-size: .82em;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
 .home-page {
   min-height: 100dvh;
   padding: 2rem;
@@ -22,64 +28,59 @@
   border: 2px solid var(--wc-frame-dark);
   box-shadow: 4px 4px 0 rgba(47, 61, 87, 0.28);
   background: var(--wc-panel);
+  color: var(--wc-accent-strong);
+
+  & + .hero-window {
+    margin-top: 2rem;
+  }
 }
 
 .hero-window__chrome {
   display: flex;
   justify-content: space-between;
-  gap: 1rem;
   padding: 0.7rem 1rem;
   background: linear-gradient(90deg, var(--wc-accent), var(--wc-accent-strong));
   color: white;
-  font-size: 0.82rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 .hero-window__body {
   padding: 2rem;
+
+  & > * {
+    margin-bottom: 1.25rem;
+  }
 }
 
 .eyebrow {
-  margin: 0 0 0.75rem;
-  color: var(--wc-accent-strong);
-  font-size: 0.82rem;
   font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
 }
 
 h1 {
-  max-width: 18ch;
-  margin: 0;
   color: var(--wc-ink-strong);
   font-size: clamp(2.5rem, 5vw, 4.6rem);
   line-height: 0.94;
+  margin-top: 0;
 }
 
 .lede {
-  margin: 1.25rem 0 0;
   color: var(--wc-ink);
   font-size: 1rem;
   line-height: 1.7;
 }
 
-.actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.9rem;
-  margin-top: 1.5rem;
+button { 
+  display: block;
+  width: auto;
+  margin-bottom: 0;
 }
 
 .error-banner {
   width: fit-content;
   max-width: 100%;
-  margin-top: 1rem;
   padding: 0.75rem 1rem;
   border: 1px solid var(--wc-danger-border);
   background: var(--wc-danger-bg);
   color: var(--wc-danger);
-  font-weight: 600;
 }
 
 .rules-panel {
@@ -104,7 +105,6 @@ h1 {
 .rules-panel__body {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
-  gap: 0.9rem;
   margin-top: 1rem;
 }
 

@@ -1,70 +1,116 @@
 <main class="home-page">
   <section class="hero-window">
-    <div class="hero-window__chrome">
+    <div class="hero-window__chrome tight">
       <span>WATERCOOLER.EXE</span>
       <span>Corporate Recreation Division</span>
     </div>
 
     <div class="hero-window__body">
-      <p class="eyebrow">Multiplayer office prestige simulator</p>
+      <p class="eyebrow tight">Multiplayer office prestige simulator</p>
       <h1>Climb the ladder one suspiciously strategic advantage at a time.</h1>
       <p class="lede">
         Open a fresh room, share the link with your coworkers, and start the climb toward office
         prestige.
-
-      <div class="actions">
-        <button
-          matButton="filled"
-          type="button"
-          [disabled]="createGamePending()"
-          (click)="createGame()"
-        >
-          {{ createGamePending() ? 'Opening New Room...' : 'Create New Game' }}
-        </button>
-      </div>
+      </p>
+      <button
+        matButton="filled"
+        type="button"
+        [disabled]="createGamePending()"
+        (click)="createGame()"
+      >
+        {{ createGamePending() ? 'Opening New Room...' : 'Create New Game' }}
+      </button>
 
       @if (createGameError(); as createGameError) {
         <p class="error-banner" role="alert">{{ createGameError }}</p>
       }
+    </div>
+  </section>
 
-      <section class="rules-panel">
-        <div class="rules-panel__header">
-          <div>
-            <p class="eyebrow">New Here?</p>
-            <h2>Rules In One Minute</h2>
-          </div>
+  <section class="hero-window">
+    <div class="hero-window__chrome">
+      <span>Onboarding</span>
+    </div>
 
-          <button mat-stroked-button type="button" (click)="toggleRules()">
-            {{ showRules() ? 'Hide Rules' : 'Show Rules' }}
-          </button>
-        </div>
+    <div class="hero-window__body">
+      <p class="eyebrow tight">New Here?</p>
+      <h2>Getting Started</h2>
+      <div class="rules-panel__body">
+        <article class="rules-note">
+          <h3>Create A New Game</h3>
+          <p>
+            Start a new game above and share the link with your coworkers.
+          </p>
+        </article>
 
-        @if (showRules()) {
-          <div class="rules-panel__body">
-            <article class="rules-note">
-              <h3>Your Turn</h3>
-              <p>
-                Take resources, claim a project for later, or complete a project you can afford.
-              </p>
-            </article>
+        <article class="rules-note">
+          <h3>Badge In</h3>
+          <p>
+            Craft your badge and badge in.
+          </p>
+        </article>
 
-            <article class="rules-note">
-              <h3>Build Momentum</h3>
-              <p>
-                Completed projects grant permanent discounts, making bigger plays cheaper over time.
-              </p>
-            </article>
+        <article class="rules-note">
+          <h3>Start Game</h3>
+          <p>
+            Once everyone has badged in, the host clicks "Start Game" to begin.
+          </p>
+        </article>
+      </div>
 
-            <article class="rules-note">
-              <h3>Win The Office</h3>
-              <p>
-                Executives arrive automatically when you meet their requirements, and the first
-                player to trigger the prestige finish line starts the final round.
-              </p>
-            </article>
-          </div>
-        }
-      </section>
+      <h2>Game Overview</h2>
+      <div class="rules-panel__body">
+        <article class="rules-note">
+          <h3>Take Turns</h3>
+          <p>
+            The game goes player by player, with each player taking a single action.
+          </p>
+        </article>
+
+        <article class="rules-note">
+          <h3>Gain Prestige</h3>
+          <p>
+            Projects grant discounts and sometimes Prestige. When you meet an Executive's discount requirements, you claim that Executive and gain additional Prestige. 
+            Executives are first come, first served, and once claimed, they cannot change hands.
+          </p>
+        </article>
+
+        <article class="rules-note">
+          <h3>Win The Office</h3>
+          <p>
+            The first player to hit 15 prestige triggers the beginning of the end.
+            Any player who hasn't gotten a turn that round yet will get a turn.
+            At the end of the round, the player with the most prestige wins.
+          </p>
+        </article>
+      </div>
+
+      <h2>On Your Turn</h2>
+      <div class="rules-panel__body">
+        <article class="rules-note">
+          <h3>Take Resources</h3>
+          <p>
+            Take 3 different resources from the resource bank, or 2 of the same kind if there are 4 or more of that kind available.
+            You cannot hold more than 10 resources at once (including executive favor).
+          </p>
+        </article>
+
+        <article class="rules-note">
+          <h3>Claim Project</h3>
+          <p>
+            Call dib's on a project and move it to your workboard. It's not done, but no one else can do it. 
+            This will gain you executive favor if any remain. You can only have 3 projects on your workboard at a time.
+          </p>
+        </article>
+
+        <article class="rules-note">
+          <h3>Complete Project</h3>
+          <p>
+            If you have the combined resources (executive favor acts as a wildcard) and discounts, you can complete a project.
+            Completing a project grants you a discount corresponding to the project and grants you that projects prestige.
+          </p>
+        </article>
+      </div>
     </div>
   </section>
 </main>

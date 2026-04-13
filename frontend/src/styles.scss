@@ -51,8 +51,8 @@ html {
   --wc-bar-frame-bottom: rgba(236, 241, 248, 0.95);
   --wc-resource-top: rgba(96, 124, 168, 0.92);
   --wc-resource-bottom: rgba(67, 96, 141, 0.98);
-  --wc-discount-top: rgba(125, 173, 136, 0.92);
-  --wc-discount-bottom: rgba(78, 132, 91, 0.98);
+  --wc-discount-top: rgba(93, 132, 102, 0.92);
+  --wc-discount-bottom: rgba(103, 132, 112, 0.98);
   --wc-danger: #6f1e13;
   --wc-danger-bg: rgba(143, 39, 27, 0.08);
   --wc-danger-border: rgba(143, 39, 27, 0.35);
@@ -89,12 +89,12 @@ select {
   font: inherit;
 }
 
-.mat-mdc-unelevated-button.mat-primary {
-  --mdc-filled-button-container-color: var(--wc-accent-strong);
-  --mdc-filled-button-label-text-color: var(--wc-text-inverse);
-  --mdc-filled-button-container-shape: 0;
+.mat-mdc-unelevated-button {
   --mdc-filled-button-label-text-font: 'Trebuchet MS', Tahoma, sans-serif;
   --mdc-filled-button-label-text-tracking: 0.08em;
+  --mat-button-filled-container-shape: 0;
+  --mat-button-filled-container-color: var(--wc-accent-strong);
+  --mat-button-filled-label-text-color: var(--wc-text-inverse);
 }
 
 .mat-mdc-outlined-button {

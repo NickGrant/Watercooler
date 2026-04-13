@@ -7,21 +7,21 @@ namespace Watercooler\Api\Players;
 final class AvatarSelection
 {
     public function __construct(
-        public readonly string $body,
-        public readonly string $face,
-        public readonly string $hair,
+        // BEGIN AGENT CHANGE
+        public readonly string $id,
+        // END AGENT CHANGE
     ) {
     }
 
     /**
-     * @return array{body: string, face: string, hair: string}
+     * @return array{id: string}
      */
     public function toArray(): array
     {
         return [
-            'body' => $this->body,
-            'face' => $this->face,
-            'hair' => $this->hair,
+            // BEGIN AGENT CHANGE
+            'id' => $this->id,
+            // END AGENT CHANGE
         ];
     }
 }

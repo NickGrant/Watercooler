@@ -78,9 +78,7 @@ final class PdoJoinBootstrapRepository implements JoinBootstrapRepository
                 gp.display_name,
                 gp.is_host,
                 gp.join_status,
-                pa.body_option,
-                pa.face_option,
-                pa.hair_option
+                pa.avatar_option
             FROM game_players gp
             INNER JOIN player_avatars pa ON pa.player_id = gp.player_id
             WHERE gp.game_id = :game_id
@@ -112,14 +110,14 @@ final class PdoJoinBootstrapRepository implements JoinBootstrapRepository
 
             $connection->prepare(
                 <<<'SQL'
-                INSERT INTO player_avatars (player_id, body_option, face_option, hair_option)
-                VALUES (:player_id, :body_option, :face_option, :hair_option)
+                INSERT INTO player_avatars (player_id, avatar_option)
+                VALUES (:player_id, :avatar_option)
                 SQL
             )->execute([
                 'player_id' => $playerId,
-                'body_option' => $avatar->body,
-                'face_option' => $avatar->face,
-                'hair_option' => $avatar->hair,
+                // BEGIN AGENT CHANGE
+                'avatar_option' => $avatar->id,
+                // END AGENT CHANGE
             ]);
 
             $hostGamePlayerId = $this->findHostGamePlayerId($gameId);
@@ -178,9 +176,7 @@ final class PdoJoinBootstrapRepository implements JoinBootstrapRepository
                 gp.display_name,
                 gp.is_host,
                 gp.join_status,
-                pa.body_option,
-                pa.face_option,
-                pa.hair_option
+                pa.avatar_option
             FROM game_players gp
             INNER JOIN player_avatars pa ON pa.player_id = gp.player_id
             WHERE gp.game_id = :game_id
@@ -207,9 +203,9 @@ final class PdoJoinBootstrapRepository implements JoinBootstrapRepository
             isHost: (bool) $row['is_host'],
             joinStatus: (string) $row['join_status'],
             avatar: new AvatarSelection(
-                body: (string) $row['body_option'],
-                face: (string) $row['face_option'],
-                hair: (string) $row['hair_option'],
+                // BEGIN AGENT CHANGE
+                id: (string) $row['avatar_option'],
+                // END AGENT CHANGE
             ),
         );
     }

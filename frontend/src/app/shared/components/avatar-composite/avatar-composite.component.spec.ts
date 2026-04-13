@@ -15,32 +15,24 @@ describe('AvatarCompositeComponent', () => {
 
   it('renders normalized PNG layers for the provided avatar', () => {
     fixture.componentRef.setInput('avatar', {
-      body: 'body-2',
-      face: 'face-3',
-      hair: 'hair-4'
+      id: 'avatar-2'
     });
     fixture.detectChanges();
 
     const images = fixture.nativeElement.querySelectorAll('img');
 
-    expect(images.length).toBe(3);
-    expect(images[0].getAttribute('src')).toContain('avatar-options/normalized/body/body-2.png');
-    expect(images[1].getAttribute('src')).toContain('avatar-options/normalized/face/face-3.png');
-    expect(images[2].getAttribute('src')).toContain('avatar-options/normalized/hair/hair-4.png');
+    expect(images.length).toBe(1);
+    expect(images[0].getAttribute('src')).toContain('avatars/avatar-2.png');
   });
 
-  it('maps legacy avatar ids onto the new normalized PNG layers', () => {
+  it('falls back to the first supported avatar when the value is unknown', () => {
     fixture.componentRef.setInput('avatar', {
-      body: 'blazer',
-      face: 'corporate-neutral',
-      hair: 'side-part'
+      id: 'unknown-avatar'
     });
     fixture.detectChanges();
 
     const images = fixture.nativeElement.querySelectorAll('img');
 
-    expect(images[0].getAttribute('src')).toContain('avatar-options/normalized/body/body-1.png');
-    expect(images[1].getAttribute('src')).toContain('avatar-options/normalized/face/face-1.png');
-    expect(images[2].getAttribute('src')).toContain('avatar-options/normalized/hair/hair-1.png');
+    expect(images[0].getAttribute('src')).toContain('avatars/avatar-1.png');
   });
 });

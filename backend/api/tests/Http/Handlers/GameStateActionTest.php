@@ -69,9 +69,11 @@ final class HandlerLoadGameStateRepository implements JoinBootstrapRepository
     {
         $status = $phase === 'lobby' ? 'lobby' : 'active';
         $this->game = new GameSummary(1, 'synergy-report-telemetry', $status, $phase, 2, '2026-04-08 00:00:00');
+        // BEGIN AGENT CHANGE
         $this->players = [
-            new JoinedPlayer(1, 1, 'Pam', true, 'connected', new AvatarSelection('blazer', 'corporate-neutral', 'side-part')),
+            new JoinedPlayer(1, 1, 'Pam', true, 'connected', new AvatarSelection(id: 'avatar-1')),
         ];
+        // END AGENT CHANGE
     }
 
     public function findGameBySlug(string $slug): ?GameSummary

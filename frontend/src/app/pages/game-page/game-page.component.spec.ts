@@ -333,22 +333,20 @@ describe('GamePageComponent', () => {
     expect(session.playerName()).toBe('Pam');
   });
 
-  it('renders the avatar carousels in hair, face, body order', () => {
+  it('renders the employee badge avatar carousel', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
     fixture.detectChanges();
 
-    const labels = Array.from(
-      fixture.nativeElement.querySelectorAll('.avatar-carousel__label'),
-      (element: Element) => element.textContent?.trim()
+    expect(fixture.nativeElement.querySelector('.employee-badge')).not.toBeNull();
+    expect(
+      fixture.nativeElement.querySelector('.employee-badge__avatar-frame app-avatar-composite')
+    ).not.toBeNull();
+    expect(
+      fixture.nativeElement.querySelector('.employee-badge__avatar-label')?.textContent?.trim()
+    ).toBe('Avatar 01');
+    expect(fixture.nativeElement.querySelector('.employee-badge__submit')?.textContent).toContain(
+      'Badge In'
     );
-
-    expect(labels).toEqual(['Hair 01', 'Face 01', 'Outfit 01']);
-    expect(fixture.nativeElement.querySelector('.check-in-builder')).not.toBeNull();
-    expect(fixture.nativeElement.querySelector('.avatar-preview-panel__surface app-avatar-composite')).not.toBeNull();
-    expect(fixture.nativeElement.querySelector('.check-in-builder__action button')?.textContent).toContain('Join Game');
-    expect(fixture.nativeElement.textContent).not.toContain('Body:');
-    expect(fixture.nativeElement.textContent).not.toContain('Face:');
-    expect(fixture.nativeElement.textContent).not.toContain('Hair:');
   });
 
   it('renders the compact bank row and stacked player economy bars', () => {
@@ -406,18 +404,15 @@ describe('GamePageComponent', () => {
     expect(fixture.nativeElement.textContent).not.toContain('Turn Command Desk');
   });
 
-  it('cycles avatar selections through the image carousel controls', () => {
+  it('cycles avatar selections through the badge carousel controls', () => {
     const fixture = TestBed.createComponent(GamePageComponent);
     const session = TestBed.inject(GameSessionService);
 
-    fixture.componentInstance.cycleAvatarOption('hair', 1);
-    fixture.componentInstance.cycleAvatarOption('face', 1);
-    fixture.componentInstance.cycleAvatarOption('body', 1);
+    fixture.componentInstance.cycleAvatar(1);
+    fixture.componentInstance.cycleAvatar(1);
 
     expect(session.avatarDraft()).toEqual({
-      hair: 'hair-2',
-      face: 'face-2',
-      body: 'body-2'
+      id: 'avatar-3'
     });
   });
 
@@ -460,6 +455,7 @@ describe('GamePageComponent', () => {
 
     expect(rosterRow?.querySelector('.host-marker')?.textContent?.trim()).toBe('H');
     expect(rosterRow?.querySelector('.roster-badge')?.textContent).toContain('joined');
+    expect(rosterRow?.textContent).toContain('Avatar 01');
     expect(rosterRow?.querySelector('.roster-badge')?.textContent).not.toContain('Host');
   });
 

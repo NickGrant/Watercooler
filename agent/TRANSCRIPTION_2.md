@@ -639,8 +639,44 @@ I prepared a full checkpoint commit of the current repo state, including the lat
 
 ---
 
+#### Entry 234
+**User:**
+
+I have decided that composable avatar path is too much work for the return. I have generated and cut out several avatars. Please replace the existing system with a simple carousel that lets you cycle through them. I want the form to go like this:
+- avatar selection, avatars should be rounded via css
+- name input, center aligned
+- a badge
+
+**Assistant:**
+
+I replaced the multipart avatar builder with a single-avatar badge carousel, switched the API and session contract to a single `avatar.id`, updated the join UI to an employee-badge layout, and verified the focused backend and frontend tests against the new runtime path.
+
+---
+
+#### Entry 235
+**User:**
+
+can we go ahead and write a migration to remove the extra columns and remove the files that were part of the old flow, the assets, the generation scripts, etc...
+
+**Assistant:**
+
+I added a migration to collapse `player_avatars` to a single `avatar_option` column, updated the live repository code and setup docs to match that contract, and removed the retired layered-avatar assets, generation scripts, and review artifacts from the repo.
+
+---
+
+#### Entry 236
+**User:**
+
+docker is now up and running, can you ensure my DB is up to date
+
+**Assistant:**
+
+I checked the running Docker MariaDB container, found it was missing migrations `003`, `004`, and `005`, applied them manually, and verified that `schema_migrations`, `bug_reports`, `executives.portrait_asset`, and the simplified `player_avatars.avatar_option` schema were all current afterward.
+
+---
+
 ## Sync Notes
 
 - Latest recorded session: `002`
-- Latest recorded entry: `233`
+- Latest recorded entry: `236`
 

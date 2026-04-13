@@ -7,22 +7,7 @@
   [attr.aria-label]="ariaLabel()"
   role="img"
 >
-  <img
-    class="avatar-composite__layer"
-    [src]="'avatar-options/normalized/body/' + normalizedAvatar().body + '.png'"
-    alt=""
-    aria-hidden="true"
-  />
-  <img
-    class="avatar-composite__layer"
-    [src]="'avatar-options/normalized/face/' + normalizedAvatar().face + '.png'"
-    alt=""
-    aria-hidden="true"
-  />
-  <img
-    class="avatar-composite__layer"
-    [src]="'avatar-options/normalized/hair/' + normalizedAvatar().hair + '.png'"
-    alt=""
-    aria-hidden="true"
-  />
+  <!-- BEGIN AGENT CHANGE -->
+  <img class="avatar-composite__image" [src]="imagePath()" alt="" aria-hidden="true" />
+  <!-- END AGENT CHANGE -->
 </div>

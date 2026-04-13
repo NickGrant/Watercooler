@@ -23,7 +23,7 @@ final class JoinedPlayer
      *     displayName: string,
      *     isHost: bool,
      *     joinStatus: string,
-     *     avatar: array{body: string, face: string, hair: string}
+     *     avatar: array{id: string}
      * }
      */
     public function toArray(): array

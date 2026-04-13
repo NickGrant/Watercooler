@@ -6,6 +6,14 @@ This file stores completed work so `agent/STEPS.md` can stay small and useful.
 
 ## Completed Steps
 
+### STEP-117
+
+- Name: Replace composable avatars with a simple badge carousel
+- Priority: High
+- Blocked By: None
+- Blocks: None
+- Description: Replace the multipart avatar picker with a single-avatar carousel backed by the new cutout avatar assets, simplify the join form into an employee-badge layout, update the API/session contract to treat avatars as a single selection id, and remove the old layered-avatar runtime and assets.
+
 ### STEP-111
 
 - Name: Cap widescreen layout and relax current SCSS budgets

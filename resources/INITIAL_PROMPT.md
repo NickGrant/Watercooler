@@ -539,15 +539,13 @@ Provide 4–5 options each for:
 
 ## Technical Guidance
 
-Prefer composable SVG or layered vector parts.
+Prefer a simple avatar selection system that matches the live asset pipeline.
 
-Store avatar selections as structured configuration data rather than a flat image export.
+Store avatar selections as a single supported avatar option id rather than layered part selections.
 
 Example structure:
 
-- body option id
-- face option id
-- hair option id
+- avatar option id
 
 ---
 

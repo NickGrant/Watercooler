@@ -58,6 +58,7 @@ services:
       - ./database/migrations/002_seed_cards_and_executives.sql:/docker-entrypoint-initdb.d/002_seed_cards_and_executives.sql:ro
       - ./database/migrations/003_bug_report_capture.sql:/docker-entrypoint-initdb.d/003_bug_report_capture.sql:ro
       - ./database/migrations/004_executive_portrait_asset_compat.sql:/docker-entrypoint-initdb.d/004_executive_portrait_asset_compat.sql:ro
+      - ./database/migrations/005_single_avatar_option.sql:/docker-entrypoint-initdb.d/005_single_avatar_option.sql:ro
 
 volumes:
   frontend_node_modules:

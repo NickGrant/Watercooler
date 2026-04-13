@@ -1,89 +1,42 @@
 import { AvatarDraft } from '../models/avatar-draft.model';
 
-export type AvatarPart = keyof AvatarDraft;
-
 export interface AvatarOptionDefinition {
   value: string;
   label: string;
-  previewPath: string;
-  layerPath: string;
+  imagePath: string;
 }
 
-const AVATAR_OPTION_COUNTS: Record<AvatarPart, number> = {
-  body: 10,
-  face: 9,
-  hair: 12
-};
+// BEGIN AGENT CHANGE
+const AVATAR_OPTION_COUNT = 15;
 
-const AVATAR_LABEL_PREFIX: Record<AvatarPart, string> = {
-  body: 'Outfit',
-  face: 'Face',
-  hair: 'Hair'
-};
-
-const LEGACY_AVATAR_ALIASES: Record<AvatarPart, Record<string, string>> = {
-  body: {
-    blazer: 'body-1',
-    hoodie: 'body-2',
-    cardigan: 'body-3',
-    polo: 'body-4',
-    'power-suit': 'body-5'
-  },
-  face: {
-    'corporate-neutral': 'face-1',
-    'coffee-grin': 'face-2',
-    'meeting-fatigue': 'face-3',
-    'deadline-focus': 'face-4',
-    'visionary-smirk': 'face-5'
-  },
-  hair: {
-    'side-part': 'hair-1',
-    'executive-swoop': 'hair-2',
-    'startup-mess': 'hair-3',
-    'weekend-buzz': 'hair-4',
-    'presentation-curl': 'hair-5'
-  }
-};
-
-function buildAvatarOptions(part: AvatarPart): AvatarOptionDefinition[] {
-  return Array.from({ length: AVATAR_OPTION_COUNTS[part] }, (_, index) => {
+function buildAvatarOptions(): AvatarOptionDefinition[] {
+  return Array.from({ length: AVATAR_OPTION_COUNT }, (_, index) => {
     const number = index + 1;
-    const value = `${part}-${number}`;
+    const value = `avatar-${number}`;
 
     return {
       value,
-      label: `${AVATAR_LABEL_PREFIX[part]} ${String(number).padStart(2, '0')}`,
-      previewPath: `avatar-options/${part}/${value}.png`,
-      layerPath: `avatar-options/normalized/${part}/${value}.png`
+      label: `Avatar ${String(number).padStart(2, '0')}`,
+      imagePath: `avatars/${value}.png`
     };
   });
 }
 
-export const AVATAR_OPTIONS: Record<AvatarPart, AvatarOptionDefinition[]> = {
-  body: buildAvatarOptions('body'),
-  face: buildAvatarOptions('face'),
-  hair: buildAvatarOptions('hair')
-};
+export const AVATAR_OPTIONS: AvatarOptionDefinition[] = buildAvatarOptions();
 
-export function resolveAvatarValue(part: AvatarPart, value: string): string {
-  const candidateValue = LEGACY_AVATAR_ALIASES[part][value] ?? value;
-
-  return (
-    AVATAR_OPTIONS[part].find((option) => option.value === candidateValue)?.value ??
-    AVATAR_OPTIONS[part][0].value
-  );
+export function resolveAvatarValue(value: string): string {
+  return AVATAR_OPTIONS.find((option) => option.value === value)?.value ?? AVATAR_OPTIONS[0].value;
 }
 
-export function resolveAvatarOption(part: AvatarPart, value: string): AvatarOptionDefinition {
-  const resolvedValue = resolveAvatarValue(part, value);
+export function resolveAvatarOption(value: string): AvatarOptionDefinition {
+  const resolvedValue = resolveAvatarValue(value);
 
-  return AVATAR_OPTIONS[part].find((option) => option.value === resolvedValue) ?? AVATAR_OPTIONS[part][0];
+  return AVATAR_OPTIONS.find((option) => option.value === resolvedValue) ?? AVATAR_OPTIONS[0];
 }
 
 export function resolveAvatarDraft(avatar: AvatarDraft): AvatarDraft {
   return {
-    body: resolveAvatarValue('body', avatar.body),
-    face: resolveAvatarValue('face', avatar.face),
-    hair: resolveAvatarValue('hair', avatar.hair)
+    id: resolveAvatarValue(avatar.id)
   };
 }
+// END AGENT CHANGE

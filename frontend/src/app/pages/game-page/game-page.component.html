@@ -208,80 +208,67 @@
             room.
           </p>
 
-          <mat-form-field appearance="outline">
-            <mat-label>Display Name</mat-label>
-            <input
-              matInput
-              [ngModel]="session.playerName()"
-              (ngModelChange)="updatePlayerName($event)"
-              maxlength="25"
-              placeholder="Pam, Jim, Angela..."
-            />
-          </mat-form-field>
-
-        <!-- BEGIN AGENT CHANGE -->
-        <section class="check-in-builder">
-          <div class="check-in-builder__selectors">
-            <section class="avatar-carousel">
-              <div class="avatar-carousel__frame">
-                <button mat-mini-fab type="button" aria-label="Previous hair option" (click)="cycleAvatarOption('hair', -1)">
-                  &lsaquo;
-                </button>
-                <div class="avatar-carousel__label" aria-live="polite">
-                  Hair {{ currentAvatarOption('hair').label.slice(-2) }}
-                </div>
-                <button mat-mini-fab type="button" aria-label="Next hair option" (click)="cycleAvatarOption('hair', 1)">
-                  &rsaquo;
-                </button>
-              </div>
-            </section>
-
-            <section class="avatar-carousel">
-              <div class="avatar-carousel__frame">
-                <button mat-mini-fab type="button" aria-label="Previous face option" (click)="cycleAvatarOption('face', -1)">
-                  &lsaquo;
-                </button>
-                <div class="avatar-carousel__label" aria-live="polite">
-                  Face {{ currentAvatarOption('face').label.slice(-2) }}
-                </div>
-                <button mat-mini-fab type="button" aria-label="Next face option" (click)="cycleAvatarOption('face', 1)">
-                  &rsaquo;
-                </button>
-              </div>
-            </section>
-
-            <section class="avatar-carousel">
-              <div class="avatar-carousel__frame">
-                <button mat-mini-fab type="button" aria-label="Previous body option" (click)="cycleAvatarOption('body', -1)">
-                  &lsaquo;
-                </button>
-                <div class="avatar-carousel__label" aria-live="polite">
-                  Outfit {{ currentAvatarOption('body').label.slice(-2) }}
-                </div>
-                <button mat-mini-fab type="button" aria-label="Next body option" (click)="cycleAvatarOption('body', 1)">
-                  &rsaquo;
-                </button>
-              </div>
-            </section>
-          </div>
-
-          <section class="avatar-preview-panel avatar-preview-panel--hero">
-            <div class="avatar-preview-panel__surface">
-              <app-avatar-composite
-                [avatar]="session.avatarDraft()"
-                size="xlarge"
-                ariaLabel="Current avatar preview"
-              />
+          <!-- BEGIN AGENT CHANGE -->
+          <section class="employee-badge" aria-label="Employee badge check-in">
+            <div class="employee-badge__header">
+              <p class="employee-badge__eyebrow">Temporary Building Access</p>
+              <strong>Employee Badge</strong>
             </div>
-          </section>
 
-          <div class="check-in-builder__action">
-            <button mat-flat-button type="button" [disabled]="joinPending()" (click)="submitJoin()">
-              {{ joinPending() ? 'Submitting Badge...' : 'Join Game' }}
+            <section class="employee-badge__avatar-stage">
+              <button
+                mat-mini-fab
+                type="button"
+                aria-label="Previous avatar option"
+                (click)="cycleAvatar(-1)"
+              >
+                &lsaquo;
+              </button>
+
+              <div class="employee-badge__avatar-frame">
+                <app-avatar-composite
+                  [avatar]="session.avatarDraft()"
+                  size="xlarge"
+                  ariaLabel="Selected employee badge avatar"
+                />
+              </div>
+
+              <button
+                mat-mini-fab
+                type="button"
+                aria-label="Next avatar option"
+                (click)="cycleAvatar(1)"
+              >
+                &rsaquo;
+              </button>
+            </section>
+
+            <p class="employee-badge__avatar-label" aria-live="polite">
+              {{ currentAvatarOption().label }}
+            </p>
+
+            <mat-form-field appearance="outline" class="employee-badge__name-field">
+              <mat-label>Display Name</mat-label>
+              <input
+                matInput
+                [ngModel]="session.playerName()"
+                (ngModelChange)="updatePlayerName($event)"
+                maxlength="25"
+                placeholder="Display Name"
+              />
+            </mat-form-field>
+
+            <button
+              mat-flat-button
+              type="button"
+              class="employee-badge__submit"
+              [disabled]="joinPending()"
+              (click)="submitJoin()"
+            >
+              {{ joinPending() ? 'Badging In...' : 'Badge In' }}
             </button>
-          </div>
-        </section>
-        <!-- END AGENT CHANGE -->
+          </section>
+          <!-- END AGENT CHANGE -->
       } @else if (session.stage() === 'in-game') {
         @if (isCompletedGame()) {
           <h2>Final Results Desk</h2>
@@ -441,11 +428,9 @@
                       <span class="host-marker" aria-label="Host">H</span>
                     }
                   </strong>
-                  <p>
-                    {{ avatarOptionLabel('body', player.avatar.body) }} /
-                    {{ avatarOptionLabel('face', player.avatar.face) }} /
-                    {{ avatarOptionLabel('hair', player.avatar.hair) }}
-                  </p>
+                  <!-- BEGIN AGENT CHANGE -->
+                  <p>{{ avatarOptionLabel(player.avatar.id) }}</p>
+                  <!-- END AGENT CHANGE -->
                 </div>
               </div>
               <span class="roster-badge">{{ player.joinStatus }}</span>

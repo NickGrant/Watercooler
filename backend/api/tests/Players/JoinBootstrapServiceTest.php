@@ -28,9 +28,9 @@ final class JoinBootstrapServiceTest extends TestCase
         $result = $service->bootstrap('synergy-report-telemetry', [
             'displayName' => '  Pam  ',
             'avatar' => [
-                'body' => 'body-1',
-                'face' => 'face-1',
-                'hair' => 'hair-1',
+                // BEGIN AGENT CHANGE
+                'id' => 'avatar-1',
+                // END AGENT CHANGE
             ],
         ]);
 
@@ -53,9 +53,9 @@ final class JoinBootstrapServiceTest extends TestCase
         $initial = $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                'body' => 'body-1',
-                'face' => 'face-1',
-                'hair' => 'hair-1',
+                // BEGIN AGENT CHANGE
+                'id' => 'avatar-1',
+                // END AGENT CHANGE
             ],
         ]);
 
@@ -79,9 +79,9 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                'body' => 'body-1',
-                'face' => 'face-1',
-                'hair' => 'hair-1',
+                // BEGIN AGENT CHANGE
+                'id' => 'avatar-1',
+                // END AGENT CHANGE
             ],
         ]);
 
@@ -91,9 +91,9 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                'body' => 'body-2',
-                'face' => 'face-2',
-                'hair' => 'hair-3',
+                // BEGIN AGENT CHANGE
+                'id' => 'avatar-2',
+                // END AGENT CHANGE
             ],
         ]);
     }
@@ -112,9 +112,9 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'This Display Name Is Way Too Long',
             'avatar' => [
-                'body' => 'body-1',
-                'face' => 'face-1',
-                'hair' => 'hair-1',
+                // BEGIN AGENT CHANGE
+                'id' => 'avatar-1',
+                // END AGENT CHANGE
             ],
         ]);
     }
@@ -133,9 +133,9 @@ final class JoinBootstrapServiceTest extends TestCase
         $service->bootstrap('synergy-report-telemetry', [
             'displayName' => 'Pam',
             'avatar' => [
-                'body' => 'unknown',
-                'face' => 'face-1',
-                'hair' => 'hair-1',
+                // BEGIN AGENT CHANGE
+                'id' => 'unknown',
+                // END AGENT CHANGE
             ],
         ]);
     }

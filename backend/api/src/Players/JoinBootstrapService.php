@@ -85,11 +85,11 @@ final class JoinBootstrapService
             );
         }
 
+        // BEGIN AGENT CHANGE
         $avatar = new AvatarSelection(
-            body: trim((string) ($payload['avatar']['body'] ?? '')),
-            face: trim((string) ($payload['avatar']['face'] ?? '')),
-            hair: trim((string) ($payload['avatar']['hair'] ?? '')),
+            id: trim((string) ($payload['avatar']['id'] ?? '')),
         );
+        // END AGENT CHANGE
 
         if (!$this->avatarCatalog->isValid($avatar)) {
             throw new JoinBootstrapException(

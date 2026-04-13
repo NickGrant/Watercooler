@@ -42,9 +42,7 @@ Persist enough information to reconstruct any active or completed game and suppo
 
 ### Avatar Data
 
-- body option id
-- face option id
-- hair option id
+- avatar option id
 
 ### Board State
 
@@ -63,7 +61,7 @@ Persist enough information to reconstruct any active or completed game and suppo
 ## Modeling Notes
 
 - keep theme content separable from rules data when practical
-- prefer stable ids for cards, executives, and avatar parts
+- prefer stable ids for cards, executives, and avatars
 - keep enough event or turn history to debug or replay critical transitions
 
 ## Open Design Choice

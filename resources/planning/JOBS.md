@@ -245,3 +245,11 @@ This file maps major product and repo-operating jobs to the steps that deliver t
 - Status: Complete
 - Description: Automatically remove abandoned games that have been inactive for more than 48 hours and document how shared-hosting cron should trigger the purge every 24 hours.
 - Steps: STEP-115, STEP-116
+
+### JOB-031
+
+- Name: Simple Avatar Badge Carousel
+- Priority: High
+- Status: Complete
+- Description: Replace the composable avatar system with a simpler single-avatar carousel based on the new cutout portraits, reshape the join surface into an employee-badge style check-in flow, and remove the retired layered-avatar pipeline from the runtime and repo surface.
+- Steps: STEP-117

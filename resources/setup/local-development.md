@@ -42,37 +42,9 @@ npm.cmd test -- --watch=false --browsers=ChromeHeadless
 npm.cmd run start -- --host 0.0.0.0 --port 4200
 ```
 
-To normalize a new batch of avatar PNG layers onto the shared composite canvas, run from the repository root:
+The live app now uses precomposed avatar cutouts from:
 
-```powershell
-python frontend/scripts/normalize_avatar_pngs.py
-```
-
-That script reads raw PNGs from:
-
-- `frontend/public/avatar-options/body/`
-- `frontend/public/avatar-options/face/`
-- `frontend/public/avatar-options/hair/`
-
-and regenerates the stack-ready outputs plus placement metadata in:
-
-- `frontend/public/avatar-options/normalized/`
-
-To generate the full review set for every supported body/face/hair combination, run:
-
-```powershell
-python frontend/scripts/generate_avatar_composites.py --clean
-```
-
-That command writes review-sized composites, per-body contact sheets, and a manifest to:
-
-- `frontend/tmp/avatar-review/`
-
-To apply the scripted avatar consistency fixes and regenerate the normalized assets, review set, and audit in one pass, run:
-
-```powershell
-python frontend/scripts/repair_avatar_layers.py
-```
+- `frontend/public/avatars/`
 
 ### API
 
@@ -108,11 +80,12 @@ The current schema and follow-up migrations live in:
 - `database/migrations/002_seed_cards_and_executives.sql`
 - `database/migrations/003_bug_report_capture.sql`
 - `database/migrations/004_executive_portrait_asset_compat.sql`
+- `database/migrations/005_single_avatar_option.sql`
 
 One local validation path used during bootstrap was:
 
 ```powershell
-& C:\xampp\mysql\bin\mysql.exe -u root -e "DROP DATABASE IF EXISTS watercooler_bootstrap_check; CREATE DATABASE watercooler_bootstrap_check CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; USE watercooler_bootstrap_check; SOURCE C:/xampp/htdocs/watercooler/database/migrations/001_initial_schema.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/002_seed_cards_and_executives.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/003_bug_report_capture.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/004_executive_portrait_asset_compat.sql; SHOW TABLES; DROP DATABASE watercooler_bootstrap_check;"
+& C:\xampp\mysql\bin\mysql.exe -u root -e "DROP DATABASE IF EXISTS watercooler_bootstrap_check; CREATE DATABASE watercooler_bootstrap_check CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci; USE watercooler_bootstrap_check; SOURCE C:/xampp/htdocs/watercooler/database/migrations/001_initial_schema.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/002_seed_cards_and_executives.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/003_bug_report_capture.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/004_executive_portrait_asset_compat.sql; SOURCE C:/xampp/htdocs/watercooler/database/migrations/005_single_avatar_option.sql; SHOW TABLES; DROP DATABASE watercooler_bootstrap_check;"
 ```
 
 When updating an existing local or hosted database, apply every migration in order rather than assuming the initial schema file is sufficient. In particular, older databases that predate `004_executive_portrait_asset_compat.sql` can load lobby data successfully but will fail at runtime when start-game or active-state queries request `executives.portrait_asset`.
@@ -174,6 +147,7 @@ The database container initializes the current schema automatically from:
 - `database/migrations/002_seed_cards_and_executives.sql`
 - `database/migrations/003_bug_report_capture.sql`
 - `database/migrations/004_executive_portrait_asset_compat.sql`
+- `database/migrations/005_single_avatar_option.sql`
 
 ## Bootstrap Verification Already Completed
 

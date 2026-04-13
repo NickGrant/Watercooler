@@ -22,7 +22,6 @@ import {
 import {
   AVATAR_OPTIONS,
   AvatarOptionDefinition,
-  AvatarPart,
   resolveAvatarOption
 } from '../../core/avatar/avatar-options';
 import { AvatarDraft } from '../../core/models/avatar-draft.model';
@@ -123,7 +122,9 @@ export class GamePageComponent {
   readonly bugReportMessage = signal('');
   readonly startedGame = signal<ActiveGameState | null>(null);
   readonly selectedTakeResources = signal<ResourceType[]>([]);
-  readonly avatarOptions: Record<AvatarPart, AvatarOptionDefinition[]> = AVATAR_OPTIONS;
+  // BEGIN AGENT CHANGE
+  readonly avatarOptions: AvatarOptionDefinition[] = AVATAR_OPTIONS;
+  // END AGENT CHANGE
   readonly resourceTypes: ResourceType[] = [
     'coffee',
     'spreadsheets',
@@ -288,29 +289,31 @@ export class GamePageComponent {
     this.session.setPlayerName(name);
   }
 
-  updateAvatar(part: keyof AvatarDraft, value: string): void {
-    this.session.patchAvatarDraft({ [part]: value });
+  // BEGIN AGENT CHANGE
+  updateAvatar(value: string): void {
+    this.session.patchAvatarDraft({ id: value });
   }
 
-  cycleAvatarOption(part: AvatarPart, direction: -1 | 1): void {
-    const options = this.avatarOptions[part];
-    const currentValue = this.session.avatarDraft()[part];
+  cycleAvatar(direction: -1 | 1): void {
+    const options = this.avatarOptions;
+    const currentValue = this.session.avatarDraft().id;
     const currentIndex = Math.max(
       0,
       options.findIndex((option) => option.value === currentValue)
     );
     const nextIndex = (currentIndex + direction + options.length) % options.length;
 
-    this.updateAvatar(part, options[nextIndex].value);
+    this.updateAvatar(options[nextIndex].value);
   }
 
-  currentAvatarOption(part: AvatarPart): AvatarOptionDefinition {
-    return resolveAvatarOption(part, this.session.avatarDraft()[part]);
+  currentAvatarOption(): AvatarOptionDefinition {
+    return resolveAvatarOption(this.session.avatarDraft().id);
   }
 
-  avatarOptionLabel(part: AvatarPart, value: string): string {
-    return resolveAvatarOption(part, value).label;
+  avatarOptionLabel(value: string): string {
+    return resolveAvatarOption(value).label;
   }
+  // END AGENT CHANGE
 
   toggleRulesHelp(): void {
     this.showRulesHelp.set(!this.showRulesHelp());

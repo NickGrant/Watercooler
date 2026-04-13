@@ -1,11 +1,9 @@
+// BEGIN AGENT CHANGE
 export interface AvatarDraft {
-  body: string;
-  face: string;
-  hair: string;
+  id: string;
 }
 
 export const DEFAULT_AVATAR_DRAFT: AvatarDraft = {
-  body: 'body-1',
-  face: 'face-1',
-  hair: 'hair-1'
+  id: 'avatar-1'
 };
+// END AGENT CHANGE

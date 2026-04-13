@@ -6,7 +6,7 @@ Before entering live play, a user must:
 
 1. open a game URL
 2. enter a display name
-3. choose avatar parts
+3. choose an avatar
 4. submit join
 5. receive join acceptance
 6. begin authenticated state sync through the API

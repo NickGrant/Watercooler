@@ -70,8 +70,10 @@ describe('GamesApiService', () => {
 
     service
       .joinBootstrap('synergy-report-telemetry', {
+        // BEGIN AGENT CHANGE
         displayName: 'Pam',
         avatar: DEFAULT_AVATAR_DRAFT
+        // END AGENT CHANGE
       })
       .subscribe((result) => {
         response = result;

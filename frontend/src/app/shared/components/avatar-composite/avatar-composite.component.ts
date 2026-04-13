@@ -13,5 +13,8 @@ export class AvatarCompositeComponent {
   readonly ariaLabel = input('Avatar preview');
   readonly size = input<'small' | 'medium' | 'large' | 'xlarge'>('medium');
 
+  // BEGIN AGENT CHANGE
   readonly normalizedAvatar = computed(() => resolveAvatarDraft(this.avatar()));
+  readonly imagePath = computed(() => `avatars/${this.normalizedAvatar().id}.png`);
+  // END AGENT CHANGE
 }

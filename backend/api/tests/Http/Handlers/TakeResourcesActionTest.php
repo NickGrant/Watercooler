@@ -15,8 +15,8 @@ use Watercooler\Api\Games\StartGamePlayer;
 use Watercooler\Api\Games\TakeResourcesRepository;
 use Watercooler\Api\Games\TakeResourcesService;
 use Watercooler\Api\Http\Handlers\TakeResourcesAction;
-use Watercooler\Api\Http\Request;
-use Watercooler\Api\Http\Routing\RouteMatch;
+use CtrlStudio\GameApi\Http\Request;
+use CtrlStudio\GameApi\Http\Routing\RouteMatch;
 
 final class TakeResourcesActionTest extends TestCase
 {

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Watercooler\Api\Tests;
 
+use CtrlStudio\GameApi\Http\Request;
 use PHPUnit\Framework\TestCase;
 use Watercooler\Api\Application;
 
@@ -25,6 +26,26 @@ final class ApplicationTest extends TestCase
 
         self::assertSame(200, $response->statusCode);
         self::assertStringContainsString('"service": "watercooler-api"', $response->body);
+    }
+
+    public function testItHandlesCorsPreflightThroughSharedPolicy(): void
+    {
+        $_ENV['CORS_ALLOWED_ORIGINS'] = 'https://watercooler.ctrl-studio.com';
+
+        $response = Application::boot(dirname(__DIR__))->handleRequest(new Request(
+            method: 'OPTIONS',
+            path: '/api/games',
+            headers: [
+                'origin' => 'https://watercooler.ctrl-studio.com',
+                'access-control-request-method' => 'POST',
+            ],
+        ));
+
+        self::assertSame(204, $response->statusCode);
+        self::assertSame(
+            'https://watercooler.ctrl-studio.com',
+            $response->headers['Access-Control-Allow-Origin'] ?? null,
+        );
     }
 
     public function testItReturnsNotFoundForUnknownRoutes(): void

@@ -48,6 +48,14 @@ The live app now uses precomposed avatar cutouts from:
 
 ### API
 
+The API targets PHP 8.3 and consumes the private `ctrl-studio/game-api-core` Composer package.
+
+For host-local Composer, configure a fine-grained GitHub token with read access to `ctrl-game-api-core`:
+
+```powershell
+composer config --global github-oauth.github.com YOUR_FINE_GRAINED_TOKEN
+```
+
 Run from `backend/api/`:
 
 ```powershell
@@ -125,6 +133,12 @@ Validate the composed configuration:
 
 ```powershell
 docker compose config
+```
+
+Before starting Docker, expose the same read-only GitHub token so the API container can install the private shared package:
+
+```powershell
+$env:CTRL_GAME_API_GITHUB_TOKEN = "YOUR_FINE_GRAINED_TOKEN"
 ```
 
 Start the current local stack:

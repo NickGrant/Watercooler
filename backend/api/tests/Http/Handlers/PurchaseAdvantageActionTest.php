@@ -17,8 +17,8 @@ use Watercooler\Api\Games\PurchaseAdvantageRepository;
 use Watercooler\Api\Games\PurchaseAdvantageService;
 use Watercooler\Api\Games\StartGamePlayer;
 use Watercooler\Api\Http\Handlers\PurchaseAdvantageAction;
-use Watercooler\Api\Http\Request;
-use Watercooler\Api\Http\Routing\RouteMatch;
+use CtrlStudio\GameApi\Http\Request;
+use CtrlStudio\GameApi\Http\Routing\RouteMatch;
 
 final class PurchaseAdvantageActionTest extends TestCase
 {

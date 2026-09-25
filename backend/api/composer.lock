@@ -4,8 +4,67 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "9cc05d0b9bb9e29a40f7848a5b937db4",
-    "packages": [],
+    "content-hash": "2bbbc67381187a964512e1f4739b4b6f",
+    "packages": [
+        {
+            "name": "ctrl-studio/game-api-core",
+            "version": "v0.1.1",
+            "source": {
+                "type": "git",
+                "url": "git@github.com:NickGrant/ctrl-game-api-core.git",
+                "reference": "b542bc7189ce0328a6c524b1f281c5bdc0e32fbb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/NickGrant/ctrl-game-api-core/zipball/b542bc7189ce0328a6c524b1f281c5bdc0e32fbb",
+                "reference": "b542bc7189ce0328a6c524b1f281c5bdc0e32fbb",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "ext-pdo_mysql": "*",
+                "php": "^8.3"
+            },
+            "require-dev": {
+                "ext-pdo_sqlite": "*",
+                "phpstan/phpstan": "^2.1",
+                "phpunit/phpunit": "^11.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "CtrlStudio\\GameApi\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "CtrlStudio\\GameApi\\Tests\\": "tests/"
+                }
+            },
+            "scripts": {
+                "analyse": [
+                    "phpstan analyse"
+                ],
+                "test": [
+                    "phpunit"
+                ],
+                "verify": [
+                    "@analyse",
+                    "@test"
+                ]
+            },
+            "license": [
+                "proprietary"
+            ],
+            "description": "Framework-light PHP infrastructure shared by CTRL Studio web games.",
+            "support": {
+                "source": "https://github.com/NickGrant/ctrl-game-api-core/tree/v0.1.1",
+                "issues": "https://github.com/NickGrant/ctrl-game-api-core/issues"
+            },
+            "time": "2026-09-24T04:15:36+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "myclabs/deep-copy",
@@ -1795,7 +1854,7 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {
-        "php": "^8.2"
+        "php": "^8.3"
     },
     "platform-dev": [],
     "plugin-api-version": "2.3.0"

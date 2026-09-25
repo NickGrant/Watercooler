@@ -1,9 +1,17 @@
 {
   "name": "watercooler/api",
   "description": "Watercooler HTTP API scaffold",
+  "license": "proprietary",
   "type": "project",
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/NickGrant/ctrl-game-api-core"
+    }
+  ],
   "require": {
-    "php": "^8.2"
+    "php": "^8.3",
+    "ctrl-studio/game-api-core": "^0.1.1"
   },
   "require-dev": {
     "phpunit/phpunit": "^11.5"
@@ -22,8 +30,9 @@
     "purge-stale-games": "@php bin/purge-stale-games.php",
     "serve": "php -S 127.0.0.1:8080 -t public public/index.php",
     "lint": [
-      "@php -r \"foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator('src')) as $file) { if ($file->getExtension() === 'php') { passthru('php -l ' . escapeshellarg($file->getPathname()), $code); if ($code !== 0) { exit($code); } } }\"",
-      "@php -l public/index.php"
+      "@php -r \"foreach (new RecursiveIteratorIterator(new RecursiveDirectoryIterator('src')) as \\$file) { if (\\$file->getExtension() === 'php') { passthru('php -l ' . escapeshellarg(\\$file->getPathname()), \\$code); if (\\$code !== 0) { exit(\\$code); } } }\"",
+      "@php -l public/index.php",
+      "@php -l bin/purge-stale-games.php"
     ],
     "test": "phpunit"
   },

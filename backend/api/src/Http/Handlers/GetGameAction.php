@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Watercooler\Api\Http\Handlers;
 
 use Watercooler\Api\Games\GameRepository;
-use Watercooler\Api\Http\JsonResponse;
-use Watercooler\Api\Http\Request;
-use Watercooler\Api\Http\Response;
-use Watercooler\Api\Http\Routing\RouteMatch;
+use CtrlStudio\GameApi\Http\JsonResponse;
+use CtrlStudio\GameApi\Http\Request;
+use CtrlStudio\GameApi\Http\Response;
+use CtrlStudio\GameApi\Http\Routing\RouteMatch;
 
 final class GetGameAction
 {

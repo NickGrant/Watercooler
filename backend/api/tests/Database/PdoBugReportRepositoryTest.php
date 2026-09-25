@@ -7,7 +7,7 @@ namespace Watercooler\Api\Tests\Database;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use Watercooler\Api\BugReports\BugReportSubmission;
-use Watercooler\Api\Config\DatabaseConfig;
+use CtrlStudio\GameApi\Config\DatabaseConfig;
 use Watercooler\Api\Database\PdoBugReportRepository;
 
 final class PdoBugReportRepositoryTest extends TestCase

@@ -14,8 +14,8 @@ use Watercooler\Api\Games\StartGameRepository;
 use Watercooler\Api\Games\StartGameService;
 use Watercooler\Api\Games\StartGameSetup;
 use Watercooler\Api\Http\Handlers\StartGameAction;
-use Watercooler\Api\Http\Request;
-use Watercooler\Api\Http\Routing\RouteMatch;
+use CtrlStudio\GameApi\Http\Request;
+use CtrlStudio\GameApi\Http\Routing\RouteMatch;
 
 final class StartGameActionTest extends TestCase
 {

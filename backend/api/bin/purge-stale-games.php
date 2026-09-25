@@ -2,16 +2,20 @@
 
 declare(strict_types=1);
 
-use Watercooler\Api\Config\AppConfig;
-use Watercooler\Api\Config\Env;
-use Watercooler\Api\Config\EnvFile;
+use CtrlStudio\GameApi\Config\AppConfig;
+use CtrlStudio\GameApi\Config\Env;
+use CtrlStudio\GameApi\Config\EnvFile;
 use Watercooler\Api\Database\PdoStaleGamePurgeRepository;
 use Watercooler\Api\Maintenance\StaleGamePurgeService;
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 EnvFile::loadIfPresent(dirname(__DIR__) . '/.env');
-$config = AppConfig::fromEnv(new Env());
+$config = AppConfig::fromEnv(
+    new Env(),
+    defaultDatabaseName: 'watercooler',
+    defaultDatabaseUser: 'watercooler',
+);
 $service = new StaleGamePurgeService(
     new PdoStaleGamePurgeRepository($config->database),
 );

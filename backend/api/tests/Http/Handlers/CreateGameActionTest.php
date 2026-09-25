@@ -10,8 +10,8 @@ use Watercooler\Api\Games\GameRepository;
 use Watercooler\Api\Games\GameSummary;
 use Watercooler\Api\Games\SlugGenerator;
 use Watercooler\Api\Http\Handlers\CreateGameAction;
-use Watercooler\Api\Http\Request;
-use Watercooler\Api\Http\Routing\RouteMatch;
+use CtrlStudio\GameApi\Http\Request;
+use CtrlStudio\GameApi\Http\Routing\RouteMatch;
 
 final class CreateGameActionTest extends TestCase
 {

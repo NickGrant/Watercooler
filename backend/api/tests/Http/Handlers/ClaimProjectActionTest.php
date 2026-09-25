@@ -16,8 +16,8 @@ use Watercooler\Api\Games\PlayerCardView;
 use Watercooler\Api\Games\PlayerResourceSet;
 use Watercooler\Api\Games\StartGamePlayer;
 use Watercooler\Api\Http\Handlers\ClaimProjectAction;
-use Watercooler\Api\Http\Request;
-use Watercooler\Api\Http\Routing\RouteMatch;
+use CtrlStudio\GameApi\Http\Request;
+use CtrlStudio\GameApi\Http\Routing\RouteMatch;
 
 final class ClaimProjectActionTest extends TestCase
 {

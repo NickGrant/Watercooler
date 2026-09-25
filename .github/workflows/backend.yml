@@ -1,0 +1,53 @@
+name: Backend
+
+on:
+  pull_request:
+    paths:
+      - "backend/api/**"
+      - "database/migrations/**"
+      - "docker-compose.yml"
+      - ".github/workflows/backend.yml"
+  push:
+    branches:
+      - master
+    paths:
+      - "backend/api/**"
+      - "database/migrations/**"
+      - "docker-compose.yml"
+      - ".github/workflows/backend.yml"
+  workflow_dispatch:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: pdo_mysql, pdo_sqlite
+          tools: composer
+          coverage: none
+
+      - name: Configure private Composer authentication
+        run: composer config --global github-oauth.github.com "${{ secrets.CTRL_GAME_API_GITHUB_TOKEN }}"
+
+      - name: Validate Composer metadata
+        working-directory: backend/api
+        run: composer validate --strict
+
+      - name: Install backend dependencies
+        working-directory: backend/api
+        run: composer install --no-interaction --prefer-dist
+
+      - name: Lint backend
+        working-directory: backend/api
+        run: composer lint
+
+      - name: Test backend
+        working-directory: backend/api
+        run: composer test

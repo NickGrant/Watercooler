@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace Watercooler\Api;
 
-use Watercooler\Api\Config\AppConfig;
-use Watercooler\Api\Config\Env;
-use Watercooler\Api\Config\EnvFile;
+use CtrlStudio\GameApi\Config\AppConfig;
+use CtrlStudio\GameApi\Config\Env;
+use CtrlStudio\GameApi\Config\EnvFile;
 use Watercooler\Api\Database\PdoBugReportRepository;
 use Watercooler\Api\Database\PdoGameRepository;
 use Watercooler\Api\Database\PdoJoinBootstrapRepository;
@@ -31,11 +31,12 @@ use Watercooler\Api\Http\Handlers\JoinBootstrapAction;
 use Watercooler\Api\Http\Handlers\PurchaseAdvantageAction;
 use Watercooler\Api\Http\Handlers\StartGameAction;
 use Watercooler\Api\Http\Handlers\TakeResourcesAction;
-use Watercooler\Api\Http\JsonResponse;
-use Watercooler\Api\Http\Request;
-use Watercooler\Api\Http\Response;
-use Watercooler\Api\Http\Router;
-use Watercooler\Api\Http\Routing\RouteMatch;
+use CtrlStudio\GameApi\Http\CorsPolicy;
+use CtrlStudio\GameApi\Http\JsonResponse;
+use CtrlStudio\GameApi\Http\Request;
+use CtrlStudio\GameApi\Http\Response;
+use CtrlStudio\GameApi\Http\Router;
+use CtrlStudio\GameApi\Http\Routing\RouteMatch;
 use Watercooler\Api\Players\AvatarCatalog;
 use Watercooler\Api\Players\JoinBootstrapService;
 use Watercooler\Api\Players\SecureSessionTokenGenerator;
@@ -43,16 +44,22 @@ use Watercooler\Api\Players\SecureSessionTokenGenerator;
 final class Application
 {
     private function __construct(
-        private readonly string $basePath,
         private readonly AppConfig $config,
         private readonly Router $router,
+        private readonly CorsPolicy $corsPolicy,
     ) {
     }
 
     public static function boot(string $basePath): self
     {
         EnvFile::loadIfPresent($basePath . '/.env');
-        $config = AppConfig::fromEnv(new Env());
+        $env = new Env();
+        $config = AppConfig::fromEnv(
+            $env,
+            defaultDatabaseName: 'watercooler',
+            defaultDatabaseUser: 'watercooler',
+        );
+        $corsPolicy = CorsPolicy::fromEnv($env);
         $router = new Router();
         $gameRepository = new PdoGameRepository($config->database);
         $joinBootstrapRepository = new PdoJoinBootstrapRepository($config->database);
@@ -101,30 +108,38 @@ final class Application
         $router->post('/api/games/{slug}/take-resources', static fn(Request $request, RouteMatch $match): Response => $takeResourcesAction($request, $match));
         $router->get('/api/games/{slug}/state', static fn(Request $request, RouteMatch $match): Response => $gameStateAction($request, $match));
 
-        return new self($basePath, $config, $router);
+        return new self($config, $router, $corsPolicy);
     }
 
     public function handle(): Response
     {
+        return $this->handleRequest(Request::fromGlobals());
+    }
+
+    public function handleRequest(Request $request): Response
+    {
+        if ($request->isPreflight()) {
+            return $this->corsPolicy->preflight($request);
+        }
+
         try {
-            $request = Request::fromGlobals();
             $match = $this->router->match($request);
 
-            if ($match === null) {
-                return JsonResponse::notFound([
+            $response = $match === null
+                ? JsonResponse::notFound([
                     'error' => 'route_not_found',
                     'message' => 'No API route matched this request.',
-                ]);
-            }
-
-            return ($match->handler)($request, $match);
+                ])
+                : ($match->handler)($request, $match);
         } catch (\Throwable $exception) {
-            return JsonResponse::serverError([
+            $response = JsonResponse::serverError([
                 'error' => 'internal_server_error',
                 'message' => $this->config->debug
                     ? $exception->getMessage()
                     : 'The API could not process this request.',
             ]);
         }
+
+        return $this->corsPolicy->apply($request, $response);
     }
 }

@@ -1,6 +1,7 @@
 {
   "name": "watercooler/api",
   "description": "Watercooler HTTP API scaffold",
+  "license": "proprietary",
   "type": "project",
   "repositories": [
     {

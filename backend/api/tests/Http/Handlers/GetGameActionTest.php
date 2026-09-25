@@ -8,8 +8,8 @@ use PHPUnit\Framework\TestCase;
 use Watercooler\Api\Games\GameRepository;
 use Watercooler\Api\Games\GameSummary;
 use Watercooler\Api\Http\Handlers\GetGameAction;
-use Watercooler\Api\Http\Request;
-use Watercooler\Api\Http\Routing\RouteMatch;
+use CtrlStudio\GameApi\Http\Request;
+use CtrlStudio\GameApi\Http\Routing\RouteMatch;
 
 final class GetGameActionTest extends TestCase
 {

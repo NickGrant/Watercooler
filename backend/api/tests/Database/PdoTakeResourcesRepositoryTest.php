@@ -6,7 +6,7 @@ namespace Watercooler\Api\Tests\Database;
 
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
-use Watercooler\Api\Config\DatabaseConfig;
+use CtrlStudio\GameApi\Config\DatabaseConfig;
 use Watercooler\Api\Database\PdoTakeResourcesRepository;
 use Watercooler\Api\Games\ActiveGamePlayer;
 use Watercooler\Api\Games\ActiveGameState;

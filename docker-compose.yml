@@ -26,6 +26,8 @@ services:
       APP_ENV: development
       APP_DEBUG: "1"
       APP_URL: http://localhost:8080
+      COMPOSER_AUTH: >-
+        {"github-oauth":{"github.com":"${CTRL_GAME_API_GITHUB_TOKEN:-}"}}
       DB_HOST: db
       DB_PORT: 3306
       DB_NAME: watercooler

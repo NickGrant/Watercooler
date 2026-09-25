@@ -14,8 +14,8 @@ use Watercooler\Api\BugReports\BugReportSubmission;
 use Watercooler\Api\Games\GameRepository;
 use Watercooler\Api\Games\GameSummary;
 use Watercooler\Api\Http\Handlers\SubmitBugReportAction;
-use Watercooler\Api\Http\Request;
-use Watercooler\Api\Http\Routing\RouteMatch;
+use CtrlStudio\GameApi\Http\Request;
+use CtrlStudio\GameApi\Http\Routing\RouteMatch;
 
 final class SubmitBugReportActionTest extends TestCase
 {

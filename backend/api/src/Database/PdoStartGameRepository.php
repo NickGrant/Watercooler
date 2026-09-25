@@ -5,7 +5,8 @@ declare(strict_types=1);
 namespace Watercooler\Api\Database;
 
 use PDO;
-use Watercooler\Api\Config\DatabaseConfig;
+use CtrlStudio\GameApi\Config\DatabaseConfig;
+use CtrlStudio\GameApi\Database\PdoFactory;
 use Watercooler\Api\Games\CardSeedDefinition;
 use Watercooler\Api\Games\ExecutiveSeedDefinition;
 use Watercooler\Api\Games\GameSummary;
@@ -439,20 +440,7 @@ final class PdoStartGameRepository implements StartGameRepository
     private function connection(): PDO
     {
         if ($this->connection === null) {
-            $this->connection = new PDO(
-                sprintf(
-                    'mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4',
-                    $this->config->host,
-                    $this->config->port,
-                    $this->config->name,
-                ),
-                $this->config->user,
-                $this->config->password,
-                [
-                    PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-                    PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-                ],
-            );
+            $this->connection = PdoFactory::create($this->config);
         }
 
         return $this->connection;

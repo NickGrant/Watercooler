@@ -1,12 +1,9 @@
-FROM php:8.2-cli-alpine
+FROM php:8.3-cli-alpine
 
 WORKDIR /app
 
 RUN docker-php-ext-install pdo_mysql
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
-
-COPY composer.json ./
-RUN composer install --no-interaction
 
 COPY . .
 

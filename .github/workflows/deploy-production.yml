@@ -1,0 +1,71 @@
+name: Deploy Production
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - "frontend/**"
+      - "backend/**"
+      - "database/migrations/**"
+  workflow_dispatch:
+    inputs:
+      deployment_ref:
+        description: Branch, tag, or commit SHA to deploy
+        required: true
+        default: master
+        type: string
+      component:
+        description: Application component to deploy
+        required: true
+        default: both
+        type: choice
+        options:
+          - frontend
+          - backend
+          - both
+      dry_run:
+        description: Show FTP changes without uploading or deleting files
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    uses: NickGrant/ctrl-game-workflows/.github/workflows/deploy-php-angular-ftp.yml@f4e425174645508fcb4bf3911fcb39aa56aae481
+    with:
+      deployment_ref: ${{ github.event_name == 'workflow_dispatch' && inputs.deployment_ref || github.sha }}
+      base_ref: ${{ github.event_name == 'push' && github.event.before || '' }}
+      component: ${{ github.event_name == 'workflow_dispatch' && inputs.component || 'auto' }}
+      execute_deploy: true
+      dry_run: ${{ github.event_name == 'workflow_dispatch' && inputs.dry_run || false }}
+      deployment_environment: production
+
+      node_version: "22"
+      php_version: "8.3"
+
+      frontend_directory: frontend
+      frontend_lockfile: frontend/package-lock.json
+      frontend_test_script: test
+      frontend_test_arguments: "--watch=false --browsers=ChromeHeadless"
+      frontend_build_script: build
+      frontend_build_arguments: "--configuration production"
+      frontend_output_directory: frontend/dist/frontend/browser
+
+      backend_directory: backend/api
+      backend_test_script: test
+      backend_lint_script: lint
+
+      migration_path_prefix: database/migrations/
+      frontend_health_path: /
+      backend_health_path: /health
+
+    secrets:
+      frontend_ftp_username: ${{ secrets.FRONTEND_FTP_USERNAME }}
+      frontend_ftp_password: ${{ secrets.FRONTEND_FTP_PASSWORD }}
+      backend_ftp_username: ${{ secrets.BACKEND_FTP_USERNAME }}
+      backend_ftp_password: ${{ secrets.BACKEND_FTP_PASSWORD }}
+      composer_github_token: ${{ secrets.CTRL_GAME_API_GITHUB_TOKEN }}

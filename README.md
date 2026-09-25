@@ -60,6 +60,7 @@ The project is now developed through a mixed workflow:
 
 - Start with `resources/planning/index.md` for application planning.
 - Use `resources/setup/local-development.md` for local commands and validation steps.
+- Use `resources/setup/production-deployment.md` for production deployment configuration and validation.
 - Agent-specific operating guidance lives in `agent/`.
 
 ## Notes
